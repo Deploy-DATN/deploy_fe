@@ -1,0 +1,66 @@
+.login-register {
+    min-height: 100vh;
+    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(200, 214, 246, 1) 100%);
+    // background-image: url('../../../assets/images/background.png');
+    // background-position: center;
+    // background-repeat: no-repeat;
+
+    .body-login-register {
+        width: 50%;
+        border-radius: 20px;
+        background-color: #ffff;
+
+        .left-block {
+            .poster {
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        .right-block {
+            .right-main {
+                width: 80%;
+
+                .logo {
+                    width: 60%;
+                }
+
+                .right-content {
+                    height: 100%;
+
+                    .title-color {
+                        h3 {
+                            color: #4D72BF;
+                            font-weight: 600;
+                        }
+                    }
+
+                    button {
+                        &:hover {
+                            background: #7E7BF7;
+                        }
+                    }
+
+                    .forgot-pass,
+                    span {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .body-login-register {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 1280px) {
+    .body-login-register {
+        width: 60% !important;
+    }
+}
