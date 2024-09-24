@@ -1,7 +1,7 @@
 const Index = () => {
     return (
         <>
-            <h1>Err</h1>
+            Err
         </>
     )
 }

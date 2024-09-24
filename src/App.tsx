@@ -1,4 +1,3 @@
-import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -7,8 +6,10 @@ import User from './pages/user/index'
 import Err from './pages/err/index'
 import Login from './pages/login/index'
 import Register from './pages/register/index';
-import OTP from './pages/register/otp'
-import SetPassword from './pages/register/setPassword'
+import Header from './components/header/index'
+import Footer from './components/footer';
+
+import './App.scss'
 
 function App() {
   const router = createBrowserRouter([
@@ -30,18 +31,17 @@ function App() {
       element: <Register />,
     },
     {
-      path: "register/otp",
-      element: <OTP />,
+      path: "header",
+      element: <Header />,
     },
     {
-      path: "register/set-password",
-      element: <SetPassword />,
+      path: "footer",
+      element: <Footer />,
     }
   ])
+
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <RouterProvider router={router} />
   )
 }
 

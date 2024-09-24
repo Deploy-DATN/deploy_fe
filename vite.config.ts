@@ -11,4 +11,13 @@ export default defineConfig({
       generateScopedName: '[name]__[local]___[hash:base64:5]',
     },
   },
+  // server: {
+  //   proxy: {
+  //     '/api': {
+  //       target: 'https://api.pahn-hieu.click',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/api/, ''),
+  //     },
+  //   },
+  // },
 })
