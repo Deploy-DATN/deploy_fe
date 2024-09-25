@@ -1,0 +1,135 @@
+// styles/register.module.scss
+
+.container {
+
+
+
+    .formSignUp {
+        margin: auto;
+        width: 55%;
+        border-color: green; // Màu viền nút
+        color: #0B1A46;
+
+        .text {
+            margin-top: 20px;
+            color: #0B1A46;
+            font-size: 18px;
+
+            .box {
+                height: 60px;
+                border-radius: 30px;
+            }
+
+            ::placeholder {
+                padding-left: 10px;
+                color: #7B85A2;
+                font-size: 18px;
+
+            }
+
+            .checkbox-container {
+                display: flex; // Sử dụng flexbox để sắp xếp hàng ngang
+                align-items: center; // Canh giữa theo trục dọc
+                gap: 10px; // Khoảng cách giữa checkbox và văn bản
+                margin-top: 10px;
+
+                .checkbox {
+                    position: relative; // Đảm bảo pseudo-element hiển thị đúng vị trí
+                    color: #138086;
+                    margin: 2px;
+                    appearance: none; // Loại bỏ style mặc định của checkbox
+                    width: 18px;
+                    height: 18px;
+                    border: 1px solid #138086;
+                    border-radius: 4px;
+                    cursor: pointer;
+
+                    &:checked {
+                        background-color: #138086;
+                        /* Màu khi checkbox được chọn */
+                        border-color: #138086;
+                    }
+
+                    &:checked::after {
+                        content: '';
+                        position: absolute;
+                        top: 2px;
+                        left: 6px;
+                        width: 4px;
+                        height: 10px;
+                        border: solid white;
+                        border-width: 0 2px 2px 0;
+                        transform: rotate(45deg);
+                    }
+                }
+
+                a {
+                    color: #138086;
+                    text-decoration: none;
+                }
+            }
+
+            label {
+                text-align: center;
+                font-size: 18px;
+
+                a {
+                    color: #138086;
+                    text-decoration: none;
+                    &:hover {
+                        color:  #04393b;
+                    }
+                }
+
+            }
+
+            .buttonSubmit {
+                color: white;
+                height: 60px;
+                border-radius: 30px;
+                width: 100%;
+                background-color: #138086;
+                border: none;
+
+                &:hover {
+                    background-color: #076469;
+                }
+            }
+
+        }
+
+
+
+
+        .cardTitle {
+            text-align: center;
+        }
+
+        p {
+            margin-top: 10px;
+            text-align: center;
+            color: #7B85A2;
+        }
+    }
+    .imageContainerBig{
+        height: 100%;
+        .imageContainer {
+            height: 45%;
+    
+        }
+    
+        .imageContainerMini {
+            padding-top: 50px;
+            display: flex;
+            justify-content: center; // Căn giữa ảnh theo chiều ngang
+            align-items: center; // Căn giữa ảnh theo chiều dọc
+            width: 100%; // Điều chỉnh chiều rộng cho phù hợp
+            height: auto;
+            img {
+                width: 60%;
+            }
+    
+        }
+    }
+  
+}
