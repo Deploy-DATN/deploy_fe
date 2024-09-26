@@ -93,20 +93,15 @@ const Register = () => {
 
 
                     </div>
-                    <div className={clsx("col-md-6")}>
-                        <div className= {clsx(style.imageContainerBig)}>
-
+                    <div className={clsx("col-md-6 col-12")}>
+                        <div className={clsx(style.imageContainerBig)}>
                             <div className={clsx(style.imageContainer)}>
-                                <div className={clsx(style.imageContainerMini)}>
-                                    <img src={image1} alt="SignIn Image" />
-                                </div>
+                                <img src={image1} alt="SignIn Image"className={clsx(style.smallImage)} />
                             </div>
-                            <div className={clsx(style.imageContainer)}>
+                            <div className={clsx(style.imageContainer,"mt-5")}>
                                 <img src={image} alt="SignIn Image" />
                             </div>
                         </div>
-
-
                     </div>
                 </div>
 
