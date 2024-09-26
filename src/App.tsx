@@ -12,6 +12,7 @@ import ForgotPWForm from "./pages/ForgotPW/components/ForgotPassword"
 
 import './App.scss'
 import VerifyForgotPWForm from "./pages/ForgotPW/components/VerifyForgotPW"
+import NewPW from "./pages/ForgotPW/components/newPW"
 
 function App() {
   const router = createBrowserRouter([
@@ -47,6 +48,10 @@ function App() {
     {
       path: "VerifyForgotPWForm",
       element: <VerifyForgotPWForm />,
+    },
+    {
+      path: "NewPW",
+      element: <NewPW />,
     }
   ])
 
