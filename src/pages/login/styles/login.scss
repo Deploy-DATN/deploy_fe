@@ -1,0 +1,183 @@
+.login {
+    min-height: 100vh;
+    color: #7B85A2;
+    font-size: 18px;
+
+    .login-left {
+
+        .frm-login {
+
+            .title {
+                font-size: 48px;
+                color: #0B1A46;
+            }
+
+            .input {
+                height: 60px;
+            }
+
+            .check {
+                &:checked {
+                    background-color: #298B90;
+                }
+            }
+
+            .btn-submit {
+                height: 60px;
+                background-color: #298B90;
+                color: #fff;
+                font-size: 18px;
+            }
+        }
+
+        .link {
+            color: #298B90;
+        }
+
+        .divider-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &::before,
+            &::after {
+                content: '';
+                flex: 1 0 auto;
+                border-bottom: 1px solid #7B85A2
+            }
+
+            &:not(:empty)::before {
+                margin-right: 0.5em;
+            }
+
+            &:not(:empty)::after {
+                margin-left: 0.5em;
+            }
+        }
+
+        .scan {
+            border: 1px solid #7B85A2;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+    }
+
+    .login-right {
+        .login-rigth-container {
+            width: 90%;
+
+            .top-right {
+                min-height: 300px;
+
+                .keyword {
+                    .icon {
+                        background-color: #138086;
+                        width: 50px;
+                        height: 50px;
+                        padding: 8px;
+                    }
+
+                    .content {
+                        border: 1px solid #7B85A2;
+                        color: #0B1A46;
+                    }
+                }
+
+                .search {
+                    top: 0;
+                }
+
+                .location {
+                    top: 30px;
+                }
+
+                .digitize {
+                    top: 80px;
+                }
+
+                .proceeds {
+                    top: 130px;
+                }
+
+                .information {
+                    top: 115px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1400px) {
+    .login-rigth-container {
+        .top-right {
+            .information {
+                right: 0;
+            }
+
+            .location {
+                left: 280px;
+            }
+
+            .search {
+                left: 60px;
+            }
+
+            .digitize {
+                left: 120px;
+            }
+
+            .proceeds {
+                left: 30px;
+            }
+        }
+    }
+}
+
+@media (min-width: 1400px) {
+    .login-rigth-container {
+        .top-right {
+            .information {
+                left: 360px;
+            }
+
+            .location {
+                left: 280px;
+            }
+
+            .search {
+                left: 60px;
+            }
+
+            .digitize {
+                left: 160px;
+            }
+
+            .proceeds {
+                left: 30px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    .login-rigth-container {
+        .top-right {
+            .search {
+                left: 20px;
+            }
+
+            .location {
+                right: 0;
+            }
+
+            .digitize {
+                left: 60px;
+            }
+
+            .proceeds {
+                left: -20px;
+            }
+        }
+    }
+}
