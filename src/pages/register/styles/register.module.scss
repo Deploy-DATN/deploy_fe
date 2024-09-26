@@ -1,9 +1,4 @@
-// styles/register.module.scss
-
 .container {
-
-
-
     .formSignUp {
         margin: auto;
         width: 55%;
@@ -24,7 +19,6 @@
                 padding-left: 10px;
                 color: #7B85A2;
                 font-size: 18px;
-
             }
 
             .checkbox-container {
@@ -45,8 +39,7 @@
                     cursor: pointer;
 
                     &:checked {
-                        background-color: #138086;
-                        /* Màu khi checkbox được chọn */
+                        background-color: #138086; // Màu khi checkbox được chọn
                         border-color: #138086;
                     }
 
@@ -76,11 +69,11 @@
                 a {
                     color: #138086;
                     text-decoration: none;
+
                     &:hover {
-                        color:  #04393b;
+                        color: #04393b;
                     }
                 }
-
             }
 
             .buttonSubmit {
@@ -95,11 +88,7 @@
                     background-color: #076469;
                 }
             }
-
         }
-
-
-
 
         .cardTitle {
             text-align: center;
@@ -110,26 +99,44 @@
             text-align: center;
             color: #7B85A2;
         }
+
+        // Cấu hình cho responsive
+        @media (max-width: 768px) {
+            width: 90%; // Chiều rộng cho màn hình nhỏ
+        }
     }
-    .imageContainerBig{
-        height: 100%;
+
+    .imageContainerBig {
+        display: flex; // Sử dụng flexbox
+        flex-direction: column; // Đặt chiều hướng thành cột
+        justify-content: center; // Căn giữa hình ảnh
+        height: 100%; // Đảm bảo chiều cao đầy đủ cho khung
+    
         .imageContainer {
-            height: 45%;
+            width: 95%; // Đảm bảo hình ảnh chiếm hết chiều rộng của khung
+            padding: 10px; // Thêm khoảng cách giữa các hình ảnh
     
-        }
-    
-        .imageContainerMini {
-            padding-top: 50px;
-            display: flex;
-            justify-content: center; // Căn giữa ảnh theo chiều ngang
-            align-items: center; // Căn giữa ảnh theo chiều dọc
-            width: 100%; // Điều chỉnh chiều rộng cho phù hợp
-            height: auto;
             img {
-                width: 60%;
+                width: 100%; // Đảm bảo hình ảnh chiếm hết chiều rộng của khung
+                height: auto; // Để chiều cao tự động theo tỉ lệ
+                border-radius: 10px; // Bo góc hình ảnh
             }
-    
+            .smallImage {
+                width: 70%; // Hoặc bất kỳ kích thước nào bạn muốn
+                height: auto; // Để chiều cao tự động theo tỉ lệ
+                border-radius: 10px; // Bo góc hình ảnh
+                margin: auto; // Căn giữa hình ảnh
+                display: block; // Để margin auto có hiệu lực
+            }
         }
     }
-  
+
+    .row {
+        display: flex;
+        align-items: stretch; // Đảm bảo chiều cao của các phần tử được căn chỉnh
+
+        @media (max-width: 768px) {
+            flex-direction: column; // Xếp dọc khi màn hình nhỏ
+        }
+    }
 }
