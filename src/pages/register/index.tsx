@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import 'bootstrap/dist/css/bootstrap.min.css';
 import style from './styles/register.module.scss'
 import image from './image/SignUp.png'
 import image1 from './image/SignUp(1).png'
