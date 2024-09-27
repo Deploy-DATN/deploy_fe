@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import 'bootstrap/dist/css/bootstrap.min.css';
 import style from './styles/register.module.scss'
 import image from './image/SignUp.png'
 import image1 from './image/SignUp(1).png'
@@ -96,9 +95,9 @@ const Register = () => {
                     <div className={clsx("col-md-6 col-12")}>
                         <div className={clsx(style.imageContainerBig)}>
                             <div className={clsx(style.imageContainer)}>
-                                <img src={image1} alt="SignIn Image"className={clsx(style.smallImage)} />
+                                <img src={image1} alt="SignIn Image" className={clsx(style.smallImage)} />
                             </div>
-                            <div className={clsx(style.imageContainer,"mt-5")}>
+                            <div className={clsx(style.imageContainer, "mt-5")}>
                                 <img src={image} alt="SignIn Image" />
                             </div>
                         </div>

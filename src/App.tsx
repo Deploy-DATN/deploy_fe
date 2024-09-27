@@ -1,4 +1,3 @@
-import "@fortawesome/fontawesome-free/css/all.min.css"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import Admin from './pages/admin/index'
