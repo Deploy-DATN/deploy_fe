@@ -1,0 +1,142 @@
+.container {
+    .formSignUp {
+        margin: auto;
+        width: 55%;
+        border-color: green; // Màu viền nút
+        color: #0B1A46;
+
+        .text {
+            margin-top: 20px;
+            color: #0B1A46;
+            font-size: 18px;
+
+            .box {
+                height: 60px;
+                border-radius: 30px;
+            }
+
+            ::placeholder {
+                padding-left: 10px;
+                color: #7B85A2;
+                font-size: 18px;
+            }
+
+            .checkbox-container {
+                display: flex; // Sử dụng flexbox để sắp xếp hàng ngang
+                align-items: center; // Canh giữa theo trục dọc
+                gap: 10px; // Khoảng cách giữa checkbox và văn bản
+                margin-top: 10px;
+
+                .checkbox {
+                    position: relative; // Đảm bảo pseudo-element hiển thị đúng vị trí
+                    color: #138086;
+                    margin: 2px;
+                    appearance: none; // Loại bỏ style mặc định của checkbox
+                    width: 18px;
+                    height: 18px;
+                    border: 1px solid #138086;
+                    border-radius: 4px;
+                    cursor: pointer;
+
+                    &:checked {
+                        background-color: #138086; // Màu khi checkbox được chọn
+                        border-color: #138086;
+                    }
+
+                    &:checked::after {
+                        content: '';
+                        position: absolute;
+                        top: 2px;
+                        left: 6px;
+                        width: 4px;
+                        height: 10px;
+                        border: solid white;
+                        border-width: 0 2px 2px 0;
+                        transform: rotate(45deg);
+                    }
+                }
+
+                a {
+                    color: #138086;
+                    text-decoration: none;
+                }
+            }
+
+            label {
+                text-align: center;
+                font-size: 18px;
+
+                a {
+                    color: #138086;
+                    text-decoration: none;
+
+                    &:hover {
+                        color: #04393b;
+                    }
+                }
+            }
+
+            .buttonSubmit {
+                color: white;
+                height: 60px;
+                border-radius: 30px;
+                width: 100%;
+                background-color: #138086;
+                border: none;
+
+                &:hover {
+                    background-color: #076469;
+                }
+            }
+        }
+
+        .cardTitle {
+            text-align: center;
+        }
+
+        p {
+            margin-top: 10px;
+            text-align: center;
+            color: #7B85A2;
+        }
+
+        // Cấu hình cho responsive
+        @media (max-width: 768px) {
+            width: 90%; // Chiều rộng cho màn hình nhỏ
+        }
+    }
+
+    .imageContainerBig {
+        display: flex; // Sử dụng flexbox
+        flex-direction: column; // Đặt chiều hướng thành cột
+        justify-content: center; // Căn giữa hình ảnh
+        height: 100%; // Đảm bảo chiều cao đầy đủ cho khung
+    
+        .imageContainer {
+            width: 95%; // Đảm bảo hình ảnh chiếm hết chiều rộng của khung
+            padding: 10px; // Thêm khoảng cách giữa các hình ảnh
+    
+            img {
+                width: 100%; // Đảm bảo hình ảnh chiếm hết chiều rộng của khung
+                height: auto; // Để chiều cao tự động theo tỉ lệ
+                border-radius: 10px; // Bo góc hình ảnh
+            }
+            .smallImage {
+                width: 70%; // Hoặc bất kỳ kích thước nào bạn muốn
+                height: auto; // Để chiều cao tự động theo tỉ lệ
+                border-radius: 10px; // Bo góc hình ảnh
+                margin: auto; // Căn giữa hình ảnh
+                display: block; // Để margin auto có hiệu lực
+            }
+        }
+    }
+
+    .row {
+        display: flex;
+        align-items: stretch; // Đảm bảo chiều cao của các phần tử được căn chỉnh
+
+        @media (max-width: 768px) {
+            flex-direction: column; // Xếp dọc khi màn hình nhỏ
+        }
+    }
+}
