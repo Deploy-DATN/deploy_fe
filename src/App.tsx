@@ -1,4 +1,3 @@
-import "@fortawesome/fontawesome-free/css/all.min.css"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 import Admin from './pages/admin/index'
@@ -12,6 +11,7 @@ import ForgotPWForm from "./pages/ForgotPW/components/ForgotPassword"
 
 import './App.scss'
 import VerifyForgotPWForm from "./pages/ForgotPW/components/VerifyForgotPW"
+import NewPW from "./pages/ForgotPW/components/newPW"
 
 function App() {
   const router = createBrowserRouter([
@@ -47,6 +47,10 @@ function App() {
     {
       path: "VerifyForgotPWForm",
       element: <VerifyForgotPWForm />,
+    },
+    {
+      path: "NewPW",
+      element: <NewPW />,
     }
   ])
 
