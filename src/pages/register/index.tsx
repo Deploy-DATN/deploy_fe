@@ -3,18 +3,28 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import style from './styles/register.module.scss'
 import image from './image/SignUp.png'
 import image1 from './image/SignUp(1).png'
-
 const Register = () => {
-    console.log(style);
     return (
         <>
-            <div className={clsx(style.container, "container-fluid mt-5")}>
+            <div className={clsx(style.container, "container-fluid d-flex align-items-center justify-content-center mt-5")}>
                 <div className={clsx("row")}>
-                    <div className={clsx("col-md-6 pt-5")}>
+                    {/* Cột hình ảnh, đổi thứ tự trên màn hình nhỏ */}
+                    <div className={clsx("col-12 col-md-7 order-1 order-md-2 mt-5")}>
+                        <div className={clsx(style.imageContainerBig)}>
+                            <div className={clsx(style.imageContainer)}>
+                                <img src={image1} alt="SignUp Image" className={clsx(style.smallImage)} />
+                            </div>
+                            <div className={clsx(style.imageContainer)}>
+                                <img src={image} alt="SignUp Image" className={clsx(style.largeImage)} />
+                            </div>
+                        </div>
+                    </div>
 
+                    {/* Cột form đăng ký, đổi thứ tự trên màn hình nhỏ */}
+                    <div className={clsx("col-12 col-md-5 order-2 order-md-1 pt-5")}>
                         <div className={clsx(style.formSignUp)}>
                             <div className={clsx("card-body")}>
-                                <h2 className={clsx("card-title ", style.cardTitle)}>Đăng ký</h2>
+                                <h2 className={clsx("card-title", style.cardTitle)}>Đăng ký</h2>
                                 <p>Đăng ký và khám phá cùng chúng tôi</p>
                             </div>
                             <form action="" className={clsx("container")}>
@@ -48,7 +58,6 @@ const Register = () => {
                                         required
                                     />
                                 </div>
-
                                 <div className={clsx(style.text, "form-group")}>
                                     <label htmlFor="password">Mật khẩu</label>
                                     <input
@@ -59,7 +68,6 @@ const Register = () => {
                                         required
                                     />
                                 </div>
-
                                 <div className={clsx(style.text)}>
                                     <div className={clsx(style.checkboxContainer)}>
                                         <input type="checkbox" className={clsx(style.checkbox)} />
@@ -69,13 +77,10 @@ const Register = () => {
                                     </div>
                                 </div>
                                 <div className={clsx(style.text)}>
-
                                     <button type="submit" className={clsx(style.buttonSubmit)}>
                                         Đăng ký
                                     </button>
                                 </div>
-
-
                             </form>
                             <div className={clsx(style.text)}>
                                 <p>
@@ -83,33 +88,13 @@ const Register = () => {
                                         Bạn đã có tài khoản? <a href="#">Đăng nhập</a>
                                     </label>
                                 </p>
-
-
-                            </div>
-
-                        </div>
-
-
-
-
-                    </div>
-                    <div className={clsx("col-md-6 col-12")}>
-                        <div className={clsx(style.imageContainerBig)}>
-                            <div className={clsx(style.imageContainer)}>
-                                <img src={image1} alt="SignIn Image"className={clsx(style.smallImage)} />
-                            </div>
-                            <div className={clsx(style.imageContainer,"mt-5")}>
-                                <img src={image} alt="SignIn Image" />
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
         </>
-    )
+    );
 }
 
-export default Register
+export default Register;
