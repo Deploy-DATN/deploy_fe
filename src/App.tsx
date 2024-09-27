@@ -8,11 +8,10 @@ import Login from './pages/login/index'
 import Register from './pages/register/index';
 import Header from './components/header/index'
 import Footer from './components/footer';
-import ForgotPWForm from "./pages/ForgotPW/components/ForgotPassword"
-
 import './App.scss'
-import VerifyForgotPWForm from "./pages/ForgotPW/components/VerifyForgotPW"
-import NewPW from "./pages/ForgotPW/components/newPW"
+import ForgotPWForm from "./pages/ForgotPW/ForgotPassword"
+import VerifyForgotPWForm from "./pages/ForgotPW/VerifyForgotPW"
+import NewPW from "./pages/ForgotPW/newPW"
 
 function App() {
   const router = createBrowserRouter([
