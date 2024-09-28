@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 import axios from "axios";
 import clsx from "clsx";
@@ -135,7 +136,9 @@ const Register = () => {
                     <div className={clsx("col-md-6 col-12")}>
                         <div className={clsx(style.imageContainerBig)}>
                             <div className={clsx(style.imageContainer)}>
-                                <img src={image1} alt="SignIn Image" className={clsx(style.smallImage)} />
+                                <div className={clsx(style.smallImage)}>
+                                    <img src={image1} alt="SignUp Image" />
+                                </div>
                             </div>
                             <div className={clsx(style.imageContainer, "mt-5")}>
                                 <img src={image} alt="SignIn Image" />
@@ -147,5 +150,6 @@ const Register = () => {
         </>
     );
 };
+
 
 export default Register;
