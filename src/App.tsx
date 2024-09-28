@@ -10,6 +10,7 @@ import Footer from './components/footer';
 import ForgotPWForm from "./pages/ForgotPW/components/ForgotPassword"
 
 import './App.scss'
+import './ustils/theme/theme.scss'
 import VerifyForgotPWForm from "./pages/ForgotPW/components/VerifyForgotPW"
 import NewPW from "./pages/ForgotPW/components/newPW"
 
