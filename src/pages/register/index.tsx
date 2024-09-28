@@ -1,3 +1,5 @@
+
+
 import React, { useState } from "react";
 import axios from "axios";
 import clsx from "clsx";
@@ -5,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import style from './styles/register.module.scss';
 import image from './image/SignUp.png';
 import image1 from './image/SignUp(1).png';
+
 
 const Register = () => {
     // State để lưu thông tin form
@@ -129,6 +132,7 @@ const Register = () => {
                             </div>
                         </div>
                     </div>
+
                     <div className={clsx("col-md-6 col-12")}>
                         <div className={clsx(style.imageContainerBig)}>
                             <div className={clsx(style.imageContainer)}>
@@ -146,5 +150,6 @@ const Register = () => {
         </>
     );
 };
+
 
 export default Register;
