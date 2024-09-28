@@ -1,8 +1,46 @@
-import clsx from "clsx"
-import style from './styles/register.module.scss'
-import image from './image/SignUp.png'
-import image1 from './image/SignUp(1).png'
+import React, { useState } from "react";
+import axios from "axios";
+import clsx from "clsx";
+import style from './styles/register.module.scss';
+import image from './image/SignUp.png';
+import image1 from './image/SignUp(1).png';
+
+
 const Register = () => {
+    // State để lưu thông tin form
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        role: "Customer",
+    });
+
+    // State để hiển thị thông báo lỗi hoặc thành công
+    const [message, setMessage] = useState("");
+
+    // Xử lý sự thay đổi của các trường nhập liệu
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.id]: e.target.value, // Cập nhật state dựa trên id của input
+        });
+    };
+
+    // Xử lý khi form được submit
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post("https://localhost:7299/register", formData);
+            if (response.status === 200) {
+                setMessage("Đăng ký thành công!");
+            }
+        } catch (error) {
+            setMessage("Đăng ký thất bại. Vui lòng thử lại.");
+            console.error("Error during registration:", error);
+        }
+    };
     return (
         <>
             <div className={clsx(style.container, "container-fluid d-flex align-items-center justify-content-center mt-5")}>
@@ -26,7 +64,7 @@ const Register = () => {
                                 <h2 className={clsx("card-title", style.cardTitle)}>Đăng ký</h2>
                                 <p>Đăng ký và khám phá cùng chúng tôi</p>
                             </div>
-                            <form action="" className={clsx("container")}>
+                            <form action="" className={clsx("container")} onSubmit={handleSubmit}>
                                 <div className={clsx(style.text, "form-group")}>
                                     <label htmlFor="username">Họ và Tên</label>
                                     <input
@@ -34,6 +72,8 @@ const Register = () => {
                                         className={clsx(style.box, "form-control")}
                                         id="username"
                                         placeholder="Vui lòng nhập Họ và Tên"
+                                        value={formData.username}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
@@ -42,8 +82,10 @@ const Register = () => {
                                     <input
                                         type="text"
                                         className={clsx(style.box, "form-control")}
-                                        id="phonenumber"
+                                        id="phoneNumber"
                                         placeholder="Vui lòng nhập số điện thoại"
+                                        value={formData.phoneNumber}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
@@ -54,6 +96,8 @@ const Register = () => {
                                         className={clsx(style.box, "form-control")}
                                         id="email"
                                         placeholder="Vui lòng nhập email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
@@ -64,12 +108,14 @@ const Register = () => {
                                         className={clsx(style.box, "form-control")}
                                         id="password"
                                         placeholder="Vui lòng nhập mật khẩu"
+                                        value={formData.password}
+                                        onChange={handleChange}
                                         required
                                     />
                                 </div>
                                 <div className={clsx(style.text)}>
                                     <div className={clsx(style.checkboxContainer)}>
-                                        <input type="checkbox" className={clsx(style.checkbox)} />
+                                        <input type="checkbox" className={clsx(style.checkbox)} required />
                                         <label>
                                             Đồng ý với <a href="#">Điều khoản & Dịch vụ</a>
                                         </label>
@@ -81,6 +127,11 @@ const Register = () => {
                                     </button>
                                 </div>
                             </form>
+                            {message && (
+                                <div className={clsx(style.text)}>
+                                    <p>{message}</p>
+                                </div>
+                            )}
                             <div className={clsx(style.text)}>
                                 <p>
                                     <label>
@@ -94,6 +145,5 @@ const Register = () => {
             </div>
         </>
     );
-}
 
-export default Register;
+export default Register
