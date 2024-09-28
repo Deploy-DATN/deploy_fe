@@ -6,6 +6,6 @@ export interface Account {
     password: string
 }
 
-export const postLoginApi = (account: Account) => {
-    return axios.post(API.LOGIN, account);
-}
+// export const postLoginApi = (account: Account) => {
+//     return axios.post(API.LOGIN, account);
+// }
