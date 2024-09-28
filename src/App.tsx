@@ -1,5 +1,8 @@
-import "@fortawesome/fontawesome-free/css/all.min.css"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+import './App.scss'
+
+import './ustils/theme/theme.scss'
 
 import Admin from './pages/admin/index'
 import User from './pages/user/index'
@@ -8,7 +11,6 @@ import Login from './pages/login/index'
 import Register from './pages/register/index';
 import Header from './components/header/index'
 import Footer from './components/footer';
-import './App.scss'
 import ForgotPWForm from "./pages/ForgotPW/ForgotPassword"
 import VerifyForgotPWForm from "./pages/ForgotPW/VerifyForgotPW"
 import NewPW from "./pages/ForgotPW/newPW"
@@ -55,7 +57,9 @@ function App() {
   ])
 
   return (
-    <RouterProvider router={router} />
+    <div className='App'>
+      <RouterProvider router={router} />
+    </div>
   )
 }
 

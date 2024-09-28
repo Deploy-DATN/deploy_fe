@@ -4,9 +4,10 @@ import { store } from './redux/store.ts'
 import { Provider } from 'react-redux'
 
 import './index.css'
+import './font/font.scss'
 import App from './App'
 import GlobalStyles from './components/global_style/index'
-import { ThemeProvider } from './components/theme/themeContex.tsx'
+import { ThemeProvider } from './ustils/theme/themeContex.tsx'
 
 
 createRoot(document.getElementById('root')!).render(

@@ -10,12 +10,15 @@ interface InputFieldProps {
     name: string,
     type?: string,
     errors: FieldErrors<any>,
-    classname: string
+    classname: string,
+    placeholder?: string
 }
 
-const InputField: React.FC<InputFieldProps> = ({ control, label, name, type = "text", errors, classname }) => {
+const InputField: React.FC<InputFieldProps> = ({ control, label, name, type = "text", errors, classname, placeholder }) => {
     return (
         <>
+            {/* <label className="form-label">Số điện thoại</label>
+                <input type="text" className="input form-control rounded-pill" placeholder='Vui lòng nhập số điện thoại' /> */}
             <label className="form-label">{label}</label>
             <Controller
                 name={name}
@@ -24,6 +27,7 @@ const InputField: React.FC<InputFieldProps> = ({ control, label, name, type = "t
                     <input {...field}
                         type={type}
                         className={classname}
+                        placeholder={placeholder}
                     />
                 }
             />
