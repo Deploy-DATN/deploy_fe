@@ -56,46 +56,48 @@ const Login = () => {
                     <p>Bạn không có tài khoản? <a href='#' className='link text-decoration-none'>Đăng ký</a></p>
                 </div>
                 <div className='login-right col d-none d-lg-flex justify-content-center align-items-center'>
-                    <div className='login-rigth-container row flex-column'>
-                        <div className='top-right col position-relative'>
-                            <div className='keyword search d-flex position-absolute'>
-                                <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
-                                    <img src={search} className='img-fluid' alt="search" />
+                    <div className='login-right-container row flex-column'>
+                        <div className='top-right col position-relative d-flex justify-content-center align-items-center'>
+                            <div className='container-absolute position-absolute'>
+                                <div className='keyword search d-flex position-absolute'>
+                                    <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
+                                        <img src={search} className='img-fluid' alt="search" />
+                                    </div>
+                                    <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
+                                        Tìm kiếm dễ dàng
+                                    </div>
                                 </div>
-                                <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
-                                    Tìm kiếm dễ dàng
+                                <div className='keyword location d-flex position-absolute'>
+                                    <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
+                                        <img src={location} className='img-fluid' alt="location" />
+                                    </div>
+                                    <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
+                                        Hiển thị trực quan
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='keyword location d-flex position-absolute'>
-                                <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
-                                    <img src={location} className='img-fluid' alt="location" />
+                                <div className='keyword digitize d-flex position-absolute'>
+                                    <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
+                                        <img src={digitize} className='img-fluid' alt="digitize" />
+                                    </div>
+                                    <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
+                                        Số hóa quy trình
+                                    </div>
                                 </div>
-                                <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
-                                    Hiển thị trực quan
+                                <div className='keyword proceeds d-flex position-absolute'>
+                                    <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
+                                        <img src={proceeds} className='img-fluid' alt="proceeds" />
+                                    </div>
+                                    <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
+                                        Trực quan doanh thu
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='keyword digitize d-flex position-absolute'>
-                                <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
-                                    <img src={digitize} className='img-fluid' alt="digitize" />
-                                </div>
-                                <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
-                                    Số hóa quy trình
-                                </div>
-                            </div>
-                            <div className='keyword proceeds d-flex position-absolute'>
-                                <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
-                                    <img src={proceeds} className='img-fluid' alt="proceeds" />
-                                </div>
-                                <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
-                                    Trực quan doanh thu
-                                </div>
-                            </div>
-                            <div className='keyword information d-flex position-absolute'>
-                                <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
-                                    <img src={information} className='img-fluid' alt="information" />
-                                </div>
-                                <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
-                                    Minh bạch về giá
+                                <div className='keyword information d-flex position-absolute'>
+                                    <div className='icon rounded-circle me-1 d-flex justify-content-center align-items-center'>
+                                        <img src={information} className='img-fluid' alt="information" />
+                                    </div>
+                                    <div className='content px-4 rounded-pill d-flex justify-content-center align-items-center'>
+                                        Minh bạch về giá
+                                    </div>
                                 </div>
                             </div>
                         </div>
