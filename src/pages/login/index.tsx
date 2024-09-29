@@ -11,11 +11,35 @@ import digitize from '@/assets/icon/digitize.png'
 import information from '@/assets/icon/information.png'
 import location from '@/assets/icon/location.png'
 import proceeds from '@/assets/icon/proceeds.png'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = () => {
 
+    const navigate = useNavigate();
+
     const handleSubmit = async (data: Account) => {
-        alert('ok');
+        try {
+            const response = await axios.post('https://localhost:7299/login', {
+                email: data.phone,
+                password: data.password
+            });
+            const token = response.data.token;
+            localStorage.setItem('authToken', token);
+            if (token) {
+                alert('đăng nhập thành công');
+            }
+            navigate('/');
+        } catch (error) {
+            console.error('Login failed:', error);
+            alert('Đăng nhập thất bại. Vui lòng thử lại.');
+        }
+    }
+
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+        navigate('/login');
     }
 
     return (
