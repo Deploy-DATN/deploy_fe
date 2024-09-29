@@ -1,6 +1,9 @@
 
+import { useNavigate } from 'react-router-dom'
 import LoginForm from './components/loginForm'
-import { Account } from '@/services/api/loginApi'
+
+import { Account, postLoginApi1 } from '@/services/api/authApi'
+import { KEY_LOCAL, saveToLocalStorage } from '@/ustils/local/F_LocalStorage'
 
 import './styles/login.scss'
 
@@ -11,8 +14,6 @@ import digitize from '@/assets/icon/digitize.png'
 import information from '@/assets/icon/information.png'
 import location from '@/assets/icon/location.png'
 import proceeds from '@/assets/icon/proceeds.png'
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
@@ -21,25 +22,23 @@ const Login = () => {
 
     const handleSubmit = async (data: Account) => {
         try {
-            const response = await axios.post('https://localhost:7299/login', {
-                email: data.phone,
+            const response = await postLoginApi1({
+                email: 'admin@gmail.com',
                 password: data.password
             });
             const token = response.data.token;
-            localStorage.setItem('authToken', token);
             if (token) {
+                saveToLocalStorage(KEY_LOCAL.TOKEN, token);
+                navigate('/');
                 alert('đăng nhập thành công');
             }
-            navigate('/');
+            else {
+                alert('Đăng nhập thất bại. Vui lòng thử lại.');
+            }
         } catch (error) {
             console.error('Login failed:', error);
             alert('Đăng nhập thất bại. Vui lòng thử lại.');
         }
-    }
-
-    const token = localStorage.getItem('authToken');
-    if (!token) {
-        navigate('/login');
     }
 
     return (

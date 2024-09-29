@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup"
-// import * as yup from "yup"
-import clsx from 'clsx'
+import * as yup from "yup"
+// import clsx from 'clsx'
 
 import InputField from '@/components/form_controls/input_field'
-import { Account } from '@/services/api/loginApi'
+import { Account } from '@/services/api/authApi'
 
-import style from '../styles/Login.module.scss'
+// import style from '../styles/Login.module.scss'
 
 interface loginProps {
     onSubmit: ((data: Account) => void)
@@ -14,29 +14,29 @@ interface loginProps {
 
 const LoginForm: React.FC<loginProps> = ({ onSubmit }) => {
 
-    // const schema = yup
-    //     .object({
-    //         phone: yup
-    //             .string()
-    //             .required('Số điện thoại không để trống')
-    //             .test(
-    //                 'Incorrect-phone-number-format',
-    //                 'Số điện thoại không đúng định dạng',
-    //                 value => /^0\d{9}$/.test(value || '')
-    //             ),
-    //         password: yup
-    //             .string()
-    //             .required('Mật khẩu không để trống'),
-    //     })
-    //     .required();
+    const schema = yup
+        .object({
+            phone: yup
+                .string()
+                .required('Số điện thoại không để trống')
+                .test(
+                    'Incorrect-phone-number-format',
+                    'Số điện thoại không đúng định dạng',
+                    value => /^0\d{9}$/.test(value || '')
+                ),
+            password: yup
+                .string()
+                .required('Mật khẩu không để trống'),
+        })
+        .required();
 
     const { control, handleSubmit, formState: { errors } } = useForm<Account>({
         defaultValues: {
             phone: '',
             password: ''
         },
-        // resolver: yupResolver(schema),
-        // mode: 'onBlur'
+        resolver: yupResolver(schema),
+        mode: 'onBlur'
     });
     return (
         <form className='frm-login col-11 col-sm-8 col-md-8 col-lg-9 col-xxl-7 mx-auto mb-3' onSubmit={handleSubmit(onSubmit)}>
