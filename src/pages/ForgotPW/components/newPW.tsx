@@ -5,8 +5,8 @@ const NewPW = () => {
   const [showPasswordCf, setShowPasswordCf] = useState(false);
 
   return (
-    <div className="mt-5">
-      <div className="row align-items-center">
+    <div className="mt-5 formverifyfw align-items-center">
+      <div className="row align-items-center w-100">
         <div className="col-lg-6 col-12 ">
             <div className='w-100  d-flex flex-column align-items-center'>
             <h2 className='h2-QMK'>Mật khẩu mới</h2>
@@ -50,7 +50,7 @@ const NewPW = () => {
           <img 
             src="src/assets/images/imgforgotPW/Forgotpw_3_1.png" 
             alt="Responsive" 
-            className="img-fluid" 
+            className="img-fluid image-verify" 
           />
         </div>
       </div>

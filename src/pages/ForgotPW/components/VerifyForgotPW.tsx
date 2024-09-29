@@ -38,9 +38,9 @@ const VerifyForgotPWForm = () => {
   };
 
   return (
-    <div className="mt-5">
-      <div className="row align-items-center">
-        <div className="col-lg-6 col-12 d-flex flex-column align-items-center">
+    <div className="mt-5 formverifyfw d-flex align-items-center" >
+      <div className="row align-items-center w-100">
+        <div className="col-lg-6 col-12 d-flex flex-column align-items-center px-0">
           <div className='w-75 d-flex flex-column align-items-center'>
             <h2 className='h2-QMK'>Xác minh</h2>
             <p className='color-xam'>Vui lòng nhập mã được gửi đến 0123456789</p> 
@@ -73,11 +73,11 @@ const VerifyForgotPWForm = () => {
           </div>
         </div>
 
-        <div className="col-lg-6 col-12 d-flex justify-content-center align-items-center">
+        <div className="col-lg-6 col-12 d-flex justify-content-center align-items-center px-0">
           <img
-            src="src/assets/images/imgforgotPW/Forgotpassword-rafiki.png"
+            src="src/assets/images/imgforgotPW/forgotpw_2_1.png"
             alt="Responsive"
-            className="img-fluid"
+            className="img-fluid image-verify"
           />
         </div>
       </div>
