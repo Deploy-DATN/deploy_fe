@@ -17,6 +17,8 @@ interface InputFieldProps {
 const InputField: React.FC<InputFieldProps> = ({ control, label, name, type = "text", errors, classname, placeholder }) => {
     return (
         <>
+            {/* <label className="form-label">Số điện thoại</label>
+                <input type="text" className="input form-control rounded-pill" placeholder='Vui lòng nhập số điện thoại' /> */}
             <label className="form-label">{label}</label>
             <Controller
                 name={name}
