@@ -43,14 +43,13 @@
 };
 
    .formverifyfw {
-   }
-   @media (min-width: 992px) {
-     .formverifyfw {
-          padding-top: 2%;
-        }
+     min-height: 100%;
    }
    @media (max-width: 991px) {
      .image-verify {
           padding-top: 2rem;
      }
    }
+.h-forgotpw{
+     min-height: 100vh;
+}

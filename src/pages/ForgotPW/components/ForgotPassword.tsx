@@ -20,9 +20,9 @@ const ForgotPWForm = () => {
   };
 
   return (
-    <div className="mt-5 formverifyfw align-items-center">
-      <div className="row align-items-center">
-        <div className="col-lg-6 col-12 ">
+    <div className="formverifyfw container-fluid">
+      <div className="row align-items-center w-100 align-items-center h-forgotpw">
+      <div className="col-lg-6 col-12 ">
             <div className='w-100  d-flex flex-column align-items-center'>
             <h2 className='h2-QMK'>Quên mật khẩu</h2>
           <form className="w-75 mt-4" onSubmit={handleSubmit(onSubmit)}>
