@@ -28,7 +28,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
                 .required("Email không được để trống"),
             phone: yup
                 .string()
-                .matches(/^0\d{9}$/, "Số điện thoại không hợp lệ")
+                .matches(/^0\d{9}$/, "Số điện thoại không đúng định dạng")
                 .required("Số điện thoại không được để trống"),
             password: yup
                 .string()
