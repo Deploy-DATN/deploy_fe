@@ -2,46 +2,33 @@ import React, { useEffect, useRef, useState } from 'react';
 import "./styles/ForgotPW.scss";
 
 const VerifyForgotPWForm = () => {
-
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [countdown, setCountdown] = useState(() => {
-    const savedStartTime = localStorage.getItem('startTime');
-    const now = Date.now();
-    const elapsedTime = savedStartTime ? Math.floor((now - parseInt(savedStartTime, 10)) / 1000) : 0;
-    return Math.max(180 - elapsedTime, 0); // 180 giây là 3 phút, trừ đi thời gian đã trôi qua
+    const savedTime = localStorage.getItem('countdown');
+    return savedTime ? parseInt(savedTime, 10) : 180; // Nếu có thời gian đã lưu, sử dụng nó; nếu không, mặc định là 180 giây
   });
-
   useEffect(() => {
-    if (countdown > 0) {
-      const timer = setInterval(() => {
-        setCountdown(prev => {
-          const newCountdown = prev - 1;
-          if (newCountdown <= 0) {
-            clearInterval(timer);
-            localStorage.removeItem('startTime');
-            return 0;
-          }
-          return newCountdown;
-        });
-      }, 1000);
+    const timer = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 0) {
+          clearInterval(timer);
+          localStorage.removeItem('countdown'); // Xóa thời gian khi đếm xong
+          return 0; // Ngăn không cho giá trị âm
+        }
+        const newTime = prev - 1;
+        localStorage.setItem('countdown', newTime.toString()); // Lưu thời gian còn lại vào localStorage
+        return newTime;
+      });
+    }, 1000);
 
-      return () => {
-        clearInterval(timer);
-      };
-    }
+    return () => {
+      clearInterval(timer); // Dọn dẹp timer
+      localStorage.setItem('countdown', countdown.toString()); // Lưu thời gian khi component bị hủy
+    };
   }, [countdown]);
-
-  useEffect(() => {
-    if (countdown > 0) {
-      const startTime = Date.now();
-      localStorage.setItem('startTime', startTime.toString());
-    }
-  }, [countdown]);
-
   const minutes = String(Math.floor(countdown / 60)).padStart(2, '0');
   const seconds = String(countdown % 60).padStart(2, '0');
 
-  //sử lý khi nhập input mã OTP
   const handleInputChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length === 1 && index < 3) {
       inputRefs.current[index + 1]?.focus();
@@ -51,20 +38,13 @@ const VerifyForgotPWForm = () => {
     }
   };
 
-  //nút gửi lại
-  const handleResend = () => {
-    setCountdown(180);
-    const startTime = Date.now();
-    localStorage.setItem('startTime', startTime.toString());
-  };
-
   return (
     <div className="formverifyfw container-fluid">
       <div className="row align-items-center w-100 align-items-center h-forgotpw">
       <div className="col-lg-6 col-12 d-flex flex-column align-items-center px-0">
           <div className='w-75 d-flex flex-column align-items-center'>
             <h2 className='h2-QMK'>Xác minh</h2>
-            <p className='color-xam'>Vui lòng nhập mã được gửi đến 0123456789</p>
+            <p className='color-xam'>Vui lòng nhập mã được gửi đến 0123456789</p> 
 
             <div className="d-flex justify-content-between mb-3 mt-4">
               {[0, 1, 2, 3].map((index) => (
@@ -72,8 +52,8 @@ const VerifyForgotPWForm = () => {
                   key={index}
                   type="text"
                   maxLength={1}
-                  className="form-control text-center mx-1 rounded-circle input-xacminh"
-                  ref={(el) => (inputRefs.current[index] = el)}
+                  className="form-control text-center mx-1 rounded-circle input-xacminh" 
+                  ref={(el) => (inputRefs.current[index] = el)} 
                   onChange={(e) => handleInputChange(index, e)}
                   onKeyDown={(e) => {
                     if (e.key === 'Backspace' && index > 0 && e.currentTarget.value === '') {
@@ -87,11 +67,7 @@ const VerifyForgotPWForm = () => {
             <div className="mb-3">
               <p className="time-text">{minutes}:{seconds}</p>
             </div>
-
-            <p className='color-xam'>
-              Bạn chưa nhận được mã? <a href="#" className='dangky-color' onClick={handleResend}>Gửi lại</a>
-            </p>
-
+            <p className='color-xam'>Bạn chưa nhận được mã? <a href="#" className='dangky-color'>Gửi lại</a></p>
             <button type="submit" className="btn btn-color w-100 rounded-pill text-white heightinput-60 mt-4">Tiếp tục</button>
           </div>
         </div>
