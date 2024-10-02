@@ -32,7 +32,7 @@ const Register = () => {
 
     return (
         <>
-            <div className={clsx(style.container, "container-fluid d-flex align-items-center justify-content-center mt-5")}>
+            <div className={clsx(style.container, "container-fluid d-flex align-items-center justify-content-center")}>
                 <div className={clsx("row")}>
                     <div className={clsx("col-12 col-md-7 order-1 order-md-2 mt-5")}>
                         <div className={clsx(style.imageContainerBig)}>
