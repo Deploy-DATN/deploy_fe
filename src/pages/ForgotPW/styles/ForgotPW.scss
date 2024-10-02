@@ -41,3 +41,15 @@
      position: absolute;     
      padding-right: 1%;
 };
+
+   .formverifyfw {
+     min-height: 100%;
+   }
+   @media (max-width: 991px) {
+     .image-verify {
+          padding-top: 2rem;
+     }
+   }
+.h-forgotpw{
+     min-height: 100vh;
+}

@@ -3,12 +3,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import "./styles/ForgotPW.scss";
-
 const schema = yup.object().shape({
   phoneNumber: yup
     .string()
     .matches(/^[0-9]{10}$/, 'Số điện thoại phải có đúng 10 số')
-    .required('Chưa nhập số điện thoại'),
+    .required('Số điện thoại là bắt buộc'),
 });
 
 const ForgotPWForm = () => {
@@ -21,9 +20,9 @@ const ForgotPWForm = () => {
   };
 
   return (
-    <div className="mt-5">
-      <div className="row align-items-center">
-        <div className="col-lg-6 col-12 ">
+    <div className="formverifyfw container-fluid">
+      <div className="row align-items-center w-100 align-items-center h-forgotpw">
+      <div className="col-lg-6 col-12 ">
             <div className='w-100  d-flex flex-column align-items-center'>
             <h2 className='h2-QMK'>Quên mật khẩu</h2>
           <form className="w-75 mt-4" onSubmit={handleSubmit(onSubmit)}>
@@ -39,8 +38,8 @@ const ForgotPWForm = () => {
                 className={`form-control ${errors.phoneNumber ? 'is-invalid' : ''} rounded-pill heightinput-60 boder-color color-pla`}
                 {...register('phoneNumber')}
                 onInput={(e) => {
-                  const target = e.target as HTMLInputElement;
-                  target.value = target.value.replace(/\D/g, ''); 
+                  const target = e.target as HTMLInputElement; // Ép kiểu e.target thành HTMLInputElement
+                  target.value = target.value.replace(/\D/g, ''); // Loại bỏ tất cả ký tự không phải số
                 }}
               />
               {errors.phoneNumber && (
@@ -57,6 +56,7 @@ const ForgotPWForm = () => {
               </div>
 
               <div className="text-center">
+                {/* Hình QR code thay bằng hình mẫu bạn có */}
                 <img
                   src="src/assets/images/imgforgotPW/Group1000002783.png"
                   alt="QR code"
@@ -71,10 +71,11 @@ const ForgotPWForm = () => {
         </div>
 
         <div className="col-lg-6 col-12 d-flex justify-content-center align-items-center">
+          {/* Thay thế src bằng link hình ảnh của bạn */}
           <img 
             src="src/assets/images/imgforgotPW/Forgotpassword-rafiki.png" 
             alt="Responsive" 
-            className="img-fluid" 
+            className="img-fluid image-verify" 
           />
         </div>
       </div>

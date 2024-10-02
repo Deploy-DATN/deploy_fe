@@ -1,9 +1,6 @@
 import clsx from "clsx";
-
 import { postRegisterApi, RegisterAccount } from "@/services/api/authApi"
-
 import style from './styles/register.module.scss';
-
 import image from './image/SignUp.png';
 import image1 from './image/SignUp(1).png';
 import RegisterForm from "./components/registerForm";
