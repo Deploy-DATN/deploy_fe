@@ -64,11 +64,17 @@
     }
 
     .login-right {
-        .login-rigth-container {
+        .login-right-container {
             width: 90%;
 
             .top-right {
+
                 min-height: 300px;
+
+                .container-absolute {
+                    width: 500px;
+                    height: 100%;
+                }
 
                 .keyword {
                     .icon {
@@ -90,93 +96,23 @@
 
                 .location {
                     top: 30px;
+                    left: 220px;
                 }
 
                 .digitize {
                     top: 80px;
+                    left: 80px;
                 }
 
                 .proceeds {
                     top: 130px;
+                    left: -20px;
                 }
 
                 .information {
                     top: 115px;
+                    left: 260px;
                 }
-            }
-        }
-    }
-}
-
-@media (max-width: 1400px) {
-    .login-rigth-container {
-        .top-right {
-            .information {
-                right: 0;
-            }
-
-            .location {
-                left: 280px;
-            }
-
-            .search {
-                left: 60px;
-            }
-
-            .digitize {
-                left: 120px;
-            }
-
-            .proceeds {
-                left: 30px;
-            }
-        }
-    }
-}
-
-@media (min-width: 1400px) {
-    .login-rigth-container {
-        .top-right {
-            .information {
-                left: 360px;
-            }
-
-            .location {
-                left: 280px;
-            }
-
-            .search {
-                left: 60px;
-            }
-
-            .digitize {
-                left: 160px;
-            }
-
-            .proceeds {
-                left: 30px;
-            }
-        }
-    }
-}
-
-@media (max-width: 1200px) {
-    .login-rigth-container {
-        .top-right {
-            .search {
-                left: 20px;
-            }
-
-            .location {
-                right: 0;
-            }
-
-            .digitize {
-                left: 60px;
-            }
-
-            .proceeds {
-                left: -20px;
             }
         }
     }
