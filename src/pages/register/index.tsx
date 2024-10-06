@@ -13,18 +13,19 @@ const Register = () => {
 
     const handleSubmit = async (data: Inputs) => {
         const { checkbox, ...registerData } = data;
-        try {
-            const res = await postRegisterApi(registerData);
-            if (res.status == 200) {
-                alert('Thành công');
-            }
-            else {
-                alert('Thất bại');
-            }
-        } catch (error) {
-            alert('Thất bại');
-            console.log(`ERR đăng ký: ${error}`);
-        }
+        console.log(registerData);
+        // try {
+        //     const res = await postRegisterApi(registerData);
+        //     if (res.status == 200) {
+        //         alert('Thành công');
+        //     }
+        //     else {
+        //         alert('Thất bại');
+        //     }
+        // } catch (error) {
+        //     alert('Thất bại');
+        //     console.log(`ERR đăng ký: ${error}`);
+        // }
     }
 
     return (

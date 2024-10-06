@@ -18,10 +18,11 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
 
     const schema = yup
         .object({
-            userName: yup
+            name: yup
                 .string()
                 .required("Họ và tên không được để trống")
-                .matches(/^[a-zA-Z\s]*$/, "Họ và tên không chứa số hoặc ký tự đặc biệt"),
+                .matches(/^\D*$/, "Họ và tên không chứa số")
+                .matches(/^[\p{L}\d\s]*$/u, "Họ và tên không chứa ký tự đặc biệt"),
             email: yup
                 .string()
                 .email("Email không hợp lệ")
@@ -44,7 +45,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
         defaultValues: {
             phone: '',
             password: '',
-            userName: '',
+            name: '',
             email: '',
             checkbox: false
         },
@@ -57,10 +58,10 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
                 <InputField
                     control={control}
                     label="Họ và Tên"
-                    name="userName"
+                    name="name"
                     type="text"
                     errors={errors}
-                    classname={clsx(style.box, `form-control ${errors['userName']?.message ? "is-invalid" : ""}`)}
+                    classname={clsx(style.box, `form-control ${errors['name']?.message ? "is-invalid" : ""}`)}
                     placeholder='Vui lòng nhập họ và Tên'
                 />
             </div>
@@ -114,12 +115,12 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
                     </label>
                 </div>
                 <ErrorMessage
-                        errors={errors}
-                        name='checkbox'
-                        render={({ message }) =>
-                            <div className='invalid-feedback'>{message}</div>
-                        }
-                    />
+                    errors={errors}
+                    name='checkbox'
+                    render={({ message }) =>
+                        <div className='invalid-feedback'>{message}</div>
+                    }
+                />
             </div>
 
             <div className={clsx(style.text)}>
