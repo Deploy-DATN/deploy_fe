@@ -6,7 +6,7 @@ export interface Account {
     password: string
 }
 
-export interface RegisterAccount extends Account{
+export interface RegisterAccount extends Account {
     userName: string,
     email: string
 }
@@ -14,8 +14,16 @@ export interface RegisterAccount extends Account{
 // test chưa chỉnh sql
 
 export interface Account1 {
-    email: string,
+    phone: string,
     password: string
+}
+
+export interface ForgotPassword {
+    phoneNumber: string
+}
+
+export interface Otp {
+    otp: string
 }
 
 // API đăng nhập
@@ -27,8 +35,17 @@ export const postLoginApi1 = (account: Account1) => {
     return axios.post(API.LOGIN, account);
 }
 
+export const postForgotApi = (forgotPassword: ForgotPassword) => {
+    return axios.post(API.FOGOTPASSWORD, forgotPassword);
+}
+
 // API đăng ký
 
 export const postRegisterApi = (account: RegisterAccount) => {
     return axios.post(API.REGISTER, account);
 }
+
+export const getOtpApi = (checkOtp: Otp) => {
+    return axios.get(API.OTP, { params: checkOtp });
+}
+
