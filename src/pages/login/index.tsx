@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom'
 import LoginForm from './components/loginForm'
 
-import { Account, postLoginApi1 } from '@/services/api/authApi'
+import { Account, postLoginApi } from '@/services/api/authApi'
 import { KEY_LOCAL, saveToLocalStorage } from '@/ustils/local/F_LocalStorage'
 
 import './styles/login.scss'
@@ -21,12 +21,12 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (data: Account) => {
+
         try {
-            const response = await postLoginApi1({
-                email: 'admin@gmail.com',
-                password: data.password
-            });
-            const token = response.data.token;
+            const response = await postLoginApi(data);
+
+            console.log(response);
+            const token = response.data.data.token;
             if (token) {
                 saveToLocalStorage(KEY_LOCAL.TOKEN, token);
                 navigate('/');
