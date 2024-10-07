@@ -7,7 +7,7 @@ export interface Account {
 }
 
 export interface RegisterAccount extends Account {
-    userName: string,
+    name: string,
     email: string
 }
 
