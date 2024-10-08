@@ -1,0 +1,42 @@
+
+.color-text-header{
+    color: #0B1A46;
+    font-family: Roboto Flex;
+    font-size: 26px;
+}
+.color-btn-header{
+    background-color: #F2C94C;
+}
+// @media (max-width: 991px) {
+// .lg-none{
+//     display: none;
+// }
+// }
+@media ((min-width: 992px) and (max-width:1099px)) or (min-width:1200px){
+    .px-3-lg{
+        padding-right: 1rem !important;
+        padding-left: 1rem !important;
+    }
+}
+
+
+.font-size-header{
+    font-size: 24px;
+}
+.color-btn-header:hover{
+    background-color: #ecbf38;
+}
+
+@media (min-width: 1100px ) and (max-width: 1399px) {
+    .col-xl-3_5 {
+        flex: 0 0 auto;
+        width: 30.66666667%;    }
+    .col-xl-1_5 {
+        flex: 0 0 auto;
+        width: 11%;      }
+  }
+@media (min-width:0px){
+    .flex-ssm-row{
+        flex-direction: row;
+    }
+}
