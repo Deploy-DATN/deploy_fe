@@ -4,12 +4,14 @@ import style from './styles/register.module.scss';
 import image from './image/SignUp.png';
 import image1 from './image/SignUp(1).png';
 import RegisterForm from "./components/registerForm";
-
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 export interface Inputs extends RegisterAccount {
     checkbox?: boolean
 }
 
 const Register = () => {
+    const navigate = useNavigate();
 
     const handleSubmit = async (data: Inputs) => {
         const { checkbox, ...registerData } = data;
@@ -17,13 +19,26 @@ const Register = () => {
         try {
             const res = await postRegisterApi(registerData);
             if (res.status == 200) {
-                alert('Thành công');
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Đăng kí thành công',
+                });
+                navigate('/Login');
             }
             else {
-                alert('Thất bại');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Đăng kí thất bại',
+                });
             }
         } catch (error) {
-            alert('Thất bại');
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Đăng kí thất bại',
+            });
             console.log(`ERR đăng ký: ${error}`);
         }
     }
