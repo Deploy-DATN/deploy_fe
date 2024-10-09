@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import "./styles/ForgotPW.scss";
 import { Otp, getOtpApi } from '@/services/api/authApi';
 import { useForm } from 'react-hook-form';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const VerifyForgotPWForm = () => {
+  const navigate = useNavigate();
   const { handleSubmit } = useForm<Otp>();
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otpValues, setOtpValues] = useState<string[]>(['', '', '', '']); // Trạng thái để lưu giá trị 4 ô input
@@ -63,12 +65,31 @@ const VerifyForgotPWForm = () => {
     const response = await getOtpApi(data)
     console.log(response);
     console.log(data);
-    if (response.data === true) {
-      alert('Nhập otp thành công!!');
+    try {
+      if (response.data === true) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công',
+          text: 'Nhập OTP thành công',
+        });
+        navigate('/NewPW');
 
-    } else {
-      alert('Otp không đúng!!');
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi!',
+          text: 'OTP chưa đúng',
+        });
+      }
+    } catch (error) {
+      console.error('send otp failed:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Không thể nhập OTP',
+      });
     }
+
 
   };
 
