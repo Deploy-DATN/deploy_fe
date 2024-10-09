@@ -26,6 +26,11 @@ export interface Otp {
     otp: string
 }
 
+export interface NewPassword {
+    password: string,
+    confimPassWord: string
+}
+
 // API đăng nhập
 
 export const postLoginApi = (account: Account) => {
@@ -48,4 +53,8 @@ export const postRegisterApi = (account: RegisterAccount) => {
 export const getOtpApi = (checkOtp: Otp) => {
     return axios.get(API.OTP, { params: checkOtp });
 }
+
+export const postNewPWApi = (newPassword: NewPassword) => {
+    return axios.post(API.NEWPASS, newPassword);
+};
 
