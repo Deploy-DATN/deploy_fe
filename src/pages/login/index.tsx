@@ -14,6 +14,7 @@ import digitize from '@/assets/icon/digitize.png'
 import information from '@/assets/icon/information.png'
 import location from '@/assets/icon/location.png'
 import proceeds from '@/assets/icon/proceeds.png'
+import Swal from 'sweetalert2'
 
 
 const Login = () => {
@@ -29,15 +30,27 @@ const Login = () => {
             const token = response.data.data.token;
             if (token) {
                 saveToLocalStorage(KEY_LOCAL.TOKEN, token);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Đăng nhập thành công',
+                });
                 navigate('/');
-                alert('đăng nhập thành công');
             }
             else {
-                alert('Đăng nhập thất bại. Vui lòng thử lại.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Đăng nhập thất bại',
+                });
             }
         } catch (error) {
             console.error('Login failed:', error);
-            alert('Đăng nhập thất bại. Vui lòng thử lại.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Đăng nhập thất bại',
+            });
         }
     }
 
