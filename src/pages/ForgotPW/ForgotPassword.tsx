@@ -5,6 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ForgotPassword, postForgotApi } from '@/services/api/authApi'
 import * as yup from 'yup';
 import "./styles/ForgotPW.scss";
+import Swal from 'sweetalert2'
 const schema = yup.object().shape({
   phoneNumber: yup
     .string()
@@ -23,18 +24,27 @@ const ForgotPWForm = () => {
       const response = await postForgotApi(data);
       console.log(response);
       console.log(data)
-      if (response.status == 200) {
-
-        alert('Gửi otp thành công, vui lòng check email của bạn')
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Gửi OTP thành công',
+          text: 'Vui lòng check email của bạn',
+        });
         navigate('/VerifyForgotPWForm');
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi!',
+          text: 'Không thể gửi OTP đến số điện thoại này',
+        });
       }
-      else {
-        alert('Lỗi! Không thể gửi otp đến số điện thoại này')
-      }
-
     } catch (error) {
       console.error('send otp failed:', error);
-      alert('Lỗi! Không thể gửi otp đến số điện thoại này')
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Không thể gửi OTP đến số điện thoại này',
+      });
     }
   };
 

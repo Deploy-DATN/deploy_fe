@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import "./styles/ForgotPW.scss";
+import { NewPassword, postNewPWApi } from '@/services/api/authApi';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 const NewPW = () => {
+  const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [passwordCf, setPasswordCf] = useState('');
   const [showPasswordCf, setShowPasswordCf] = useState(false);
@@ -38,6 +42,39 @@ const NewPW = () => {
       setError('');
       setErrorcf('');
       // Xử lý code khi 2 mật khẩu giống nhau ở đây
+    }
+
+    try {
+      const data: NewPassword = {
+        password: password,
+        confimPassWord: passwordCf,
+      }
+
+      const response = await postNewPWApi(data);
+      console.log(response);
+      // const response = await axios.post('https://localhost:7299/changePassword', data)
+      if (response.data === true) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Thành công',
+          text: 'Đổi mật khẩu thành công',
+        });
+        navigate('/Login');
+      }
+      else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi!',
+          text: 'Mật khẩu và xác nhận mật khẩu chưa trùng nhau!!',
+        });
+      }
+
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Đổi mật khẩu thất bại',
+      });
     }
   };
 
