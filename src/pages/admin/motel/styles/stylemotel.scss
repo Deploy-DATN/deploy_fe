@@ -1,0 +1,84 @@
+
+.table{
+    .brg-table-tro{
+        background-color: #00b07510 !important ;
+    }
+} 
+.brg-table-tro th:first-child {
+    border-top-left-radius: 50rem;
+    border-bottom-left-radius: 50rem;
+}
+
+.brg-table-tro th:last-child {
+    border-top-right-radius: 50rem;
+    border-bottom-right-radius: 50rem;
+}
+.tt-dangthue{
+    color: #00B69B;
+}
+.tt-choduyet{
+    color: #FF9500;
+}
+.tt-khoa {
+    color:#E83838;
+}
+.btn-chitiet {
+    background-color: #8470FF;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+        background-color: #5a5eff; // Màu nền đậm hơn khi hover
+        transform: translateY(-2px); // Nổi lên khi hover
+    }
+}
+
+.btn-duyet {
+    background-color: #00b69bc2;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+        background-color: #00939b; // Màu nền đậm hơn khi hover
+        transform: translateY(-2px); // Nổi lên khi hover
+    }
+}
+
+.btn-tuchoi {
+    background-color: #f9960ccc;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+        background-color: #ff9500e0; // Màu nền đậm hơn khi hover
+        transform: translateY(-2px); // Nổi lên khi hover
+    }
+}
+
+.btn-khoa {
+    background-color: #F83838;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+        background-color: #c62828; // Màu nền đậm hơn khi hover
+        transform: translateY(-2px); // Nổi lên khi hover
+    }
+}
+
+.btn-mokhoa {
+    background-color: #00B074;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+        background-color: #009966; // Màu nền đậm hơn khi hover
+        transform: translateY(-2px); // Nổi lên khi hover
+    }
+}
+
+.text-overflow{
+    max-width: 200px; 
+    overflow: hidden; 
+    white-space: nowrap;
+    text-overflow: ellipsis; 
+}
+#testp{
+    --bs-testcolor:red;
+    color: var(--bs-testcolor);
+}

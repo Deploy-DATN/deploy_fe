@@ -1,20 +1,20 @@
-import clsx from "clsx";
 import React from "react";
 import "./styles/header.scss";
 
 const Header = () => {
   return (
-    <div className="container">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <div className="container-lg container-xl container-xxl mt-3 ">
+      <nav className="navbar navbar-expand-lg navbar-light ">
         <div className="container-fluid">
-          <a className="navbar-brand me-5" href="#">
+          <a className="logo-text-home navbar-brand me-5 d-flex align-items-center" href="/">
             <img
-              src="src/assets/images/logo.png"
+              src="src/assets/images/Logo-New.png"
               alt=""
-              width="56"
-              height="56"
+              width="50"
+              height="50"
               className="d-inline-block align-top"
             />
+            <div className="text-logo">Thỏ Stay</div>
           </a>
           <button
             className="navbar-toggler"
@@ -29,52 +29,57 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse " id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 row w-100 mx-0 position-relative">
-              <li className="nav-link col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0 justify-content-around">
-                  <li className="nav-item">
-                    <a
-                      className="nav-link color-text-header"
-                      aria-current="page"
-                      href="#"
-                    >
-                      Trang Chủ
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link color-text-header" href="#">
-                      Về Chúng Tôi
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link color-text-header" href="#">
-                      Dịch Vụ
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link color-text-header" href="#">
-                      Liên Hệ
-                    </a>
-                  </li>
-                </ul>
+              <li className="nav-link col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9 p-0">
+                <div className="w-100 h-100 cangiua">
+                  <ul className="navbar-nav h-100 mb-2 justify-content-center mb-lg-0 align-items-lg-center align-items-xl-center align-items-xxl-center border-link-header w-ul-header">
+                    <li className="nav-item">
+                      <a
+                        className="nav-link color-text-header"
+                        aria-current="page"
+                        href="#"
+                      >
+                        Địa điểm
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link color-text-header" href="#">
+                        Trọ mới
+                      </a>
+                    </li>
+                    <li className="nav-item">
+                      <a className="nav-link color-text-header" href="#">
+                        Sắp trả
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
               </li>
-              <li className="nav-item col-1 col-lg-1 col-xl-1_5 col-xxl-2"></li>
-              <li className="nav-link col-12 col-md-12 col-sm-12 col-lg-4 col-xl-3_5 col-xxl-3">
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-lg-between justify-content-xl-between justify-content-xxl-between flex-sm-row flex-md-row flex-ssm-row px-3-lg w-100">
+              <li className="nav-link col-12 col-md-12 col-sm-12 col-lg-3 col-xl-3 col-xxl-3 px-0">
+                <ul className="navbar-nav px-0 mb-lg-0 d-flex align-items-lg-center align-items-xl-center align-items-xxl-center justify-content-lg-end justify-content-xl-end justify-content-xxl-end px-3-lg w-100">
                   <img
-                    className="img-fluid"
-                    src="src/components/header/img/img-icon-user.png"
-                    width="60"
-                    height="auto"
+                    className="me-3"
+                    src="src/components/header/img/Bongden.png"
+                    width="28"
+                    height="28"
                     alt="Hình ảnh user"
                   ></img>
-                  <button className="btn color-btn-header lg-none px-3 font-size-header ms-3">Bạn là chủ</button>
+                  <img
+                    className="me-3"
+                    src="src/components/header/img/notifications.png"
+                    width="28"
+                    height="28"
+                    alt="Hình ảnh user"
+                  ></img>
+                  <button className="color-btn-header text-white lg-none px-3 py-2 font-size-header ms-3 rounded-pill">Đăng nhập</button>
                 </ul>
               </li>
             </ul>
           </div>
         </div>
-      </nav>
+      </nav>      
     </div>
+    
   );
 };
 

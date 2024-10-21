@@ -7,6 +7,8 @@ import Register from '@/pages/register/index'
 import ForgotPassword from "@/pages/ForgotPW/ForgotPassword"
 import Verify from "@/pages/ForgotPW/VerifyForgotPW"
 import SetPassword from "@/pages/ForgotPW/newPW"
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 export const User = () => {
   return (
@@ -16,6 +18,8 @@ export const User = () => {
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/header" element={<Header />} />
+      <Route path="/footer" element={<Footer />} />
       <Route path="/forgot-password">
         <Route index element={<ForgotPassword />} />
         <Route path="verify" element={<Verify />} />
