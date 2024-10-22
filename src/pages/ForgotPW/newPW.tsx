@@ -12,7 +12,7 @@ const NewPW = () => {
   const [error, setError] = useState('');
   const [errorcf, setErrorcf] = useState('');
 
-  const handlePasswordChange = (e: any) => {
+  const handlePasswordChange = (e : React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
 
@@ -26,7 +26,7 @@ const NewPW = () => {
     }
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!password) {
