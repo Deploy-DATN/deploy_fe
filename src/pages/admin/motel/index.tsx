@@ -1,4 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./styles/stylemotel.scss";
+import { faHouseCircleCheck, faHouseCircleXmark, faHouseLock, faHouseMedicalCircleExclamation, faLaptopHouse, faLock, faLockOpen, faTableCellsRowUnlock, faUnlock, faUnlockAlt, faUnlockKeyhole } from "@fortawesome/free-solid-svg-icons";
 export const Motel = () => {
   return (
     <div className="container-fluid">
@@ -8,40 +10,40 @@ export const Motel = () => {
             <div className="d-flex mb-4 flex-wrap">
                 <a
                   href="#"
-                  className="btn text-white btn-sm btn-chitiet px-3 py-2 mx-2 mb-3"
+                  className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
                 >
-                  Chi tiết
+                  Tất cả
                 </a>
                 <a
                   href="#"
-                  className="btn text-white btn-sm btn-duyet px-3 py-2 mx-2 mb-3"
+                  className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
                 >
                   Duyệt
                 </a>
                 <a
                   href="#"
-                  className="btn text-white btn-sm btn-tuchoi px-3 py-2 mx-2 mb-3"
+                  className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
                 >
-                  Từ chuối
+                  Từ chối
                 </a>
                 <a
                   href="#"
-                  className="btn text-white btn-sm btn-mokhoa px-3 py-2 mx-2 mb-3"
+                  className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
                 >
                   Mở khóa
                 </a>
                 <a
                   href="#"
-                  className="btn text-white btn-sm btn-khoa px-3 py-2 mx-2 mb-3"
+                  className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
                 >
                   Khóa
                 </a>
             </div>
 
             <div className="table-responsive mt-3" data-simplebar>
-              <table className="test-table table table-borderless align-middle text-nowrap">
-                <thead>
-                  <tr className="brg-table-tro rounded-pill">
+              <table className="test-table table table-borderless align-middle text-nowrap rounded-pill">
+                <thead className="">
+                  <tr className=" brg-table-tro">
                     <th scope="col">ID</th>
                     <th scope="col">Tên chủ trọ</th>
                     <th scope="col">Địa chỉ</th>
@@ -50,7 +52,7 @@ export const Motel = () => {
                     <th scope="col">Thao tác</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="">
                   <tr>
                     <td>ID12345</td>
                     <td>Account1</td>
@@ -62,24 +64,25 @@ export const Motel = () => {
                       </span>
                     </td>
                     <td>
-                      <a
+                    <a
                         href="#"
-                        className="btn text-white btn-sm btn-chitiet px-3 py-2 mx-2"
+                        className=" px-2 py-1 mx-1 btn-transform-y2"
                       >
-                        Chi tiết
+                        <FontAwesomeIcon icon={faHouseMedicalCircleExclamation} size="2xl" color="#298b90" className="icon-table-motel" />
                       </a>
                       <a
                         href="#"
-                        className="btn text-white btn-sm btn-khoa px-3 py-2 mx-2"
+                        className=" px-2 py-1 mx-1 btn-transform-y2"
                       >
-                        Khóa
+                        <FontAwesomeIcon icon={faHouseLock} size="2xl" color="#298b90" className="icon-table-motel" />
                       </a>
+
                     </td>
                   </tr>
                   <tr>
                     <td>ID12345</td>
                     <td>Account1</td>
-                    <td className="text-overflow">123 BMT - Tân an</td>
+                    <td className="text-overflow-motel">123 BMT - Tân an</td>
                     <td>100 phòng</td>
                     <td>
                       <span className="tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3">
@@ -89,21 +92,21 @@ export const Motel = () => {
                     <td>
                       <a
                         href="#"
-                        className="btn text-white btn-sm btn-chitiet px-3 py-2 mx-2"
+                        className=" px-2 py-1 mx-1 btn-transform-y2"
                       >
-                        Chi tiết
+                        <FontAwesomeIcon icon={faHouseMedicalCircleExclamation} size="2xl" color="#298b90" className="icon-table-motel" />
+                        </a>
+                      <a
+                        href="#"
+                        className=" px-2 py-1 mx-1 btn-transform-y2"
+                      >
+                        <FontAwesomeIcon icon={faHouseCircleCheck} size="2xl" color="#298b90" className="icon-table-motel" />
                       </a>
                       <a
                         href="#"
-                        className="btn text-white btn-sm btn-duyet px-3 py-2 mx-2"
+                        className=" px-2 py-1 mx-1 btn-transform-y2"
                       >
-                        Duyệt
-                      </a>
-                      <a
-                        href="#"
-                        className="btn text-white btn-sm btn-tuchoi px-3 py-2 mx-2"
-                      >
-                        Từ chuối
+                        <FontAwesomeIcon icon={faHouseCircleXmark} size="2xl" color="#298b90" className="icon-table-motel" />
                       </a>
                     </td>
                   </tr>
@@ -118,18 +121,19 @@ export const Motel = () => {
                       </span>
                     </td>
                     <td>
+                    <a
+                        href="#"
+                        className=" px-2 py-1 mx-1 btn-transform-y2"
+                      >
+                        <FontAwesomeIcon icon={faHouseMedicalCircleExclamation} size="2xl" color="#298b90" className="icon-table-motel" />
+                        </a>
                       <a
                         href="#"
-                        className="btn text-white btn-sm btn-chitiet px-3 py-2 mx-2"
+                        className=" px-2 py-1 mx-1 btn-transform-y2"
                       >
-                        Chi tiết
+                        <FontAwesomeIcon icon={faUnlock} size="2xl" color="#298b90" className="icon-table-motel" />
                       </a>
-                      <a
-                        href="#"
-                        className="btn text-white btn-sm btn-mokhoa px-3 py-2 mx-2"
-                      >
-                        Mở khóa
-                      </a>
+
                     </td>
                   </tr>
                 </tbody>
