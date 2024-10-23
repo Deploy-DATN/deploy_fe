@@ -31,6 +31,23 @@ export interface NewPassword {
     confimPassWord: string
 }
 
+export interface Noti {
+    id: number;
+    type: number;
+    title: string;
+    content: string;
+    status: number;
+}
+
+export interface AddNoti {
+    type: number;
+    title: string;
+    content: string;
+    status: number;
+}
+
+
+
 // API đăng nhập
 
 export const postLoginApi = (account: Account) => {
@@ -57,4 +74,14 @@ export const getOtpApi = (checkOtp: Otp) => {
 export const postNewPWApi = (newPassword: NewPassword) => {
     return axios.post(API.NEWPASS, newPassword);
 };
+
+//API thông báo
+
+export const getListNotiApi = async () => {
+    return axios.get<{ code: number, status: string, message: string, data: Noti[] }>(API.LISTNOTI);
+};
+
+export const postAddNotiApi = async (addNoti: AddNoti) => {
+    return await axios.post(API.CREATE_NOTI, addNoti);
+}
 
