@@ -1,4 +1,22 @@
 
+import tk from "@/assets/images/backgrounds/img-login.png";
+import { useState } from "react";
+import CreateNotification from "./component/CreateNotification";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+export const Notification: React.FC = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+
 import { useEffect, useState } from 'react';
 import { getListNotiApi, Noti } from '@/services/api/authApi';
 
@@ -34,31 +52,31 @@ export const Notification = () => {
 
     fetchNotifications();
   }, []);
-
-
-
   return (
     <div className="container-fluid noti-container">
       <div className="row align-items-stretch">
         <div className="card w-100">
           <div className="card-body p-4">
-            <div className="d-flex mb-4 flex-wrap">
-              <div className="me-auto">
+            <div className="d-flex justify-content-between ">
+              <div className="d-flex mb-4 flex-wrap">
                 <a
                   href="#"
-                  className="btn text-white btn-sm btn-duyet px-3 py-2 mx-2 mb-3"
+                  className="btn text-white btn-sm btn-duyet px-3 py-2 mx-2 mb-3 btn-transform-y2"
                 >
                   Đã gửi
                 </a>
                 <a
                   href="#"
-                  className="btn text-white btn-sm btn-tuchoi px-3 py-2 mx-2 mb-3"
+                  className="btn text-white btn-sm btn-tuchoi px-3 py-2 mx-2 mb-3 btn-transform-y2"
                 >
                   Chưa gửi
                 </a>
               </div>
-              <div>
-                <button className="btn btn-primary add-noti">Thêm thông báo</button>
+              <div className="px-2 py-2">
+                <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
+                <FontAwesomeIcon icon={faPlus} size="lg" color="#fffffff" className="icon-table-motel me-3" />Thêm thông báo</button>
+                {showModal && <CreateNotification onClose={handleCloseModal} />}
+
               </div>
             </div>
 
