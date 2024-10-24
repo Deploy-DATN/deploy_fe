@@ -3,29 +3,29 @@ import 'src/pages/admin/notification/notification.scss'
 
 const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     return (
-      <div className="modal-overlay-notifi-create">
-        <div className="modal-content-notifi-create position-relative">
+      <div className="modal-overlay-admin">
+        <div className="modal-content-admin position-relative">
             <div className=''>
-            <h2 className='h2-modal-notifi-create'>Thêm thông báo</h2>
-            <button className="close-btn position-absolute" onClick={onClose}>×</button>
+            <h2 className='h2-modal-admin'>Thêm thông báo</h2>
+            <button className="btn-close-modal position-absolute" onClick={onClose}>×</button>
             </div>
-          <form className='form-create-notifi'>
+          <form className='form-admin-modal'>
           <div className="form-group mt-3">
             <label htmlFor="title" className=''>Tiêu đề</label>
-            <input type="text" id="title" className="form-control mt-2" placeholder="Cấp phép nhà trọ" />
+            <input type="text" id="title" className="form-control mt-2" placeholder="Tiêu đề" />
           </div>
           <div className="form-group mt-3">
-            <label htmlFor="description" className=''>Mô tả</label>
+            <label htmlFor="description" className=''>Nội dung</label>
             <textarea
               id="description"
               className="form-control mt-2"
-              placeholder="Nhà trọ của bạn đã được duyệt, xem thêm thông tin chi tiết."
+              placeholder="Nội dung"
               rows={3}
             />
           </div>
             <div className='d-flex justify-content-between mt-4'>
-            <button type="button" className='btn-create-notifi btn-create-notifi-trove btn-transform-y2' onClick={onClose}>Trờ về</button>
-            <button type="button" className='btn-create-notifi btn-create-notifi-luu btn-transform-y2' >Lưu</button>
+            <button type="button" className='btn-admin-trove btn-admin btn-transform-y2' onClick={onClose}>Trở về</button>
+            <button type="button" className='btn-admin-luu btn-admin btn-transform-y2' >Lưu</button>
             </div>
           </form>
         </div>
