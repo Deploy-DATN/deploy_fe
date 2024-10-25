@@ -1,0 +1,125 @@
+
+
+// css hiệu ứng hover button
+  .btn-transform-y2{
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    &:hover {
+      transform: translateY(-2px); // Nổi lên khi hover
+    }
+  }
+  .bg-color-theme-thostay{
+    background-color: #298B90;
+    border-radius: var(--bs-card-border-radius);
+    padding: 1.5rem;
+    border-radius: 1.5rem 1.5rem 0rem 0rem;
+    h2{
+      color: white !important;
+      width: 80%;
+      text-align: center;
+      font-size: 40px;
+      margin: 0 auto;
+      font-family: Roboto Flex;
+      font-weight: 500;
+    }
+  }
+  //css input thêm img
+  .file-input-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+  }
+  
+  .file-upload-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .camera-icon {
+    font-size: 2rem; // Kích thước của icon máy ảnh
+    color: #888; // Màu sắc của icon
+  }
+  
+  .file-upload-input {
+    position: absolute;
+    width: 100%;
+    aspect-ratio: 1/1;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+    //modal chung
+    .btn-create-admin {
+        background-color: #298B90;
+        color: #ffffff;
+      
+        &:hover {
+          background-color: #229096; // Màu nền đậm hơn khi hover
+          color: #ffffff;
+        }
+      }
+            
+    .modal-overlay-admin {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+      
+      .modal-content-admin {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        width: 500px;
+        max-width: 100%;
+      }
+      .modal-overlay-admin{
+        .modal-content-admin{
+            .h2-modal-admin{
+                width: 100%;
+                text-align: center;
+            }
+            .form-admin-modal{
+                 label{
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: #0B1A46;
+                }
+                input:placeholder(){
+                    font-size: 20px;
+                    color: #82828C;
+                  }
+            }
+            .btn-close-modal {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                font-size: 30px;
+                cursor: pointer;
+                color: #0B1A46;
+                width: 3.5rem;
+                height: 3.5rem;
+                border-radius: 50rem;
+                border: 1px solid #D9D9D9;
+                background-color: #ffffff;
+                &:hover{
+                    color: #298B90;
+                }
+    
+            }
+        }
+      }

@@ -9,6 +9,7 @@ import { useForm, Controller } from 'react-hook-form'
 
 const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
+
   const schema = yup.object({
     title: yup.string()
       .required('Tiêu đề không được bỏ trống')
@@ -117,6 +118,7 @@ const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <button type="submit" className='btn-create-notifi btn-create-notifi-luu btn-transform-y2' >Lưu</button>
           </div>
         </form>
+
       </div>
     </div>
   );

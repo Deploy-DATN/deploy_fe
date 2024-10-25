@@ -1,8 +1,11 @@
+
 import CreateNotification from "./component/CreateNotification";
 import EditNotification from "./component/EditNotification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
 import { useEffect, useState } from 'react';
+
 import { getListNotiApi, Noti } from '@/services/api/authApi';
 import Swal from 'sweetalert2';
 
@@ -18,6 +21,7 @@ export const Notification: React.FC = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+
     setCurrentNotification(null);
   };
 
@@ -30,6 +34,7 @@ export const Notification: React.FC = () => {
     setShowEditModal(false);
     setCurrentNotification(null);
   };
+
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -64,10 +69,12 @@ export const Notification: React.FC = () => {
           <div className="card-body p-4">
             <div className="d-flex justify-content-between">
               <div className="d-flex mb-4 flex-wrap">
+
                 <a href="#" className="btn text-white btn-sm btn-duyet px-3 py-2 mx-2 mb-3 btn-transform-y2">
                   Đã gửi
                 </a>
                 <a href="#" className="btn text-white btn-sm btn-tuchoi px-3 py-2 mx-2 mb-3 btn-transform-y2">
+
                   Chưa gửi
                 </a>
               </div>
@@ -75,6 +82,7 @@ export const Notification: React.FC = () => {
                 <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
                   <FontAwesomeIcon icon={faPlus} size="lg" color="#fffffff" className="icon-table-motel me-3" />Thêm thông báo
                 </button>
+
                 {showModal && <CreateNotification onClose={handleCloseModal} />}
               </div>
             </div>
