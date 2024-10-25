@@ -8,30 +8,39 @@ interface InputFieldProps {
     type?: string,
     errors: FieldErrors<any>,
     classname: string,
-    placeholder?: string
+    placeholder?: string,
+    rows?: number;
 }
 
-const InputField: React.FC<InputFieldProps> = ({ control, label, name, type = "text", errors, classname, placeholder }) => {
+const InputField: React.FC<InputFieldProps> = ({ control, label, name, type = "text", errors, classname, placeholder, rows }) => {
     return (
         <>
-            <label className="form-label">{label}</label>
+            {label && <label className="form-label">{label}</label>}
             <Controller
                 name={name}
                 control={control}
                 render={({ field }) =>
-                    <input {...field}
-                        type={type}
-                        className={classname}
-                        placeholder={placeholder}
-                    />
+                    type === "textarea" ? (
+                        <textarea
+                            {...field}
+                            className={classname}
+                            placeholder={placeholder}
+                            rows={rows}
+                        />
+                    ) : (
+                        <input
+                            {...field}
+                            type={type}
+                            className={classname}
+                            placeholder={placeholder}
+                        />
+                    )
                 }
             />
             <ErrorMessage
                 errors={errors}
                 name={name}
-                render={({ message }) =>
-                    <div className='invalid-feedback'>{message}</div>
-                }
+                render={({ message }) => <div className="invalid-feedback">{message}</div>}
             />
         </>
     )

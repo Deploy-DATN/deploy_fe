@@ -43,7 +43,12 @@ export interface AddNoti {
     type: number;
     title: string;
     content: string;
-    status: number;
+}
+
+export interface UpdateNoti {
+    type: number;
+    title: string;
+    content: string;
 }
 
 
@@ -83,5 +88,9 @@ export const getListNotiApi = async () => {
 
 export const postAddNotiApi = async (addNoti: AddNoti) => {
     return await axios.post(API.CREATE_NOTI, addNoti);
+}
+
+export const postUpdateNotiApi = async (notificationId: number, updateNoti: UpdateNoti) => {
+    return await axios.put(`${API.UPDATE_NOTI}${notificationId}`, updateNoti);
 }
 

@@ -5,5 +5,6 @@ export enum API {
     OTP = 'https://localhost:7299/checkOtp',
     NEWPASS = 'https://localhost:7299/changePassword',
     LISTNOTI = 'https://localhost:7299/api/Noti',
-    CREATE_NOTI = 'https://localhost:7299/addNoti'
+    CREATE_NOTI = 'https://localhost:7299/addNoti',
+    UPDATE_NOTI = 'https://localhost:7299/api/Noti/'
 }
