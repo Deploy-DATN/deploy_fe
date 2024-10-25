@@ -19,14 +19,15 @@ export const Admin = () => {
             <Route path="/admin" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="account" element={<Account />} />
-                <Route path="motel" element={<Motel />} />
+                <Route path="motel">
+                    <Route index element={<Motel />} />
+                    <Route path='infomotel' element={<Infomotel />} />
+                    <Route path='indexOwner' element={<IndexOwner />} />
+                    <Route path='addModelOwner' element={<AddMotelOwner />} />
+                </Route>
                 <Route path="notification" element={<Notification />} />
                 <Route path="ticket" element={<Ticket />} />
-                <Route path='infomotel' element={<Infomotel />} />
-                <Route path='indexOwner' element={<IndexOwner />} />
-                <Route path='addModelOwner' element={<AddMotelOwner />} />
                 <Route path="*" element={<Err />} />
-
             </Route>
         </Routes>
     )
