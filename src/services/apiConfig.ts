@@ -6,5 +6,9 @@ export enum API {
     NEWPASS = 'https://localhost:7299/changePassword',
     LISTNOTI = 'https://localhost:7299/api/Noti',
     CREATE_NOTI = 'https://localhost:7299/addNoti',
-    UPDATE_NOTI = 'https://localhost:7299/api/Noti/'
+    UPDATE_NOTI = 'https://localhost:7299/api/Noti/',
+    AVAILABLEROOM = 'https://localhost:7299/api/statistical/available-motels',
+    REVENUESTATISTIC = 'https://localhost:7299/api/statistical/last-six-months',
+    PERCENTAGE = 'https://localhost:7299/api/statistical/expense-percentage'
 }
+

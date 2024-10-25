@@ -51,6 +51,23 @@ export interface UpdateNoti {
     content: string;
 }
 
+export interface Room {
+    motelName: string;
+    address: string;
+    availableRooms: number;
+    status: number;
+}
+
+export interface Revenue {
+    month: string;
+    revenue: number;
+}
+
+export interface Percentage {
+    name: string,
+    percentage: number
+}
+
 
 
 // API đăng nhập
@@ -92,5 +109,19 @@ export const postAddNotiApi = async (addNoti: AddNoti) => {
 
 export const postUpdateNotiApi = async (notificationId: number, updateNoti: UpdateNoti) => {
     return await axios.put(`${API.UPDATE_NOTI}${notificationId}`, updateNoti);
+}
+
+//API thống kê
+
+export const getAvailableRoomApi = async (availableRoom: Room) => {
+    return axios.get(API.AVAILABLEROOM, { params: availableRoom })
+};
+
+export const getRevenueStatisticApi = async (revenue: Revenue) => {
+    return axios.get(API.REVENUESTATISTIC, { params: revenue })
+}
+
+export const getPercentageApi = async (percentage: Percentage) => {
+    return axios.get(API.PERCENTAGE, { params: percentage })
 }
 
