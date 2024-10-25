@@ -20813,7 +20813,7 @@ fieldset:disabled .btn {
 .body-wrapper>.container-sm,
 .body-wrapper>.container-xl,
 .body-wrapper>.container-xxl {
-    max-width         : 1300px;
+    /* max-width         : auto; */
     margin            : 0 auto;
     padding           : 1.5rem;
     -webkit-transition: 0.2s ease-in;

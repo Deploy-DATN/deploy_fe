@@ -65,13 +65,13 @@ const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
 
   return (
-    <div className="modal-overlay-notifi-create">
-      <div className="modal-content-notifi-create position-relative">
+    <div className="modal-overlay-admin">
+      <div className="modal-content-admin position-relative">
         <div className=''>
-          <h2 className='h2-modal-notifi-create'>Thêm thông báo</h2>
-          <button className="close-btn position-absolute" onClick={onClose}>×</button>
+          <h2 className='h2-modal-admin'>Thêm thông báo</h2>
+          {/* <button className="btn-close-modal position-absolute" onClick={onClose}>×</button> */}
         </div>
-        <form className='form-create-notifi' onSubmit={handleSubmit(onSubmit)}>
+        <form className='form-admin-modal' onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group mt-3">
             <InputField
               control={control}
@@ -114,8 +114,8 @@ const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             {errors['type'] && <div className="invalid-feedback">{errors['type']?.message}</div>}
           </div>
           <div className='d-flex justify-content-between mt-4'>
-            <button type="button" className='btn-create-notifi btn-create-notifi-trove btn-transform-y2' onClick={onClose}>Trờ về</button>
-            <button type="submit" className='btn-create-notifi btn-create-notifi-luu btn-transform-y2' >Lưu</button>
+            <button type="button" className='btn-trove-all btn-style btn-transform-y2' onClick={onClose}>Trờ về</button>
+            <button type="submit" className='btn-luu-all btn-style btn-transform-y2' >Lưu</button>
           </div>
         </form>
 

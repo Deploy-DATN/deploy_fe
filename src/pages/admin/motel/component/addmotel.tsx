@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/stylemotel.scss";
 import {
   faCamera,
+  faFile,
   faFileExcel,
   faFilePdf,
   faFileWord,
@@ -240,7 +241,7 @@ export const AddMotelOwner = () => {
                           className="btn-close-img-add-motel position-absolute text-end"
                           onClick={() => removeFile(index)}
                         >
-                          <FontAwesomeIcon icon={faXmark} />
+                          <FontAwesomeIcon icon={faXmark}/>
                         </button>
                       </div>
                     ))}
@@ -250,7 +251,7 @@ export const AddMotelOwner = () => {
                         className="file-upload-label w-100"
                       >
                         <FontAwesomeIcon
-                          icon={faCamera}
+                          icon={faFile}
                           className="camera-icon"
                         />
                         <input

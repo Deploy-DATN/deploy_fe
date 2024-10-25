@@ -78,8 +78,8 @@ export const Motel: React.FC = () => {
                   <tr>
                     <td>ID12345</td>
                     <td>Account1</td>
-                    <td className="text-overflow">
-                      123 BMT - Tân an nnnnnn bbbbbbbbb mmmmmmmmm uuuuuuuuu{" "}
+                    <td className="text-overflow-motel">
+                      123 BMT - Tân an nnnnnn bbbbbbbbb mmmmmbbbbbbbbbbbbbbbbbbbbbbmmmm uuuuuuuuu{" "}
                     </td>
                     <td>100 phòng</td>
                     <td>

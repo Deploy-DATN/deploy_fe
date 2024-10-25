@@ -52,13 +52,13 @@ const EditNotification: React.FC<EditNotificationProps> = ({ notificationId, ini
     };
 
     return (
-        <div className="modal-overlay-notifi-edit">
-            <div className="modal-content-notifi-edit position-relative">
+        <div className="modal-overlay-admin">
+            <div className="modal-content-admin position-relative">
                 <div className=''>
-                    <h2 className='h2-modal-notifi-edit'>Sửa Thông Báo</h2>
-                    <button className="close-btn position-absolute" onClick={onClose}>×</button>
+                    <h2 className='h2-modal-admin'>Sửa Thông Báo</h2>
+                    {/* <button className="close-btn position-absolute" onClick={onClose}>×</button> */}
                 </div>
-                <form className='form-edit-notifi' onSubmit={handleSubmit(onSubmit)}>
+                <form className='form-admin-modal' onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-group mt-3">
                         <InputField
                             control={control}
@@ -101,8 +101,8 @@ const EditNotification: React.FC<EditNotificationProps> = ({ notificationId, ini
                         {errors['type'] && <div className="invalid-feedback">{errors['type']?.message}</div>}
                     </div>
                     <div className='d-flex justify-content-between mt-4'>
-                        <button type="button" className='btn-edit-notifi btn-edit-notifi-cancel btn-transform-y2' onClick={onClose}>Trờ về</button>
-                        <button type="submit" className='btn-edit-notifi btn-edit-notifi-save btn-transform-y2'>Lưu</button>
+                        <button type="button" className='btn-trove-all btn-style btn-transform-y2' onClick={onClose}>Trờ về</button>
+                        <button type="submit" className='btn-luu-all btn-style btn-transform-y2'>Lưu</button>
                     </div>
                 </form>
             </div>
