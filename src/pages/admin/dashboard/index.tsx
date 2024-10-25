@@ -1,38 +1,87 @@
 import { MyChart, ChartProps } from "./components/chart";
 import tk from '@/assets/images/backgrounds/img-login.png'
+import { Room, getAvailableRoomApi, Revenue, getRevenueStatisticApi, Percentage, getPercentageApi } from '@/services/api/authApi'
+import { useEffect, useState } from 'react';
 
 
 export const Dashboard = () => {
 
-    const profit: ChartProps = {
-        data: {
-            options: {
-                chart: {
-                    id: 'barChart',
-                    toolbar: {
-                        show: false,
-                    }
-                },
-                xaxis: {
-                    categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997],
-                    axisBorder: {
-                        show: false
-                    },
-                    axisTicks: {
-                        show: false
-                    },
-                },
-            },
-            series: [
-                {
-                    name: 'Số liệu',
-                    data: [30, 40, 35, 50, 49, 60, 70],
-                },
-            ],
-            type: "bar" as "bar",
-            id: "profit"
-        }
-    }
+    const [rooms, setRooms] = useState<Room[]>([]);
+
+    useEffect(() => {
+        const fetchRooms = async (data: Room) => {
+            try {
+                const response = await getAvailableRoomApi(data);
+                if (response.status === 200) {
+                    setRooms(response.data.data);
+                }
+            } catch (error) {
+                console.error("Error fetching available rooms:", error);
+            }
+        };
+
+        fetchRooms({ motelName: "", address: "", availableRooms: 0, status: 0 });
+    }, []);
+
+    const [revenueData, setRevenueData] = useState<ChartProps | null>(null);
+
+    useEffect(() => {
+        const fetchRevenue = async (data: Revenue) => {
+            try {
+                const response = await getRevenueStatisticApi(data);
+
+                if (response.status === 200) {
+                    const formattedData = {
+                        data: {
+                            options: {
+                                chart: {
+                                    id: 'revenueChart',
+                                    toolbar: {
+                                        show: false,
+                                    },
+                                },
+                                xaxis: {
+                                    categories: response.data.map((item: { month: string }) => item.month),
+                                },
+                            },
+                            series: [
+                                {
+                                    name: 'Doanh thu',
+                                    data: response.data.map((item: { revenue: number }) => item.revenue),
+                                },
+                            ],
+                            type: 'bar' as 'bar',
+                            id: 'revenue',
+                        },
+                    };
+                    setRevenueData(formattedData);
+                }
+            } catch (error) {
+                console.error("Error fetching revenue data:", error);
+            }
+        };
+        fetchRevenue({ month: "", revenue: 0 });
+
+    }, []);
+
+    const [percentageData, setPercentageData] = useState<Percentage[]>([]);
+
+    useEffect(() => {
+        const fetchPercentage = async (data: Percentage) => {
+            try {
+                const response = await getPercentageApi(data);
+                if (response.data.code === 200) {
+                    setPercentageData(response.data.data)
+                }
+            } catch (error) {
+                console.error("Error fetching percentage:", error);
+            }
+        };
+        fetchPercentage({ name: "", percentage: 0 });
+    }, []);
+
+
+
 
     const grade: ChartProps = {
         data: {
@@ -43,13 +92,13 @@ export const Dashboard = () => {
                         show: false,
                     }
                 },
-                labels: ['A', 'B', 'C', 'D', 'E']
+                labels: percentageData.map(item => item.name),
             },
-            series: [10, 20, 30, 40],
+            series: percentageData.map(item => item.percentage),
             type: "donut" as "donut",
             id: "grade"
         }
-    }
+    };
 
     const earning: ChartProps = {
         data: {
@@ -133,7 +182,7 @@ export const Dashboard = () => {
                                     </ul>
                                 </div>
                             </div>
-                            <MyChart data={profit.data} />
+                            {revenueData && <MyChart data={revenueData.data} />}
                         </div>
                     </div>
                 </div>
@@ -222,137 +271,50 @@ export const Dashboard = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <div className="d-flex align-items-center">
-                                                <div className="me-4">
-                                                    <img
-                                                        src={tk}
-                                                        width="50"
-                                                        className="rounded-circle"
-                                                        alt=""
-                                                    />
-                                                </div>
+                                    {rooms.map((rooms, index) => (
+                                        <tr key={index}>
+                                            <td>
+                                                <div className="d-flex align-items-center">
+                                                    <div className="me-4">
+                                                        <img
+                                                            src={tk}
+                                                            width="50"
+                                                            className="rounded-circle"
+                                                            alt=""
+                                                        />
+                                                    </div>
 
-                                                <div>
-                                                    <h6 className="mb-1 fw-bolder">ID12345</h6>
-                                                    <p className="fs-3 mb-0">Account1</p>
+                                                    <div>
+                                                        <h6 className="mb-1 fw-bolder">ID12345</h6>
+                                                        <p className="fs-3 mb-0">{rooms.motelName}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p className="fs-3 fw-normal mb-0">123 BMT - Tân an</p>
-                                        </td>
-                                        <td>
-                                            <p className="fs-3 fw-normal mb-0 text-success">
-                                                53
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className="badge bg-light-success rounded-pill text-success px-3 py-2 fs-3"
-                                            >Hoạt động</span>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                            <td>
+                                                <p className="fs-3 fw-normal mb-0">{rooms.address}</p>
+                                            </td>
+                                            <td>
+                                                <p className="fs-3 fw-normal mb-0 text-success">
+                                                    {rooms.availableRooms}
+                                                </p>
+                                            </td>
+                                            <td>
+                                                {rooms.status === 1 && (
+                                                    <span className="badge bg-light-success rounded-pill text-success px-3 py-2 fs-3">Hoạt động</span>
+                                                )}
+                                                {rooms.status === 2 && (
+                                                    <span className="badge bg-light-primary rounded-pill text-primary px-3 py-2 fs-3">Chưa biết ghi gì</span>
+                                                )}
+                                                {rooms.status === 3 && (
+                                                    <span className="badge bg-light-danger rounded-pill text-danger px-3 py-2 fs-3">Khóa</span>
+                                                )}
+                                                {rooms.status === 4 && (
+                                                    <span className="badge bg-light-warning rounded-pill text-warning px-3 py-2 fs-3">Đang sửa</span>
+                                                )}
+                                            </td>
+                                        </tr>
+                                    ))}
 
-                                    <tr>
-                                        <td>
-                                            <div className="d-flex align-items-center">
-                                                <div className="me-4">
-                                                    <img
-                                                        src={tk}
-                                                        width="50"
-                                                        className="rounded-circle"
-                                                        alt=""
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <h6 className="mb-1 fw-bolder">ID12222</h6>
-                                                    <p className="fs-3 mb-0">Account2</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p className="fs-3 fw-normal mb-0">123 BMT</p>
-                                        </td>
-                                        <td>
-                                            <p className="fs-3 fw-normal mb-0 text-success">
-                                                68
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className="badge bg-light-primary rounded-pill text-primary px-3 py-2 fs-3"
-                                            >Chưa biết ghi gì</span>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div className="d-flex align-items-center">
-                                                <div className="me-4">
-                                                    <img
-                                                        src={tk}
-                                                        width="50"
-                                                        className="rounded-circle"
-                                                        alt=""
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <h6 className="mb-1 fw-bolder">ID01234</h6>
-                                                    <p className="fs-3 mb-0">Acount3</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p className="fs-3 fw-normal mb-0">999 BMT</p>
-                                        </td>
-                                        <td>
-                                            <p className="fs-3 fw-normal mb-0 text-success">
-                                                94
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className="badge bg-light-danger rounded-pill text-danger px-3 py-2 fs-3"
-                                            >Khóa</span>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <div className="d-flex align-items-center">
-                                                <div className="me-4">
-                                                    <img
-                                                        src={tk}
-                                                        width="50"
-                                                        className="rounded-circle"
-                                                        alt=""
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <h6 className="mb-1 fw-bolder">ID83737</h6>
-                                                    <p className="fs-3 mb-0">Account4</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p className="fs-3 fw-normal mb-0">150 BMT</p>
-                                        </td>
-                                        <td>
-                                            <p className="fs-3 fw-normal mb-0 text-success">
-                                                27
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className="badge bg-light-warning rounded-pill text-warning px-3 py-2 fs-3"
-                                            >Đang sửa</span>
-                                        </td>
-                                    </tr>
                                 </tbody>
                             </table>
                         </div>
