@@ -67,18 +67,18 @@ export const Notification: React.FC = () => {
       <div className="row align-items-stretch">
         <div className="card w-100">
           <div className="card-body p-4">
-            <div className="d-flex justify-content-between">
-              <div className="d-flex mb-4 flex-wrap">
+          <div className="d-flex justify-content-between mb-4">
+          <div className="d-flex flex-wrap">
 
-                <a href="#" className="btn text-white btn-sm btn-duyet px-3 py-2 mx-2 mb-3 btn-transform-y2">
+                <a href="#" className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center">
                   Đã gửi
                 </a>
-                <a href="#" className="btn text-white btn-sm btn-tuchoi px-3 py-2 mx-2 mb-3 btn-transform-y2">
+                <a href="#" className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center">
 
                   Chưa gửi
                 </a>
               </div>
-              <div className="px-2 py-2">
+              <div className="">
                 <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
                   <FontAwesomeIcon icon={faPlus} size="lg" color="#fffffff" className="icon-table-motel me-3" />Thêm thông báo
                 </button>
