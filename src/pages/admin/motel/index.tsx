@@ -32,31 +32,31 @@ export const Motel: React.FC = () => {
             <div className="d-flex mb-4 flex-wrap">
               <a
                 href="#"
-                className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
+                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-1 btn-transform-y2 d-flex align-items-center padding-y-9px"
               >
                 Tất cả
               </a>
               <a
                 href="#"
-                className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
+                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-1 btn-transform-y2 d-flex align-items-center padding-y-9px"
               >
                 Duyệt
               </a>
               <a
                 href="#"
-                className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
+                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-1 btn-transform-y2 d-flex align-items-center padding-y-9px"
               >
                 Từ chối
               </a>
               <a
                 href="#"
-                className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
+                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
               >
                 Mở khóa
               </a>
               <a
                 href="#"
-                className="btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
+                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
               >
                 Khóa
               </a>

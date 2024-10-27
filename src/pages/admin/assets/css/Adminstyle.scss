@@ -23,6 +23,16 @@
   }
 
   
+  .btn-filter {
+    background-color: #FFFFFF;
+    color: #0b1a46;
+  
+    &:hover {
+      background-color: #298B90; // Màu nền đậm hơn khi hover
+      color: #ffffff;
+    }
+  }
+
 .btn-style{
   width: 45%;
   --bs-btn-padding-x         : 27px;
@@ -170,9 +180,28 @@
                 &:hover{
                     color: #298B90;
                 }
-    
+
             }
+            
+
         }
+      }
+
+      .icon-Camera-AddAccount{
+        z-index: 1;
+        border: 1px solid #D9D9D9;
+        max-width: 120px;
+        aspect-ratio: 1/1;
+        width: 80px; /* kích thước theo nhu cầu */
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #298B90;
+        top:-3.5rem;
+        left: 40%;
+        background-color: #ffffff;
+        
       }
 
 
