@@ -1,12 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./styles/stylemotel.scss";
 import {
-  faHouseCircleCheck,
-  faHouseCircleXmark,
-  faHouseLock,
-  faHouseMedicalCircleExclamation,
+	faEllipsis,
+  faLock,
+  faRectangleXmark,
   faSquareCheck,
-  faUnlock,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ModalThaotac from "./component/ModalThaotac";
@@ -106,7 +104,7 @@ export const Motel: React.FC = () => {
           <Link to="#" className=" px-2 py-1 mx-1 btn-transform-y2">
             {/* onClick={() => handleOpenModal('khoa')}> */}
             <FontAwesomeIcon
-              icon={faHouseCircleXmark}
+              icon={faRectangleXmark}
               color="#298b90"
               size="2xl"
               className="icon-table-motel"
@@ -120,9 +118,9 @@ export const Motel: React.FC = () => {
         <>
           <Link to="#" className=" px-2 py-1 mx-1 btn-transform-y2">
             <FontAwesomeIcon
-              icon={faHouseLock}
+              icon={faLock}
               color="#298b90"
-			  size="2xl"
+              size="2xl"
               className="icon-table-motel"
               onClick={() => HandleLock(id)}
             />{" "}
@@ -189,7 +187,7 @@ export const Motel: React.FC = () => {
             <div className="d-flex mb-4 flex-wrap">
               <a
                 href="#"
-                className={`btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
                   activeFilter === null ? "active-filter-motel" : ""
                 }`}
                 onClick={() => HandleFilter(null)}
@@ -198,7 +196,7 @@ export const Motel: React.FC = () => {
               </a>
               <a
                 href="#"
-                className={`btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
                   activeFilter === 1 ? "active-filter-motel" : ""
                 }`}
                 onClick={() => HandleFilter(1)}
@@ -207,7 +205,7 @@ export const Motel: React.FC = () => {
               </a>
               <a
                 href="#"
-                className={`btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
                   activeFilter === 2 ? "active-filter-motel" : ""
                 }`}
                 onClick={() => HandleFilter(2)}
@@ -216,7 +214,7 @@ export const Motel: React.FC = () => {
               </a>
               <a
                 href="#"
-                className={`btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
                   activeFilter === 3 ? "active-filter-motel" : ""
                 }`}
                 onClick={() => HandleFilter(3)}
@@ -225,7 +223,7 @@ export const Motel: React.FC = () => {
               </a>
               <a
                 href="#"
-                className={`btn btn-filter-motel btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
                   activeFilter === 4 ? "active-filter-motel" : ""
                 }`}
                 onClick={() => HandleFilter(4)}
@@ -266,7 +264,7 @@ export const Motel: React.FC = () => {
                           className=" px-2 py-1 mx-1 btn-transform-y2"
                         >
                           <FontAwesomeIcon
-                            icon={faHouseMedicalCircleExclamation}
+                            icon={faEllipsis}
                             size="2xl"
                             color="#298b90"
                             className="icon-table-motel"
@@ -394,7 +392,39 @@ export const Motel: React.FC = () => {
                   </tr> */}
                 </tbody>
               </table>
+
             </div>
+			<div className="w-100 d-flex justify-content-center mt-3">
+              <nav aria-label="Page navigation example">
+                <ul className="pagination">
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#">
+                      1
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#">
+                      2
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#">
+                      3
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+			  </div>
           </div>
         </div>
       </div>
