@@ -125,3 +125,4 @@ export const getPercentageApi = async (percentage: Percentage) => {
     return axios.get(API.PERCENTAGE, { params: percentage })
 }
 
+

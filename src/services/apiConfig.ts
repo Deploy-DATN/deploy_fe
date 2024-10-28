@@ -10,6 +10,11 @@ export enum API {
     AVAILABLEROOM = 'https://localhost:7299/api/statistical/available-motels',
     REVENUESTATISTIC = 'https://localhost:7299/api/statistical/last-six-months',
     PERCENTAGE = 'https://localhost:7299/api/statistical/expense-percentage',
-    TICKETS='https://localhost:7299/api/Ticket/Tickets'
+    TICKETS='https://localhost:7299/api/Ticket/Tickets',
+    GETALLMOTEL = `https://localhost:7299/Room/get-all-room-by-admin`,
+    GETMOTELBYID = `https://localhost:7299/Room/get-motel-by-id`
 }
+
+export const API_URL = 'https://localhost:7299';
+
 

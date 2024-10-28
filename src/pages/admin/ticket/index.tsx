@@ -2,8 +2,8 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import "src/pages/admin/ticket/styleticket.scss"
-import styles from './styles/styleticket.module.scss'
 import Infoticket from "./component/Infoticket";
+import styles from './styles/styleticket.module.scss'
 import clsx from "clsx";
 
 import { getTickets, Data } from "@/services/api/ticketApi";
@@ -128,6 +128,37 @@ export const Ticket: React.FC = () => {
                 </tbody>
               </table>
             </div>
+            <div className="w-100 d-flex justify-content-center mt-3">
+              <nav aria-label="Page navigation example">
+                <ul className="pagination">
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#">
+                      1
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#">
+                      2
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#">
+                      3
+                    </a>
+                  </li>
+                  <li className="page-item">
+                    <a className="page-link  btn-filter" href="#" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+			  </div>
           </div>
         </div>
         {showModal && selectedTicket && (
