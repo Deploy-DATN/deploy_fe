@@ -4,7 +4,6 @@ import { useState } from "react";
 import "src/pages/admin/ticket/styleticket.scss"
 import Infoticket from "./component/Infoticket";
 import styles from './styles/styleticket.module.scss'
-import Infoticket from "./component/Infoticket";
 import clsx from "clsx";
 
 export const Ticket: React.FC = () => {
