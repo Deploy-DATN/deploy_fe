@@ -52,7 +52,7 @@ export const Infomotel = () => {
 										type='text'
 										id='title'
 										className='form-control mt-2 input-motel-info'
-										value={dataMotel?.owner.fullName}
+										value={dataMotel?.owner?.fullName}
 									/>
 								</div>{' '}
 								<div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2'>
@@ -86,7 +86,7 @@ export const Infomotel = () => {
 										type='text'
 										id='title'
 										className='form-control mt-2 input-motel-info'
-										value={dataMotel?.price.electric}
+										value={dataMotel?.price?.electric}
 									/>
 								</div>
 								<div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2'>
@@ -99,7 +99,7 @@ export const Infomotel = () => {
 										type='text'
 										id='title'
 										className='form-control mt-2 input-motel-info'
-										value={dataMotel?.lastPrice.electric}
+										value={dataMotel?.lastPrice?.electric}
 									/>
 								</div>
 								<div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2'>
@@ -132,7 +132,7 @@ export const Infomotel = () => {
 										type='text'
 										id='title'
 										className='form-control mt-2 input-motel-info'
-										value={dataMotel?.price.water}
+										value={dataMotel?.price?.water}
 									/>
 								</div>
 								<div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2'>
@@ -145,7 +145,7 @@ export const Infomotel = () => {
 										type='text'
 										id='title'
 										className='form-control mt-2 input-motel-info'
-										value={dataMotel?.lastPrice.water}
+										value={dataMotel?.lastPrice?.water}
 									/>
 								</div>
 								<div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2'>
@@ -171,7 +171,7 @@ export const Infomotel = () => {
 										type='text'
 										id='title'
 										className='form-control mt-2 input-motel-info'
-										value={dataMotel?.price.other}
+										value={dataMotel?.price?.other}
 									/>
 								</div>
 								<div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2'>
@@ -184,7 +184,7 @@ export const Infomotel = () => {
 										type='text'
 										id='title'
 										className='form-control mt-2 input-motel-info'
-										value={dataMotel?.lastPrice.other}
+										value={dataMotel?.lastPrice?.other}
 									/>
 								</div>
 								<div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2'>
@@ -207,7 +207,7 @@ export const Infomotel = () => {
 										Hình ảnh
 									</label>
 									<div className='row flex-wrap'>
-										{dataMotel?.images.map((image) => (
+										{dataMotel?.images?.map((image) => (
 											<div
 												key={image.id}
 												className=' col-3 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2 mt-2 px-3'>
