@@ -31,6 +31,6 @@ export const ApproveMotel = async (id: number) => {
 }
 
 export const LockMotel = async (id: number) => {
-    const response = (await axios.put<ResponseDTO<null>>(`${API_URL}/Room/deactivate/${id}`));
+    const response = (await axios.put<ResponseDTO<null>>(`${API_URL}/Room/lock/${id}`));
     return response.data.message;
 }
