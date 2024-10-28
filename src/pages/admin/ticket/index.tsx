@@ -3,7 +3,7 @@ import { faEllipsis, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import "src/pages/admin/ticket/styleticket.scss"
-import Infoticket from "./component/infoticket";
+import Infoticket from "./component/Infoticket";
 
 export const Ticket : React.FC = () => {
     const [showModal, setShowModal] = useState(false);

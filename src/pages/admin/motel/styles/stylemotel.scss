@@ -349,3 +349,29 @@ padding-top: calc(75px + 15px);
       color: #298B90;
   }
 }
+
+.active-filter-motel{
+  background-color: #00b075;
+  color: #ffffff;
+}
+.active-filter-motel:hover{
+  background-color: #00b075;
+  color: #ffffff;
+}
+
+.table-motel {
+  tr {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: rgba(41, 139, 144, 0.05);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    td {
+      padding: 15px 10px;
+      vertical-align: middle;
+    }
+  }
+}

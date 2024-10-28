@@ -8,7 +8,7 @@ import { Motel } from './motel'
 import { Notification } from './notification'
 import { Ticket } from './ticket'
 import '../admin/assets/css/Adminstyle.scss';
-import Infomotel from './motel/component/infomotel'
+import {Infomotel } from './motel/component/infomotel'
 import IndexOwner from './motel/component/indexOwner'
 import AddMotelOwner from './motel/component/addmotel'
 
@@ -21,7 +21,7 @@ export const Admin = () => {
                 <Route path="account" element={<Account />} />
                 <Route path="motel">
                     <Route index element={<Motel />} />
-                    <Route path='infomotel' element={<Infomotel />} />
+                    <Route path='infomotel/:id' element={<Infomotel />} />
                     <Route path='indexOwner' element={<IndexOwner />} />
                     <Route path='addModelOwner' element={<AddMotelOwner />} />
                 </Route>
