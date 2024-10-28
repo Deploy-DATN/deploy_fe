@@ -9,6 +9,7 @@ export enum API {
     UPDATE_NOTI = 'https://localhost:7299/api/Noti/',
     AVAILABLEROOM = 'https://localhost:7299/api/statistical/available-motels',
     REVENUESTATISTIC = 'https://localhost:7299/api/statistical/last-six-months',
-    PERCENTAGE = 'https://localhost:7299/api/statistical/expense-percentage'
+    PERCENTAGE = 'https://localhost:7299/api/statistical/expense-percentage',
+    TICKETS='https://localhost:7299/api/Ticket/Tickets'
 }
 

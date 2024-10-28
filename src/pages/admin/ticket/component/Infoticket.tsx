@@ -1,12 +1,20 @@
 import React from "react";
 import img from "src/pages/admin/assets/images/products/s5.jpg"
 
-const Infoticket: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+import { Data } from "@/services/api/ticketApi";
+
+interface Props {
+  data: Data;
+  onClose: () => void;
+}
+
+const Infoticket: React.FC<Props> = ({ data, onClose }) => {
+  console.log(data);
   return (
     <>
       <div className="modal-overlay-admin">
         <div className="modal-content-admin position-relative">
-        <div className="">
+          <div className="">
             <h2 className="h2-modal-admin">Chi tiết</h2>
             {/* <button
               className="btn-close-modal position-absolute"
@@ -24,7 +32,8 @@ const Infoticket: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 type="text"
                 id="title"
                 className="form-control mt-2"
-                placeholder="Nội dung"
+                value={data.content}
+                disabled
               />
             </div>
             <div className="row form-group mt-3">
@@ -36,7 +45,8 @@ const Infoticket: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   type="text"
                   id="title"
                   className="form-control mt-2"
-                  placeholder="Người yêu cầu"
+                  value={data.userName}
+                  disabled
                 />
               </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
@@ -47,7 +57,7 @@ const Infoticket: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   type="text"
                   id="title"
                   className="form-control mt-2"
-                  placeholder="Người tiếp nhận"
+                  value={data.receiver ? data.receiver :"Chưa có"}
                 />
               </div>
             </div>
@@ -60,7 +70,7 @@ const Infoticket: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   type="date"
                   id="title"
                   className="form-control mt-2"
-                  placeholder="Ngày tạo"
+                  value={new Date().toISOString().split('T')[0]}
                 />
               </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
@@ -71,26 +81,25 @@ const Infoticket: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   type="text"
                   id="title"
                   className="form-control mt-2"
-                  placeholder="Tiến trình"
+                  value={data.status === 1 ? "Tiếp nhận" : data.status === 2 ? "Đang sử lý" : data.status === 3 ? "Hoàn thành" : "Chưa có"}
                 />
               </div>
             </div>
             <div className="col-12 form-group mt-3 px-2">
-                  <label htmlFor="title" className="label-motel-info">
-                    Hình ảnh
-                  </label>
-                  <div className="row flex-wrap">
-                      <div
-                        className="col-3 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2 mt-2 px-3 position-relative"
-                      >
-                        <img
-                          src={img}
-                          className="rounded-img-info-model img-fluid"
-                          alt="Không có ảnh"
-                        />
-                      </div>
+              <div className="row">
+                <div className="col-8">
+                  <img src="https://placehold.co/250x150" className="w-100 h-100" alt="" />
+                </div>
+                <div className="col-4">
+                  <div className="row">
+                    <img src="https://placehold.co/250x150" className="w-100 h-100" alt="" />
+                  </div>
+                  <div className="row mt-3">
+                    <img src="https://placehold.co/250x150" className="w-100 h-100" alt="" />
                   </div>
                 </div>
+              </div>
+            </div>
             <div className="d-flex justify-content-between mt-4">
               <button
                 type="button"
