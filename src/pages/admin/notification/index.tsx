@@ -1,6 +1,7 @@
 
 import CreateNotification from "./component/CreateNotification";
 import EditNotification from "./component/EditNotification";
+import SendNotification from "./component/SendNotification"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
@@ -12,8 +13,11 @@ import Swal from 'sweetalert2';
 export const Notification: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showSendPopup, setShowSendPopup] = useState(false);
   const [currentNotification, setCurrentNotification] = useState<Noti | null>(null);
   const [notifications, setNotifications] = useState<Noti[]>([]);
+
+
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -28,12 +32,23 @@ export const Notification: React.FC = () => {
   const handleOpenEditModal = (noti: Noti) => {
     setCurrentNotification(noti);
     setShowEditModal(true);
+    setShowSendPopup(false);
   };
 
   const handleCloseEditModal = () => {
     setShowEditModal(false);
     setCurrentNotification(null);
   };
+
+  const handleOpenSendPopup = (noti: Noti) => {
+    setCurrentNotification(noti); // Gán thông báo hiện tại
+    setShowSendPopup(true);
+    setShowEditModal(false); // Đóng edit popup nếu đang mở
+  };
+  const handleCloseSendPopup = () => {
+    setShowSendPopup(false);
+    setCurrentNotification(null);
+  }
 
 
   useEffect(() => {
@@ -67,8 +82,8 @@ export const Notification: React.FC = () => {
       <div className="row align-items-stretch">
         <div className="card w-100">
           <div className="card-body p-4">
-          <div className="d-flex justify-content-between mb-4">
-          <div className="d-flex flex-wrap">
+            <div className="d-flex justify-content-between mb-4">
+              <div className="d-flex flex-wrap">
 
                 <a href="#" className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center">
                   Đã gửi
@@ -139,6 +154,7 @@ export const Notification: React.FC = () => {
                         <a
                           href="#"
                           className="btn text-white btn-sm btn-chitiet px-3 py-2 mx-2"
+                          onClick={() => handleOpenSendPopup(noti)}
                         >
                           Gửi
                         </a>
@@ -178,7 +194,7 @@ export const Notification: React.FC = () => {
                   </li>
                 </ul>
               </nav>
-			  </div>
+            </div>
             {/* EditNotification Popup */}
             {showEditModal && currentNotification && (
               <EditNotification
@@ -189,6 +205,13 @@ export const Notification: React.FC = () => {
                   content: currentNotification.content,
                 }}
                 onClose={handleCloseEditModal}
+              />
+            )}
+
+            {showSendPopup && currentNotification && (
+              <SendNotification
+                notificationId={currentNotification.id}
+                onClose={handleCloseSendPopup}
               />
             )}
 
