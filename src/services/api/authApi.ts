@@ -68,6 +68,12 @@ export interface Percentage {
     percentage: number
 }
 
+export interface SendNoti {
+    roleName: string,
+    notificationId: number
+
+}
+
 
 
 // API đăng nhập
@@ -109,6 +115,10 @@ export const postAddNotiApi = async (addNoti: AddNoti) => {
 
 export const postUpdateNotiApi = async (notificationId: number, updateNoti: UpdateNoti) => {
     return await axios.put(`${API.UPDATE_NOTI}${notificationId}`, updateNoti);
+}
+
+export const postSendNotiApi = async (roleName: string, notificationId: number, sendNoti: SendNoti) => {
+    return await axios.post(`${API.SENDNOTI}${roleName}/${notificationId}`, sendNoti)
 }
 
 //API thống kê
