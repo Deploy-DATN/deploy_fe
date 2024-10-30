@@ -1,4 +1,4 @@
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import "src/pages/admin/ticket/styleticket.scss"
@@ -42,6 +42,18 @@ export const Ticket: React.FC = () => {
       <div className="row align-items-stretch">
         <div className="card w-100">
           <div className="card-body p-4">
+          <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 className="header-name-all">Quản lý ticket</h2>
+              </div>
+              <div>
+                {" "}
+                <div className="">
+                  {/* button thêm */}
+                </div>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between my-4">
             <div className={clsx(styles.blockFilter, "d-flex mb-4 flex-wrap")}>
               <a
                 href="#"
@@ -67,6 +79,25 @@ export const Ticket: React.FC = () => {
               >
                 Sử lý
               </a>
+            </div>
+              <div>
+                <div className="input-group">
+                  <div className="input-group-text">
+                    <FontAwesomeIcon
+                      icon={faSearch}
+                      size="lg"
+                      color="#0B1A46"
+                      className="form-check-input mt-0 border border-0"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Text input with radio button"
+                    placeholder="Tìm kiếm"
+                  ></input>
+                </div>
+              </div>
             </div>
             <div className="table-responsive" data-simplebar>
               <table className="table-ticket table table-borderless align-middle text-nowrap">

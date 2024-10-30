@@ -1,18 +1,19 @@
-
 import CreateNotification from "./component/CreateNotification";
 import EditNotification from "./component/EditNotification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { getListNotiApi, Noti } from '@/services/api/authApi';
-import Swal from 'sweetalert2';
+import { getListNotiApi, Noti } from "@/services/api/authApi";
+import Swal from "sweetalert2";
 
 export const Notification: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [currentNotification, setCurrentNotification] = useState<Noti | null>(null);
+  const [currentNotification, setCurrentNotification] = useState<Noti | null>(
+    null
+  );
   const [notifications, setNotifications] = useState<Noti[]>([]);
 
   const handleOpenModal = () => {
@@ -35,7 +36,6 @@ export const Notification: React.FC = () => {
     setCurrentNotification(null);
   };
 
-
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -44,18 +44,18 @@ export const Notification: React.FC = () => {
           setNotifications(response.data.data);
         } else {
           Swal.fire({
-            icon: 'error',
-            title: 'Lỗi!',
-            text: 'Không thể lấy danh sách thông báo',
+            icon: "error",
+            title: "Lỗi!",
+            text: "Không thể lấy danh sách thông báo",
           });
         }
       } catch (error) {
         Swal.fire({
-          icon: 'error',
-          title: 'Lỗi!',
-          text: 'Đã có lỗi xảy ra khi gọi API',
+          icon: "error",
+          title: "Lỗi!",
+          text: "Đã có lỗi xảy ra khi gọi API",
         });
-        console.error('Lỗi API:', error);
+        console.error("Lỗi API:", error);
       }
     };
 
@@ -67,23 +67,64 @@ export const Notification: React.FC = () => {
       <div className="row align-items-stretch">
         <div className="card w-100">
           <div className="card-body p-4">
-          <div className="d-flex justify-content-between mb-4">
-          <div className="d-flex flex-wrap">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 className="header-name-all">Quản lý thông báo</h2>
+              </div>
+              <div>
+                {" "}
+                <div className="">
+                  <button
+                    className="btn btn-create-notification btn-transform-y2"
+                    onClick={handleOpenModal}
+                  >
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      size="lg"
+                      color="#fffffff"
+                      className="icon-table-motel me-3"
+                    />
+                    Thêm thông báo
+                  </button>
 
-                <a href="#" className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center">
+                  {showModal && (
+                    <CreateNotification onClose={handleCloseModal} />
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between my-4">
+              <div className="d-flex flex-wrap">
+                <a
+                  href="#"
+                  className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
+                >
                   Đã gửi
                 </a>
-                <a href="#" className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center">
-
+                <a
+                  href="#"
+                  className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
+                >
                   Chưa gửi
                 </a>
               </div>
-              <div className="">
-                <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
-                  <FontAwesomeIcon icon={faPlus} size="lg" color="#fffffff" className="icon-table-motel me-3" />Thêm thông báo
-                </button>
-
-                {showModal && <CreateNotification onClose={handleCloseModal} />}
+              <div>
+                <div className="input-group">
+                  <div className="input-group-text">
+                    <FontAwesomeIcon
+                      icon={faSearch}
+                      size="lg"
+                      color="#0B1A46"
+                      className="form-check-input mt-0 border border-0"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Text input with radio button"
+                    placeholder="Tìm kiếm"
+                  ></input>
+                </div>
               </div>
             </div>
 
@@ -152,7 +193,11 @@ export const Notification: React.FC = () => {
               <nav aria-label="Page navigation example">
                 <ul className="pagination">
                   <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Previous">
+                    <a
+                      className="page-link  btn-filter"
+                      href="#"
+                      aria-label="Previous"
+                    >
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
@@ -172,13 +217,17 @@ export const Notification: React.FC = () => {
                     </a>
                   </li>
                   <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Next">
+                    <a
+                      className="page-link  btn-filter"
+                      href="#"
+                      aria-label="Next"
+                    >
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
                 </ul>
               </nav>
-			  </div>
+            </div>
             {/* EditNotification Popup */}
             {showEditModal && currentNotification && (
               <EditNotification
@@ -191,11 +240,9 @@ export const Notification: React.FC = () => {
                 onClose={handleCloseEditModal}
               />
             )}
-
           </div>
         </div>
       </div>
     </div>
   );
 };
-

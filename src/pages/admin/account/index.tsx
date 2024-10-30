@@ -2,6 +2,7 @@ import tk from "@/assets/images/backgrounds/img-login.png";
 import {
   faPenToSquare,
   faPlus,
+  faSearch,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -33,8 +34,26 @@ export const Account  : React.FC = () => {
         <div className="row align-items-stretch">
           <div className="card w-100">
             <div className="card-body p-4">
-              <div className="d-flex justify-content-between mb-4">
-                <div className="d-flex  flex-wrap">
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 className="header-name-all">Quản lý tài khoản</h2>
+              </div>
+              <div>
+              <div className="">
+                  <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      size="lg"
+                      color="#fffffff"
+                      className="icon-table-motel me-3"
+                    />
+                    Thêm tài khoản
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between my-4">
+            <div className="d-flex  flex-wrap">
                   <a
                     href="#"
                     className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
@@ -60,18 +79,25 @@ export const Account  : React.FC = () => {
                     Nhân viên
                   </a>
                 </div>
-                <div className="">
-                  <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
+              <div>
+                <div className="input-group">
+                  <div className="input-group-text">
                     <FontAwesomeIcon
-                      icon={faPlus}
+                      icon={faSearch}
                       size="lg"
-                      color="#fffffff"
-                      className="icon-table-motel me-3"
+                      color="#0B1A46"
+                      className="form-check-input mt-0 border border-0"
                     />
-                    Thêm tài khoản
-                  </button>
+                  </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Text input with radio button"
+                    placeholder="Tìm kiếm"
+                  ></input>
                 </div>
               </div>
+            </div>
 
               <div className="table-responsive mt-3" data-simplebar>
                 <table className="test-table table table-borderless align-middle text-nowrap">
