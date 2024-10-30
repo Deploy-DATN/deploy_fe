@@ -11,6 +11,7 @@ import '../admin/assets/css/Adminstyle.scss';
 import {Infomotel } from './motel/component/infomotel'
 import IndexOwner from './motel/component/indexOwner'
 import AddMotelOwner from './motel/component/addmotel'
+import EditMotelOwner from './motel/component/editmotel'
 
 
 export const Admin = () => {
@@ -22,8 +23,11 @@ export const Admin = () => {
                 <Route path="motel">
                     <Route index element={<Motel />} />
                     <Route path='infomotel/:id' element={<Infomotel />} />
-                    <Route path='indexOwner' element={<IndexOwner />} />
+                </Route>
+                <Route path="indexOwner">
+                    <Route index element={<IndexOwner />} />
                     <Route path='addModelOwner' element={<AddMotelOwner />} />
+                    <Route path='EditModelOwner' element={<EditMotelOwner />} />
                 </Route>
                 <Route path="notification" element={<Notification />} />
                 <Route path="ticket" element={<Ticket />} />

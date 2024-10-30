@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./styles/stylemotel.scss";
 import {
-	faEllipsis,
+  faEllipsis,
   faLock,
   faRectangleXmark,
+  faSearch,
   faSquareCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -184,52 +185,79 @@ export const Motel: React.FC = () => {
       <div className="row align-items-stretch">
         <div className="card w-100">
           <div className="card-body p-4">
-            <div className="d-flex mb-4 flex-wrap">
-              <a
-                href="#"
-                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                  activeFilter === null ? "active-filter-motel" : ""
-                }`}
-                onClick={() => HandleFilter(null)}
-              >
-                Tất cả
-              </a>
-              <a
-                href="#"
-                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                  activeFilter === 1 ? "active-filter-motel" : ""
-                }`}
-                onClick={() => HandleFilter(1)}
-              >
-                Chờ duyệt
-              </a>
-              <a
-                href="#"
-                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                  activeFilter === 2 ? "active-filter-motel" : ""
-                }`}
-                onClick={() => HandleFilter(2)}
-              >
-                Đang hoạt động
-              </a>
-              <a
-                href="#"
-                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                  activeFilter === 3 ? "active-filter-motel" : ""
-                }`}
-                onClick={() => HandleFilter(3)}
-              >
-                Ngừng hoạt động
-              </a>
-              <a
-                href="#"
-                className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                  activeFilter === 4 ? "active-filter-motel" : ""
-                }`}
-                onClick={() => HandleFilter(4)}
-              >
-                Từ chối
-              </a>
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                <h2 className="header-name-all">Quản lý dãy trọ</h2>
+              </div>
+              <div></div>
+            </div>
+            <div className="d-flex justify-content-between mt-4">
+              <div className="d-flex mb-4 flex-wrap">
+                <a
+                  href="#"
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                    activeFilter === null ? "active-filter-motel" : ""
+                  }`}
+                  onClick={() => HandleFilter(null)}
+                >
+                  Tất cả
+                </a>
+                <a
+                  href="#"
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                    activeFilter === 1 ? "active-filter-motel" : ""
+                  }`}
+                  onClick={() => HandleFilter(1)}
+                >
+                  Chờ duyệt
+                </a>
+                <a
+                  href="#"
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                    activeFilter === 2 ? "active-filter-motel" : ""
+                  }`}
+                  onClick={() => HandleFilter(2)}
+                >
+                  Đang hoạt động
+                </a>
+                <a
+                  href="#"
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                    activeFilter === 3 ? "active-filter-motel" : ""
+                  }`}
+                  onClick={() => HandleFilter(3)}
+                >
+                  Ngừng hoạt động
+                </a>
+                <a
+                  href="#"
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                    activeFilter === 4 ? "active-filter-motel" : ""
+                  }`}
+                  onClick={() => HandleFilter(4)}
+                >
+                  Từ chối
+                </a>
+              </div>
+              <div>
+                 <div className="input-group">
+                  <div className="input-group-text">
+                  <FontAwesomeIcon
+                            icon={faSearch}
+                            size="lg"
+                            color="#0B1A46"
+                            className="form-check-input mt-0 border border-0"
+                          />
+                  </div>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-label="Text input with radio button"
+                    placeholder="Tìm kiếm"
+                  >
+                  </input>
+                </div> 
+              </div>
             </div>
 
             <div className="table-responsive mt-3" data-simplebar>
@@ -392,13 +420,16 @@ export const Motel: React.FC = () => {
                   </tr> */}
                 </tbody>
               </table>
-
             </div>
-			<div className="w-100 d-flex justify-content-center mt-3">
+            <div className="w-100 d-flex justify-content-center mt-3">
               <nav aria-label="Page navigation example">
                 <ul className="pagination">
                   <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Previous">
+                    <a
+                      className="page-link  btn-filter"
+                      href="#"
+                      aria-label="Previous"
+                    >
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
@@ -418,13 +449,17 @@ export const Motel: React.FC = () => {
                     </a>
                   </li>
                   <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Next">
+                    <a
+                      className="page-link  btn-filter"
+                      href="#"
+                      aria-label="Next"
+                    >
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
                 </ul>
               </nav>
-			  </div>
+            </div>
           </div>
         </div>
       </div>
