@@ -7,7 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export const AddMotelOwner = () => {
+export const EditMotelOwner = () => {
   //rút gọn giao diện
   const [isMotelInfoVisible, setIsMotelInfoVisible] = useState(true);
 
@@ -49,7 +49,7 @@ export const AddMotelOwner = () => {
     <div className="container-fluid-add-motel">
       <div className="row align-items-stretch px-0">
         <div className="w-100 text-center bg-color-theme-thostay">
-          <h2 className="">Thêm dãy trọ</h2>
+          <h2 className="">Sửa dãy trọ</h2>
         </div>
         <div className="card w-100">
           <div className="card-body p-4 info-motel">
@@ -312,4 +312,4 @@ export const AddMotelOwner = () => {
     </div>
   );
 };
-export default AddMotelOwner;
+export default EditMotelOwner;
