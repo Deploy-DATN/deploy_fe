@@ -3,6 +3,10 @@ import "../styles/stylemotel.scss";
 import {
   faCamera,
   faFile,
+  faFileAlt,
+  faFileExcel,
+  faFilePdf,
+  faFileWord,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
@@ -223,27 +227,27 @@ export const EditMotelOwner = () => {
                           alt="Không có ảnh"
                         />
                       ) : (
-                        <div className="file-display position-absolute d-flex align-items-end h-100 w-100">
+                        <div className="file-display position-absolute h-100 w-100">
                           {/* Hiển thị icon tương ứng với từng loại file */}
-                          {/* {file.type.includes("pdf") && (
+                          {file.type.includes("pdf") && (
                             <FontAwesomeIcon
                               icon={faFilePdf}
                               className="file-icon"
-                              size="3x"
+                              size="2x"
                             />
                           )}
                           {file.type.includes("word") && (
                             <FontAwesomeIcon
                               icon={faFileWord}
                               className="file-icon"
-                              size="3x"
+                              size="2x"
                             />
                           )}
                           {file.type.includes("excel") && (
                             <FontAwesomeIcon
                               icon={faFileExcel}
                               className="file-icon"
-                              size="3x"
+                              size="2x"
                             />
                           )}
                           {!file.type.includes("pdf") &&
@@ -252,11 +256,11 @@ export const EditMotelOwner = () => {
                               <FontAwesomeIcon
                                 icon={faFileAlt}
                                 className="file-icon"
-                                size="3x"
+                                size="2x"
                               />
-                            )} */}
+                            )}
                           {/* Tên file */}
-                          <p className="file-name ms-2 position-absolute">{file.name}</p>
+                          <p className="file-name mb-0">{file.name}</p>
                         </div>
                       )}
                       <button

@@ -40,12 +40,6 @@ const AddAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <div className="modal-content-admin position-relative">
           <div className="">
             <h2 className="h2-modal-admin pt-3 pb-5">Thêm tài khoản</h2>
-            {/* <button
-              className="btn-close-modal position-absolute"
-              onClick={onClose}
-            >
-              ×
-            </button> */}
           </div>
           <form className="form-admin-modal position-relative">
           <div className="icon-Camera-AddAccount rounded-circle position-absolute">

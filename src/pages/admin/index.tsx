@@ -12,6 +12,7 @@ import {Infomotel } from './motel/component/infomotel'
 import IndexOwner from './motel/component/indexOwner'
 import AddMotelOwner from './motel/component/addmotel'
 import EditMotelOwner from './motel/component/editmotel'
+import Room from './room'
 
 
 export const Admin = () => {
@@ -31,7 +32,9 @@ export const Admin = () => {
                 </Route>
                 <Route path="notification" element={<Notification />} />
                 <Route path="ticket" element={<Ticket />} />
+                <Route path="room" element={<Room />} />
                 <Route path="*" element={<Err />} />
+
             </Route>
         </Routes>
     )
