@@ -1,7 +1,6 @@
 import React from "react";
-import img from "src/pages/admin/assets/images/products/s5.jpg"
 
-import { Data } from "@/services/api/ticketApi";
+import { Data } from "@/services/Dto/ticketDto";
 
 interface Props {
   data: Data;
