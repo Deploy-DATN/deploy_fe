@@ -278,5 +278,6 @@ export const Notification: React.FC = () => {
         </div>
       </div>
     </div>
+    </div>
   );
 };
