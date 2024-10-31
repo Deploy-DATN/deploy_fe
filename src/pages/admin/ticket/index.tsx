@@ -1,13 +1,12 @@
 import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import "src/pages/admin/ticket/styleticket.scss"
 import Infoticket from "./component/Infoticket";
 import styles from './styles/styleticket.module.scss'
 import clsx from "clsx";
 
-import { getTickets, Data } from "@/services/api/ticketApi";
-import { text } from "@fortawesome/fontawesome-svg-core";
+import { getTickets } from "@/services/api/ticketApi";
+import { Data } from "@/services/Dto/ticketDto";
 
 export const Ticket: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
