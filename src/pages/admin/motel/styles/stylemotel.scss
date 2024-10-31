@@ -104,27 +104,47 @@ table {
 }
 
 //infomotel
-.info-motel {
-  .h2-info-motel {
-    font-size: 40px;
-    color: #0b1a46;
-    font-weight: 500;
-  }
+
   .form-motel-info {
-    label {
-      font-size: 20px;
-      font-weight: 500;
+    .carousel{
+      .carousel-inner{
+        width: 100%;
+        aspect-ratio: 1 / 1;
+      }
+    }
+  }
+
+
+.text-infomotel{
+  h4{
+    margin-bottom: 0;
+    margin-left: 0;
+  }
+  .text-infomotel-c2{
+    margin-left: 1rem;
+    color: #0b1a46;
+    .text-infomotel-c3{
+      font-size: 1.2rem;
+      margin-left: 1rem;
       color: #0b1a46;
     }
-    input:placeholder() {
-      font-size: 20px;
-      color: #82828c;
-    }
-    span {
-      font-size: 20px;
-    }
-    .rounded-img-info-model {
-      border-radius: 1rem;
+  }
+  .text-infomotel-c3{
+    font-size: 1.2rem;
+    margin-left: 1rem;
+    color: #0b1a46;
+    font-weight: 500;
+
+  }
+  table{
+    tbody{
+      tr{
+        border: none;
+        td{
+          padding:0.5rem !important;
+        }
+
+      }
     }
   }
 }
@@ -349,8 +369,8 @@ table {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   line-height: 1.2;           // Điều chỉnh khoảng cách giữa các dòng
-  max-height: 3.6em;          // Tương ứng với 3 dòng, có thể thay đổi
-  -webkit-line-clamp: 3;      // Giới hạn số dòng hiển thị
+  max-height: 2.6em;          // Tương ứng với 3 dòng, có thể thay đổi
+  -webkit-line-clamp: 2;      // Giới hạn số dòng hiển thị
   word-break: break-all;      // Ngắt dòng giữa từ nếu quá dài
   max-width: 100%;            // Đảm bảo tên file không vượt quá chiều rộng container
   white-space: normal;         // Cho phép xuống dòng khi cần
@@ -403,6 +423,7 @@ table {
   .h4-index-owner-motel-help {
   }
 }
+
 .index-motel {
   .table-motel-index {
     background-color: #F3F2F7 !important;
