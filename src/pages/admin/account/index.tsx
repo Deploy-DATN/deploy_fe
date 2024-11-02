@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddAccount from "./Component/addAccount";
 import { useState } from "react";
 import EditAccount from "./Component/editAccount";
+import DeleteAccount from "./Component/deleteAccount";
 
 export const Account  : React.FC = () => {
   //add account
@@ -26,6 +27,13 @@ export const Account  : React.FC = () => {
     };
     const handleCloseEditModal = () => {
       setShowEditModal(false);
+    };
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const handleOpenDeleteModal = () => {
+      setShowDeleteModal(true);
+    };
+    const handleCloseDeleteModal = () => {
+      setShowDeleteModal(false);
     };
 
   return (
@@ -148,7 +156,7 @@ export const Account  : React.FC = () => {
                         </a>
                         <a
                           href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
+                          className=" px-2 py-1 mx-1 btn-transform-y2" onClick={handleOpenDeleteModal}
                         >
                           <FontAwesomeIcon
                             icon={faTrashCan}
@@ -289,6 +297,7 @@ export const Account  : React.FC = () => {
           </div>
           {showModal && <AddAccount onClose={handleCloseModal} />}
           {showEditModal && <EditAccount onClose={handleCloseEditModal} />}
+          {showDeleteModal && <DeleteAccount onClose={handleCloseDeleteModal} />}
         </div>
       </div>
     </>
