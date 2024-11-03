@@ -1,32 +1,23 @@
 import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import "src/pages/admin/ticket/styleticket.scss"
-import Infoticket from "./component/Infoticket";
-import styles from './styles/styleticket.module.scss'
-import clsx from "clsx";
+import "./styles/styleticket.scss"
+import { getTickets } from "@/services/api/ticketApi";
+import { ParamsPage, Data } from "@/services/Dto/ticketDto";
+import { Link } from "react-router-dom";
 
-import { getTickets, Data } from "@/services/api/ticketApi";
-import { text } from "@fortawesome/fontawesome-svg-core";
+export const TicketPage: React.FC = () => {
 
-export const Ticket: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [tickets, setTikets] = useState<Data[]>();
-  const [selectedTicket, setSelectedTicket] = useState<Data | null>(null);
+  const [tickets, setTikets] = useState<Data>();
 
-  const handleOpenModal = (data: Data) => {
-    setSelectedTicket(data);
-    setShowModal(true);
-  };
+  const [activeStatus, setActiveStatus] = useState<number | undefined>(undefined);
+  const [keySearch, setKeysearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedTicket(null);
-  };
-
-  const fetchTickets = async () => {
+  const fetchTickets = async (param: ParamsPage = {}) => {
     try {
-      let res = await getTickets();
+      setActiveStatus(param.status || undefined);
+      const res = await getTickets(param);
       setTikets(res.data.data);
     } catch (error) {
       console.error('Lỗi lấy dữ liệu api:', error);
@@ -34,15 +25,27 @@ export const Ticket: React.FC = () => {
   };
 
   useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      setDebouncedSearch(keySearch);
+    }, 300);
+
+    return () => clearTimeout(delayDebounce);
+  }, [keySearch]);
+
+  useEffect(() => {
+    fetchTickets({ search: debouncedSearch });
+  }, [debouncedSearch]);
+
+  useEffect(() => {
     fetchTickets();
   }, []);
 
   return (
-    <div className={clsx(styles.ticket, "container-fluid")}>
+    <div className="container-fluid ticket">
       <div className="row align-items-stretch">
         <div className="card w-100">
           <div className="card-body p-4">
-          <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex justify-content-between align-items-center">
               <div>
                 <h2 className="header-name-all">Quản lý ticket</h2>
               </div>
@@ -53,50 +56,61 @@ export const Ticket: React.FC = () => {
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-content-between my-4">
-            <div className={clsx(styles.blockFilter, "d-flex mb-4 flex-wrap")}>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
-              >
-                Tất cả
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
-              >
-                Hoành thành
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
-              >
-                Tiếp nhận
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2"
-              >
-                Sử lý
-              </a>
-            </div>
-              <div>
-                <div className="input-group">
-                  <div className="input-group-text">
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      size="lg"
-                      color="#0B1A46"
-                      className="form-check-input mt-0 border border-0"
-                    />
-                  </div>
+            <div className="d-flex justify-content-between my-4 block-filter">
+              <div className="d-flex mb-4 flex-wrap block-filter__button">
+                <button
+                  onClick={() => fetchTickets({
+                    search: keySearch
+                  })}
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeStatus === undefined ? 'block-filter__button--active' : ''}`}
+                >
+                  Tất cả
+                </button>
+                <button
+                  onClick={() => fetchTickets({
+                    search: keySearch,
+                    status: 3
+                  })}
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeStatus === 3 ? 'block-filter__button--active' : ''}`}
+                >
+                  Hoàn thành
+                </button>
+                <button
+                  onClick={() => fetchTickets({
+                    search: keySearch,
+                    status: 1
+                  })}
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeStatus === 1 ? 'block-filter__button--active' : ''}`}
+                >
+                  Tiếp nhận
+                </button>
+                <button
+                  onClick={() => fetchTickets({
+                    search: keySearch,
+                    status: 2
+                  })}
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeStatus === 2 ? 'block-filter__button--active' : ''}`}
+                >
+                  Xử lý
+                </button>
+              </div>
+              <div className="form-group has-search position-relative">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    fetchTickets({ search: keySearch });
+                  }}
+                  className="d-flex align-items-center border border-secondary-subtle ps-3 rounded"
+                >
+                  <span className="fa fa-search form-control-feedback"></span>
                   <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Text input with radio button"
-                    placeholder="Tìm kiếm"
-                  ></input>
-                </div>
+                    type="search"
+                    className="form-control border-0"
+                    placeholder="Tìm kiếm tiêu đề"
+                    value={keySearch}
+                    onChange={(e) => setKeysearch(e.target.value)}
+                  />
+                </form>
               </div>
             </div>
             <div className="table-responsive" data-simplebar>
@@ -112,11 +126,11 @@ export const Ticket: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tickets && tickets.length > 0 &&
-                    tickets.map((item, index) => (
-                      <tr>
+                  {tickets?.items && tickets.items.length > 0 &&
+                    tickets.items.map((item, index) => (
+                      <tr key={item.id}>
                         <td>
-                          <p className="fs-3 fw-normal mb-0">{index}</p>
+                          <p className="fs-3 fw-normal mb-0">{index + 1}</p>
                         </td>
                         <td>
                           <p className="fs-3 fw-normal mb-0">
@@ -149,9 +163,9 @@ export const Ticket: React.FC = () => {
                           </p>
                         </td>
                         <td>
-                          <a onClick={() => handleOpenModal(item)}>
+                          <Link to={`/admin/ticket/${item.id}`}>
                             <FontAwesomeIcon icon={faEllipsis} size="2xl" color="#298b90" className="icon-table-motel" />
-                          </a>
+                          </Link>
                         </td>
                       </tr>
                     ))
@@ -159,42 +173,64 @@ export const Ticket: React.FC = () => {
                 </tbody>
               </table>
             </div>
-            <div className="w-100 d-flex justify-content-center mt-3">
-              <nav aria-label="Page navigation example">
-                <ul className="pagination">
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-			  </div>
+            {tickets && tickets?.totalPages > 1 && (
+              <div className="w-100 d-flex justify-content-center mt-3">
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination">
+                    <li className="page-item block-page-item">
+                      <button
+                        onClick={() => {
+                          if (tickets.pageNumber > 1) {
+                            fetchTickets({
+                              search: keySearch,
+                              pageNumber: tickets.pageNumber - 1,
+                              status: activeStatus
+                            })
+                          }
+                        }}
+                        className={`page-link btn-filter ${tickets.pageNumber === 1 ? 'block-page-item__block-page-link--disabled' : ''}`}>
+                        <span aria-hidden="true">&laquo;</span>
+                      </button>
+                    </li>
+                    {tickets && tickets.totalPages &&
+                      Array.from({ length: tickets.totalPages }, (_, index) => (
+                        <li key={index} className="page-item block-page-item">
+                          <button
+                            onClick={() => {
+                              if (tickets.pageNumber !== index + 1) {
+                                fetchTickets({
+                                  search: keySearch,
+                                  pageNumber: index + 1,
+                                  status: activeStatus
+                                })
+                              }
+                            }}
+                            className={`page-link btn-filter ${tickets.pageNumber == index + 1 ? 'block-page-item__block-page-link--active' : ''}`}>
+                            {index + 1}
+                          </button>
+                        </li>
+                      ))}
+                    <li className="page-item block-page-item">
+                      <button
+                        onClick={() => {
+                          if (tickets.pageNumber < tickets.totalPages) {
+                            fetchTickets({
+                              search: keySearch,
+                              pageNumber: tickets.pageNumber + 1,
+                              status: activeStatus
+                            })
+                          }
+                        }}
+                        className={`page-link btn-filter ${tickets.pageNumber === tickets.totalPages ? 'block-page-item__block-page-link--disabled' : ''}`}>
+                        <span aria-hidden="true">&raquo;</span>
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            )}
           </div>
         </div>
-        {showModal && selectedTicket && (
-          <Infoticket data={selectedTicket} onClose={handleCloseModal} />
-        )}
       </div>
     </div>
   );

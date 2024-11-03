@@ -1,25 +1,13 @@
 import axios from "axios"
 import { API } from '../apiConfig'
+import { ParamsPage } from "../Dto/ticketDto";
 
-export interface Img {
-    imgs: string;
+//get tickets
+export const getTickets = (param?: ParamsPage) => {
+    return axios.get(API.TICKETS, { params: param });
 }
 
-export interface Data {
-    id: number;
-    type: number;
-    title: string;
-    content: string;
-    status: number;
-    receiver: string | null;
-    userId: number | null;
-    userName:string;
-    modelId: number | null;
-    imgs: Img[] | null;
-}
-
-//api ticket
-
-export const getTickets = () => {
-    return axios.get(API.TICKETS);
+// get ticket by id
+export const getTicketById = (id: number) => {
+    return axios.get(API.GETTICKETBYID, { params: {id : id} });
 }
