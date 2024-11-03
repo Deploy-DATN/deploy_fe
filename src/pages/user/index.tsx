@@ -13,7 +13,7 @@ import Footer from '@/components/footer';
 export const User = () => {
   return (
     <Routes>
-      <Route path="/home">
+      <Route path="/">
         <Route index element={<Home />} />
       </Route>
       <Route path="/login" element={<Login />} />
@@ -24,8 +24,8 @@ export const User = () => {
         <Route index element={<ForgotPassword />} />
         <Route path="verify" element={<Verify />} />
         <Route path="set-password" element={<SetPassword />} />
-        <Route path="*" element={<Err />} />
       </Route>
+      <Route path="*" element={<Err />} />
     </Routes>
   )
 }

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import './App.scss'
 
@@ -11,8 +11,10 @@ function App() {
   return (
     <Router>
       <div className='App'>
-        <User/>
-        <Admin/>
+      <Routes>
+          <Route path="/*" element={<User />} />
+          <Route path="/admin/*" element={<Admin />} />
+        </Routes>
       </div>
     </Router>
   )

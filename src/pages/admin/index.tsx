@@ -6,12 +6,13 @@ import { Dashboard } from './dashboard'
 import { Account } from './account'
 import { Motel } from './motel'
 import { Notification } from './notification'
-import { Ticket } from './ticket'
+import { TicketPage } from './ticket'
 import '../admin/assets/css/Adminstyle.scss';
 import {Infomotel } from './motel/component/infomotel'
 import IndexOwner from './motel/component/indexOwner'
 import AddMotelOwner from './motel/component/addmotel'
 import EditMotelOwner from './motel/component/editmotel'
+import Infoticket1 from './ticket/component/inforticket1'
 import Room from './room'
 import { OwnerIndexNoti } from './notification/component/OwnerNoti'
 import { Bill } from './BillOwner'
@@ -20,7 +21,7 @@ import { Bill } from './BillOwner'
 export const Admin = () => {
     return (
         <Routes>
-            <Route path="/admin" element={<Layout />}>
+            <Route path="/" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="account" element={<Account />} />
                 <Route path="motel">
@@ -33,13 +34,16 @@ export const Admin = () => {
                     <Route path='EditModelOwner' element={<EditMotelOwner />} />
                 </Route>
                 <Route path="notification" element={<Notification />} />
+                <Route path="ticket">
+                    <Route index element={<TicketPage />} />
+                    <Route path=':id' element={<Infoticket1 />} />
+                </Route>
                 <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
                 <Route path="ticket" element={<Ticket />} />
                 <Route path="room" element={<Room />} />
                 <Route path="bill" element={<Bill />} />
-                <Route path="*" element={<Err />} />
-
             </Route>
+            <Route path="*" element={<Err />} />
         </Routes>
     )
 }
