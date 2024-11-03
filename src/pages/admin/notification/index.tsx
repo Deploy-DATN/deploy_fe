@@ -7,17 +7,19 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { useEffect, useState } from 'react';
 
-import { getListNotiApi, Noti } from '@/services/api/authApi';
+import { Noti } from '@/services/api/authApi';
+import { Data } from "@/services/Dto/ticketDto";
 import Swal from 'sweetalert2';
+import { ParamsPage } from "@/services/Dto/NotificationDto";
+import { getNotis } from "@/services/api/notiApi";
 
 export const Notification: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showSendPopup, setShowSendPopup] = useState(false);
   const [currentNotification, setCurrentNotification] = useState<Noti | null>(null);
-  const [notifications, setNotifications] = useState<Noti[]>([]);
-
-
+  const [notifications, setNotifications] = useState<Data>();
+  const [activeStatus, setActiveStatus] = useState<number | undefined>(undefined);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -41,39 +43,39 @@ export const Notification: React.FC = () => {
   };
 
   const handleOpenSendPopup = (noti: Noti) => {
-    setCurrentNotification(noti); // Gán thông báo hiện tại
+    setCurrentNotification(noti);
     setShowSendPopup(true);
-    setShowEditModal(false); // Đóng edit popup nếu đang mở
+    setShowEditModal(false);
   };
   const handleCloseSendPopup = () => {
     setShowSendPopup(false);
     setCurrentNotification(null);
   }
 
-
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const response = await getListNotiApi();
-        if (response.data.code === 200) {
-          setNotifications(response.data.data);
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Lỗi!',
-            text: 'Không thể lấy danh sách thông báo',
-          });
-        }
-      } catch (error) {
+  const fetchNotifications = async (param: ParamsPage = {}) => {
+    try {
+      const response = await getNotis(param);
+      if (response.data.code === 200) {
+        setActiveStatus(param.status || undefined);
+        setNotifications(response.data.data);
+      } else {
         Swal.fire({
           icon: 'error',
           title: 'Lỗi!',
-          text: 'Đã có lỗi xảy ra khi gọi API',
+          text: 'Không thể lấy danh sách thông báo',
         });
-        console.error('Lỗi API:', error);
       }
-    };
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Đã có lỗi xảy ra khi gọi API',
+      });
+      console.error('Lỗi API:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchNotifications();
   }, []);
 
@@ -85,13 +87,30 @@ export const Notification: React.FC = () => {
             <div className="d-flex justify-content-between mb-4">
               <div className="d-flex flex-wrap">
 
-                <a href="#" className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center">
+                <button
+                  onClick={() => fetchNotifications({
+                  })}
+                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center  ${activeStatus === undefined ? 'block-filter__button--active' : ''}`}>
+
+                  Tất cả
+                </button>
+
+                <button
+                  onClick={() => fetchNotifications({
+                    status: 2
+                  })}
+                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${activeStatus === 2 ? 'block-filter__button--active' : ''}`}>
                   Đã gửi
-                </a>
-                <a href="#" className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center">
+                </button>
+
+                <button
+                  onClick={() => fetchNotifications({
+                    status: 1
+                  })}
+                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${activeStatus === 1 ? 'block-filter__button--active' : ''}`}>
 
                   Chưa gửi
-                </a>
+                </button>
               </div>
               <div className="">
                 <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
@@ -106,7 +125,7 @@ export const Notification: React.FC = () => {
               <table className="table table-borderless align-middle text-nowrap">
                 <thead>
                   <tr className="brg-table-tro rounded-pill">
-                    <th scope="col">ID</th>
+                    <th scope="col">STT</th>
                     <th scope="col">Tiêu đề</th>
                     <th scope="col">Mô tả</th>
                     <th scope="col">Loại</th>
@@ -115,12 +134,12 @@ export const Notification: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {notifications.map((noti) => (
+                  {notifications?.items.map((noti, index) => (
                     <tr key={noti.id}>
                       <td>
                         <div className="d-flex align-items-center">
                           <div>
-                            <h6 className="mb-1 fw-bolder">{noti.id}</h6>
+                            <h6 className="mb-1 fw-bolder">{index + 1}</h6>
                           </div>
                         </div>
                       </td>
@@ -135,11 +154,11 @@ export const Notification: React.FC = () => {
                       </td>
                       <td>
                         {noti.status === 0 ? (
-                          <span className="tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3">
+                          <span className={`tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3`}>
                             Chưa gửi
                           </span>
                         ) : (
-                          <span className="tt-choduyet badge bg-light-success rounded-pill px-3 py-2 fs-3 text-black">
+                          <span className={`tt-choduyet badge bg-light-success rounded-pill px-3 py-2 fs-3 text-black`}>
                             Đã gửi
                           </span>
                         )}
@@ -164,37 +183,65 @@ export const Notification: React.FC = () => {
                 </tbody>
               </table>
             </div>
-            <div className="w-100 d-flex justify-content-center mt-3">
-              <nav aria-label="Page navigation example">
-                <ul className="pagination">
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+            {notifications && notifications?.totalPages > 1 && (
+              <div className="w-100 d-flex justify-content-center mt-3">
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination">
+                    <li className="page-item block-page-item">
+                      <button
+                        onClick={() => {
+                          if (notifications.pageNumber > 1) {
+                            fetchNotifications({
+                              // search: keySearch,
+                              pageNumber: notifications.pageNumber - 1,
+                              status: activeStatus
+                            })
+                          }
+                        }}
+                        className={`page-link btn-filter ${notifications.pageNumber === 1 ? 'block-page-item__block-page-link--disabled' : ''}`}>
+                        <span aria-hidden="true">&laquo;</span>
+                      </button>
+                    </li>
+                    {notifications && notifications.totalPages && Array.from({ length: notifications.totalPages }, (_, index) => (
+                      <li key={index} className="page-item block-page-item">
+                        <button
+                          onClick={() => {
+                            if (notifications.pageNumber !== index + 1) {
+                              fetchNotifications({
+                                // search: keySearch,
+                                pageNumber: index + 1,
+                                status: activeStatus
+                              })
+                            }
+                          }}
+                          className={`page-link btn-filter ${notifications.pageNumber == index + 1 ? 'block-page-item__block-page-link--active' : ''}`}>
+                          {index + 1}
+                        </button>
+                      </li>
+
+                    ))}
+                    <li className="page-item block-page-item">
+                      <button
+                        onClick={() => {
+                          if (notifications.pageNumber < notifications.totalPages) {
+                            fetchNotifications({
+                              // search: keySearch,
+                              pageNumber: notifications.pageNumber + 1,
+                              status: activeStatus
+                            })
+                          }
+                        }}
+                        className={`page-link btn-filter ${notifications.pageNumber === notifications.totalPages ? 'block-page-item__block-page-link--disabled' : ''}`}>
+                        <span aria-hidden="true">&raquo;</span>
+                      </button>
+                    </li>
+
+                  </ul>
+                </nav>
+              </div>
+            )}
+
+
             {/* EditNotification Popup */}
             {showEditModal && currentNotification && (
               <EditNotification

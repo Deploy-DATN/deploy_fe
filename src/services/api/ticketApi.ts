@@ -9,5 +9,5 @@ export const getTickets = (param?: ParamsPage) => {
 
 // get ticket by id
 export const getTicketById = (id: number) => {
-    return axios.get(API.GETTICKETBYID, { params: {id : id} });
+    return axios.get(API.GETTICKETBYID, { params: { id: id } });
 }
