@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddAccount from "./Component/addAccount";
 import EditAccount from "./Component/editAccount";
+
 import { getAllUser } from "@/services/api/userApi";
 import { set } from "react-hook-form";
 import axios from "axios";
@@ -58,6 +59,13 @@ export const Account: React.FC = () => {
       } catch (error) {
         console.error("Error fetching users:", error);
       }
+    };
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const handleOpenDeleteModal = () => {
+      setShowDeleteModal(true);
+    };
+    const handleCloseDeleteModal = () => {
+      setShowDeleteModal(false);
     };
 
     fetchUser();
@@ -209,6 +217,9 @@ export const Account: React.FC = () => {
               </div>
             </div>
           </div>
+          {showModal && <AddAccount onClose={handleCloseModal} />}
+          {showEditModal && <EditAccount onClose={handleCloseEditModal} />}
+          {showDeleteModal && <DeleteAccount onClose={handleCloseDeleteModal} />}
         </div>
       </div>
 
