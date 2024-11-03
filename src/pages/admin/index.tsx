@@ -39,7 +39,6 @@ export const Admin = () => {
                     <Route path=':id' element={<Infoticket1 />} />
                 </Route>
                 <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
-                <Route path="ticket" element={<Ticket />} />
                 <Route path="room" element={<Room />} />
                 <Route path="bill" element={<Bill />} />
             </Route>
