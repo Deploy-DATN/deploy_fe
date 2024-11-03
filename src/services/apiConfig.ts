@@ -1,3 +1,4 @@
+export const API_URL = 'https://localhost:7299';
 export enum API {
     LOGIN = 'https://localhost:7299/dang-nhap',
     REGISTER = 'https://localhost:7299/dang-ky-user',
@@ -14,9 +15,12 @@ export enum API {
     GETTICKETBYID='https://localhost:7299/api/Ticket/GetTicketById',
     GETALLMOTEL = `https://localhost:7299/Room/get-all-room-by-admin`,
     GETMOTELBYID = `https://localhost:7299/Room/get-motel-by-id`,
-    SENDNOTI = 'https://localhost:7299/api/Noti/SendByRole/'
+    SENDNOTI = 'https://localhost:7299/api/Noti/SendByRole/',
+    GETALLUSER = API_URL + '/User',
+    GETUSERBYID = API_URL + '/User/',
+    UPDATEUSER = API_URL + '/User/',
 }
 
-export const API_URL = 'https://localhost:7299';
+
 
 

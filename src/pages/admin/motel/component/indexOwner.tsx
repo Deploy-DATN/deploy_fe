@@ -35,7 +35,7 @@ export const indexOwner = () => {
                     className="icon-index-owner-motel-help-sudung px-1"
                   />
                   <h4 className="h4-index-owner-motel-help mb-0 ms-3">
-                    Đang sử dụng
+                    Đang thuê
                   </h4>
                 </div>
                 <div className="d-flex ih-indexowner-help align-items-center">
