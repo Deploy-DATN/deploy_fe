@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import tk from "@/assets/images/backgrounds/img-login.png";
 import {
   faPenToSquare,
@@ -7,102 +8,108 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddAccount from "./Component/addAccount";
-import { useState } from "react";
 import EditAccount from "./Component/editAccount";
+import { getAllUser } from "@/services/api/userApi";
+import { set } from "react-hook-form";
+import axios from "axios";
 
-export const Account  : React.FC = () => {
-  //add account
-    const [showModal, setShowModal] = useState(false);
-    const handleOpenModal = () => {
-      setShowModal(true);
-    };
-    const handleCloseModal = () => {
-      setShowModal(false);
-    };
-    //edit account
-    const [showEditModal, setShowEditModal] = useState(false);
-    const handleOpenEditModal = () => {
-      setShowEditModal(true);
-    };
-    const handleCloseEditModal = () => {
-      setShowEditModal(false);
+interface User {
+  id: number;
+  fullName: string;
+  phone: string;
+  email: string;
+  avatar: string | null;
+  timeCreated: string;
+  status: boolean;
+  role: string;
+}
+
+export const Account: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [userId, setUserId] = useState<number| null>(null);
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+//lấy id để sửa
+  const handleOpenEditModal = (userID:number) => {
+    setUserId(userID);
+    setShowEditModal(true);
+  };
+  const handleCloseEditModal = () => {
+    setShowEditModal(false);
+  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const res = await getAllUser(null);
+        console.log(res);
+        if (res.data.code === 200) {
+          setUsers(res.data.data.list);
+          setTotalPages(res.data.data.totalPage);
+        }
+        
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
     };
 
+    fetchUser();
+  }, []);
+
+  const pageNumbers = [];
+  console.log(totalPages);
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
+  const handlePageChange = async (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    // gọi ở đây
+    try {
+      const res = await getAllUser({pageNumber: pageNumber});
+      console.log(res);
+      // đặt lại ng dùng
+      if (res.data.code === 200) {
+        setUsers(res.data.data.list);
+        setTotalPages(res.data.data.totalPage);
+      }
+    }
+    catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
   return (
     <>
       <div className="container-fluid">
         <div className="row align-items-stretch">
           <div className="card w-100">
             <div className="card-body p-4">
-            <div className="d-flex justify-content-between align-items-center">
-              <div>
+              <div className="d-flex justify-content-between align-items-center">
                 <h2 className="header-name-all">Quản lý tài khoản</h2>
+                <button
+                  className="btn btn-create-notification btn-transform-y2"
+                  onClick={handleOpenModal}
+                >
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    size="lg"
+                    color="#fffffff"
+                    className="icon-table-motel me-3"
+                  />
+                  Thêm tài khoản
+                </button>
               </div>
-              <div>
-              <div className="">
-                  <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
-                    <FontAwesomeIcon
-                      icon={faPlus}
-                      size="lg"
-                      color="#fffffff"
-                      className="icon-table-motel me-3"
-                    />
-                    Thêm tài khoản
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="d-flex justify-content-between my-4">
-            <div className="d-flex  flex-wrap">
-                  <a
-                    href="#"
-                    className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
-                  >
-                    Tất cả
-                  </a>
-                  <a
-                    href="#"
-                    className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
-                  >
-                    Admin
-                  </a>
-                  <a
-                    href="#"
-                    className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
-                  >
-                    Chủ trọ
-                  </a>
-                  <a
-                    href="#"
-                    className="btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center"
-                  >
-                    Nhân viên
-                  </a>
-                </div>
-              <div>
-                <div className="input-group">
-                  <div className="input-group-text">
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      size="lg"
-                      color="#0B1A46"
-                      className="form-check-input mt-0 border border-0"
-                    />
-                  </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Text input with radio button"
-                    placeholder="Tìm kiếm"
-                  ></input>
-                </div>
-              </div>
-            </div>
-
               <div className="table-responsive mt-3" data-simplebar>
                 <table className="test-table table table-borderless align-middle text-nowrap">
-                  <thead className="">
-                    <tr className=" brg-table-tro">
+                  <thead>
+                    <tr className="brg-table-tro">
                       <th scope="col">ID</th>
                       <th scope="col">Hình ảnh</th>
                       <th scope="col">Số điện thoại</th>
@@ -112,185 +119,103 @@ export const Account  : React.FC = () => {
                       <th scope="col">Thao tác</th>
                     </tr>
                   </thead>
-                  <tbody className="">
-                    <tr>
-                      <td>ID12345</td>
-                      <td>
-                        {" "}
-                        <div className="me-4">
-                          <img
-                            src={tk}
-                            width="50"
-                            className="rounded-circle"
-                            alt=""
-                          />
-                        </div>
-                      </td>
-                      <td>1234567890</td>
-                      <td>Ro@Gmail.com</td>
-                      <td className="text-overflow-motel">
-                        123 BMT - Tân an nnnnnn bbbbbbbbb
-                        mmmmmbbbbbbbbbbbbbbbbbbbbbbmmmm uuuuuuuuu
-                      </td>
-                      <td>
-                        <span className="tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3">
-                          Admin
-                        </span>
-                      </td>
-                      <td>
-                        <a className=" px-2 py-1 mx-1 btn-transform-y2" onClick={handleOpenEditModal}>
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ID12345</td>
-                      <td>
-                        {" "}
-                        <div className="me-4">
-                          <img
-                            src={tk}
-                            width="50"
-                            className="rounded-circle"
-                            alt=""
-                          />
-                        </div>
-                      </td>
-                      <td>1234567890</td>
-                      <td>Ro@Gmail.com</td>
-                      <td className="text-overflow-motel">
-                        123 BMT - Tân an nnnnnn bbbbbbbbb
-                        mmmmmbbbbbbbbbbbbbbbbbbbbbbmmmm uuuuuuuuu
-                      </td>
-                      <td>
-                        <span className="tt-chitiet badge bg-light-indigo rounded-pill px-3 py-2 fs-3">
-                          Chủ trọ
-                        </span>
-                      </td>
-                      <td>
-                        <a className=" px-2 py-1 mx-1 btn-transform-y2" onClick={handleOpenEditModal}>
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ID12345</td>
-                      <td>
-                        {" "}
-                        <div className="me-4">
-                          <img
-                            src={tk}
-                            width="50"
-                            className="rounded-circle"
-                            alt=""
-                          />
-                        </div>
-                      </td>
-                      <td>1234567890</td>
-                      <td>Ro@Gmail.com</td>
-                      <td className="text-overflow-motel">
-                        123 BMT - Tân an nnnnnn bbbbbbbbb
-                        mmmmmbbbbbbbbbbbbbbbbbbbbbbmmmm uuuuuuuuu
-                      </td>
-                      <td>
-                        <span className="tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3">
-                          Nhân viên
-                        </span>
-                      </td>
-                      <td>
-                        <a className=" px-2 py-1 mx-1 btn-transform-y2">
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                      </td>
-                    </tr>
+                  <tbody>
+                    {users.map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>
+                          <div className="me-4">
+                            <img
+                              src={user.avatar || tk} // Use a placeholder if avatar is null
+                              width="50"
+                              className="rounded-circle"
+                              alt=""
+                            />
+                          </div>
+                        </td>
+                        <td>{user.phone}</td>
+                        <td>{user.email}</td>
+                        <td className="text-overflow-motel">Address Placeholder</td>
+                        <td>
+                          <span className="tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3">
+                            {user.role}
+                          </span>
+                        </td>
+                        <td>
+                          <a
+                            className="px-2 py-1 mx-1 btn-transform-y2"
+                            onClick={() => handleOpenEditModal(user.id)}
+                          >
+                            <FontAwesomeIcon
+                              icon={faPenToSquare}
+                              size="2xl"
+                              color="#298b90"
+                              className="icon-table-motel"
+                            />
+                          </a>
+                          <a
+                            href="#"
+                            className="px-2 py-1 mx-1 btn-transform-y2"
+                          >
+                            <FontAwesomeIcon
+                              icon={faTrashCan}
+                              size="2xl"
+                              color="#298b90"
+                              className="icon-table-motel"
+                            />
+                          </a>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
               <div className="w-100 d-flex justify-content-center mt-3">
-              <nav aria-label="Page navigation example">
-                <ul className="pagination">
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      3
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-			  </div>
+                <nav aria-label="Page navigation example">
+                  <ul className="pagination">
+                    <li className="page-item">
+                      <a
+                        style={{ caretColor: "transparent" }}
+                        className="page-link btn-filter"
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        aria-label="Previous"
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    {pageNumbers.map((number) => (
+                      <li className="page-item" key={number}>
+                        <a 
+                          style={{ caretColor: "transparent" }}
+                          className={`page-link btn-filter ${number === currentPage ? "active" : ""}`}
+                          onClick={() => handlePageChange(number)}
+                        >
+                          {number}
+                        </a>
+                      </li>
+                    ))}
+                    <li className="page-item">
+                      <a 
+                        style={{ caretColor: "transparent" }}
+                        className="page-link btn-filter"
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        aria-label="Next"
+                      >
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             </div>
           </div>
-          {showModal && <AddAccount onClose={handleCloseModal} />}
-          {showEditModal && <EditAccount onClose={handleCloseEditModal} />}
         </div>
       </div>
+
+      {/* Add Account Modal */}
+      {showModal && <AddAccount onClose={handleCloseModal} />}
+      {/* Edit Account Modal */}
+      {showEditModal && userId !== null  && <EditAccount userId={userId}   onClose={handleCloseEditModal} />}
     </>
   );
 };
