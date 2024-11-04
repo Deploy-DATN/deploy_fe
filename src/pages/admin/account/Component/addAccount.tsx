@@ -3,7 +3,12 @@ import Select, { StylesConfig } from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { addUser } from "@/services/api/userApi";
-const AddAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+interface AddAccountProps {
+  onClose: () => void;
+  onSubmit: () => void;
+}
+
+const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const options = [
     { value: "admin", label: "Admin" },
@@ -18,14 +23,23 @@ const AddAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     password: "",
     address: "",
     role: options[2], // Set default role as "Nhân viên"
+    avatar: "",
   });
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+      //create base64 string from image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setFormData({ ...formData, avatar: base64String });
+        setSelectedImage(base64String);
+      };
+      reader.readAsDataURL(file);
+      
     }
+    
   };
 
 
@@ -76,6 +90,7 @@ const AddAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       if(response.data.code === 200){
         onClose();
         window.alert("Cập nhật tài khoản thành công");
+        onSubmit();
       }
       if(response.data.code === 404){
         window.alert("Cập nhật tài khoản thất bại: " + response.data.message);

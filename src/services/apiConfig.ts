@@ -19,6 +19,7 @@ export enum API {
     GETALLUSER = API_URL + '/User',
     GETUSERBYID = API_URL + '/User/',
     UPDATEUSER = API_URL + '/User/',
+    DELETEUSER = API_URL + '/User/',
 }
 
 
