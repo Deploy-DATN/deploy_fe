@@ -28,11 +28,11 @@ export const Admin = () => {
                 <Route path="indexOwner">
                     <Route index element={<IndexOwner />} />
                     <Route path='addModelOwner' element={<AddMotelOwner />} />
-                    <Route path='EditModelOwner' element={<EditMotelOwner />} />
+                    <Route path='EditModelOwner/:id' element={<EditMotelOwner />} />
                 </Route>
                 <Route path="notification" element={<Notification />} />
                 <Route path="ticket" element={<Ticket />} />
-                <Route path="room" element={<Room />} />
+                <Route path="room/:id" element={<Room />} />
                 <Route path="*" element={<Err />} />
 
             </Route>
