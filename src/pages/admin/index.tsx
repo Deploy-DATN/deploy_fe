@@ -31,15 +31,17 @@ export const Admin = () => {
                 <Route path="indexOwner">
                     <Route index element={<IndexOwner />} />
                     <Route path='addModelOwner' element={<AddMotelOwner />} />
-                    <Route path='EditModelOwner' element={<EditMotelOwner />} />
+                    <Route path='EditModelOwner/:id' element={<EditMotelOwner />} />
                 </Route>
                 <Route path="notification" element={<Notification />} />
+                <Route path="room/:id" element={<Room />} />
+                <Route path="*" element={<Err />} />
+
                 <Route path="ticket">
                     <Route index element={<TicketPage />} />
                     <Route path=':id' element={<Infoticket1 />} />
                 </Route>
                 <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
-                <Route path="room" element={<Room />} />
                 <Route path="bill" element={<Bill />} />
             </Route>
             <Route path="*" element={<Err />} />

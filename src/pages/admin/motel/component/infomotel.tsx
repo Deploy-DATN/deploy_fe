@@ -1,11 +1,12 @@
-import { getMotelByIdApi } from "@/services/api/MotelApi";
-import { API } from "@/services/apiConfig";
+
+import { getMotelById } from "@/services/api/MotelApi";
 import { MotelByIdDTO } from "@/services/Dto/MotelDto";
 import {
   faBolt,
   faCalendarCheck,
   faCalendarPlus,
   faCalendarXmark,
+  faCaretRight,
   faDroplet,
   faFileAlt,
   faFileExcel,
@@ -29,7 +30,7 @@ export const Infomotel = () => {
   }, []);
 
   const LoadData = async () => {
-    const response = await getMotelByIdApi(id);
+    const response = await getMotelById(id);
     setDataMotel(response);
     console.log(response);
   };
@@ -186,16 +187,23 @@ export const Infomotel = () => {
                             <td>
                               <span className="text-infomotel-c3">
                                 {dataMotel?.price.electric}
+                                
                               </span>
                             </td>
                             <td>
                               <h4 className="text-infomotel-c2">
-                                Giá điện mới:
+                                <FontAwesomeIcon
+                                  icon={faCaretRight}
+                                  color="#0B1A46"
+                                  size="lg"
+                                  className="icon-table-motel me-2"
+                                />
                               </h4>
                             </td>
                             <td>
                               <span className="text-infomotel-c3">
                                 {dataMotel?.lastPrice?.electric}
+                                
                               </span>
                             </td>
                           </tr>
@@ -218,8 +226,12 @@ export const Infomotel = () => {
                             </td>
                             <td>
                               <h4 className="text-infomotel-c2">
-                                Giá nước mới:
-                              </h4>
+                              <FontAwesomeIcon
+                                  icon={faCaretRight}
+                                  color="#0B1A46"
+                                  size="lg"
+                                  className="icon-table-motel me-2"
+                                />                              </h4>
                             </td>
                             <td>
                               <span className="text-infomotel-c3">
@@ -246,8 +258,12 @@ export const Infomotel = () => {
                             </td>
                             <td>
                               <h4 className="text-infomotel-c2">
-                                Chi phí khác mới:
-                              </h4>
+                              <FontAwesomeIcon
+                                  icon={faCaretRight}
+                                  color="#0B1A46"
+                                  size="lg"
+                                  className="icon-table-motel me-2"
+                                />                              </h4>
                             </td>
                             <td>
                               <span className="text-infomotel-c3">
