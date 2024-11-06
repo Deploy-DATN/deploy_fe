@@ -1,15 +1,11 @@
 import axios from "axios"
 import { API } from '../apiConfig'
 
-export interface Account {
+export interface AccountDto {
     phone: string,
     password: string
 }
 
-export interface RegisterAccount extends Account {
-    name: string,
-    email: string
-}
 
 // test chưa chỉnh sql
 
@@ -74,13 +70,21 @@ export interface SendNoti {
 
 }
 
+export interface RegisterAccount {
+    name: string,
+    email: string
+}
+
+
 
 
 // API đăng nhập
 
-export const postLoginApi = (account: Account) => {
+export const getLoginApi = (account: AccountDto) => {
     return axios.post(API.LOGIN, account);
 }
+
+
 export const postLoginApi1 = (account: Account1) => {
     return axios.post(API.LOGIN, account);
 }

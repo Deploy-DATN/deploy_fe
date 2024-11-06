@@ -1,7 +1,7 @@
 // API motel
 
 import axios from "axios";
-import { API, API_URL } from "../apiConfig";
+import axiosInstance, { API, API_URL } from "../apiConfig";
 import { MotelByIdDTO, MotelDTO } from "../Dto/MotelDto";
 import { ResponseDTO } from "./RepositoryDto";
 import { FilterProps } from "@/pages/admin/motel";
@@ -9,12 +9,12 @@ import { FilterProps } from "@/pages/admin/motel";
 
 
 export const getMotelByIdApi = async (id: string | undefined) : Promise<MotelByIdDTO> => {
-    const response = (await axios.get<ResponseDTO<MotelByIdDTO>>(`${API.GETMOTELBYID}/${id}`));
+    const response = (await axiosInstance.get<ResponseDTO<MotelByIdDTO>>(`${API.GETMOTELBYID}/${id}`));
     return response.data.data;
 }
 
 export const getMotelByAdmin = async (query: FilterProps) : Promise<MotelDTO[]> => {
-    const response = (await axios.get<ResponseDTO<MotelDTO[]>>(`${API_URL}/Room/get-all-room-by-admin`, {
+    const response = (await axiosInstance.get<ResponseDTO<MotelDTO[]>>(`${API_URL}/Room/get-all-room-by-admin`, {
         params: query
     }));
     return response.data.data;
