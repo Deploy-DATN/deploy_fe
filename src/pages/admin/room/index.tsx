@@ -1,13 +1,9 @@
 import {
-  faCheckDouble,
-  faEllipsis,
-  faGears,
-  faPaperPlane,
-  faPenToSquare,
+  faBolt,
+  faDroplet,
   faPlus,
   faSearch,
-  faUserAlt,
-  faUserPlus,
+  faWater,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -16,23 +12,25 @@ import Addroom from "./component/addroom";
 import Inforoom from "./component/inforoom";
 import Editroom from "./component/editroom";
 import AddUserRoom from "./component/addUserRoom";
-import Baotriroom from "./component/baotriroom";
 import { GetRoomByMotelId } from "@/services/api/MotelApi";
 import { useParams } from "react-router-dom";
 import { RoomDTO } from "@/services/Dto/MotelDto";
 import RowTableRoom from "./component/rowTableRoom";
+import AddElicWaterf from "./component/addElicWater";
+import AddElicWater from "./component/addElicWater";
 
 export const Room: React.FC = () => {
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
     addRoom: false,
     infoRoom: false,
+    AddElicWater: false,
     editRoom: false,
     addUserRoom: false,
     Baotriroom: false,
   });
 
+  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
   const { id } = useParams();
-
   const [dataRoom, setDataRoom] = useState<RoomDTO[]>([]);
 
   useEffect(() => {
@@ -47,13 +45,17 @@ export const Room: React.FC = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  const toggleModal = (modalName: keyof typeof modalState) => {
+  const toggleModal = (
+    modalName: keyof typeof modalState,
+    roomId: number | null = null
+  ) => {
     setModalState((prevState) => ({
       ...prevState,
       [modalName]: !prevState[modalName],
     }));
+    setSelectedRoomId(roomId);
   };
 
   return (
@@ -62,13 +64,29 @@ export const Room: React.FC = () => {
         <div className="row align-items-stretch">
           <div className="card w-100">
             <div className="card-body p-4">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h2 className="header-name-all">Quản lý phòng trọ</h2>
+              <div className="row">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
+                  <h2 className="header-name-all">Dãy trọ: (Name)</h2>
+                  <p className="detail-room-text">Địa chỉ: </p>
+                  <div className="row">
+                    <p className="detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                      Giá điện:{" "}
+                    </p>
+                    <p className="detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                      Giá nước:{" "}
+                    </p>
+                  </div>
+                  <div className="row">
+                    <p className="detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                      Giá khác:{" "}
+                    </p>
+                    <p className="detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                      Trạng thái:{" "}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  {" "}
-                  <div className="">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+                  <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end mt-3">
                     <button
                       className="btn btn-create-notification btn-transform-y2"
                       onClick={() => toggleModal("addRoom")}
@@ -82,51 +100,45 @@ export const Room: React.FC = () => {
                       Thêm phòng trọ
                     </button>
                   </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-between mt-4">
-                <div className="d-flex mb-4 flex-wrap">
-                  <a
-                    href="#"
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                  >
-                    Tất cả
-                  </a>
-                  <a
-                    href="#"
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                  >
-                    Đang trống
-                  </a>
-                  <a
-                    href="#"
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                  >
-                    đang thuê
-                  </a>
-                  <a
-                    href="#"
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                  >
-                    Bảo trì
-                  </a>
-                </div>
-                <div>
-                  <div className="input-group">
-                    <div className="input-group-text">
+                  <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end mt-3">
+                    <button
+                      className="btn btn-create-notification btn-transform-y2"
+                      onClick={() => toggleModal("addElicWater")}
+                    >
                       <FontAwesomeIcon
-                        icon={faSearch}
+                        icon={faBolt}
                         size="lg"
-                        color="#0B1A46"
-                        className="form-check-input mt-0 border border-0"
+                        color="#fffffff"
+                        className="icon-table-motel me-2"
                       />
+                      <FontAwesomeIcon
+                        icon={faDroplet}
+                        size="lg"
+                        color="#fffffff"
+                        className="icon-table-motel me-2"
+                      />
+                      Thêm điện nước
+                    </button>
+                  </div>
+                  <div className="d-flex justify-content-start mt-3 justify-content-lg-end justify-content-xl-end justify-content-xxl-end">
+                    <div>
+                      <div className="input-group">
+                        <div className="input-group-text">
+                          <FontAwesomeIcon
+                            icon={faSearch}
+                            size="lg"
+                            color="#0B1A46"
+                            className="form-check-input mt-0 border border-0"
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          aria-label="Text input with radio button"
+                          placeholder="Tìm kiếm"
+                        ></input>
+                      </div>
                     </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Text input with radio button"
-                      placeholder="Tìm kiếm"
-                    ></input>
                   </div>
                 </div>
               </div>
@@ -137,7 +149,9 @@ export const Room: React.FC = () => {
                     <tr className=" brg-table-tro">
                       <th scope="col">ID</th>
                       <th scope="col">Diện tích</th>
-                      <th scope="col">Giá</th>
+                      <th scope="col">Giá phòng</th>
+                      <th scope="col">số diện</th>
+                      <th scope="col">số nước</th>
                       <th scope="col">SỐ người thuê</th>
                       <th scope="col">Trạng thái</th>
                       <th scope="col">Thao tác</th>
@@ -145,26 +159,44 @@ export const Room: React.FC = () => {
                   </thead>
                   <tbody className="table-motel">
                     {dataRoom.map((room) => (
-                      <RowTableRoom room={room} />
+                      <RowTableRoom
+                        key={room.id}
+                        room={room}
+                        toggleModal={toggleModal}
+                      />
                     ))}
-                   
                   </tbody>
                 </table>
               </div>
               {modalState.addRoom && (
                 <Addroom motelId={id} onClose={() => toggleModal("addRoom")} />
               )}
-              {modalState.infoRoom && (
-                <Inforoom onClose={() => toggleModal("infoRoom")} />
+                            {modalState.addElicWater && (
+                <AddElicWater onClose={() => toggleModal("addElicWater")} />
               )}
-              {modalState.editRoom && (
-                <Editroom onClose={() => toggleModal("editRoom")} />
+              {modalState.infoRoom && selectedRoomId && (
+                <Inforoom
+                  roomId={selectedRoomId}
+                  onClose={() => toggleModal("infoRoom")}
+                />
               )}
-              {modalState.addUserRoom && (
-                <AddUserRoom onClose={() => toggleModal("addUserRoom")} />
+              {modalState.editRoom && selectedRoomId && (
+                <Editroom
+                  roomId={selectedRoomId}
+                  onClose={() => toggleModal("editRoom")}
+                />
               )}
-              {modalState.baotriroom && (
-                <Baotriroom onClose={() => toggleModal("baotriroom")} />
+              {modalState.addUserRoom && selectedRoomId && (
+                <AddUserRoom
+                  roomId={selectedRoomId}
+                  onClose={() => toggleModal("addUserRoom")}
+                />
+              )}
+              {modalState.baotriroom && selectedRoomId && (
+                <Baotriroom
+                  roomId={selectedRoomId}
+                  onClose={() => toggleModal("baotriroom")}
+                />
               )}
             </div>
           </div>
