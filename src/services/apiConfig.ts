@@ -1,6 +1,9 @@
+import axios from "axios";
+
+
 export const API_URL = 'https://localhost:7299';
 export enum API {
-    LOGIN = 'https://localhost:7299/dang-nhap',
+    LOGIN = 'https://localhost:7299/login',
     REGISTER = 'https://localhost:7299/dang-ky-user',
     FOGOTPASSWORD = 'https://localhost:7299/senderOtpToEmail',
     OTP = 'https://localhost:7299/checkOtp',
@@ -21,6 +24,75 @@ export enum API {
     UPDATEUSER = API_URL + '/User/',
 }
 
+const axiosInstance = axios.create({
+    baseURL: API_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+import { jwtDecode } from 'jwt-decode';
+
+interface TokenPayload {
+  'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
+}
+
+const roleRoutes: Record<string, string> = {
+  'ADMIN': '/admin/',
+  'CUSTOMER': '/',
+  'OWNER': '/admin/',
+  'STAFF': '/admin/'
+};
+
+export const getRouteFromToken = (token: string): string => {
+    try {
+      const decoded = jwtDecode<TokenPayload>(token);
+      const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      const normalizedRole = role.toUpperCase();
+      
+      return roleRoutes[normalizedRole] || '/unauthorized';
+    } catch (error) {
+      console.error('Lỗi khi decode token:', error);
+      return '/unauthorized';
+    }
+  };
+
+
+// Interceptor để tự động gắn token vào header
+axiosInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// Interceptor để xử lý response
+axiosInstance.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error) => {
+        if (error.response?.status === 401) {
+            // Token hết hạn hoặc không hợp lệ
+            localStorage.removeItem('token');
+            window.location.href = '/login';
+        }
+        return Promise.reject(error);
+    }
+);
+
+
+//refreshtoken nếu token hết hạn
+
+
+
+export default axiosInstance;
 
 
 

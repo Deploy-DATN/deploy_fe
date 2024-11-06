@@ -1,13 +1,17 @@
 import clsx from "clsx";
-import { postRegisterApi, RegisterAccount } from "@/services/api/authApi"
+import { postRegisterUserApi, RegisterAccountOwner } from "@/services/api/authApi"
 import style from './styles/register.module.scss';
 import image from './image/SignUp.png';
 import image1 from './image/SignUp(1).png';
 import RegisterForm from "./components/registerForm";
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-export interface Inputs extends RegisterAccount {
-    checkbox?: boolean
+export interface Inputs extends RegisterAccountOwner {
+    name: string;
+    password: string;
+    phone: string;
+    email: string;
+    checkbox?: boolean;
 }
 
 const Register = () => {
@@ -17,7 +21,7 @@ const Register = () => {
         const { checkbox, ...registerData } = data;
         console.log(registerData);
         try {
-            const res = await postRegisterApi(registerData);
+            const res = await postRegisterUserApi(registerData);
             if (res.status == 200) {
                 Swal.fire({
                     icon: 'success',
