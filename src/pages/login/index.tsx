@@ -14,8 +14,10 @@ import information from '@/assets/icon/information.png';
 import location from '@/assets/icon/location.png';
 import proceeds from '@/assets/icon/proceeds.png';
 import Swal from 'sweetalert2';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
+import { User } from '../user';
+import { getRouteFromToken } from '@/services/apiConfig';
 
 interface TokenPayload {
 	role: string;
@@ -24,59 +26,46 @@ interface TokenPayload {
 
 const Login = () => {
 	const navigate = useNavigate();
+	const token = localStorage.getItem('token');
+
+	useEffect(() => {
+		
+		if (token) {
+			//xoá token
+			localStorage.removeItem('token');
+		}
+	}, []);
+
 
 	// ... existing code ...
 
 	const handleLogin = async (data: AccountDto) => {
-        try {
-            const response = await getLoginApi(data);
-            const { success, token } = response.data;
-    
-            if (success) {
-                localStorage.setItem('token', token);
-                
-                try {
-                    const decoded = jwtDecode<TokenPayload>(token);
-                    const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-                    
-                    // Thêm logs để debug
-                    console.log('Role gốc từ token:', role);
-                    
-                    const roleRoutes: Record<string, string> = {
-                        'ADMIN': '/admin/',
-                        'CUSTOMER': '/',
-                        'OWNER': '/admin/',
-                        'STAFF': '/admin/'
-                    };
-    
-                    // Chuyển role về chữ hoa và log ra
-                    const normalizedRole = role.toUpperCase();
-                    console.log('Role sau khi normalize:', normalizedRole);
-                    console.log('Các routes có sẵn:', Object.keys(roleRoutes));
-                    
-                    const route = roleRoutes[normalizedRole];
-                    console.log('Route được chọn:', route);
-    
-                    if (route) {
-                        navigate(route);
-                    } else {
-                        console.error('Không tìm thấy route cho role:', normalizedRole);
-                        navigate('/unauthorized');
-                    }
-                } catch (decodeError) {
-                    console.error('Lỗi decode:', decodeError);
-                    navigate('/unauthorized');
-                }
-            }
-        } catch (error) {
-            console.error('Lỗi đăng nhập:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Lỗi',
-                text: 'Đăng nhập không thành công',
-            });
-        }
-    };
+		try {
+		  const response = await getLoginApi(data);
+		  const { success, token, message } = response.data;
+	  
+		  if (!success) {
+			Swal.fire({
+			  icon: 'warning',
+			  title: 'Thông báo',
+			  text: message || 'Đăng nhập không thành công',
+			});
+			return;
+		  }
+	  
+		  localStorage.setItem('token', token);
+		  const route = getRouteFromToken(token);
+		  navigate(route);
+	  
+		} catch (error) {
+		  console.error('Lỗi đăng nhập:', error);
+		  Swal.fire({
+			icon: 'error',
+			title: 'Lỗi',
+			text: 'Đăng nhập không thành công',
+		  });
+		}
+	  };
 
 	// ... rest of the code ...
 

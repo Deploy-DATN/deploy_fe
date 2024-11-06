@@ -31,6 +31,32 @@ const axiosInstance = axios.create({
     },
 });
 
+import { jwtDecode } from 'jwt-decode';
+
+interface TokenPayload {
+  'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
+}
+
+const roleRoutes: Record<string, string> = {
+  'ADMIN': '/admin/',
+  'CUSTOMER': '/',
+  'OWNER': '/admin/',
+  'STAFF': '/admin/'
+};
+
+export const getRouteFromToken = (token: string): string => {
+    try {
+      const decoded = jwtDecode<TokenPayload>(token);
+      const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+      const normalizedRole = role.toUpperCase();
+      
+      return roleRoutes[normalizedRole] || '/unauthorized';
+    } catch (error) {
+      console.error('Lỗi khi decode token:', error);
+      return '/unauthorized';
+    }
+  };
+
 
 // Interceptor để tự động gắn token vào header
 axiosInstance.interceptors.request.use(
@@ -60,6 +86,11 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+
+//refreshtoken nếu token hết hạn
+
+
 
 export default axiosInstance;
 

@@ -1,7 +1,12 @@
 import axios from "axios"
-import { API } from '../apiConfig'
+import { API, API_URL } from '../apiConfig'
 
 export interface AccountDto {
+    phone: string,
+    password: string
+}
+
+export interface Account {
     phone: string,
     password: string
 }
@@ -70,8 +75,10 @@ export interface SendNoti {
 
 }
 
-export interface RegisterAccount {
+export interface RegisterAccountOwner {
     name: string,
+    password: string,
+    phone: string,
     email: string
 }
 
@@ -84,6 +91,16 @@ export const getLoginApi = (account: AccountDto) => {
     return axios.post(API.LOGIN, account);
 }
 
+// API lấy thông tin user
+
+export const getAccountApi = () => {
+    const token = localStorage.getItem('token');
+    return axios.get(`${API_URL}/getUserByToken`, {
+        params: {
+            token: token
+        }
+    });
+}
 
 export const postLoginApi1 = (account: Account1) => {
     return axios.post(API.LOGIN, account);
@@ -95,8 +112,8 @@ export const postForgotApi = (forgotPassword: ForgotPassword) => {
 
 // API đăng ký
 
-export const postRegisterApi = (account: RegisterAccount) => {
-    return axios.post(API.REGISTER, account);
+export const postRegisterUserApi = (account: RegisterAccountOwner) => {
+    return axios.post(API_URL + '/register-customer', account);
 }
 
 export const getOtpApi = (checkOtp: Otp) => {
