@@ -42,13 +42,11 @@ export const Motel: React.FC = () => {
     pageSize: 5,
     search: "",
   });
-  const [page, setPage] = useState<PageDTO>(
-    {
-      totalPages: 0,
-      pageNumber: 0,
-      pageSize: 0,
-    }
-  );
+  const [page, setPage] = useState<PageDTO>({
+    totalPages: 0,
+    pageNumber: 0,
+    pageSize: 0,
+  });
 
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
 
@@ -210,7 +208,6 @@ export const Motel: React.FC = () => {
   };
 
   const HandleFilter = async (status: number | null) => {
-
     setActiveFilter(status);
     const newQuery = {
       ...query,
@@ -234,8 +231,8 @@ export const Motel: React.FC = () => {
               </div>
               <div></div>
             </div>
-            <div className="d-flex justify-content-between mt-4">
-              <div className="d-flex mb-4 flex-wrap">
+            <div className="row justify-content-lg-between justify-content-xl-between  justify-content-xxl-between  mt-4">
+              <div className="d-flex mb-4 flex-wrap col-12 col-sm-12 col-md-12 col-lg-6 -col-xl-6 col-xxl-6">
                 <a
                   href="#"
                   className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
@@ -282,33 +279,39 @@ export const Motel: React.FC = () => {
                   Từ chối
                 </a>
               </div>
-              <div>
-                 <div className="input-group">
-                  <div className="input-group-text" >
-                  <FontAwesomeIcon
-                            icon={faSearch}
-                            size="lg"
-                            color="#0B1A46"
-                            className="form-check-input mt-0 border border-0"
-                            
-                           />
+              <div className="col-12 col-sm-12 col-md-12 col-lg-6 -col-xl-6 col-xxl-6">
+              <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end">
+                <div>
+                  <div className="input-group">
+                    <div className="input-group-text">
+                      <FontAwesomeIcon
+                        icon={faSearch}
+                        size="lg"
+                        color="#0B1A46"
+                        className="form-check-input mt-0 border border-0"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      aria-label="Text input with radio button"
+                      placeholder="Tìm kiếm"
+                      onChange={(e) => HandleSearch(e.target.value)}
+                      value={query.search}
+                      //clear input
+                    ></input>
+                    {/* clear input */}
+                    <button
+                      className="btn btn-clear"
+                      onClick={() => setQuery({ ...query, search: "" })}
+                    >
+                      <FontAwesomeIcon icon={faXmark} />
+                    </button>
                   </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Text input with radio button"
-                    placeholder="Tìm kiếm"
-                    onChange={(e) => HandleSearch(e.target.value)}
-                    value={query.search}
-                    //clear input
-                  >
-                  </input>
-                  {/* clear input */}
-                  <button className="btn btn-clear" onClick={() => setQuery({ ...query, search: "" })}>
-                    <FontAwesomeIcon icon={faXmark} />
-                  </button>
-                </div> 
+                </div>
+              </div>                
               </div>
+
             </div>
 
             <div className="table-responsive mt-3" data-simplebar>
@@ -486,7 +489,11 @@ export const Motel: React.FC = () => {
                   </li>
                   {/* render page number */}
                   {Array.from({ length: page.totalPages }, (_, index) => (
-                    <li className="page-item" key={index} onClick={() => HandlePage(index + 1)}>
+                    <li
+                      className="page-item"
+                      key={index}
+                      onClick={() => HandlePage(index + 1)}
+                    >
                       <a className="page-link  btn-filter" href="#">
                         {index + 1}
                       </a>

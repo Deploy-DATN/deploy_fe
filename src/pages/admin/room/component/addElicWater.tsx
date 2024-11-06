@@ -4,7 +4,7 @@ const AddElicWater: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <>
       <div className="modal-overlay-admin">
-        <div className="modal-content-admin w-50 position-relative">
+        <div className="modal-content-admin position-relative w50resposi">
         <div className=''>
           <h2 className='h2-modal-admin'>Thêm số điện, nước</h2>
         </div>
@@ -200,13 +200,13 @@ const AddElicWater: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
               <label htmlFor="description" className="">
-                  Chi phí phát sinh
+                  Chi phí khác
                 </label>
                 <input
                   type="text"
                   id="title"
                   className="form-control mt-2"
-                  placeholder="Chi phi phát sinh"
+                  placeholder="Chi phi khác"
                 />
               </div>
             </div>
@@ -222,7 +222,7 @@ const AddElicWater: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 type="button"
                 className="btn-luu-all btn-style btn-transform-y2"
               >
-                Lưu
+                Tiếp theo
               </button>
             </div>
           </form>
