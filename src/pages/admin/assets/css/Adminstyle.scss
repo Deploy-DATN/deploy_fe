@@ -216,3 +216,29 @@
 .file-input-wrapper{
   aspect-ratio: 1 / 1;
 }
+
+      //bill
+      .checkbox-bill{
+        input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+          border: 2px solid #298B90;
+          border-radius: 3px;
+          cursor: pointer;
+          accent-color: #298B90;
+        }
+      }
+
+      .text-info-bill{
+
+                p{
+          color: #0B1A46;
+          font-size: 20px;
+          font-weight: 500;
+        }
+      }
+      .border-bottom-info-bill{
+        background-image: repeating-linear-gradient(to right, #D9D9D9, #D9D9D9 7px, transparent 0px, transparent 20px);
+        height: 2px;
+        background-size: 25px 1px;
+      }

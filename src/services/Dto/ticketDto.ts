@@ -1,16 +1,31 @@
-export interface Img {
-    imgs: string;
-}
-
-export interface Data {
+export interface Ticket {
     id: number;
     type: number;
     title: string;
     content: string;
     status: number;
-    receiver: string | null;
+}
+
+export interface InfoTicket extends Ticket {
+    receiver: string;
+    createDate: Date;
     userId: number | null;
-    userName:string;
+    userName: string;
     modelId: number | null;
-    imgs: Img[] | null;
+    imgs: string[] | null;
+}
+
+export interface Data {
+    totalCount: number;
+    totalPages: number;
+    pageNumber: number;
+    pageSize: number;
+    items: Ticket[];
+}
+
+export interface ParamsPage {
+    search?: string;
+    pageNumber?: number;
+    pageSize?: number;
+    status?: number;
 }
