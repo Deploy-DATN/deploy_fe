@@ -39,4 +39,3 @@ export const CreateTicket = (param: FormCreate) => {
         }
     });
     return axios.post(API.CREATEtICKET, formData);
-}

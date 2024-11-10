@@ -3,14 +3,15 @@ import Select, { StylesConfig } from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { addUser } from "@/services/api/userApi";
-const AddAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const options = [
-    { value: "admin", label: "Admin" },
-    { value: "chutro", label: "Chủ trọ" },
-    { value: "nhanvien", label: "Nhân viên" },
-  ];
+import { getRole } from "@/services/api/userApi";
+interface AddAccountProps {
+  onClose: () => void;
+  onSubmit: () => void;
+}
 
+const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -18,17 +19,44 @@ const AddAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     password: "",
     address: "",
     role: options[2], // Set default role as "Nhân viên"
+    avatar: "",
   });
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+      //create base64 string from image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setFormData({ ...formData, avatar: base64String });
+        setSelectedImage(base64String);
+      };
+      reader.readAsDataURL(file);
+      
     }
+    
   };
 
+  // Fetch the role data
+  React.useEffect(() => {
+    const fetchRole = async () => {
+      try {
+        const response = await getRole();
+        if (response.data.code === 200) {
+          const roleOptions = response.data.data.map((item: any) => ({
+            value: item.name,
+            label: item.name,
+          }));
+          setOptions(roleOptions);
+        }
+      } catch (error) {
+        console.error("Error fetching role data:", error);
+      }
+    };
 
+    fetchRole();
+  }, []);
 
   const customStyles: StylesConfig<{ value: string; label: string }> = {
     control: (provided) => ({
@@ -45,6 +73,7 @@ const AddAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       color: state.isFocused ? 'white' : 'black',
     }),
   };
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -71,11 +100,11 @@ const AddAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     try {
       // Make the API call
       const response = await addUser(data);
-      console.log('User added successfully:', response.data);
      
       if(response.data.code === 200){
         onClose();
         window.alert("Cập nhật tài khoản thành công");
+        onSubmit();
       }
       if(response.data.code === 404){
         window.alert("Cập nhật tài khoản thất bại: " + response.data.message);
