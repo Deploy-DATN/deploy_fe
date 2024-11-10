@@ -6,12 +6,14 @@ import {
   faRectangleXmark,
   faSearch,
   faSquareCheck,
-  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ModalThaotac from "./component/ModalThaotac";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import { API } from "@/services/apiConfig";
 import { MotelDTO } from "@/services/Dto/MotelDto";
+import { string } from "yup";
 import {
   ApproveMotel,
   getMotelByAdmin,
@@ -23,32 +25,18 @@ export interface FilterProps {
   status: string;
   pageNumber: number;
   pageSize: number;
-  search: string;
-}
-
-export interface PageDTO {
-  totalPages: number;
-  pageNumber: number;
-  pageSize: number;
 }
 
 export const Motel: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(""); // Thêm state để xác định loại modal
   const [dataMotel, setDataMotel] = useState<MotelDTO[]>([]);
+  const [status, setStatus] = useState<string | null>(null);
   const [query, setQuery] = useState<FilterProps>({
     status: "",
     pageNumber: 1,
-    pageSize: 5,
-    search: "",
+    pageSize: 10,
   });
-  const [page, setPage] = useState<PageDTO>(
-    {
-      totalPages: 0,
-      pageNumber: 0,
-      pageSize: 0,
-    }
-  );
 
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
 
@@ -58,28 +46,14 @@ export const Motel: React.FC = () => {
 
   const LoadData = async (query: FilterProps) => {
     const response = await getMotelByAdmin(query);
-    setDataMotel(await response.items);
-    setPage({
-      totalPages: await response.totalPages,
-      pageNumber: await response.pageNumber,
-      pageSize: await response.pageSize,
-    });
-    console.log(page);
+    setDataMotel(await response);
+    console.log(response);
   };
 
-  const HandlePage = async (pageNumber: number) => {
-    const newQuery = {
-      ...query,
-      pageNumber: pageNumber,
-    };
-    setQuery(newQuery);
-    await LoadData(newQuery);
+  const handleOpenModal = (type: string) => {
+    setModalType(type); // Xác định loại modal cần hiển thị
+    setShowModal(true);
   };
-
-  // const handleOpenModal = (type: string) => {
-  //   setModalType(type); // Xác định loại modal cần hiển thị
-  //   setShowModal(true);
-  // };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -96,7 +70,7 @@ export const Motel: React.FC = () => {
     } else if (status === 2) {
       return (
         <span className="tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3">
-          Đang hoạt động
+          Đăng hoạt động
         </span>
       );
     } else if (status === 3) {
@@ -112,19 +86,6 @@ export const Motel: React.FC = () => {
         </span>
       );
     }
-  };
-
-  const HandleSearch = async (search: string) => {
-    const newQuery = {
-      ...query,
-      search: search,
-    };
-    console.log(newQuery);
-    setQuery(newQuery);
-    //delay 3s
-    setTimeout(async () => {
-      await LoadData(newQuery);
-    }, 1000);
   };
 
   const CheckStatus_ThaoTac = (status: number, id: number) => {
@@ -210,13 +171,9 @@ export const Motel: React.FC = () => {
   };
 
   const HandleFilter = async (status: number | null) => {
-
     setActiveFilter(status);
     const newQuery = {
       ...query,
-      pageNumber: 1,
-      pageSize: 5,
-      search: "",
       status: status == null ? "" : status.toString(),
     };
     setQuery(newQuery);
@@ -284,29 +241,21 @@ export const Motel: React.FC = () => {
               </div>
               <div>
                  <div className="input-group">
-                  <div className="input-group-text" >
+                  <div className="input-group-text">
                   <FontAwesomeIcon
                             icon={faSearch}
                             size="lg"
                             color="#0B1A46"
                             className="form-check-input mt-0 border border-0"
-                            
-                           />
+                          />
                   </div>
                   <input
                     type="text"
                     className="form-control"
                     aria-label="Text input with radio button"
                     placeholder="Tìm kiếm"
-                    onChange={(e) => HandleSearch(e.target.value)}
-                    value={query.search}
-                    //clear input
                   >
                   </input>
-                  {/* clear input */}
-                  <button className="btn btn-clear" onClick={() => setQuery({ ...query, search: "" })}>
-                    <FontAwesomeIcon icon={faXmark} />
-                  </button>
                 </div> 
               </div>
             </div>
@@ -484,15 +433,7 @@ export const Motel: React.FC = () => {
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  {/* render page number */}
-                  {Array.from({ length: page.totalPages }, (_, index) => (
-                    <li className="page-item" key={index} onClick={() => HandlePage(index + 1)}>
-                      <a className="page-link  btn-filter" href="#">
-                        {index + 1}
-                      </a>
-                    </li>
-                  ))}
-                  {/* <li className="page-item">
+                  <li className="page-item">
                     <a className="page-link  btn-filter" href="#">
                       1
                     </a>
@@ -506,7 +447,7 @@ export const Motel: React.FC = () => {
                     <a className="page-link  btn-filter" href="#">
                       3
                     </a>
-                  </li> */}
+                  </li>
                   <li className="page-item">
                     <a
                       className="page-link  btn-filter"
