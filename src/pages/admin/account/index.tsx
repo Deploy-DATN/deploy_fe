@@ -31,6 +31,7 @@ export const Account: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [userId, setUserId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const handleOpenModal = () => {
     setShowModal(true);
   };
@@ -53,23 +54,21 @@ export const Account: React.FC = () => {
   const handleCloseDeleteModal = () => {
     setShowDeleteModal(false);
   };
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await getAllUser(null);
-        console.log(res);
-        if (res.data.code === 200) {
-          setUsers(res.data.data.list);
-          setTotalPages(res.data.data.totalPage);
-        }
-
-      } catch (error) {
-        console.error("Error fetching users:", error);
+  const fetchUser = async (pageNumber = 1, searchString = "") => {
+    try {
+      const res = await getAllUser({ pageNumber, searchString });
+      if (res.data.code === 200) {
+        setUsers(res.data.data.list);
+        setTotalPages(res.data.data.totalPage);
       }
-    };
-    fetchUser();
-  }, []);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
+  useEffect(() => {
+    fetchUser(currentPage, searchQuery);
+  }, [currentPage, searchQuery]);
   const pageNumbers = [];
   console.log(totalPages);
   for (let i = 1; i <= totalPages; i++) {
@@ -94,6 +93,15 @@ export const Account: React.FC = () => {
       window.location.reload();
     }
   };
+  const handleSearch = () => {
+    setCurrentPage(1);
+    fetchUser(1, searchQuery);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") handleSearch();
+  };
+ 
   return (
     <>
       <div className="container-fluid">
@@ -102,6 +110,16 @@ export const Account: React.FC = () => {
             <div className="card-body p-4">
               <div className="d-flex justify-content-between align-items-center">
                 <h2 className="header-name-all">Quản lý tài khoản</h2>
+                <div className="search-container">
+                  <input
+                    type="text"
+                    placeholder="Search users..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="form-control"
+                  />
+                </div>
                 <button
                   className="btn btn-create-notification btn-transform-y2"
                   onClick={handleOpenModal}
@@ -164,7 +182,7 @@ export const Account: React.FC = () => {
                           </a>
                           <a
                             href="#"
-                            className="px-2 py-1 mx-1 btn-transform-y2" 
+                            className="px-2 py-1 mx-1 btn-transform-y2"
                             onClick={() => handleOpenDeleteModal(user.id)}
                           >
                             <FontAwesomeIcon
@@ -227,7 +245,7 @@ export const Account: React.FC = () => {
       {/* Edit Account Modal */}
       {showEditModal && userId !== null && <EditAccount userId={userId} onClose={handleCloseEditModal} onSubmit={() => handlePageChange(currentPage)} />}
       {/* Delete Account Modal */}
-      {showDeleteModal && userId !== null && <DeleteAccount userId={userId} onClose={handleCloseDeleteModal} onSubmit={()=>handlePageChange(currentPage)}/>}
+      {showDeleteModal && userId !== null && <DeleteAccount userId={userId} onClose={handleCloseDeleteModal} onSubmit={() => handlePageChange(currentPage)} />}
     </>
   );
 };

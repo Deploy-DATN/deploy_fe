@@ -36,11 +36,16 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
   
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setFormData((prev) => ({ ...prev, avatar: base64String }));
+        setSelectedImage(base64String);
+      };
+      reader.readAsDataURL(file);
     }
   };
   //get data
