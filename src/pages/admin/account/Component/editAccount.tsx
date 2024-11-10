@@ -8,6 +8,7 @@ import { set } from "react-hook-form";
 interface EditAccountProps {
   userId: number;
   onClose: () => void;
+  onSubmit: () => void;
 }
 
 interface User {
@@ -22,7 +23,7 @@ interface User {
 }
 
 
-const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose }) => {
+const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const [formData, setFormData] = useState({
@@ -98,6 +99,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose }) => {
         console.log(response.data.message);
       }
       // Optionally, handle success (like resetting the form, showing a success message, etc.)
+      onSubmit();
     } catch (error) {
       //shoe error
       window.alert("Cập nhật tài khoản thất bại" + error);  

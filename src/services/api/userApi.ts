@@ -37,3 +37,8 @@ export const updateUser = (id: number, data: User) => {
         validateStatus: status => (status >= 200 && status < 300) || status === 400
     });
 }
+export const deleteUser = (id: number) => {
+    return axios.delete(API.DELETEUSER + id, {
+        validateStatus: status => (status >= 200 && status < 300) || status === 400
+    });
+}

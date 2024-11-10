@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddAccount from "./Component/addAccount";
 import EditAccount from "./Component/editAccount";
+import DeleteAccount from "./Component/deleteAccount";
 
 import { getAllUser } from "@/services/api/userApi";
 import { set } from "react-hook-form";
@@ -31,20 +32,28 @@ export const Account: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [userId, setUserId] = useState<number| null>(null);
+  const [userId, setUserId] = useState<number | null>(null);
   const handleOpenModal = () => {
     setShowModal(true);
   };
   const handleCloseModal = () => {
     setShowModal(false);
   };
-//lấy id để sửa
-  const handleOpenEditModal = (userID:number) => {
+  //lấy id để sửa
+  const handleOpenEditModal = (userID: number) => {
     setUserId(userID);
     setShowEditModal(true);
   };
   const handleCloseEditModal = () => {
     setShowEditModal(false);
+  };
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const handleOpenDeleteModal = (userID: number) => {
+    setUserId(userID);
+    setShowDeleteModal(true);
+  };
+  const handleCloseDeleteModal = () => {
+    setShowDeleteModal(false);
   };
   useEffect(() => {
     const fetchUser = async () => {
@@ -55,19 +64,11 @@ export const Account: React.FC = () => {
           setUsers(res.data.data.list);
           setTotalPages(res.data.data.totalPage);
         }
-        
+
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const handleOpenDeleteModal = () => {
-      setShowDeleteModal(true);
-    };
-    const handleCloseDeleteModal = () => {
-      setShowDeleteModal(false);
-    };
-
     fetchUser();
   }, []);
 
@@ -81,7 +82,7 @@ export const Account: React.FC = () => {
     setCurrentPage(pageNumber);
     // gọi ở đây
     try {
-      const res = await getAllUser({pageNumber: pageNumber});
+      const res = await getAllUser({ pageNumber: pageNumber });
       console.log(res);
       // đặt lại ng dùng
       if (res.data.code === 200) {
@@ -91,6 +92,8 @@ export const Account: React.FC = () => {
     }
     catch (error) {
       console.error("Error fetching users:", error);
+      // reload
+      window.location.reload();
     }
   };
   return (
@@ -163,7 +166,8 @@ export const Account: React.FC = () => {
                           </a>
                           <a
                             href="#"
-                            className="px-2 py-1 mx-1 btn-transform-y2"
+                            className="px-2 py-1 mx-1 btn-transform-y2" 
+                            onClick={() => handleOpenDeleteModal(user.id)}
                           >
                             <FontAwesomeIcon
                               icon={faTrashCan}
@@ -193,7 +197,7 @@ export const Account: React.FC = () => {
                     </li>
                     {pageNumbers.map((number) => (
                       <li className="page-item" key={number}>
-                        <a 
+                        <a
                           style={{ caretColor: "transparent" }}
                           className={`page-link btn-filter ${number === currentPage ? "active" : ""}`}
                           onClick={() => handlePageChange(number)}
@@ -203,7 +207,7 @@ export const Account: React.FC = () => {
                       </li>
                     ))}
                     <li className="page-item">
-                      <a 
+                      <a
                         style={{ caretColor: "transparent" }}
                         className="page-link btn-filter"
                         onClick={() => handlePageChange(currentPage + 1)}
@@ -217,16 +221,15 @@ export const Account: React.FC = () => {
               </div>
             </div>
           </div>
-          {showModal && <AddAccount onClose={handleCloseModal} />}
-          {showEditModal && <EditAccount onClose={handleCloseEditModal} />}
-          {showDeleteModal && <DeleteAccount onClose={handleCloseDeleteModal} />}
         </div>
       </div>
 
       {/* Add Account Modal */}
-      {showModal && <AddAccount onClose={handleCloseModal} />}
+      {showModal && <AddAccount onClose={handleCloseModal} onSubmit={() => handlePageChange(currentPage)} />}
       {/* Edit Account Modal */}
-      {showEditModal && userId !== null  && <EditAccount userId={userId}   onClose={handleCloseEditModal} />}
+      {showEditModal && userId !== null && <EditAccount userId={userId} onClose={handleCloseEditModal} onSubmit={() => handlePageChange(currentPage)} />}
+      {/* Delete Account Modal */}
+      {showDeleteModal && userId !== null && <DeleteAccount userId={userId} onClose={handleCloseDeleteModal} onSubmit={()=>handlePageChange(currentPage)}/>}
     </>
   );
 };

@@ -1,5 +1,30 @@
+import React from "react";
+import { deleteUser } from "@/services/api/userApi";
+interface DeleteAccountProps {
+  userId: number;
+  onClose: () => void;
+  onSubmit: () => void;
+}
 
-const DeleteAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+
+const DeleteAccount: React.FC<DeleteAccountProps> = ({ userId, onClose, onSubmit }) => {
+  const onDelete = async () => {
+    try {
+      const response = await deleteUser(userId);
+      console.log(response);
+      if (response.status !== 200) {
+        throw new Error(response.statusText);
+      }
+
+      // Notify the parent component or refresh data, if needed
+      window.alert("Tài khoản đã được xóa thành công.");
+      onClose();
+      onSubmit();
+    } catch (error) {
+      alert("Đã xảy ra lỗi khi xóa tài khoản.");
+      console.error(error);
+    }
+  };
   return (
     <>
       <div className="modal-overlay-admin">
@@ -23,6 +48,7 @@ const DeleteAccount: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               </button>
               <button
                 type="button"
+                onClick={onDelete}
                 className="btn-luu-all btn-style btn-transform-y2"
               >
                 Lưu
