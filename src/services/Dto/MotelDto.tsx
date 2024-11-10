@@ -93,7 +93,6 @@ export interface GetEditMotelDTO {
   images: ImageInfo[];
   terms: MotelTermDTO[];
 }
-
 export interface EditMotelDTO {
   name: string;
   address: string;
@@ -127,3 +126,11 @@ export interface AddRoomDTO {
   area: string;
   price: string;
 }
+
+export interface MotelTermDTO {
+  id: number;
+  name: string;
+  type: string;
+  link: string;
+}
+
