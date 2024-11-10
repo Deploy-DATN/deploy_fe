@@ -113,7 +113,7 @@ export const Account: React.FC = () => {
                 <div className="search-container">
                   <input
                     type="text"
-                    placeholder="Search users..."
+                    placeholder="Tìm kiếm..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={handleKeyDown}

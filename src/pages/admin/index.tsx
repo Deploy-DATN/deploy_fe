@@ -19,6 +19,7 @@ import { Bill } from './BillOwner';
 import Unauthorized from '../login/components/unauthorized';
 import ProtectedRoute from '@/services/api/ProtectedRoute';
 
+
 export const Admin = () => {
 	return (
 		<Routes>
@@ -34,11 +35,7 @@ export const Admin = () => {
 					index
 					element={<Dashboard />}
 				/>
-				<Route
-					path='account'
-					element={<Account />}
-				/>
-
+				
 				{/* Routes chỉ dành cho Admin */}
 				<Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
 					<Route path='motel'>
@@ -93,6 +90,9 @@ export const Admin = () => {
 						path=':id'
 						element={<Infoticket1 />}
 					/>
+				</Route>
+				<Route path='account' element={<Account />}>
+					
 				</Route>
 				<Route
 					path='room'
