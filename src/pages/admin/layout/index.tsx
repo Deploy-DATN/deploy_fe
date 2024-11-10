@@ -60,7 +60,7 @@ export const Layout = () => {
 			setIsMiniSidebar(false);
 		}
 	};
-
+  
 	const isExactActive = (path: string) => location.pathname === path;
 
 	const isPartialActive = (path: string) => location.pathname.includes(path);
@@ -176,6 +176,17 @@ export const Layout = () => {
 									<span className='hide-menu ms-2 ps-1'>Ticket</span>
 								</Link>
 							</li>
+               <li className={clsx("sidebar-item", { "selected": isPartialActive('support') })}>
+                                <Link to='support'
+                                    className={clsx("sidebar-link sidebar-link indigo-hover-bg", { "active": isPartialActive('support') })}
+                                    aria-expanded="false"
+                                >
+                                    <span className="aside-icon p-2 bg-light-indigo rounded-3">
+                                        <i className="fa-regular fa-circle-question fs-7 text-indigo"></i>
+                                    </span>
+                                    <span className="hide-menu ms-2 ps-1">Trợ giúp</span>
+                                </Link>
+                            </li>
 						</ul>
 					</nav>
 					{/* <!-- End Sidebar navigation --> */}

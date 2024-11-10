@@ -1,0 +1,17 @@
+.create-ticket {
+    .title-main {
+        font-size: 20px;
+    }
+
+    .file-input {
+        height: 9vw;
+        width: 9vw;
+        &__label{
+            border: 1px dashed red;
+        }
+        &__img{
+            object-fit: cover;
+            border: 1px solid red;
+        }
+    }
+}

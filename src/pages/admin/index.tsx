@@ -18,6 +18,7 @@ import { OwnerIndexNoti } from './notification/component/OwnerNoti';
 import { Bill } from './BillOwner';
 import Unauthorized from '../login/components/unauthorized';
 import ProtectedRoute from '@/services/api/ProtectedRoute';
+import CreateTicket from './ticket/component/create_ticket'
 
 
 export const Admin = () => {
@@ -74,6 +75,10 @@ export const Admin = () => {
 						path='bill'
 						element={<Bill />}
 					/>
+          <Route 
+            path="support" 
+            element={<CreateTicket/>} 
+          />
 				</Route>
 
 				{/* Routes chung cho tất cả roles admin */}
