@@ -3,6 +3,7 @@ import Select, { StylesConfig } from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { addUser } from "@/services/api/userApi";
+import { getRole } from "@/services/api/userApi";
 interface AddAccountProps {
   onClose: () => void;
   onSubmit: () => void;
@@ -10,12 +11,7 @@ interface AddAccountProps {
 
 const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const options = [
-    { value: "admin", label: "Admin" },
-    { value: "chutro", label: "Chủ trọ" },
-    { value: "nhanvien", label: "Nhân viên" },
-  ];
-
+  const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
@@ -42,7 +38,25 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
     
   };
 
+  // Fetch the role data
+  React.useEffect(() => {
+    const fetchRole = async () => {
+      try {
+        const response = await getRole();
+        if (response.data.code === 200) {
+          const roleOptions = response.data.data.map((item: any) => ({
+            value: item.name,
+            label: item.name,
+          }));
+          setOptions(roleOptions);
+        }
+      } catch (error) {
+        console.error("Error fetching role data:", error);
+      }
+    };
 
+    fetchRole();
+  }, []);
 
   const customStyles: StylesConfig<{ value: string; label: string }> = {
     control: (provided) => ({
@@ -59,6 +73,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
       color: state.isFocused ? 'white' : 'black',
     }),
   };
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -85,7 +100,6 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
     try {
       // Make the API call
       const response = await addUser(data);
-      console.log('User added successfully:', response.data);
      
       if(response.data.code === 200){
         onClose();

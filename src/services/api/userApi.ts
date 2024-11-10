@@ -42,3 +42,7 @@ export const deleteUser = (id: number) => {
         validateStatus: status => (status >= 200 && status < 300) || status === 400
     });
 }
+
+export const getRole = () => {
+    return axios.get(API.GETROLE);
+}

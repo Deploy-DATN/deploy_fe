@@ -12,8 +12,6 @@ import EditAccount from "./Component/editAccount";
 import DeleteAccount from "./Component/deleteAccount";
 
 import { getAllUser } from "@/services/api/userApi";
-import { set } from "react-hook-form";
-import axios from "axios";
 
 interface User {
   id: number;
