@@ -305,6 +305,37 @@
   color: #298B90;
 }
 
+.noti-container{
+  .block-page-item{
+    &__block-page-link{
+        &--active {
+            background-color: #298B90 !important;
+            color: #fff !important;
+            cursor: auto;
+        }
+        &--disabled{
+            cursor: auto;
+            &:hover{
+                background-color: initial !important;
+                color: initial !important;
+            }
+            &:focus{
+                background-color: initial !important;
+                color: initial !important;
+            }
+        }
+    }
+}
+}
+
+
+
+
+
+
+
+
+
 
 
 

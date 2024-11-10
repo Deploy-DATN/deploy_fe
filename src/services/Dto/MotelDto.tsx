@@ -127,4 +127,3 @@ export interface AddRoomDTO {
   area: string;
   price: string;
 }
-
