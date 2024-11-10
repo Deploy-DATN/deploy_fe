@@ -1,4 +1,4 @@
-import { faEllipsis, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import "./styles/styleticket.scss"
@@ -57,7 +57,7 @@ export const TicketPage: React.FC = () => {
               </div>
             </div>
             <div className="d-flex justify-content-between my-4 block-filter">
-              <div className="d-flex mb-4 flex-wrap block-filter__button">
+              <div className="d-flex flex-wrap block-filter__button">
                 <button
                   onClick={() => fetchTickets({
                     search: keySearch
