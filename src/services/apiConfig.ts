@@ -23,6 +23,7 @@ export enum API {
     GETUSERBYID = API_URL + '/User/',
     UPDATEUSER = API_URL + '/User/',
     DELETEUSER = API_URL + '/User/',
+    GETROLE = API_URL + '/Role',
 }
 
 const axiosInstance = axios.create({
