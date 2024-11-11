@@ -26,16 +26,17 @@ export const UpdateTicket = (param: FormTicket) => {
 
 export const CreateTicket = (param: FormCreate) => {
     const formData = new FormData();
-      formData.append('title', param.title);
-      formData.append('content', param.content);
-      formData.append('type', String(param.type));
-      formData.append('receiver', param.receiver || '');
-      formData.append('userId', param.userId ? String(param.userId) : '');
-      formData.append('modelId', param.modelId ? String(param.modelId) : '');
+    formData.append('title', param.title);
+    formData.append('content', param.content);
+    formData.append('type', String(param.type));
+    formData.append('receiver', param.receiver || '');
+    formData.append('userId', param.userId ? String(param.userId) : '');
+    formData.append('modelId', param.modelId ? String(param.modelId) : '');
 
-      param.imgs.forEach((item) => {
+    param.imgs.forEach((item) => {
         if (item instanceof File) {
             formData.append('imgs', item);
         }
     });
     return axios.post(API.CREATEtICKET, formData);
+}

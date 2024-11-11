@@ -12,7 +12,7 @@ import { Infomotel } from './motel/component/infomotel';
 import IndexOwner from './motel/component/indexOwner';
 import AddMotelOwner from './motel/component/addmotel';
 import EditMotelOwner from './motel/component/editmotel';
-import Infoticket1 from './ticket/component/inforticket1';
+import Infoticket from './ticket/component/Inforticket';
 import Room from './room';
 import { OwnerIndexNoti } from './notification/component/OwnerNoti';
 import { Bill } from './BillOwner';
@@ -36,7 +36,7 @@ export const Admin = () => {
 					index
 					element={<Dashboard />}
 				/>
-				
+
 				{/* Routes chỉ dành cho Admin */}
 				<Route element={<ProtectedRoute allowedRoles={['Admin']} />}>
 					<Route path='motel'>
@@ -75,10 +75,10 @@ export const Admin = () => {
 						path='bill'
 						element={<Bill />}
 					/>
-          <Route 
-            path="support" 
-            element={<CreateTicket/>} 
-          />
+					<Route
+						path="support"
+						element={<CreateTicket />}
+					/>
 				</Route>
 
 				{/* Routes chung cho tất cả roles admin */}
@@ -93,11 +93,11 @@ export const Admin = () => {
 					/>
 					<Route
 						path=':id'
-						element={<Infoticket1 />}
+						element={<Infoticket />}
 					/>
 				</Route>
 				<Route path='account' element={<Account />}>
-					
+
 				</Route>
 				<Route
 					path='room'
