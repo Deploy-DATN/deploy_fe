@@ -81,11 +81,16 @@ export const Admin = () => {
 					/>
 				</Route>
 
+				<Route element={<ProtectedRoute allowedRoles={['Admin', 'Staff']} />}>
+
+					<Route
+						path='notification'
+						element={<Notification />}
+					/>
+				</Route>
+
 				{/* Routes chung cho tất cả roles admin */}
-				<Route
-					path='notification'
-					element={<Notification />}
-				/>
+
 				<Route path='ticket'>
 					<Route
 						index
