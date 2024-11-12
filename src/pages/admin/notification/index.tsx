@@ -92,6 +92,29 @@ export const Notification: React.FC = () => {
     fetchNotifications();
   }, []);
 
+  const formatContent = (content: string) => {
+    const maxLength = 80;
+    let formattedContent = '';
+    let currentLine = '';
+    // Tách nội dung thành các từ
+    const words = content.split(' ');
+    words.forEach(word => {
+      if ((currentLine + word).length <= maxLength) {
+        // Nếu thêm từ vào dòng hiện tại mà không vượt quá 100 ký tự, thêm từ đó vào
+        currentLine += (currentLine ? ' ' : '') + word;
+      } else {
+        // Nếu thêm từ vào vượt quá 100 ký tự, kết thúc dòng hiện tại và bắt đầu dòng mới
+        formattedContent += currentLine + '<br />';
+        currentLine = word; // bắt đầu dòng mới với từ hiện tại
+      }
+    });
+    // Thêm dòng cuối cùng (nếu có)
+    if (currentLine) {
+      formattedContent += currentLine;
+    }
+    return formattedContent;
+  };
+
   return (
     <div className="container-fluid noti-container">
       <div className="row align-items-stretch">
@@ -160,7 +183,7 @@ export const Notification: React.FC = () => {
                         <p className="fs-3 fw-normal mb-0">{noti.title}</p>
                       </td>
                       <td>
-                        <p className="fs-3 fw-normal mb-0">{noti.content}</p>
+                        <p className="fs-3 fw-normal mb-0"><span dangerouslySetInnerHTML={{ __html: formatContent(noti.content) }} /></p>
                       </td>
                       <td>
                         <span className={`badge rounded-pill px-3 py-2 fs-3 ${getNotificationTypeClass(noti.type)}`}>

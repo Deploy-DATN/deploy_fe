@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import logo from '@/assets/ThoStay.svg';
 import { getAccountApi } from '@/services/api/authApi';
 import { User } from '@/pages/user';
-import { jwtDecode } from 'jwt-decode';
+import { getSentNotiApi } from '@/services/api/notiApi';
 
 interface User {
 	id: string;
@@ -22,6 +22,7 @@ interface User {
 export const Layout = () => {
 	const scrollableNodeRef = useRef<HTMLDivElement>(null);
 	const [user, setUser] = useState<User>();
+	const [sentNotifications, setSentNotifications] = useState<any[]>([]);
 
 	useEffect(() => {
 		LoadUser();
@@ -35,10 +36,25 @@ export const Layout = () => {
 	}, []);
 
 	const LoadUser = async () => {
-		const response = await getAccountApi();
-		setUser(response.data.data);
-		console.log(response.data.data);
+		try {
+			const response = await getAccountApi();
+			const userData = response.data.data;
+			setUser(userData);
+			console.log(userData);
+			// Gọi API getSentNotiApi với email của user
+			if (userData?.email) {
+				const sentNotiResponse = await getSentNotiApi({ email: userData.email });
+				setSentNotifications(sentNotiResponse.data.notifications); // Lưu dữ liệu thông báo vào biến state
+				console.log("Sent Notifications:", sentNotiResponse.data.notifications);
+			}
+		} catch (error) {
+			console.error("Error loading user data:", error);
+		}
 	};
+
+
+
+
 
 	const [isMiniSidebar, setIsMiniSidebar] = useState(false);
 	const [isShowSidebar, setIsShowSidebar] = useState(false);
@@ -60,7 +76,7 @@ export const Layout = () => {
 			setIsMiniSidebar(false);
 		}
 	};
-  
+
 	const isExactActive = (path: string) => location.pathname === path;
 
 	const isPartialActive = (path: string) => location.pathname.includes(path);
@@ -70,6 +86,28 @@ export const Layout = () => {
 		window.location.reload();
 	};
 
+	const formatContent = (content: string) => {
+		const maxLength = 100;
+		let formattedContent = '';
+		let currentLine = '';
+		// Tách nội dung thành các từ
+		const words = content.split(' ');
+		words.forEach(word => {
+			if ((currentLine + word).length <= maxLength) {
+				// Nếu thêm từ vào dòng hiện tại mà không vượt quá 100 ký tự, thêm từ đó vào
+				currentLine += (currentLine ? ' ' : '') + word;
+			} else {
+				// Nếu thêm từ vào vượt quá 100 ký tự, kết thúc dòng hiện tại và bắt đầu dòng mới
+				formattedContent += currentLine + '<br />';
+				currentLine = word; // bắt đầu dòng mới với từ hiện tại
+			}
+		});
+		// Thêm dòng cuối cùng (nếu có)
+		if (currentLine) {
+			formattedContent += currentLine;
+		}
+		return formattedContent;
+	};
 
 	return (
 		// < !--Body Wrapper-- >
@@ -176,17 +214,17 @@ export const Layout = () => {
 									<span className='hide-menu ms-2 ps-1'>Ticket</span>
 								</Link>
 							</li>
-               <li className={clsx("sidebar-item", { "selected": isPartialActive('support') })}>
-                                <Link to='support'
-                                    className={clsx("sidebar-link sidebar-link indigo-hover-bg", { "active": isPartialActive('support') })}
-                                    aria-expanded="false"
-                                >
-                                    <span className="aside-icon p-2 bg-light-indigo rounded-3">
-                                        <i className="fa-regular fa-circle-question fs-7 text-indigo"></i>
-                                    </span>
-                                    <span className="hide-menu ms-2 ps-1">Trợ giúp</span>
-                                </Link>
-                            </li>
+							<li className={clsx("sidebar-item", { "selected": isPartialActive('support') })}>
+								<Link to='support'
+									className={clsx("sidebar-link sidebar-link indigo-hover-bg", { "active": isPartialActive('support') })}
+									aria-expanded="false"
+								>
+									<span className="aside-icon p-2 bg-light-indigo rounded-3">
+										<i className="fa-regular fa-circle-question fs-7 text-indigo"></i>
+									</span>
+									<span className="hide-menu ms-2 ps-1">Trợ giúp</span>
+								</Link>
+							</li>
 						</ul>
 					</nav>
 					{/* <!-- End Sidebar navigation --> */}
@@ -227,18 +265,20 @@ export const Layout = () => {
 										aria-expanded="false"
 									>
 										<i className="ti ti-bell-ringing"></i>
-										<div className="notification bg-primary rounded-circle"></div>
+										{sentNotifications.length > 0 && (
+											<div className="notification bg-primary rounded-circle"></div>
+										)}
 									</a>
 									<div className="dropdown-menu dropdown-menu-end">
-										<a className="dropdown-item" href="#">
-											Thông báo 1 vvvvvvvvvvvvvvvvvvvbbbbbbbbbbbbbbbbbb
-										</a>
-										<a className="dropdown-item" href="#">
-											Thông báo 2
-										</a>
-										<a className="dropdown-item" href="#">
-											Thông báo 3
-										</a>
+										{sentNotifications.length > 0 ? (
+											sentNotifications.map((notification, index) => (
+												<a className="dropdown-item" href="#" key={index}>
+													<strong>{notification.title}</strong> <br /> <span dangerouslySetInnerHTML={{ __html: formatContent(notification.content) }} />
+												</a>
+											))
+										) : (
+											<span className="dropdown-item">Bạn chưa nhận được thông báo nào</span>
+										)}
 									</div>
 								</li>
 								<li className="nav-item dropdown">
