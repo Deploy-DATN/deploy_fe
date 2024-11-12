@@ -28,6 +28,12 @@ export interface ParamsPage {
     pageNumber?: number;
     pageSize?: number;
     status?: number;
+    token?: string;
+}
+
+export interface InfoTicketParams {
+    id: number;
+    token?: string;
 }
 
 export interface FormTicket {

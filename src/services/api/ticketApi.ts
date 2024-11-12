@@ -1,6 +1,6 @@
 import axios from "axios"
 import { API } from '../apiConfig'
-import { ParamsPage, FormTicket, FormCreate } from "../Dto/ticketDto";
+import { ParamsPage, FormTicket, FormCreate, InfoTicketParams } from "../Dto/ticketDto";
 
 //get tickets
 export const getTickets = (param?: ParamsPage) => {
@@ -8,8 +8,8 @@ export const getTickets = (param?: ParamsPage) => {
 }
 
 // get ticket by id
-export const getTicketById = (id: number) => {
-    return axios.get(API.GETTICKETBYID, { params: { id: id } });
+export const getTicketById = (params: InfoTicketParams) => {
+    return axios.get(API.GETTICKETBYID, { params: params });
 }
 
 // get receivers

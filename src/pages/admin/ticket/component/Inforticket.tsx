@@ -9,6 +9,8 @@ import { FormTicket } from '@/services/Dto/ticketDto';
 
 import '../styles/infoticket.scss'
 import { Selectbox, Option } from '@/components/form_controls/select';
+import { getAccountApi } from '@/services/api/authApi';
+import { Account } from '@/services/Dto/authDto';
 
 const Infoticket = () => {
     const { id } = useParams<{ id: string }>();
@@ -18,6 +20,13 @@ const Infoticket = () => {
     const [infoticket, setInfoticket] = useState<InfoTicket>();
 
     const [selectReceiver, setSelectReceiver] = useState<Option[]>([]);
+
+    const [user, setUser] = useState<Account>();
+
+    const loadUser = async () => {
+        const res = await getAccountApi();
+        setUser(res.data.data);
+    }
 
     const selectStatus: Option[] = [
         { value: 1, label: 'Tiếp nhận' },
@@ -29,8 +38,11 @@ const Infoticket = () => {
 
     const fetchInfoticket = async (ticketId: number) => {
         try {
-            const res = await getTicketById(ticketId);
-            setInfoticket(res.data.data);
+            const token = localStorage.getItem('token');
+            if (token) {
+                const res = await getTicketById({ id: ticketId, token: token });
+                setInfoticket(res.data.data);
+            }
         } catch (error) {
             console.error('Lỗi lấy dữ liệu api:', error);
         }
@@ -55,6 +67,7 @@ const Infoticket = () => {
             const ticketId = +id;
             fetchInfoticket(ticketId);
             fetchReceivers();
+            loadUser();
         }
     }, [id]);
 
@@ -104,12 +117,6 @@ const Infoticket = () => {
                     <div className="card-body p-4">
                         <div className="d-flex justify-content-between align-items-center mb-3">
                             <div className="header-name-all">Chi tiết ticket</div>
-                            <div>
-                                {" "}
-                                <div className="">
-                                    {/* button thêm */}
-                                </div>
-                            </div>
                         </div>
                         <div className='row'>
                             <div className='col-6 block-content'>
@@ -142,10 +149,20 @@ const Infoticket = () => {
                                     />
                                 </div>
                                 <div className='row mb-3'>
-                                    <div className='receiver col-6'>
-                                        <div className='receiver__label mb-2'>Người sử lý:</div>
-                                        <Selectbox control={control} name='receiver' className='form-select' options={selectReceiver} />
-                                    </div>
+                                    {user && user.role === "Owner" ?
+                                        <div className='receiver col-6'>
+                                            <div className='receiver__label mb-2'>Người sử lý:</div>
+                                            <input
+                                                value={infoticket?.receiver}
+                                                className='receiver__content form-control'
+                                                disabled />
+                                        </div>
+                                        :
+                                        <div className='receiver col-6'>
+                                            <div className='receiver__label mb-2'>Người sử lý:</div>
+                                            <Selectbox control={control} name='receiver' className='form-select' options={selectReceiver} />
+                                        </div>
+                                    }
                                     <div className='status col-6'>
                                         <div className='status__label mb-2'>Tiến trình:</div>
                                         <Selectbox control={control} name='status' className='form-select' options={selectStatus} />
