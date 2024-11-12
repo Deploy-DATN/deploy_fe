@@ -36,9 +36,14 @@ export const OwnerIndexNoti: React.FC = () => {
                 <thead>
                   <tr className="brg-table-tro rounded-pill">
                     <th scope="col">STT</th>
-                    <th scope="col">Tiêu đề</th>
-                    <th scope="col">Mô tả</th>
-                    <th scope="col">Ngày tạo</th>
+                    <th scope="col">Tên chủ trọ</th>
+                    <th scope="col">Địa chỉ</th>
+                    <th scope="col">Số phòng</th>
+                    <th scope="col">Giá điện</th>
+                    <th scope="col">Giá nước</th>
+                    <th scope="col">Giá khác</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Thao tác</th>
                   </tr>
                 </thead>
                 <tbody>

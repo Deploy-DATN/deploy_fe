@@ -29,3 +29,24 @@ export interface ParamsPage {
     pageSize?: number;
     status?: number;
 }
+
+export interface FormTicket {
+    id: number;
+    receiver: string;
+    status: number;
+}
+
+export interface Receiver {
+    id: number;
+    fullName: string;
+}
+
+export interface FormCreate {
+    type?: number;
+    title: string;
+    content: string;
+    receiver?: string | null | undefined;
+    userId?: number | null | undefined;
+    modelId?: number | null | undefined;
+    imgs: (File | undefined)[];
+}

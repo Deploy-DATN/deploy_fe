@@ -1,15 +1,31 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-import { InfoTicket } from "@/services/Dto/ticketDto"
+import { InfoTicket, Receiver } from "@/services/Dto/ticketDto"
 import { useEffect, useState } from "react"
-import { getTicketById } from '@/services/api/ticketApi';
+import { getReceiver, getTicketById, UpdateTicket } from '@/services/api/ticketApi';
+import { useForm } from 'react-hook-form'
+import Swal from 'sweetalert2';
+import { FormTicket } from '@/services/Dto/ticketDto';
 
 import '../styles/infoticket.scss'
+import { Selectbox, Option } from '@/components/form_controls/select';
 
 const Infoticket = () => {
     const { id } = useParams<{ id: string }>();
 
+    const navigate = useNavigate();
+
     const [infoticket, setInfoticket] = useState<InfoTicket>();
+
+    const [selectReceiver, setSelectReceiver] = useState<Option[]>([]);
+
+    const selectStatus: Option[] = [
+        { value: 1, label: 'Tiếp nhận' },
+        { value: 2, label: 'Đang sử lý' },
+        { value: 3, label: 'Hoàn thành' }
+    ];
+
+    const { control, handleSubmit, reset } = useForm<FormTicket>();
 
     const fetchInfoticket = async (ticketId: number) => {
         try {
@@ -19,19 +35,67 @@ const Infoticket = () => {
             console.error('Lỗi lấy dữ liệu api:', error);
         }
     }
+
+    const fetchReceivers = async (roleName?: string) => {
+        try {
+            const res = await getReceiver(roleName);
+            const receiver: Receiver[] = res.data.data;
+            const options: Option[] = (receiver ?? []).map((item) => ({
+                value: item.id,
+                label: item.fullName
+            }));
+            setSelectReceiver(options);
+        } catch (error) {
+            console.error('Lỗi lấy dữ liệu api:', error);
+        }
+    }
+
     useEffect(() => {
         if (id) {
             const ticketId = +id;
             fetchInfoticket(ticketId);
+            fetchReceivers();
         }
     }, [id]);
 
-    const images = [
-        'https://placehold.co/50x50',
-        'https://placehold.co/250x150',
-        'https://placehold.co/150x150',
-        'https://placehold.co/250x150'
-    ];
+    useEffect(() => {
+        if (infoticket) {
+            reset({
+                id: infoticket.id,
+                receiver: infoticket.receiver,
+                status: infoticket.status
+            });
+        }
+    }, [infoticket, reset]);
+
+    const onSubmit = async (data: FormTicket) => {
+        try {
+            const res = await UpdateTicket(data);
+            if (res.data.code === 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Thành công',
+                });
+                navigate('/admin/ticket');
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Thất bại',
+                });
+            }
+
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Có lỗi xảy ra trong quá trình cập nhật',
+            });
+            console.error('Lỗi API:', error);
+        }
+    };
 
     return (
         <div className="container-fluid infoticket">
@@ -80,17 +144,11 @@ const Infoticket = () => {
                                 <div className='row mb-3'>
                                     <div className='receiver col-6'>
                                         <div className='receiver__label mb-2'>Người sử lý:</div>
-                                        <input
-                                            value={infoticket?.receiver}
-                                            className='receiver__content form-control'
-                                        />
+                                        <Selectbox control={control} name='receiver' className='form-select' options={selectReceiver} />
                                     </div>
                                     <div className='status col-6'>
                                         <div className='status__label mb-2'>Tiến trình:</div>
-                                        <input
-                                            value={infoticket?.status === 1 ? "Tiếp nhận" : infoticket?.status === 2 ? "Đang sử lý" : infoticket?.status === 3 ? "Hoàn thành" : "Chưa có"}
-                                            className='status__content form-control'
-                                        />
+                                        <Selectbox control={control} name='status' className='form-select' options={selectStatus} />
                                     </div>
                                 </div>
                                 <div className='type mb-3'>
@@ -102,8 +160,8 @@ const Infoticket = () => {
                                     />
                                 </div>
                                 <div className='action d-flex justify-content-between'>
-                                    <a className="btn btn-primary" href="#" role="button">Link</a>
-                                    <a className="btn btn-primary" href="#" role="button">Link</a>
+                                    <Link className="btn btn-primary" to={'/admin/ticket'} role="button">Trở về</Link>
+                                    <button className="btn btn-primary" onClick={handleSubmit(onSubmit)} role="button">Lưu</button>
                                 </div>
                             </div>
                             <div className='col-6 block-image row align-items-center'>

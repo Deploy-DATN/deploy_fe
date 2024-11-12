@@ -12,12 +12,14 @@ import { Infomotel } from './motel/component/infomotel';
 import IndexOwner from './motel/component/indexOwner';
 import AddMotelOwner from './motel/component/addmotel';
 import EditMotelOwner from './motel/component/editmotel';
-import Infoticket1 from './ticket/component/inforticket1';
+import Infoticket from './ticket/component/Inforticket';
 import Room from './room';
 import { OwnerIndexNoti } from './notification/component/OwnerNoti';
 import { Bill } from './BillOwner';
 import Unauthorized from '../login/components/unauthorized';
 import ProtectedRoute from '@/services/api/ProtectedRoute';
+import CreateTicket from './ticket/component/create_ticket'
+
 
 export const Admin = () => {
 	return (
@@ -33,10 +35,6 @@ export const Admin = () => {
 				<Route
 					index
 					element={<Dashboard />}
-				/>
-				<Route
-					path='account'
-					element={<Account />}
 				/>
 
 				{/* Routes chỉ dành cho Admin */}
@@ -85,13 +83,22 @@ export const Admin = () => {
 						path='bill'
 						element={<Bill />}
 					/>
+					<Route
+						path="support"
+						element={<CreateTicket />}
+					/>
+				</Route>
+
+				<Route element={<ProtectedRoute allowedRoles={['Admin', 'Staff']} />}>
+
+					<Route
+						path='notification'
+						element={<Notification />}
+					/>
 				</Route>
 
 				{/* Routes chung cho tất cả roles admin */}
-				<Route
-					path='notification'
-					element={<Notification />}
-				/>
+
 				<Route path='ticket'>
 					<Route
 						index
@@ -99,9 +106,16 @@ export const Admin = () => {
 					/>
 					<Route
 						path=':id'
-						element={<Infoticket1 />}
+						element={<Infoticket />}
 					/>
 				</Route>
+				<Route path='account' element={<Account />}>
+
+				</Route>
+				<Route
+					path='room'
+					element={<Room />}
+				/>
 			</Route>
 			<Route
 				path='*'

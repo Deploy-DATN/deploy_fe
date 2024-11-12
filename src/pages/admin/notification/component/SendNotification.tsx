@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import { postSendNotiApi, SendNoti } from "@/services/api/authApi";
 import { jwtDecode } from "jwt-decode";
-import { KEY_LOCAL, getFromLocalStorage } from "@/ustils/local/F_LocalStorage";
 import "src/pages/admin/notification/notification.scss";
 
 interface SendNotificationProps {
@@ -25,17 +24,15 @@ const SendNotification: React.FC<SendNotificationProps> = ({
   const { handleSubmit } = useForm<SendNoti>();
 
   useEffect(() => {
-    const token = getFromLocalStorage<string>(KEY_LOCAL.TOKEN);
+    const token = localStorage.getItem('token');
     if (token) {
       const decoded: any = jwtDecode(token);
-      const userRole =
-        decoded[
-          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-        ].toLowerCase();
+      const userRole = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].toLowerCase();
+      console.log("User Role:", userRole); // kiểm tra userRole
       const filteredRoles = availableRoles.filter(
         (role) => role.toLowerCase() !== userRole
       );
-      console.log("Available Roles after filtering:", filteredRoles);
+      console.log("Available Roles after filtering:", filteredRoles); // kiểm tra các role sau khi lọc
       setAvailableRoles(filteredRoles);
     }
   }, []);
@@ -122,7 +119,7 @@ const SendNotification: React.FC<SendNotificationProps> = ({
                 Trở về
               </button>
               <button
-                type="button"
+                type="submit"
                 className="btn-luu-all btn-style btn-transform-y2"
               >
                 Bảo trì

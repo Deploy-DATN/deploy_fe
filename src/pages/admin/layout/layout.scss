@@ -1,0 +1,8 @@
+.message-body {
+    max-height: 400px;
+    /* Bạn có thể điều chỉnh chiều cao tối đa tùy ý */
+    overflow-y: auto;
+    /* Thêm thanh cuộn dọc khi vượt quá chiều cao */
+    padding-right: 10px;
+    /* Đảm bảo không bị che mất thanh cuộn */
+}

@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { getUserById } from "@/services/api/userApi";
 import { updateUser } from "@/services/api/userApi";
-import { set } from "react-hook-form";
+import { getRole } from "@/services/api/userApi";
 interface EditAccountProps {
   userId: number;
   onClose: () => void;
+  onSubmit: () => void;
 }
 
 interface User {
@@ -22,7 +23,7 @@ interface User {
 }
 
 
-const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose }) => {
+const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [userData, setUserData] = useState<User | null>(null);
   const [formData, setFormData] = useState({
@@ -32,12 +33,19 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose }) => {
     email: "",
     role: "", // Set default role as "Nhân viên"
   });
+  const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
+  
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setSelectedImage(imageUrl);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setFormData((prev) => ({ ...prev, avatar: base64String }));
+        setSelectedImage(base64String);
+      };
+      reader.readAsDataURL(file);
     }
   };
   //get data
@@ -45,7 +53,15 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose }) => {
     const fetchUser = async () => {
       try {
         const res = await getUserById(userId);
-        console.log(res);
+        //fecth role data
+        const role = await getRole();
+        //set role data
+        console.log("role data:", role.data.data);
+        const roleOptions = role.data.data.map((item: any) => ({
+          value: item.name,
+          label: item.name,
+        }));
+        setOptions(roleOptions);
         if (res.data.code === 200) {
           setUserData(res.data.data);
           for (let key in res.data.data) {
@@ -98,6 +114,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose }) => {
         console.log(response.data.message);
       }
       // Optionally, handle success (like resetting the form, showing a success message, etc.)
+      onSubmit();
     } catch (error) {
       //shoe error
       window.alert("Cập nhật tài khoản thất bại" + error);  
@@ -106,14 +123,18 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose }) => {
 
 
   const handleRoleChange = (selectedOption: { value: string; label: string }) => {
-    setFormData({ ...formData, role: selectedOption.value });
+    setFormData((prev) => ({
+      ...prev,
+      role: selectedOption.value,
+    }));
   };
 
-  const options = [
-    { value: "Admin", label: "Admin" },
-    { value: "chutro", label: "Chủ trọ" },
-    { value: "nhanvien", label: "Nhân viên" },
-  ];
+
+
+//fecth data Role
+
+
+  
 
   const handleTextChange = (key : any, value: any) => {
     console.log(key, value);
@@ -247,9 +268,10 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose }) => {
                   className="mt-2"
                   options={options}
                   styles={customStyles}
-                  value={options.find((option) => option.value === userData?.role)}
+                  value={options.find((option) => option.value === formData.role)}
                   placeholder="Chọn vai trò"
-                  onChange={(e: any) => handleRoleChange(e)}
+                  onChange={(e) => handleRoleChange(e as { value: string; label: string })}
+                  
 
                 />
 
