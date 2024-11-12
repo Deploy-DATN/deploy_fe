@@ -9,6 +9,7 @@ import logo from '@/assets/ThoStay.svg';
 import { getAccountApi } from '@/services/api/authApi';
 import { User } from '@/pages/user';
 import { getSentNotiApi } from '@/services/api/notiApi';
+import 'src/pages/admin/layout/layout.scss'
 
 interface User {
 	id: string;
@@ -51,10 +52,6 @@ export const Layout = () => {
 			console.error("Error loading user data:", error);
 		}
 	};
-
-
-
-
 
 	const [isMiniSidebar, setIsMiniSidebar] = useState(false);
 	const [isShowSidebar, setIsShowSidebar] = useState(false);
@@ -107,6 +104,19 @@ export const Layout = () => {
 			formattedContent += currentLine;
 		}
 		return formattedContent;
+	};
+
+	const getNotificationTypeClass = (type: number) => {
+		switch (type) {
+			case 2:
+				return 'badge bg-warning'; // Cảnh báo (vàng)
+			case 3:
+				return 'badge bg-danger'; // Khẩn cấp (đỏ)
+			case 4:
+				return 'badge bg-primary'; // Hệ thống (xanh dương)
+			default:
+				return 'badge bg-success'; // Thông thường (xanh lá cây)
+		}
 	};
 
 	return (
@@ -274,6 +284,11 @@ export const Layout = () => {
 											sentNotifications.map((notification, index) => (
 												<a className="dropdown-item" href="#" key={index}>
 													<strong>{notification.title}</strong> <br /> <span dangerouslySetInnerHTML={{ __html: formatContent(notification.content) }} />
+													<br /><br /><strong><span className={`badge rounded-pill px-3 py-2 fs-3 text-white  ${getNotificationTypeClass(notification.type)}`}>
+														{notification.type === 1 ? 'Thông thường' :
+															notification.type === 2 ? 'Cảnh báo' :
+																notification.type === 3 ? 'Khẩn cấp' : 'Hệ thống'}
+													</span></strong>
 												</a>
 											))
 										) : (
