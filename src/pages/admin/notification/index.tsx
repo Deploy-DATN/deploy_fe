@@ -52,6 +52,19 @@ export const Notification: React.FC = () => {
     setCurrentNotification(null);
   }
 
+  const getNotificationTypeClass = (type: number) => {
+    switch (type) {
+      case 2:
+        return 'badge bg-warning'; // Cảnh báo (vàng)
+      case 3:
+        return 'badge bg-danger'; // Khẩn cấp (đỏ)
+      case 4:
+        return 'badge bg-primary'; // Hệ thống (xanh dương)
+      default:
+        return 'badge bg-success'; // Thông thường (xanh lá cây)
+    }
+  };
+
   const fetchNotifications = async (param: ParamsPage = {}) => {
     try {
       const response = await getNotis(param);
@@ -78,6 +91,29 @@ export const Notification: React.FC = () => {
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  const formatContent = (content: string) => {
+    const maxLength = 80;
+    let formattedContent = '';
+    let currentLine = '';
+    // Tách nội dung thành các từ
+    const words = content.split(' ');
+    words.forEach(word => {
+      if ((currentLine + word).length <= maxLength) {
+        // Nếu thêm từ vào dòng hiện tại mà không vượt quá 100 ký tự, thêm từ đó vào
+        currentLine += (currentLine ? ' ' : '') + word;
+      } else {
+        // Nếu thêm từ vào vượt quá 100 ký tự, kết thúc dòng hiện tại và bắt đầu dòng mới
+        formattedContent += currentLine + '<br />';
+        currentLine = word; // bắt đầu dòng mới với từ hiện tại
+      }
+    });
+    // Thêm dòng cuối cùng (nếu có)
+    if (currentLine) {
+      formattedContent += currentLine;
+    }
+    return formattedContent;
+  };
 
   return (
     <div className="container-fluid noti-container">
@@ -147,18 +183,22 @@ export const Notification: React.FC = () => {
                         <p className="fs-3 fw-normal mb-0">{noti.title}</p>
                       </td>
                       <td>
-                        <p className="fs-3 fw-normal mb-0">{noti.content}</p>
+                        <p className="fs-3 fw-normal mb-0"><span dangerouslySetInnerHTML={{ __html: formatContent(noti.content) }} /></p>
                       </td>
                       <td>
-                        <p className="fs-3 fw-normal mb-0">{noti.type}</p>
+                        <span className={`badge rounded-pill px-3 py-2 fs-3 ${getNotificationTypeClass(noti.type)}`}>
+                          {noti.type === 1 ? 'Thông thường' :
+                            noti.type === 2 ? 'Cảnh báo' :
+                              noti.type === 3 ? 'Khẩn cấp' : 'Hệ thống'}
+                        </span>
                       </td>
                       <td>
-                        {noti.status === 0 ? (
-                          <span className={`tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3`}>
+                        {noti.status === 1 ? (
+                          <span className={`tt-choduyet badge bg-warning rounded-pill px-3 py-2 fs-3 text-white`}>
                             Chưa gửi
                           </span>
                         ) : (
-                          <span className={`tt-choduyet badge bg-light-success rounded-pill px-3 py-2 fs-3 text-black`}>
+                          <span className={`tt-choduyet badge bg-success rounded-pill px-3 py-2 fs-3 text-white`}>
                             Đã gửi
                           </span>
                         )}

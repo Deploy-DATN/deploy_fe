@@ -1,7 +1,11 @@
 import React from "react";
 
-const Baotriroom
-: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+interface BaotriroomProps {
+  onClose: () => void;
+  roomId: number;
+}
+
+const Baotriroom: React.FC<BaotriroomProps> = ({ onClose, roomId }) => {
   return (
     <>
       <div className="modal-overlay-admin">

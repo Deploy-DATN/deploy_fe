@@ -51,6 +51,14 @@ export const Admin = () => {
 					</Route>
 				</Route>
 
+				{/* Routes chỉ dành cho Admin và Owner */}
+				<Route element={<ProtectedRoute allowedRoles={['Admin', 'Owner']} />}>
+				<Route
+					path='room/:id'
+						element={<Room />}
+					/>
+				</Route>
+
 				{/* Routes chỉ dành cho Owner */}
 				<Route element={<ProtectedRoute allowedRoles={['Owner']} />}>
 					<Route path='indexOwner'>
@@ -63,7 +71,7 @@ export const Admin = () => {
 							element={<AddMotelOwner />}
 						/>
 						<Route
-							path='EditModelOwner'
+							path='EditModelOwner/:id'
 							element={<EditMotelOwner />}
 						/>
 					</Route>
@@ -81,11 +89,16 @@ export const Admin = () => {
 					/>
 				</Route>
 
+				<Route element={<ProtectedRoute allowedRoles={['Admin', 'Staff']} />}>
+
+					<Route
+						path='notification'
+						element={<Notification />}
+					/>
+				</Route>
+
 				{/* Routes chung cho tất cả roles admin */}
-				<Route
-					path='notification'
-					element={<Notification />}
-				/>
+
 				<Route path='ticket'>
 					<Route
 						index

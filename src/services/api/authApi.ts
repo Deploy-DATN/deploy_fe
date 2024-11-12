@@ -86,13 +86,11 @@ export interface RegisterAccountOwner {
 
 
 // API đăng nhập
-
 export const getLoginApi = (account: AccountDto) => {
     return axios.post(API.LOGIN, account);
 }
 
-// API lấy thông tin user
-
+// API lấy thông tin user, truyền vào token
 export const getAccountApi = () => {
     const token = localStorage.getItem('token');
     return axios.get(`${API_URL}/getUserByToken`, {
