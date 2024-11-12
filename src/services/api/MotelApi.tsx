@@ -108,3 +108,13 @@ export const EditRoomApi = async (data: EditRoomByIdDTO, roomId: number) => {
     return response.data;
 }
 
+export const ChangeRoomStatusToInactive = async (roomId: number) => {
+    const response = (await axios.put<ResponseDTO<null>>(`${API_URL}/Room/change-room-status-to-inactive/${roomId}`));
+    return response.data;
+}
+
+export const ChangeRoomStatusToActive = async (roomId: number) => {
+    const response = (await axios.put<ResponseDTO<null>>(`${API_URL}/Room/change-room-status-to-active/${roomId}`));
+    return response.data;
+}
+

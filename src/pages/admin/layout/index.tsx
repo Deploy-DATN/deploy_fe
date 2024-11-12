@@ -194,7 +194,7 @@ export const Layout = () => {
 							</li>
 							<li className={clsx('sidebar-item', { selected: isPartialActive('motel') })}>
 								<Link
-									to='motel'
+									to={user?.role === 'Owner' ? 'indexOwner' : 'motel'}
 									className={clsx('sidebar-link sidebar-link success-hover-bg', { active: isPartialActive('motel') })}
 									aria-expanded='false'>
 									<span className='aside-icon p-2 bg-light-success rounded-3'>

@@ -174,7 +174,7 @@ export const AddMotelOwner = () => {
 
 			if (response.code === 200) {
 				await alert('Thêm phòng trọ thành công');
-				location.reload();
+				navigate('/admin/motel');
 			}
 		} catch (error: any) {
 			alert(error.response?.data?.message || 'Có lỗi xảy ra');

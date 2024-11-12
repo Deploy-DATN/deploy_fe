@@ -171,6 +171,7 @@ export const Room = () => {
 											<RowTableRoom
 												key={room.id}
 												room={room}
+												motelStatus={motel?.status}
 												toggleModal={toggleModal}
 											/>
 										))}
