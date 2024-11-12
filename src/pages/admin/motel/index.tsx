@@ -6,14 +6,12 @@ import {
   faRectangleXmark,
   faSearch,
   faSquareCheck,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ModalThaotac from "./component/ModalThaotac";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { API } from "@/services/apiConfig";
 import { MotelDTO } from "@/services/Dto/MotelDto";
-import { string } from "yup";
 import {
   ApproveMotel,
   getMotelByAdmin,
@@ -22,7 +20,14 @@ import {
 } from "@/services/api/MotelApi";
 
 export interface FilterProps {
-  status: string;
+  status: number | null;
+  pageNumber: number;
+  pageSize: number;
+  search: string | null;
+}
+
+export interface PageDTO {
+  totalPages: number;
   pageNumber: number;
   pageSize: number;
 }
@@ -31,11 +36,16 @@ export const Motel: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState(""); // Thêm state để xác định loại modal
   const [dataMotel, setDataMotel] = useState<MotelDTO[]>([]);
-  const [status, setStatus] = useState<string | null>(null);
   const [query, setQuery] = useState<FilterProps>({
-    status: "",
+    status: null,
     pageNumber: 1,
-    pageSize: 10,
+    pageSize: 5,
+    search: null,
+  });
+  const [page, setPage] = useState<PageDTO>({
+    totalPages: 0,
+    pageNumber: 0,
+    pageSize: 0,
   });
 
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
@@ -46,14 +56,27 @@ export const Motel: React.FC = () => {
 
   const LoadData = async (query: FilterProps) => {
     const response = await getMotelByAdmin(query);
-    setDataMotel(await response);
-    console.log(response);
+    setDataMotel(await response.items);
+    setPage({
+      totalPages: await response.totalPages,
+      pageNumber: await response.pageNumber,
+      pageSize: await response.pageSize,
+    });
   };
 
-  const handleOpenModal = (type: string) => {
-    setModalType(type); // Xác định loại modal cần hiển thị
-    setShowModal(true);
+  const HandlePage = async (pageNumber: number) => {
+    const newQuery = {
+      ...query,
+      pageNumber: pageNumber,
+    };
+    setQuery(newQuery);
+    await LoadData(newQuery);
   };
+
+  // const handleOpenModal = (type: string) => {
+  //   setModalType(type); // Xác định loại modal cần hiển thị
+  //   setShowModal(true);
+  // };
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -70,7 +93,7 @@ export const Motel: React.FC = () => {
     } else if (status === 2) {
       return (
         <span className="tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3">
-          Đăng hoạt động
+          Đang hoạt động
         </span>
       );
     } else if (status === 3) {
@@ -85,7 +108,25 @@ export const Motel: React.FC = () => {
           Từ chối
         </span>
       );
+    } else if (status === 5) {
+      return (
+        <span className="tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3">
+          Đã xoá
+        </span>
+      );
     }
+  };
+
+  const HandleSearch = async (search: string) => {
+    const newQuery = {
+      ...query,
+      search: search,
+    };
+    setQuery(newQuery);
+    //delay 1s
+    setTimeout(async () => {
+      await LoadData(newQuery);
+    }, 1000);
   };
 
   const CheckStatus_ThaoTac = (status: number, id: number) => {
@@ -174,7 +215,10 @@ export const Motel: React.FC = () => {
     setActiveFilter(status);
     const newQuery = {
       ...query,
-      status: status == null ? "" : status.toString(),
+      pageNumber: 1,
+      pageSize: 5,
+      search: null,
+      status: status,
     };
     setQuery(newQuery);
     await LoadData(newQuery);
@@ -191,10 +235,9 @@ export const Motel: React.FC = () => {
               </div>
               <div></div>
             </div>
-            <div className="d-flex justify-content-between mt-4">
-              <div className="d-flex mb-4 flex-wrap">
+            <div className="row justify-content-lg-between justify-content-xl-between  justify-content-xxl-between  mt-4">
+              <div className="d-flex mb-4 flex-wrap col-12 col-sm-12 col-md-12 col-lg-6 -col-xl-6 col-xxl-6">
                 <a
-                  href="#"
                   className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
                     activeFilter === null ? "active-filter-motel" : ""
                   }`}
@@ -238,26 +281,42 @@ export const Motel: React.FC = () => {
                 >
                   Từ chối
                 </a>
+                <a
+                  href="#"
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                    activeFilter === 5 ? "active-filter-motel" : ""
+                  }`}
+                  onClick={() => HandleFilter(5)}
+                >
+                  Đã xoá
+                </a>
               </div>
-              <div>
-                 <div className="input-group">
-                  <div className="input-group-text">
-                  <FontAwesomeIcon
-                            icon={faSearch}
-                            size="lg"
-                            color="#0B1A46"
-                            className="form-check-input mt-0 border border-0"
-                          />
+              <div className="col-12 col-sm-12 col-md-12 col-lg-6 -col-xl-6 col-xxl-6">
+              <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end">
+                <div>
+                  <div className="input-group">
+                    <div className="input-group-text">
+                      <FontAwesomeIcon
+                        icon={faSearch}
+                        size="lg"
+                        color="#0B1A46"
+                        className="form-check-input mt-0 border border-0"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      className="form-control"
+                      aria-label="Text input with radio button"
+                      placeholder="Tìm kiếm"
+                      onChange={(e) => HandleSearch(e.target.value)}
+                      value={query.search || ""}
+                      //clear input
+                    ></input>
                   </div>
-                  <input
-                    type="text"
-                    className="form-control"
-                    aria-label="Text input with radio button"
-                    placeholder="Tìm kiếm"
-                  >
-                  </input>
-                </div> 
+                </div>
+              </div>                
               </div>
+
             </div>
 
             <div className="table-responsive mt-3" data-simplebar>
@@ -433,21 +492,18 @@ export const Motel: React.FC = () => {
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      3
-                    </a>
-                  </li>
+                  {/* render page number */}
+                  {Array.from({ length: page.totalPages }, (_, index) => (
+                    <li
+                      className="page-item"
+                      key={index}
+                      onClick={() => HandlePage(index + 1)}
+                    >
+                      <a className="page-link  btn-filter" href="#">
+                        {index + 1}
+                      </a>
+                    </li>
+                  ))}
                   <li className="page-item">
                     <a
                       className="page-link  btn-filter"

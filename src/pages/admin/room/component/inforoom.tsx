@@ -1,6 +1,12 @@
 import React from 'react'
 
-const Inforoom: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+interface InfoRoomProps {
+  motelId: string | undefined;
+  roomId: number;
+  onClose: () => void;
+}
+
+const Inforoom: React.FC<InfoRoomProps> = ({ motelId, roomId, onClose }) => {
 
   return (
     <>

@@ -1,4 +1,8 @@
-
+//thanh cuộn modal
+.modal-content-admin {
+  max-height: 80vh; /* Giới hạn chiều cao tối đa theo phần trăm của viewport */
+  overflow-y: auto; /* Hiện thanh cuộn theo chiều dọc khi nội dung vượt quá chiều cao */
+}
 // css hiệu ứng hover button
   .btn-transform-y2{
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -209,6 +213,9 @@
       }
 
 
+.file-input-wrapper{
+  aspect-ratio: 1 / 1;
+}
 
       //bill
       .checkbox-bill{

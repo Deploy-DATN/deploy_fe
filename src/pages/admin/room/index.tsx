@@ -1,438 +1,221 @@
-import {
-  faCheckDouble,
-  faEllipsis,
-  faGears,
-  faPaperPlane,
-  faPenToSquare,
-  faPlus,
-  faSearch,
-  faUserAlt,
-  faUserPlus,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
-import "./style/room.scss";
-import Addroom from "./component/addroom";
-import Inforoom from "./component/inforoom";
-import Editroom from "./component/editroom";
-import AddUserRoom from "./component/addUserRoom";
-import Baotriroom from "./component/baotriroom";
+import { faBolt, faDroplet, faPlus, faSearch, faWater } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useState } from 'react';
+import './style/room.scss';
+import Addroom from './component/addroom';
+import Inforoom from './component/inforoom';
+import Editroom from './component/editroom';
+import AddUserRoom from './component/addUserRoom';
+import { getMotelById, GetMotelById, GetRoomByMotelId } from '@/services/api/MotelApi';
+import { useParams } from 'react-router-dom';
+import { RoomDTO } from '@/services/Dto/MotelDto';
+import RowTableRoom from './component/rowTableRoom';
+import AddElicWaterf from './component/addElicWater';
+import AddElicWater from './component/addElicWater';
+import { MotelByIdDTO } from '@/services/Dto/MotelDto';
+import Baotriroom from './component/baotriroom';
 
-export const Room: React.FC = () => {
-  const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
-    addRoom: false,
-    infoRoom: false,
-    editRoom: false,
-    addUserRoom: false,
-    Baotriroom: false,
-  });
+export const Room = () => {
+	const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
+		addRoom: false,
+		infoRoom: false,
+		AddElicWater: false,
+		editRoom: false,
+		addUserRoom: false,
+		Baotriroom: false,
+	});
 
-  const toggleModal = (modalName: keyof typeof modalState) => {
-    setModalState((prevState) => ({
-      ...prevState,
-      [modalName]: !prevState[modalName],
-    }));
-  };
+	const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+	const { id } = useParams();
+	const [dataRoom, setDataRoom] = useState<RoomDTO[]>([]);
+	const [motel, setMotel] = useState<MotelByIdDTO>();
 
-  return (
-    <>
-      <div className="container-fluid">
-        <div className="row align-items-stretch">
-          <div className="card w-100">
-            <div className="card-body p-4">
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h2 className="header-name-all">Quản lý phòng trọ</h2>
-                </div>
-                <div>
-                  {" "}
-                  <div className="">
-                    <button
-                      className="btn btn-create-notification btn-transform-y2"
-                      onClick={() => toggleModal("addRoom")}
-                    >
-                      <FontAwesomeIcon
-                        icon={faPlus}
-                        size="lg"
-                        color="#fffffff"
-                        className="icon-table-motel me-3"
-                      />
-                      Thêm phòng trọ
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div className="d-flex justify-content-between mt-4">
-                <div className="d-flex mb-4 flex-wrap">
-                  <a
-                    href="#"
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                  >
-                    Tất cả
-                  </a>
-                  <a
-                    href="#"
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                  >
-                    Đang trống
-                  </a>
-                  <a
-                    href="#"
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                  >
-                    đang thuê
-                  </a>
-                  <a
-                    href="#"
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                  >
-                    Bảo trì
-                  </a>
-                </div>
-                <div>
-                  <div className="input-group">
-                    <div className="input-group-text">
-                      <FontAwesomeIcon
-                        icon={faSearch}
-                        size="lg"
-                        color="#0B1A46"
-                        className="form-check-input mt-0 border border-0"
-                      />
-                    </div>
-                    <input
-                      type="text"
-                      className="form-control"
-                      aria-label="Text input with radio button"
-                      placeholder="Tìm kiếm"
-                    ></input>
-                  </div>
-                </div>
-              </div>
+	useEffect(() => {
+		LoadData();
+	}, [modalState]);
 
-              <div className="table-responsive mt-3" data-simplebar>
-                <table className="test-table table table-borderless align-middle text-nowrap">
-                  <thead className="">
-                    <tr className=" brg-table-tro">
-                      <th scope="col">ID</th>
-                      <th scope="col">Diện tích</th>
-                      <th scope="col">Giá</th>
-                      <th scope="col">Địa chỉ</th>
-                      <th scope="col">Tình trạng</th>
-                      <th scope="col">Trạng thái</th>
-                      <th scope="col">Thao tác</th>
-                    </tr>
-                  </thead>
-                  <tbody className="table-motel">
-                    <tr>
-                      <td>ID12345</td>
-                      <td>12m</td>
-                      <td>1,000,000đ</td>
-                      <td className="text-overflow-motel">
-                        123 Hà Huy tập, Tân Lợi, BMT
-                      </td>
-                      <td>
-                        <FontAwesomeIcon
-                          icon={faUserAlt}
-                          size="sm"
-                          color="#298b90"
-                          className="icon-table-motel me-2"
-                        />{" "}
-                        0/0
-                      </td>
-                      <td>
-                        <span className="span-baotri-room-motel badge rounded-pill px-3 py-2 fs-3">
-                          Bảo trì
-                        </span>
-                      </td>
-                      <td>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("infoRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEllipsis}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("editRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                        >
-                          <FontAwesomeIcon
-                            icon={faCheckDouble}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ID12345</td>
-                      <td>12m</td>
-                      <td>1,000,000đ</td>
-                      <td className="text-overflow-motel">123 abc</td>
-                      <td>
-                        <FontAwesomeIcon
-                          icon={faUserAlt}
-                          size="sm"
-                          color="#298b90"
-                          className="icon-table-motel me-2"
-                        />{" "}
-                        0/2
-                      </td>
-                      <td>
-                        <span className="tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3">
-                          Đang trống
-                        </span>
-                      </td>
-                      <td>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("infoRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEllipsis}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("editRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("baotriroom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faGears}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("addUserRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faUserPlus}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ID12345</td>
-                      <td>BMT</td>
-                      <td>1,000,000đ</td>
-                      <td className="text-overflow-motel">BMT</td>
-                      <td>
-                        <FontAwesomeIcon
-                          icon={faUserAlt}
-                          size="sm"
-                          color="#298b90"
-                          className="icon-table-motel me-2"
-                        />{" "}
-                        1/2
-                      </td>
-                      <td>
-                        <span className="span-sudung-room-motel badge rounded-pill px-3 py-2 fs-3">
-                          Đang thuê
-                        </span>
-                      </td>
-                      <td>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("infoRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEllipsis}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("editRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("baotriroom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faGears}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("addUserRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faUserPlus}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ID12345</td>
-                      <td>BMT</td>
-                      <td>1,000,000đ</td>
-                      <td className="text-overflow-motel">BMT</td>
-                      <td>
-                        <FontAwesomeIcon
-                          icon={faUserAlt}
-                          size="sm"
-                          color="#298b90"
-                          className="icon-table-motel me-2"
-                        />{" "}
-                        1/2
-                      </td>
-                      <td>
-                        <span className="bg-light-danger tt-khoa badge rounded-pill px-3 py-2 fs-3">
-                          Chưa duyệt
-                        </span>
-                      </td>
-                      <td>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("infoRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEllipsis}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("editRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                        >
-                          <FontAwesomeIcon
-                            icon={faPaperPlane}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>ID12345</td>
-                      <td>BMT</td>
-                      <td>1,000,000đ</td>
-                      <td className="text-overflow-motel">BMT</td>
-                      <td>
-                        <FontAwesomeIcon
-                          icon={faUserAlt}
-                          size="sm"
-                          color="#298b90"
-                          className="icon-table-motel me-2"
-                        />{" "}
-                        1/2
-                      </td>
-                      <td>
-                        <span className="tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3">
-                          Chờ duyệt
-                        </span>
-                      </td>
-                      <td>
-                        <a
-                          href="#"
-                          className=" px-2 py-1 mx-1 btn-transform-y2"
-                          onClick={() => toggleModal("infoRoom")}
-                        >
-                          <FontAwesomeIcon
-                            icon={faEllipsis}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              {modalState.addRoom && (
-                <Addroom onClose={() => toggleModal("addRoom")} />
-              )}
-              {modalState.infoRoom && (
-                <Inforoom onClose={() => toggleModal("infoRoom")} />
-              )}
-              {modalState.editRoom && (
-                <Editroom onClose={() => toggleModal("editRoom")} />
-              )}
-              {modalState.addUserRoom && (
-                <AddUserRoom onClose={() => toggleModal("addUserRoom")} />
-              )}
-              {modalState.baotriroom && (
-                <Baotriroom onClose={() => toggleModal("baotriroom")} />
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+	const LoadData = async () => {
+		try {
+			const response = await getMotelById(id);
+			setMotel(response);
+			console.log(response);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const toggleModal = (modalName: keyof typeof modalState, roomId: number | null = null) => {
+		setModalState((prevState) => ({
+			...prevState,
+			[modalName]: !prevState[modalName],
+		}));
+		setSelectedRoomId(roomId);
+	};
+
+	const CheckStatus = (status: number) => {
+		if (status === 1) {
+			return <span className='tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3'>Chờ duyệt</span>;
+		} else if (status === 2) {
+			return <span className='tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3'>Đang hoạt động</span>;
+		} else if (status === 3) {
+			return <span className='tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3'>Ngừng hoạt động</span>;
+		} else if (status === 4) {
+			return <span className='tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3'>Từ chối</span>;
+		} else if (status === 5) {
+			return <span className='tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3'>Đã xóa</span>;
+		}
+	};
+
+	
+
+	return (
+		<>
+			<div className='container-fluid'>
+				<div className='row align-items-stretch'>
+					<div className='card w-100'>
+						<div className='card-body p-4'>
+							<div className='row'>
+								<div className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3'>
+									<h2 className='header-name-all'>Dãy trọ: {motel?.name}</h2>
+									<p className='detail-room-text'>Địa chỉ: {motel?.address}</p>
+									<div className='row'>
+										<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá điện:{motel?.price?.electric}</p>
+										<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá nước:{motel?.price?.water}</p>
+										<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Số tiền khác:{motel?.price?.other}</p>
+									</div>
+									{motel?.lastPrice && (
+										<div className='row'>
+											<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá điện tháng sau:{motel?.lastPrice?.electric}</p>
+											<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá nước tháng sau:{motel?.lastPrice?.water}</p>
+											<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá khác tháng sau:{motel?.lastPrice?.other}</p>
+										</div>
+									)}
+
+									<div className='row'>
+										<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Trạng thái:{CheckStatus(motel?.status ?? 0)}</p>
+									</div>
+								</div>
+								<div className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>
+									<div className='d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end mt-3'>
+										<button
+											className='btn btn-create-notification btn-transform-y2'
+											onClick={() => toggleModal('addRoom')}>
+											<FontAwesomeIcon
+												icon={faPlus}
+												size='lg'
+												color='#fffffff'
+												className='icon-table-motel me-3'
+											/>
+											Thêm phòng trọ
+										</button>
+									</div>
+									<div className='d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end mt-3'>
+										<button
+											className='btn btn-create-notification btn-transform-y2'
+											onClick={() => toggleModal('addElicWater')}>
+											<FontAwesomeIcon
+												icon={faBolt}
+												size='lg'
+												color='#fffffff'
+												className='icon-table-motel me-2'
+											/>
+											<FontAwesomeIcon
+												icon={faDroplet}
+												size='lg'
+												color='#fffffff'
+												className='icon-table-motel me-2'
+											/>
+											Thêm điện nước
+										</button>
+									</div>
+									<div className='d-flex justify-content-start mt-3 justify-content-lg-end justify-content-xl-end justify-content-xxl-end'>
+										<div>
+											<div className='input-group'>
+												<div className='input-group-text'>
+													<FontAwesomeIcon
+														icon={faSearch}
+														size='lg'
+														color='#0B1A46'
+														className='form-check-input mt-0 border border-0'
+													/>
+												</div>
+												<input
+													type='text'
+													className='form-control'
+													aria-label='Text input with radio button'
+													placeholder='Tìm kiếm'></input>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div
+								className='table-responsive mt-3'
+								data-simplebar>
+								<table className='test-table table table-borderless align-middle text-nowrap'>
+									<thead className=''>
+										<tr className=' brg-table-tro'>
+											<th scope='col'>Số phòng</th>
+											<th scope='col'>Diện tích</th>
+											<th scope='col'>Giá phòng</th>
+											<th scope='col'>số diện</th>
+											<th scope='col'>số nước</th>
+											<th scope='col'>SỐ người thuê</th>
+											<th scope='col'>Trạng thái</th>
+											<th scope='col'>Thao tác</th>
+										</tr>
+									</thead>
+									<tbody className='table-motel'>
+										{motel?.rooms?.map((room) => (
+											<RowTableRoom
+												key={room.id}
+												room={room}
+												toggleModal={toggleModal}
+											/>
+										))}
+									</tbody>
+								</table>
+							</div>
+							{modalState.addRoom && (
+								<Addroom
+									motelId={id}
+									onClose={() => toggleModal('addRoom')}
+								/>
+							)}
+							{modalState.addElicWater && <AddElicWater onClose={() => toggleModal('addElicWater')} />}
+							{modalState.infoRoom && selectedRoomId && (
+								<Inforoom
+									roomId={selectedRoomId}
+									onClose={() => toggleModal('infoRoom')}
+									motelId={id}
+								/>
+							)}
+							{modalState.editRoom && selectedRoomId && (
+								<Editroom
+									roomId={selectedRoomId}
+									onClose={() => toggleModal('editRoom')}
+									motelId={id}
+								/>
+							)}
+							{modalState.addUserRoom && selectedRoomId && (
+								<AddUserRoom
+									roomId={selectedRoomId}
+									onClose={() => toggleModal('addUserRoom')}
+								/>
+							)}
+							{modalState.baotriroom && selectedRoomId && (
+								<Baotriroom
+									roomId={selectedRoomId}
+									onClose={() => toggleModal('baotriroom')}
+								/>
+							)}
+						</div>
+					</div>
+				</div>
+			</div>
+		</>
+	);
 };
 
 export default Room;
