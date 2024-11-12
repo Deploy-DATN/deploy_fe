@@ -1,35 +1,26 @@
 // API motel
 
 import axios from "axios";
-<<<<<<< HEAD
-import { API_URL } from "../apiConfig";
-import { AddRoomDTO, EditMotelDTO, GetEditMotelDTO, MotelByIdDTO, MotelPaginationResponse, RoomDTO } from "../Dto/MotelDto";
-=======
-import axiosInstance, { API, API_URL } from "../apiConfig";
-import { MotelByIdDTO, MotelDTO } from "../Dto/MotelDto";
->>>>>>> dev
+
+import axiosInstance, { API_URL } from "../apiConfig";
+import { AddRoomDTO, EditMotelDTO, EditRoomByIdDTO, GetEditMotelDTO, MotelByIdDTO, MotelPaginationResponse, MotelRoomDTO, RoomDTO } from "../Dto/MotelDto";
+
 import { ResponseDTO } from "./RepositoryDto";
 import { FilterProps } from "@/pages/admin/motel";
 
 
 
-<<<<<<< HEAD
-export const getMotelByOwner = async (id: string | undefined) : Promise<MotelByIdDTO[]> => {
-    const response = (await axios.get<ResponseDTO<MotelByIdDTO[]>>(`${API_URL}/Room/get-motel-by-owner/${id}`));
+
+export const getMotelByOwner = async (id: string | undefined, query: FilterProps) : Promise<MotelPaginationResponse> => {
+    console.log(query);
+    const response = (await axios.get<ResponseDTO<MotelPaginationResponse>>(`${API_URL}/Room/get-motel-by-owner/${id}`, {
+        params: query
+    }));
     return response.data.data;
 }
 
 export const getMotelByAdmin = async (query: FilterProps) : Promise<MotelPaginationResponse> => {
-    const response = (await axios.get<ResponseDTO<MotelPaginationResponse>>(`${API_URL}/Room/get-all-room-by-admin`, {
-=======
-export const getMotelByIdApi = async (id: string | undefined) : Promise<MotelByIdDTO> => {
-    const response = (await axiosInstance.get<ResponseDTO<MotelByIdDTO>>(`${API.GETMOTELBYID}/${id}`));
-    return response.data.data;
-}
-
-export const getMotelByAdmin = async (query: FilterProps) : Promise<MotelDTO[]> => {
-    const response = (await axiosInstance.get<ResponseDTO<MotelDTO[]>>(`${API_URL}/Room/get-all-room-by-admin`, {
->>>>>>> dev
+    const response = (await axiosInstance.get<ResponseDTO<MotelPaginationResponse>>(`${API_URL}/Room/get-all-room-by-admin`, {
         params: query
     }));
     return response.data.data;
@@ -50,20 +41,34 @@ export const LockMotel = async (id: number) => {
     return response.data.message;
 }
 
+export const UnlockMotel = async (id: number) => {
+    const response = (await axios.put<ResponseDTO<null>>(`${API_URL}/Room/active/${id}`));
+    return response.data.message;
+}
+//remove motel
+export const RemoveMotel = async (id: number) => {
+    const response = (await axios.delete<ResponseDTO<null>>(`${API_URL}/Room/remove/${id}`));
+    return response.data.message;
+}
+
+
+
 export const getMotelById = async (id: string | undefined) : Promise<MotelByIdDTO> => {
-    const response = (await axios.get<ResponseDTO<MotelByIdDTO>>(`${API_URL}/Room/get-room-by-id/${id}`));
+    const response = (await axios.get<ResponseDTO<MotelByIdDTO>>(`${API_URL}/Room/get-motel-by-id/${id}`));
     return response.data.data;
 }
 
 export const AddMotelAndRoom = async (formData: FormData) => {
-    for (let pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-    }
     const response = (await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-motel-and-room`, formData , {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     }));
+    return response.data;
+}
+
+export const GetEditMotelById = async (id: string | undefined) : Promise<ResponseDTO<GetEditMotelDTO>> => {
+    const response = (await axios.get<ResponseDTO<GetEditMotelDTO>>(`${API_URL}/Room/get-motel-by-id/${id}`));
     return response.data;
 }
 
@@ -84,6 +89,22 @@ export const AddRoom = async (data: AddRoomDTO) => {
 
 export const EditMotel = async (data: FormData, motelId: number) => {
     const response = (await axios.put<ResponseDTO<null>>(`${API_URL}/Room/edit-motel/${motelId}`, data));
+    return response.data;
+}
+
+export const AddUserRoomApi = async (data: {phone: string, roomId: number}) => {
+    console.log(data);
+    const response = (await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-user-to-room`, data));
+    return response.data;
+}
+
+export const GetEditRoomById = async (roomId: number) => {
+    const response = (await axios.get<ResponseDTO<MotelRoomDTO>>(`${API_URL}/Room/get-room-by-id/${roomId}`));
+    return response.data;
+}
+
+export const EditRoomApi = async (data: EditRoomByIdDTO, roomId: number) => {
+    const response = (await axios.put<ResponseDTO<null>>(`${API_URL}/Room/edit-room-by-id/${roomId}`, data));
     return response.data;
 }
 

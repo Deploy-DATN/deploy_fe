@@ -20,10 +20,10 @@ import {
 } from "@/services/api/MotelApi";
 
 export interface FilterProps {
-  status: string;
+  status: number | null;
   pageNumber: number;
   pageSize: number;
-  search: string;
+  search: string | null;
 }
 
 export interface PageDTO {
@@ -37,10 +37,10 @@ export const Motel: React.FC = () => {
   const [modalType, setModalType] = useState(""); // Thêm state để xác định loại modal
   const [dataMotel, setDataMotel] = useState<MotelDTO[]>([]);
   const [query, setQuery] = useState<FilterProps>({
-    status: "",
+    status: null,
     pageNumber: 1,
     pageSize: 5,
-    search: "",
+    search: null,
   });
   const [page, setPage] = useState<PageDTO>({
     totalPages: 0,
@@ -62,7 +62,6 @@ export const Motel: React.FC = () => {
       pageNumber: await response.pageNumber,
       pageSize: await response.pageSize,
     });
-    console.log(page);
   };
 
   const HandlePage = async (pageNumber: number) => {
@@ -109,6 +108,12 @@ export const Motel: React.FC = () => {
           Từ chối
         </span>
       );
+    } else if (status === 5) {
+      return (
+        <span className="tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3">
+          Đã xoá
+        </span>
+      );
     }
   };
 
@@ -117,9 +122,8 @@ export const Motel: React.FC = () => {
       ...query,
       search: search,
     };
-    console.log(newQuery);
     setQuery(newQuery);
-    //delay 3s
+    //delay 1s
     setTimeout(async () => {
       await LoadData(newQuery);
     }, 1000);
@@ -213,8 +217,8 @@ export const Motel: React.FC = () => {
       ...query,
       pageNumber: 1,
       pageSize: 5,
-      search: "",
-      status: status == null ? "" : status.toString(),
+      search: null,
+      status: status,
     };
     setQuery(newQuery);
     await LoadData(newQuery);
@@ -234,7 +238,6 @@ export const Motel: React.FC = () => {
             <div className="row justify-content-lg-between justify-content-xl-between  justify-content-xxl-between  mt-4">
               <div className="d-flex mb-4 flex-wrap col-12 col-sm-12 col-md-12 col-lg-6 -col-xl-6 col-xxl-6">
                 <a
-                  href="#"
                   className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
                     activeFilter === null ? "active-filter-motel" : ""
                   }`}
@@ -278,6 +281,15 @@ export const Motel: React.FC = () => {
                 >
                   Từ chối
                 </a>
+                <a
+                  href="#"
+                  className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                    activeFilter === 5 ? "active-filter-motel" : ""
+                  }`}
+                  onClick={() => HandleFilter(5)}
+                >
+                  Đã xoá
+                </a>
               </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-6 -col-xl-6 col-xxl-6">
               <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end">
@@ -297,16 +309,9 @@ export const Motel: React.FC = () => {
                       aria-label="Text input with radio button"
                       placeholder="Tìm kiếm"
                       onChange={(e) => HandleSearch(e.target.value)}
-                      value={query.search}
+                      value={query.search || ""}
                       //clear input
                     ></input>
-                    {/* clear input */}
-                    <button
-                      className="btn btn-clear"
-                      onClick={() => setQuery({ ...query, search: "" })}
-                    >
-                      <FontAwesomeIcon icon={faXmark} />
-                    </button>
                   </div>
                 </div>
               </div>                
@@ -499,21 +504,6 @@ export const Motel: React.FC = () => {
                       </a>
                     </li>
                   ))}
-                  {/* <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      1
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      2
-                    </a>
-                  </li>
-                  <li className="page-item">
-                    <a className="page-link  btn-filter" href="#">
-                      3
-                    </a>
-                  </li> */}
                   <li className="page-item">
                     <a
                       className="page-link  btn-filter"

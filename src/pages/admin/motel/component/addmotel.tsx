@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styles/stylemotel.scss';
 import { faCamera, faFile, faFileAlt, faFileExcel, faFilePdf, faFileWord, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getAccountApi } from '@/services/api/authApi';
 import { AddMotelAndRoom } from '@/services/api/MotelApi';
 import { AddMotelAndRoomDTO } from '@/services/Dto/MotelDto';
 
@@ -33,6 +34,14 @@ export const AddMotelOwner = () => {
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 	const [images, setImages] = useState<string[]>([]);
+
+	useEffect(() => {
+		const getUser = async () => {
+			var user = await getAccountApi();
+			setValues({ ...values, userId: user.data.data.id });
+		};
+		getUser();
+	}, []);
 
 	const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.files && event.target.files.length > 0) {
@@ -159,7 +168,7 @@ export const AddMotelOwner = () => {
 			formData.append('priceWater', values.priceWater.toString());
 			formData.append('priceOther', values.priceOther.toString());
 			formData.append('totalRoom', values.totalRoom.toString());
-			formData.append('userId', '1');
+			formData.append('userId', values.userId);
 
 			const response = await AddMotelAndRoom(formData);
 

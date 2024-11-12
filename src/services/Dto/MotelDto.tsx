@@ -31,6 +31,7 @@ export interface MotelDTO {
   price: PriceInfo;
   images: ImageInfo[];
   owner: OwnerInfo;
+  rooms: MotelRoomDTO[];
 }
 
 export interface MotelPaginationResponse {
@@ -54,6 +55,8 @@ export interface MotelByIdDTO {
   images: ImageInfo[];
   owner: OwnerInfo;
   rooms: MotelRoomDTO[];
+  terms: MotelTermDTO[];
+  
 }
 
 export interface MotelRoomDTO {
@@ -62,7 +65,9 @@ export interface MotelRoomDTO {
   area: number;
   price: number;
   lastPrice: number;
+  quantityUserInRoom: number;
   status: number;
+  consumptions: ConsumptionDto[];
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -128,8 +133,21 @@ export interface AddRoomDTO {
   price: string;
 }
 
-// ------------------------------------------------------------------------------------------------
+export interface ConsumptionDto {
+  id: number;
+  water: number;
+  electricity: number;
+  time: string;
+}
 
+// ------------------------------------------------------------------------------------------------
+export interface EditRoomByIdDTO {
+  roomNumber: number;
+  area: number;
+  price: number;
+  consumptionElectric: number;
+  consumptionWater: number;
+}
 
 
 
