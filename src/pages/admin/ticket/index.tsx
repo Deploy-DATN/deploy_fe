@@ -17,8 +17,11 @@ export const TicketPage: React.FC = () => {
   const fetchTickets = async (param: ParamsPage = {}) => {
     try {
       setActiveStatus(param.status || undefined);
-      const res = await getTickets(param);
-      setTikets(res.data.data);
+      const token = localStorage.getItem('token');
+      if (token) {
+        const res = await getTickets({ ...param, token });
+        setTikets(res.data.data);
+      }
     } catch (error) {
       console.error('Lỗi lấy dữ liệu api:', error);
     }

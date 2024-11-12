@@ -7,25 +7,14 @@ import clsx from 'clsx';
 
 import logo from '@/assets/ThoStay.svg';
 import { getAccountApi } from '@/services/api/authApi';
-import { User } from '@/pages/user';
-import { jwtDecode } from 'jwt-decode';
-
-interface User {
-	id: string;
-	name: string;
-	email: string;
-	phoneNumber: string;
-	role: string;
-	address: string;
-}
+import { Account } from '@/services/Dto/authDto';
 
 export const Layout = () => {
 	const scrollableNodeRef = useRef<HTMLDivElement>(null);
-	const [user, setUser] = useState<User>();
+	const [user, setUser] = useState<Account>();
 
 	useEffect(() => {
 		LoadUser();
-
 		if (scrollableNodeRef.current) {
 			new SimpleBar(scrollableNodeRef.current);
 		}
@@ -37,7 +26,6 @@ export const Layout = () => {
 	const LoadUser = async () => {
 		const response = await getAccountApi();
 		setUser(response.data.data);
-		console.log(response.data.data);
 	};
 
 	const [isMiniSidebar, setIsMiniSidebar] = useState(false);
@@ -60,7 +48,7 @@ export const Layout = () => {
 			setIsMiniSidebar(false);
 		}
 	};
-  
+
 	const isExactActive = (path: string) => location.pathname === path;
 
 	const isPartialActive = (path: string) => location.pathname.includes(path);
@@ -176,17 +164,19 @@ export const Layout = () => {
 									<span className='hide-menu ms-2 ps-1'>Ticket</span>
 								</Link>
 							</li>
-               <li className={clsx("sidebar-item", { "selected": isPartialActive('support') })}>
-                                <Link to='support'
-                                    className={clsx("sidebar-link sidebar-link indigo-hover-bg", { "active": isPartialActive('support') })}
-                                    aria-expanded="false"
-                                >
-                                    <span className="aside-icon p-2 bg-light-indigo rounded-3">
-                                        <i className="fa-regular fa-circle-question fs-7 text-indigo"></i>
-                                    </span>
-                                    <span className="hide-menu ms-2 ps-1">Trợ giúp</span>
-                                </Link>
-                            </li>
+							{user && user.role === "Owner" ? (
+								<li className={clsx("sidebar-item", { "selected": isPartialActive('support') })}>
+									<Link to='support'
+										className={clsx("sidebar-link sidebar-link indigo-hover-bg", { "active": isPartialActive('support') })}
+										aria-expanded="false"
+									>
+										<span className="aside-icon p-2 bg-light-indigo rounded-3">
+											<i className="fa-regular fa-circle-question fs-7 text-indigo"></i>
+										</span>
+										<span className="hide-menu ms-2 ps-1">Trợ giúp</span>
+									</Link>
+								</li>
+							) : ''}
 						</ul>
 					</nav>
 					{/* <!-- End Sidebar navigation --> */}
