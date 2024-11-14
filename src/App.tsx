@@ -1,64 +1,42 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import Admin from './pages/admin/index'
-import User from './pages/user/index'
-import Err from './pages/err/index'
-import Login from './pages/login/index'
-import Register from './pages/register/index';
-import Header from './components/header/index'
-import Footer from './components/footer';
-import ForgotPWForm from "./pages/ForgotPW/components/ForgotPassword"
+import './App.scss';
 
-import './App.scss'
-import VerifyForgotPWForm from "./pages/ForgotPW/components/VerifyForgotPW"
-import NewPW from "./pages/ForgotPW/components/newPW"
+import './ustils/theme/theme.scss';
+
+import { User } from '@/pages/user/index';
+import { Admin } from './pages/admin';
+import Login from './pages/login';
+import ProtectedRoute from './services/api/ProtectedRoute';
+import Unauthorized from './pages/login/components/unauthorized';
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <User />,
-      errorElement: <Err />
-    },
-    {
-      path: "admin",
-      element: <Admin />,
-    },
-    {
-      path: "login",
-      element: <Login />,
-    },
-    {
-      path: "register",
-      element: <Register />,
-    },
-    {
-      path: "header",
-      element: <Header />,
-    },
-    {
-      path: "footer",
-      element: <Footer />,
-    },
-    {
-      path: "ForgotPWForm",
-      element: <ForgotPWForm />,
-    },
-    {
-      path: "VerifyForgotPWForm",
-      element: <VerifyForgotPWForm />,
-    },
-    {
-      path: "NewPW",
-      element: <NewPW />,
-    }
-  ])
-
-  return (
-    <div className='App'>
-      <RouterProvider router={router} />
-    </div>
-  )
+	return (
+		<Router>
+			<div className='App'>
+				<Routes>
+					<Route
+						path='/login'
+						element={<Login />}
+					/>
+					<Route
+						path='/unauthorized'
+						element={<Unauthorized />}
+					/>
+					<Route
+						path='/*'
+						element={<User />}
+					/>
+					<Route element={<ProtectedRoute allowedRoles={['Admin', 'Owner', 'Staff']} />}>
+						<Route
+							path='/admin/*'
+							element={<Admin />}
+						/>
+					</Route>
+				</Routes>
+			</div>
+		</Router>
+	);
 }
 
-export default App
+export default App;

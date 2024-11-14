@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import clsx from 'clsx'
+// import clsx from 'clsx'
 
 import InputField from '@/components/form_controls/input_field'
-import { Account } from '@/services/api/loginApi'
+import { Account } from '@/services/api/authApi'
 
-import style from '../styles/Login.module.scss'
+// import style from '../styles/Login.module.scss'
 
 interface loginProps {
     onSubmit: ((data: Account) => void)
