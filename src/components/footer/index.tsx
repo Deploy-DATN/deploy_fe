@@ -27,7 +27,7 @@ const Footer = () => {
           <div className="row justify-content-between">
             <div className="colum-footer-1 margin-footer-mobie-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3 text-center text-md-start text-lg-start text-xl-start text-xxl-start">
               <img width="100px" src="../src/assets/images/logo.png" alt=""/>
-              <p className="p-footer-tieusu">Thỏ Stay luôn đặt mục tiêu mang đến cho khách hàng không gian sống tiện nghi, sạch sẽ, giá cả hợp lý, phù hợp cho sinh viên và người lao động tìm kiếm nơi an cư lâu dài.</p>
+              <p className="p-footer-tieusu mt-2">Thỏ Stay luôn đặt mục tiêu mang đến cho khách hàng không gian sống tiện nghi, sạch sẽ, giá cả hợp lý, phù hợp cho sinh viên và người lao động tìm kiếm nơi an cư lâu dài.</p>
               <div className="d-flex justify-content-center  justify-content-md-start justify-content-xl-start justify-content-lg-start justify-content-xxl-start">
                 <div className="icon-footer-col-1 mx-2">
                 <FontAwesomeIcon icon={faFacebookF} size="lg" color="#138086" />
@@ -44,7 +44,7 @@ const Footer = () => {
                 
               </div>
             </div>
-            <div className="colum-footer-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-2 col-xxl-2 text-center text-md-start text-lg-start text-xl-start text-xxl-start">
+            <div className="colum-footer-1 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-2 col-xxl-2 text-start text-md-start text-lg-start text-xl-start text-xxl-start">
               <h3 className="h3-footer-quick">Quick Links</h3>
               <div className="mt-4">
                 <ul className="list-unstyled">
@@ -56,7 +56,7 @@ const Footer = () => {
                 </ul>
               </div>
               </div>
-              <div className="colum-footer-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-2 col-xxl-2 text-center text-md-start text-lg-start text-xl-start text-xxl-start">
+              <div className="colum-footer-1 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-2 col-xxl-2 text-start text-md-start text-lg-start text-xl-start text-xxl-start">
               <h3 className="h3-footer-quick">Services</h3>
               <div className="mt-4">
                 <ul className="list-unstyled">
@@ -68,21 +68,21 @@ const Footer = () => {
                 </ul>
               </div>
               </div>
-              <div className="colum-footer-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3 text-center text-md-start text-lg-start text-xl-start text-xxl-start">
+              <div className="colum-footer-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3 text-start text-md-start text-lg-start text-xl-start text-xxl-start">
               <h3 className="h3-footer-quick">Get In Touch</h3>
               <div className="mt-4">
                 <ul className="list-unstyled">
-                  <li className=" a-footer-quick d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
+                  <li className=" a-footer-quick d-flex justify-content-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
                     <FontAwesomeIcon className="me-2" icon={faPhone} size="lg" color="#138086" /> <p> +(84)9653812674</p>
                   </li>
-                  <li className=" a-footer-quick d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
+                  <li className=" a-footer-quick d-flex justify-content-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
                   <FontAwesomeIcon className="me-2" icon={faEnvelope} size="lg" color="#138086" /> <p>thostay@gmail.com</p> 
                   </li>
-                  <li className=" a-footer-quick d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
+                  <li className=" a-footer-quick d-flex justify-content-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
                   <FontAwesomeIcon className="me-2" icon={faGlobe} size="lg" color="#138086" /> <p>thostay.com</p>
 
                   </li>
-                  <li className=" a-footer-quick d-flex justify-content-center justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
+                  <li className=" a-footer-quick d-flex justify-content-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
                   <FontAwesomeIcon className="me-2" icon={faLocationDot} size="lg" color="#138086" /> <p>300 Hà Huy Tập, Tân An, TP-Buôn Ma Thuộc, Đắk Lắk</p>
                   </li>
                 </ul>

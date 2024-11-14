@@ -1,0 +1,130 @@
+//silder
+.header-home {
+  .row {
+    @media (min-width: 992px) {
+      .w-lg-75 {
+        max-width: 75%;
+      }
+    }
+
+    .hero-text-header-home {
+      font-weight: 600;
+    }
+    .hero-text-content-home {
+      font-weight: 400;
+      font-size: 1.3rem;
+    }
+    @media (max-width: 991px) {
+      .hero-text-content-home {
+        font-size: 1rem;
+      }
+    }
+  }
+}
+//button vị trí and tiền?
+.search-box {
+  display: inline-flex;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  .position-section,
+  .price-section {
+    color: #333;
+    strong {
+      font-weight: bold;
+      display: block;
+    }
+    p {
+      color: #adb5bd;
+    }
+  }
+  .divider {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .line {
+      height: 60%;
+      width: 1px;
+      background-color: #e2e8f0;
+    }
+  }
+}
+
+//phần trọ
+.home-show-motel-1 {
+  background-color: #f3f4f6;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  @media (max-width: 991px) {
+    padding: 1rem;
+  }
+}
+//btn
+.active-filter-home-show {
+  background-color: #00b075 !important;
+  color: #ffffff !important;
+}
+.active-filter-home-show:hover {
+  background-color: #00b075 !important;
+  color: #ffffff !important;
+}
+.btn-dropdown-home {
+  background-color: #ffffff;
+  border: 1px solid #d9d9d9;
+}
+.img-slider-home-motel {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+.name-motel-home-1 {
+  color: #111827;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dia-chi-motel-home-1 {
+  color: #6b7280;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; // Giới hạn tối đa 2 dòng
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+//trọ 2
+.home-show-motel-2 {
+  background-color: #00b0741a;
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  @media (max-width: 991px) {
+    padding: 1rem;
+  }
+  .motol-new-index {
+  }
+}
+
+.btn-home-motel-slide-new {
+  border: 1px solid #E5E7EB;
+  background-color: #ffffff;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  color: #111827;
+}
+//cái qq trọ mới
