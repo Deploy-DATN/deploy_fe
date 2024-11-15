@@ -111,7 +111,7 @@ export const postForgotApi = (forgotPassword: ForgotPassword) => {
 // API đăng ký
 
 export const postRegisterUserApi = (account: RegisterAccountOwner) => {
-    return axios.post(API_URL + '/register-customer', account);
+    return axios.post(API.REGISTER, account);
 }
 
 export const getOtpApi = (checkOtp: Otp) => {
