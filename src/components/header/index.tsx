@@ -3,7 +3,7 @@ import "./styles/header.scss";
 
 const Header = () => {
   return (
-    <div className="container-lg container-xl container-xxl mt-3 ">
+    <div className="container-lg container-xl container-xxl">
       <nav className="navbar navbar-expand-lg navbar-light ">
         <div className="container-fluid">
           <a className="logo-text-home navbar-brand me-5 d-flex align-items-center" href="/">

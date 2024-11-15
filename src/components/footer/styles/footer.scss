@@ -1,6 +1,9 @@
 
 .bgr-img-footer{
 }
+.bg-input-footer-search {
+    background-color: #f3f4f6;
+}
 // phần input col-6
 .input-bgr-footer{
     background-color: #F5F4FF;
@@ -14,12 +17,10 @@
 }
 .button-bgr-footer{
     height: 54px;
-    background-color: #0D5C61;
-    border: #138086 1px solid;
     font-family: Poppins;
     font-size: 18px;
-
 }
+
 @media (min-width: 992px){
     .Form-footer-submit{
         position: relative;
