@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faGlobe, faLocationDot, faPhone } from '@fortawesome/free-solid-svg-icons'; // Icon từ gói solid
 import { faFacebookF, faLinkedinIn, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons'; // Icon từ gói brands
@@ -7,9 +6,8 @@ import "./styles/footer.scss";
 const Footer = () => {
   return (
     <div className="container-fluid bgr-img-footer py-5">
-      footer
       <div className="container">
-        <div className="bg-light p-4 rounded-3">
+        <div className="bg-input-footer-search p-4 rounded-3">
             <div className="row px-3">
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6">
                   <h6 className="h6-footer">Cung cấp và cho thuê phòng trọ</h6>
@@ -18,7 +16,7 @@ const Footer = () => {
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 col-xxl-6">
                   <form className="Form-footer-submit">
                   <input className="form-control rounded-2 input-bgr-footer" placeholder="Nhập địa chỉ email của bạn"></input>
-                  <button className="btn btn-primary rounded-2 button-bgr-footer">Đăng ký ngay</button>
+                  <button className="btn rounded-2 button-bgr-footer btn-create-notification btn-transform-y2">Đăng ký ngay</button>
                   </form>
                </div>
             </div>

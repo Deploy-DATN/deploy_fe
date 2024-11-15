@@ -23,7 +23,6 @@
 }
 //button vị trí and tiền?
 .search-box {
-  display: inline-flex;
   padding: 0.5rem 1rem;
   border-radius: 50px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -39,15 +38,101 @@
       color: #adb5bd;
     }
   }
-  .divider {
-    height: 100%;
+  @media (min-width: 991px) {
+    .divider {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .line {
+        height: 60%;
+        width: 1px;
+        background-color: #e2e8f0;
+      }
+    }
+  }
+
+
+  .input-search-home-motel-1 {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    .line {
-      height: 60%;
-      width: 1px;
-      background-color: #e2e8f0;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    span {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 50rem !important ;
+      border-bottom-left-radius: 50rem !important ;
+      display: flex;
+      --bs-border-color: #bdbdbd;
+      align-items: center;
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      text-align: center;
+      white-space: nowrap;
+      background-color: var(--bs-tertiary-bg);
+      border: var(--bs-border-width) solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius);
+      color: #0b1a46;
+    }
+    input {
+      --bs-border-color: #bdbdbd;
+      margin-left: calc(var(--bs-border-width) * -1);
+      border-top-right-radius: 50rem !important;
+      border-bottom-right-radius: 50rem !important;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      position: relative;
+      flex: 1 1 auto;
+      width: 1%;
+      min-width: 0;
+      color: #0b1a46;
+      border: var(--bs-border-width) solid var(--bs-border-color);
+    }
+    input::placeholder {
+      color: #0b1a469f;
+    }
+  }
+}
+@media (min-width: 992px){
+  .search-box{
+    display: inline-flex;
+  }
+}
+@media (max-width: 991px){
+  .search-box{
+    border-radius: 30px;
+      .search-box-flex-row{
+        -webkit-box-orient: horizontal !important;
+        -webkit-box-direction: normal !important;
+        -ms-flex-direction: row !important;
+        flex-direction: row !important;
+      }
+      .button-search-box{
+        button{
+          width: 100%;
+        }
+      }
+      .timkiem-search-box{
+      }
+  }
+}
+.dropdown-search-box{
+  @media (max-width: 767px){
+    flex-wrap: wrap;
+    .dropdown {
+      width: 100%;
+      button{
+        width: 100%;
+        text-align: left;
+      }
     }
   }
 }
@@ -117,7 +202,7 @@
 }
 
 .btn-home-motel-slide-new {
-  border: 1px solid #E5E7EB;
+  border: 1px solid #e5e7eb;
   background-color: #ffffff;
   width: 40px;
   height: 40px;
