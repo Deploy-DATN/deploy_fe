@@ -24,6 +24,7 @@ const Footer = () => {
         <div className="mt-5">
           <div className="row justify-content-between">
             <div className="colum-footer-1 margin-footer-mobie-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3 text-center text-md-start text-lg-start text-xl-start text-xxl-start">
+
               <div className='d-flex align-items-center'>
                 <img src="src/assets/images/Logo-New.png" className='w-25' alt="logo" />
                 <p className='fs-10 m-0 text-dark ms-2'>Thỏ Stay</p>
@@ -57,6 +58,7 @@ const Footer = () => {
                   <li className="my-2"><a className="a-footer-quick" href="#">Contact Us</a></li>
                 </ul>
               </div>
+
             </div>
             <div className="colum-footer-1 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-2 col-xxl-2 text-start text-md-start text-lg-start text-xl-start text-xxl-start">
               <h3 className="h3-footer-quick">Services</h3>
@@ -69,6 +71,7 @@ const Footer = () => {
                   <li className="my-2"><a className="a-footer-quick" href="#">Plaza</a></li>
                 </ul>
               </div>
+
             </div>
             <div className="colum-footer-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3 text-start text-md-start text-lg-start text-xl-start text-xxl-start">
               <h3 className="h3-footer-quick">Get In Touch</h3>
@@ -78,6 +81,7 @@ const Footer = () => {
                     <FontAwesomeIcon className="me-2" icon={faPhone} size="lg" color="#138086" /> <p> +(84)9653812674</p>
                   </li>
                   <li className=" a-footer-quick d-flex justify-content-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">
+
                     <FontAwesomeIcon className="me-2" icon={faEnvelope} size="lg" color="#138086" /> <p>thostay@gmail.com</p>
                   </li>
                   <li className=" a-footer-quick d-flex justify-content-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">

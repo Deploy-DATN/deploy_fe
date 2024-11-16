@@ -55,13 +55,14 @@ export interface UpdateNoti {
 export interface Room {
     motelName: string;
     address: string;
-    availableRooms: number;
+    emptyRoomsCount: number;
     status: number;
 }
 
 export interface Revenue {
     month: string;
     revenue: number;
+    year: number;
 }
 
 export interface Percentage {
@@ -81,6 +82,7 @@ export interface RegisterAccountOwner {
     phone: string,
     email: string
 }
+
 
 
 
@@ -153,5 +155,8 @@ export const getRevenueStatisticApi = async (revenue: Revenue) => {
 export const getPercentageApi = async (percentage: Percentage) => {
     return axios.get(API.PERCENTAGE, { params: percentage })
 }
+
+
+
 
 

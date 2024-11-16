@@ -1,3 +1,4 @@
+
 import "../home/home.scss";
 import HomeMotelHot from "./compenent/homemotelhot";
 import HomeMotelNew from "./compenent/homemotelnew";

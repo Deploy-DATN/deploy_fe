@@ -4,36 +4,47 @@ import axios from "axios";
 export const API_URL = 'https://localhost:7299';
 
 export enum API {
+    //autherize
     LOGIN = API_URL + '/login',
     REGISTER = API_URL + '/register-customer',
     FOGOTPASSWORD = '/senderOtpToEmail',
     OTP = API_URL + '/checkOtp',
     NEWPASS = API_URL + '/changePassword',
 
+    //notification
     LISTNOTI = API_URL + '/api/Noti',
     CREATE_NOTI = API_URL + '/addNoti',
     UPDATE_NOTI = API_URL + '/api/Noti/',
     GET_SENTUSER = API_URL + '/api/Noti/get-sent-notifications',
+    SENDNOTI = API_URL + '/api/Noti/SendByRole/',
 
-    AVAILABLEROOM = API_URL + '/api/statistical/available-motels',
-    REVENUESTATISTIC = API_URL + '/api/statistical/last-six-months',
+    // statistical
+    AVAILABLEROOM = API_URL + '/api/statistical/motels-with-empty-rooms',
+    REVENUESTATISTIC = API_URL + '/api/statistical/api/revenue/last-six-months',
     PERCENTAGE = API_URL + '/api/statistical/expense-percentage',
 
+    //ticket
     TICKETS = API_URL + '/api/Ticket/Tickets',
     UPDATETICKET = API_URL + '/api/Ticket/Assignee',
     CREATEtICKET = API_URL + '/api/Ticket/Tickets',
     RECEIVERS = API_URL + '/api/Ticket/GetReceivers',
     GETTICKETBYID = API_URL + '/api/Ticket/GetTicketById',
 
+    //Room
     GETALLMOTEL = API_URL + '/Room/get-all-room-by-admin',
     GETMOTELBYID = API_URL + '/Room/get-motel-by-id',
-    SENDNOTI = API_URL + '/api/Noti/SendByRole/',
 
+
+    //user
     GETALLUSER = API_URL + '/User',
     GETUSERBYID = API_URL + '/User/',
     UPDATEUSER = API_URL + '/User/',
     DELETEUSER = API_URL + '/User/',
     GETROLE = API_URL + '/Role',
+
+    //Home
+    OUTSTANDINGMOTELS = API_URL + '/api/Main/outstanding-motels',
+    NEWMOTELS = API_URL + '/api/Main/new-motels'
 }
 
 const axiosInstance = axios.create({

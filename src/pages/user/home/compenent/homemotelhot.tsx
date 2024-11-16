@@ -64,6 +64,7 @@ function HomeMotelHot() {
   return (
     <>
       <section className="home-show-motel-1 mt-5">
+
         <div className="row justify-content-between align-items-center">
           <div className="col-12 col-lg-6">
             <h2>Phòng Trọ Nổi Bật</h2>
@@ -107,6 +108,7 @@ function HomeMotelHot() {
                     {motel.images.map((img, imgIndex) => (
                       <div
                         key={imgIndex}
+
                         className={`carousel-item ${imgIndex === 0 ? "active" : ""
                           }`}
                       >
