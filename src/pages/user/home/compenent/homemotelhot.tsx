@@ -70,18 +70,13 @@ function HomeMotelHot() {
             <p>Những phòng trọ được nhiều người thuê</p>
           </div>
           <div className="col-12 col-lg-6 d-flex justify-content-lg-end">
-          </div>
-        </div>
-
-        <div className="row justify-content-between align-items-center">
-          <div className="col-12 col-lg-6 mt-3">
-            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 active-filter-home-show rounded-pill">
+            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 btn-transform-y2 active-filter-home-show rounded-pill">
               Trọ nổi bật
             </button>
-            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 rounded-pill">
+            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 btn-transform-y2 rounded-pill">
               Trọ mới
             </button>
-            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 rounded-pill">
+            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 btn-transform-y2 rounded-pill">
               Trọ sắp trả
             </button>
           </div>
@@ -112,9 +107,8 @@ function HomeMotelHot() {
                     {motel.images.map((img, imgIndex) => (
                       <div
                         key={imgIndex}
-                        className={`carousel-item ${
-                          imgIndex === 0 ? "active" : ""
-                        }`}
+                        className={`carousel-item ${imgIndex === 0 ? "active" : ""
+                          }`}
                       >
                         <img
                           src={img}

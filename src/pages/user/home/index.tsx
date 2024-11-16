@@ -94,25 +94,24 @@ export const Home = () => {
           </div>
         </section>
         <section>
-          <div className="mt-3">
-            <div className="px-4 py-2  shadow-sm search-box">
+          <div className="mt-3 d-flex justify-content-center">
+            <div className="px-4 shadow-sm search-box">
               <div className="d-lg-flex align-items-center search-box-flex-row">
                 <div className="flex-lg-fill timkiem-search-box col-12 col-sm-12 col-md-12">
                   <div className="input-search-home-motel-1 flex-nowrap input-group-lg">
-                    <span className="input-group-text" id="addon-wrapping">
-                      <i className="fa-solid fa-magnifying-glass"></i>
-                    </span>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control border-0"
                       placeholder="Tìm kiếm trọ"
-                    ></input>
-                  </div>{" "}
+                    />
+                    <span className="bg-transparent border-0 p-0">
+                      <i className="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                  </div>
                 </div>
                 <div className="divider px-3">
                   <div className="line"></div>
                 </div>
-
                 <div className="flex-lg-fill d-flex align-items-center dropdown-search-box col-12 col-sm-12 col-md-12 justify-content-md-between">
                   <div className="dropdown mx-2 my-2 flex-lg-fill">
                     <button
@@ -210,14 +209,8 @@ export const Home = () => {
                 </div>
                 <div className="d-flex justify-content-center flex-lg-fill button-search-box col-12 col-sm-12 col-md-12 justify-content-sm-start">
                   <button className="btn btn-create-notification btn-transform-y2 rounded-pill d-flex align-items-center text-nowrap justify-content-md-center">
-                    <FontAwesomeIcon
-                      icon={faSearch}
-                      size="sm"
-                      color=""
-                      className="me-2 "
-                      style={{ transform: "scaleX(-1)" }}
-                    ></FontAwesomeIcon>
-                    Tìm kiếm
+                    Tìm kiếm theo địa chỉ
+                    <i className="fa-solid fa-magnifying-glass ms-2"></i>
                   </button>
                 </div>
               </div>
