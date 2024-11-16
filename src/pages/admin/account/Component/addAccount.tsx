@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { addUser } from "@/services/api/userApi";
 import { getRole } from "@/services/api/userApi";
+import Swal from 'sweetalert2';
 interface AddAccountProps {
   onClose: () => void;
   onSubmit: () => void;
@@ -12,15 +13,37 @@ interface AddAccountProps {
 const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({}); // State lưu lỗi từng ô input
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
     email: "",
     password: "",
     address: "",
-    role: options[2], // Set default role as "Nhân viên"
+    role: { label: "", value: "" }, // Set default role as "Nhân viên"
     avatar: "",
   });
+  const validateField = (name: string, value: string) => {
+     let errorMessage = "";
+
+    // Kiểm tra tên đầy đủ chỉ chứa ký tự chữ (bao gồm tiếng Việt và khoảng trắng)
+    if (name === "fullName" && (!value || !/^[a-zA-ZÀ-ỹ\s]+$/.test(value))) {
+        errorMessage = "Họ và tên chỉ chứa ký tự chữ, không bao gồm số hoặc ký tự đặc biệt.";
+    } 
+    // Kiểm tra số điện thoại
+    else if (name === "phoneNumber" && (!value || !value || !/^0\d{9}$/.test(value))) {
+        errorMessage = "Số điện thoại chỉ chứa 10 ký tự số.";
+    } 
+    // Kiểm tra email hợp lệ
+    else if (name === "email" && (!value || !/\S+@\S+\.\S+/.test(value))) {
+        errorMessage = "Vui lòng nhập email hợp lệ.";
+    } 
+    // Kiểm tra mật khẩu (ít nhất một chữ cái và một số)
+    else if (name === "password" && (!value || !/(?=.*[a-z])(?=.*\d)/.test(value))) {
+        errorMessage = "Mật khẩu phải chứa ít nhất một chữ cái thường và một số.";
+    }
+    return errorMessage;
+  };
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -33,9 +56,9 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
         setSelectedImage(base64String);
       };
       reader.readAsDataURL(file);
-      
+
     }
-    
+
   };
 
   // Fetch the role data
@@ -49,6 +72,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
             label: item.name,
           }));
           setOptions(roleOptions);
+          setFormData((prev) => ({ ...prev, role: roleOptions[2] || roleOptions[0] })); // Đặt vai trò mặc định
         }
       } catch (error) {
         console.error("Error fetching role data:", error);
@@ -73,7 +97,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
       color: state.isFocused ? 'white' : 'black',
     }),
   };
-  
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -86,37 +110,67 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    // Prepare the data for the API call
-    const data: any = {
-      fullName: formData.fullName,
-      phone: formData.phoneNumber, // Match the property name
-      email: formData.email,
-      password: formData.password, // This is probably not in the User interface; consider where you use it.
-      avatar: selectedImage || '', // Use empty string if no image is selected
-      role: formData.role.value,
-    };
+    let formErrors: { [key: string]: string } = {};
+    let hasError = false;
 
-    try {
-      // Make the API call
-      const response = await addUser(data);
-     
-      if(response.data.code === 200){
-        onClose();
-        window.alert("Cập nhật tài khoản thành công");
-        onSubmit();
+    // Validate all fields
+    for (const [name, value] of Object.entries(formData)) {
+      const errorMessage = validateField(name, value as string);
+      if (errorMessage) {
+        formErrors[name] = errorMessage;
+        hasError = true;
       }
-      if(response.data.code === 404){
-        window.alert("Cập nhật tài khoản thất bại: " + response.data.message);
-        console.log(response.data.message);
-      }
-      // Optionally, handle success (like resetting the form, showing a success message, etc.)
-      
-    } catch (error) {
-      console.error('Error adding user:', error);
-      window.alert("Cập nhật tài khoản thất bại" + error); 
-      // Optionally, handle the error (showing an error message, etc.)
     }
+
+    setErrors(formErrors);
+    // Prepare the data for the API call
+    if (!hasError) {
+      const data: any = {
+        fullName: formData.fullName,
+        phone: formData.phoneNumber, // Match the property name
+        email: formData.email,
+        password: formData.password, // This is probably not in the User interface; consider where you use it.
+        avatar: selectedImage || '', // Use empty string if no image is selected
+        role: typeof formData.role === "string" ? formData.role : formData.role.value,
+      };
+
+      try {
+        // Make the API call
+        const response = await addUser(data);
+
+        if (response.data.code === 200) {
+          onClose();
+          
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Thêm tài khoản thành công',
+            timer: 1500
+          });
+          onSubmit();
+        }
+        if (response.data.code === 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Thành công!',
+            text: 'Thêm tài khoản thất bại',
+            timer: 1500
+          });
+          console.log(response.data.message);
+        }
+        // Optionally, handle success (like resetting the form, showing a success message, etc.)
+
+      } catch (error) {
+        console.error('Error adding user:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Thành công!',
+          text: 'Thêm tài khoản thất bại' + error,
+          timer: 1500
+        });
+        
+      }
+    };
   };
 
   return (
@@ -158,6 +212,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
                   value={formData.fullName}
                   onChange={handleChange}
                 />
+                {errors.fullName && <div className="text-danger">{errors.fullName}</div>}
               </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
                 <label htmlFor="phoneNumber">Số điện thoại</label>
@@ -169,6 +224,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
                   value={formData.phoneNumber}
                   onChange={handleChange}
                 />
+                {errors.phoneNumber && <div className="text-danger">{errors.phoneNumber}</div>}
               </div>
             </div>
             <div className="row form-group mt-3">
@@ -182,6 +238,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
                   value={formData.email}
                   onChange={handleChange}
                 />
+                 {errors.email && <div className="text-danger">{errors.email}</div>}
               </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
                 <label htmlFor="password">Mật khẩu</label>
@@ -193,10 +250,12 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
                   value={formData.password}
                   onChange={handleChange}
                 />
+                 {errors.password && <div className="text-danger">{errors.password}</div>}
+
               </div>
             </div>
             <div className="row form-group mt-3">
-              <div className="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7">
+              {/* <div className="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7">
                 <label htmlFor="address">Địa chỉ</label>
                 <input
                   type="text"
@@ -206,7 +265,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
                   value={formData.address}
                   onChange={handleChange}
                 />
-              </div>
+              </div> */}
               <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
                 <label htmlFor="role">Quyền</label>
                 <Select
@@ -218,7 +277,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
                   onChange={(e: any) => handleRoleChange(e)}
                   placeholder="Chọn vai trò"
                 />
-
+                {errors.role && <div className="text-danger">{errors.role}</div>}
               </div>
             </div>
             <div className="d-flex justify-content-between mt-4">
