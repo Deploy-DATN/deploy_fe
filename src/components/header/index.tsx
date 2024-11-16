@@ -3,7 +3,7 @@ import "./styles/header.scss";
 
 const Header = () => {
   return (
-    <div className="container-lg container-xl container-xxl">
+    <div className="container-lg container-xl container-xxl header">
       <nav className="navbar navbar-expand-lg navbar-light ">
         <div className="container-fluid">
           <a className="logo-text-home navbar-brand me-5 d-flex align-items-center" href="/">
@@ -31,7 +31,7 @@ const Header = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0 row w-100 mx-0 position-relative">
               <li className="nav-link col-12 col-sm-12 col-md-12 col-lg-9 col-xl-9 col-xxl-9 p-0">
                 <div className="w-100 h-100 cangiua">
-                  <ul className="navbar-nav h-100 mb-2 justify-content-center mb-lg-0 align-items-lg-center align-items-xl-center align-items-xxl-center border-link-header w-ul-header">
+                  <ul className="navbar-nav mb-2 justify-content-center mb-lg-0 align-items-lg-center align-items-xl-center align-items-xxl-center border-link-header w-ul-header">
                     <li className="nav-item">
                       <a
                         className="nav-link color-text-header"
@@ -55,31 +55,19 @@ const Header = () => {
                 </div>
 
               </li>
-              <li className="nav-link col-12 col-md-12 col-sm-12 col-lg-3 col-xl-3 col-xxl-3 px-0">
+              <li className="col-12 col-md-12 col-sm-12 col-lg-3 col-xl-3 col-xxl-3 px-0">
                 <ul className="navbar-nav px-0 mb-lg-0 d-flex align-items-lg-center align-items-xl-center align-items-xxl-center justify-content-lg-end justify-content-xl-end justify-content-xxl-end px-3-lg w-100">
-                  <img
-                    className="me-3"
-                    src="src/components/header/img/Bongden.png"
-                    width="28"
-                    height="28"
-                    alt="Hình ảnh user"
-                  ></img>
-                  <img
-                    className="me-3"
-                    src="src/components/header/img/notifications.png"
-                    width="28"
-                    height="28"
-                    alt="Hình ảnh user"
-                  ></img>
-                  <button className="color-btn-header text-white lg-none px-3 py-2 font-size-header ms-3 rounded-pill">Đăng nhập</button>
+                  <i className="fa-light fa-sun-bright font-size-header text-dark px-3 py-2"></i>
+                  <i className="fa-light fa-bell-ring font-size-header text-dark px-3 py-2"></i>
+                  <a href="#" className="text-dark lg-none px-3 py-2 font-size-header"><i className="fa-light fa-user"></i></a>
                 </ul>
               </li>
             </ul>
           </div>
         </div>
-      </nav>      
+      </nav>
     </div>
-    
+
   );
 };
 
