@@ -20,7 +20,7 @@ export const Dashboard = () => {
             }
         };
 
-        fetchRooms({ motelName: "", address: "", availableRooms: 0, status: 0 });
+        fetchRooms({ motelName: "", address: "", emptyRoomsCount: 0, status: 0 });
     }, []);
 
     const [revenueData, setRevenueData] = useState<ChartProps | null>(null);
@@ -41,7 +41,7 @@ export const Dashboard = () => {
                                     },
                                 },
                                 xaxis: {
-                                    categories: response.data.map((item: { month: string }) => item.month),
+                                    categories: response.data.map((item: { month: string }) => `${item.month}`),
                                 },
                             },
                             series: [
@@ -60,7 +60,7 @@ export const Dashboard = () => {
                 console.error("Error fetching revenue data:", error);
             }
         };
-        fetchRevenue({ month: "", revenue: 0 });
+        fetchRevenue({ month: "", revenue: 0, year: 0 });
 
     }, []);
 
@@ -190,7 +190,7 @@ export const Dashboard = () => {
                     <div className="row">
                         <div className="col-lg-12 col-sm-6">
                             {/* <!-- Yearly Breakup --> */}
-                            <div className="card overflow-hidden">
+                            {/* <div className="card overflow-hidden">
                                 <div className="card-body p-4">
                                     <h5 className="card-title mb-10 fw-semibold">Dịch vụ</h5>
                                     <div className="row">
@@ -199,7 +199,7 @@ export const Dashboard = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="col-lg-12 col-sm-6">
                             {/* <!-- Monthly Earnings --> */}
@@ -295,7 +295,7 @@ export const Dashboard = () => {
                                             </td>
                                             <td>
                                                 <p className="fs-3 fw-normal mb-0 text-success">
-                                                    {rooms.availableRooms}
+                                                    {rooms.emptyRoomsCount}
                                                 </p>
                                             </td>
                                             <td>
