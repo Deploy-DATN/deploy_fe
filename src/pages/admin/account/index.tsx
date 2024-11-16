@@ -141,7 +141,7 @@ export const Account: React.FC = () => {
                       <th scope="col">Hình ảnh</th>
                       <th scope="col">Số điện thoại</th>
                       <th scope="col">Email</th>
-                      <th scope="col">Địa chỉ</th>
+                      {/* <th scope="col">Địa chỉ</th> */}
                       <th scope="col">Quyền</th>
                       <th scope="col">Thao tác</th>
                     </tr>
@@ -162,7 +162,7 @@ export const Account: React.FC = () => {
                         </td>
                         <td>{user.phone}</td>
                         <td>{user.email}</td>
-                        <td className="text-overflow-motel">Address Placeholder</td>
+                        {/* <td className="text-overflow-motel">Address Placeholder</td> */}
                         <td>
                           <span className="tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3">
                             {user.role}
