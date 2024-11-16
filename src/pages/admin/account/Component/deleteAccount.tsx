@@ -1,5 +1,6 @@
 import React from "react";
 import { deleteUser } from "@/services/api/userApi";
+import Swal from 'sweetalert2';
 interface DeleteAccountProps {
   userId: number;
   onClose: () => void;
@@ -17,12 +18,21 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ userId, onClose, onSubmit
       }
 
       // Notify the parent component or refresh data, if needed
-      window.alert("Tài khoản đã được xóa thành công.");
+      Swal.fire({
+        icon: 'success',
+        title: 'Thành công!',
+        text: 'Xóa tải khoản thành công' ,
+        timer: 1500
+      });
       onClose();
       onSubmit();
     } catch (error) {
-      alert("Đã xảy ra lỗi khi xóa tài khoản.");
-      console.error(error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi!',
+        text: 'Đã xảy ra lỗi trong quá trình Xóa: ' + error,
+        timer: 1500
+      });
     }
   };
   return (

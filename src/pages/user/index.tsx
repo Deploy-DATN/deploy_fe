@@ -9,6 +9,7 @@ import Verify from "@/pages/ForgotPW/VerifyForgotPW"
 import SetPassword from "@/pages/ForgotPW/newPW"
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import { DetailMotelUser } from './detailMotel';
 
 export const User = () => {
   return (
@@ -25,6 +26,7 @@ export const User = () => {
         <Route path="verify" element={<Verify />} />
         <Route path="set-password" element={<SetPassword />} />
       </Route>
+      <Route path="/detailmoteluser" element={<DetailMotelUser />} />
       <Route path="*" element={<Err />} />
     </Routes>
   )
