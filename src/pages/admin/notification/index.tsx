@@ -8,7 +8,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from 'react';
 
 import { Noti } from '@/services/api/authApi';
-import { Data } from "@/services/Dto/ticketDto";
+import { Data } from "@/services/Dto/NotificationDto";
 import Swal from 'sweetalert2';
 import { ParamsPage } from "@/services/Dto/NotificationDto";
 import { getNotis } from "@/services/api/notiApi";
@@ -19,7 +19,7 @@ export const Notification: React.FC = () => {
   const [showSendPopup, setShowSendPopup] = useState(false);
   const [currentNotification, setCurrentNotification] = useState<Noti | null>(null);
   const [notifications, setNotifications] = useState<Data>();
-  const [activeStatus, setActiveStatus] = useState<number | undefined>(undefined);
+  const [activeStatus, setActiveStatus] = useState<boolean | undefined>(undefined);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -133,17 +133,17 @@ export const Notification: React.FC = () => {
 
                 <button
                   onClick={() => fetchNotifications({
-                    status: 2
+                    status: true
                   })}
-                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${activeStatus === 2 ? 'block-filter__button--active' : ''}`}>
+                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${activeStatus === true ? 'block-filter__button--active' : ''}`}>
                   Đã gửi
                 </button>
 
                 <button
                   onClick={() => fetchNotifications({
-                    status: 1
+                    status: false
                   })}
-                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${activeStatus === 1 ? 'block-filter__button--active' : ''}`}>
+                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${activeStatus === false ? 'block-filter__button--active' : ''}`}>
 
                   Chưa gửi
                 </button>
@@ -193,7 +193,7 @@ export const Notification: React.FC = () => {
                         </span>
                       </td>
                       <td>
-                        {noti.status === 1 ? (
+                        {noti.status === false ? (
                           <span className={`tt-choduyet badge bg-warning rounded-pill px-3 py-2 fs-3 text-white`}>
                             Chưa gửi
                           </span>
