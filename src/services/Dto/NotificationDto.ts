@@ -12,5 +12,5 @@ export interface ParamsPage {
     search?: string;
     pageNumber?: number;
     pageSize?: number;
-    status?: number;
+    status?: boolean;
 }
