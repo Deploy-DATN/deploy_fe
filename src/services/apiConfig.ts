@@ -6,7 +6,7 @@ export const API_URL = 'https://localhost:7299';
 export enum API {
     //autherize
     LOGIN = API_URL + '/login',
-    REGISTER = API_URL + '/dang-ky-user',
+    REGISTER = API_URL + '/register-customer',
     FOGOTPASSWORD = '/senderOtpToEmail',
     OTP = API_URL + '/checkOtp',
     NEWPASS = API_URL + '/changePassword',

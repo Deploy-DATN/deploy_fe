@@ -5,6 +5,7 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { getUserById } from "@/services/api/userApi";
 import { updateUser } from "@/services/api/userApi";
 import { getRole } from "@/services/api/userApi";
+import Swal from 'sweetalert2';
 interface EditAccountProps {
   userId: number;
   onClose: () => void;
@@ -33,8 +34,21 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
     email: "",
     role: "", // Set default role as "Nhân viên"
   });
+  const [errors, setErrors] = useState<{ [key: string]: string }>({}); // State lưu lỗi từng ô input
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
-  
+  const validateField = (name: string, value: string) => {
+    let errorMessage = "";
+
+    if (name === "fullName" && (!value || !/^[a-zA-ZÀ-ỹ\s]+$/.test(value))) {
+      errorMessage = "Họ và tên chỉ chứa ký tự chữ, không bao gồm số hoặc ký tự đặc biệt.";
+    } else if (name === "phone" && (!value || !/^0\d{9}$/.test(value))) {
+      errorMessage = "Số điện thoại chỉ chứa 10 ký tự số.";
+    } else if (name === "email" && (!value || !/\S+@\S+\.\S+/.test(value))) {
+      errorMessage = "Vui lòng nhập email hợp lệ.";
+    } 
+
+    return errorMessage;
+  };
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -79,46 +93,64 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
 
     fetchUser();
   }, [userId]);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("dữ liệu đây nè:", formData);
+    let formErrors: { [key: string]: string } = {};
+    let hasError = false;
 
-    // Prepare the data for the API call
-    const data: any = {
-      fullName: formData.fullName,
-      phone: formData.phone, // Match the property name
-      email: formData.email,
-      avatar: selectedImage || '', // Use empty string if no image is selected
-      role: formData.role,
-    };
-
-    try {
-      // Make the API call
-      //set data 
-
-     
-      const response = await updateUser(userId, data);
-     
-      console.log('User added successfully:', response.data);
-      if(response.data.code === 200){
-        onClose();
-        window.alert("Cập nhật tài khoản thành công");
+    for (const [key, value] of Object.entries(formData)) {
+      const errorMessage = validateField(key, value as string);
+      if (errorMessage) {
+        formErrors[key] = errorMessage;
+        hasError = true;
       }
-      if(response.data.code === 404){
-        window.alert("Cập nhật tài khoản thất bại: " + response.data.message);
-        console.log(response.data.message);
-      }
-      // Optionally, handle success (like resetting the form, showing a success message, etc.)
-      onSubmit();
-    } catch (error) {
-      //shoe error
-      window.alert("Cập nhật tài khoản thất bại" + error);  
     }
+
+    setErrors(formErrors);
+    if (!hasError) {
+      const data: any = {
+        fullName: formData.fullName,
+        phone: formData.phone, // Match the property name
+        email: formData.email,
+        avatar: selectedImage || '', // Use empty string if no image is selected
+        role: formData.role,
+      };
+
+      try {
+        const response = await updateUser(userId, data);
+
+        console.log('User added successfully:', response.data);
+        if (response.data.code === 200) {
+          onClose();
+          Swal.fire({
+            icon: 'success',
+            title: 'Thành công!',
+            text: 'Cập nhật tài khoản thành công',
+            timer: 1500
+          });
+        }
+        if (response.data.code === 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Lỗi!',
+            text: response.data.message,
+            timer: 1500,
+          });
+        }
+        // Optionally, handle success (like resetting the form, showing a success message, etc.)
+        onSubmit();
+      } catch (error) {
+        //shoe error
+        Swal.fire({
+          icon: 'error',
+          title: 'Lỗi!',
+          text: 'Đã xảy ra lỗi trong quá trình cập nhật: ' + error,
+          timer: 1500
+        });
+      }
+    }
+
   };
 
 
@@ -131,13 +163,21 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
 
 
 
-//fecth data Role
+  //fecth data Role
 
 
-  
 
-  const handleTextChange = (key : any, value: any) => {
-    console.log(key, value);
+
+  const handleTextChange = (key: any, value: any) => {
+    const errorMessage = validateField(key, value); // Validate input
+    if (errorMessage) {
+      setErrors((prev) => ({ ...prev, [key]: errorMessage })); // Lưu lỗi vào state
+    } else {
+      setErrors((prev) => {
+        const { [key]: _, ...rest } = prev; // Xóa lỗi nếu không còn lỗi
+        return rest;
+      });
+    }
     setFormData({ ...formData, [key]: value });
   };
 
@@ -204,6 +244,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
                   defaultValue={userData?.fullName}
                   onChange={(e) => handleTextChange("fullName", e.target.value)}
                 />
+                {errors.fullName && <small className="text-danger">{errors.fullName}</small>}
               </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
                 <label htmlFor="description" className="">
@@ -217,6 +258,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
                   defaultValue={userData?.phone}
                   onChange={(e) => handleTextChange("phone", e.target.value)}
                 />
+                {errors.phone && <small className="text-danger">{errors.phone}</small>}
               </div>
             </div>
             <div className="row form-group mt-3">
@@ -232,6 +274,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
                   defaultValue={userData?.email}
                   onChange={(e) => handleTextChange("email", e.target.value)}
                 />
+                {errors.email && <small className="text-danger">{errors.email}</small>}
               </div>
               {/* <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
                 <label htmlFor="description" className="">
@@ -247,7 +290,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
               </div> */}
             </div>
             <div className="row form-group mt-3">
-              <div className="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7">
+              {/* <div className="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7">
                 <label htmlFor="description" className="">
                   Địa chỉ
                 </label>
@@ -258,7 +301,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
                   placeholder="Địa chỉ"
                   onChange={(e) => handleTextChange("address", e.target.value)}
                 />
-              </div>
+              </div> */}
               <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
                 <label htmlFor="description" className="">
                   Quyền
@@ -271,7 +314,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
                   value={options.find((option) => option.value === formData.role)}
                   placeholder="Chọn vai trò"
                   onChange={(e) => handleRoleChange(e as { value: string; label: string })}
-                  
+
 
                 />
 
