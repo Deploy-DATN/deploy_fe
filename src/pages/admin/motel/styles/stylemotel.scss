@@ -17,7 +17,11 @@
     background-color: #5a5eff; // Màu nền đậm hơn khi hover
   }
 }
-
+.btn-xoa-add-motel{
+    --bs-btn-bg : #ee2020d0;
+    background-color           : var(--bs-btn-bg);
+    color:#ffffff;
+}
 .btn-duyet {
   background-color: #00b69bc2;
 
