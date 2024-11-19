@@ -9,16 +9,23 @@ export interface Image {
 export interface RoomType {
     id: number;
     price: number;
+    name: string;
+    address: string;
     images: Image[];
 }
 
-export interface Motel {
-    name: string;
-    roomTypes: RoomType[];
-}
+
 
 //API trang chu
 
-export const getOutstandingMotelApi = async () => {
-    return axios.get<{ data: Motel[] }>(API.OUTSTANDINGMOTELS);
+export const getOutstandingMotelApi = async (osMotels: RoomType) => {
+    return axios.get(API.OUTSTANDINGMOTELS, { params: osMotels });
 };
+
+export const getNewMotelApi = async (newmotel: RoomType) => {
+    return axios.get(API.NEWMOTELS, { params: newmotel })
+}
+
+export const getSaleRoomTypeApi = async (roomtype: RoomType) => {
+    return axios.get(API.ROOMTYPEUNDERMILION, { params: roomtype })
+}

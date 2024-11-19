@@ -44,7 +44,8 @@ export enum API {
 
     //Home
     OUTSTANDINGMOTELS = API_URL + '/api/Main/outstanding-motels',
-    NEWMOTELS = API_URL + '/api/Main/new-motels'
+    NEWMOTELS = API_URL + '/api/Main/new',
+    ROOMTYPEUNDERMILION = API_URL + '/api/Main/room-types-under-one-million'
 }
 
 const axiosInstance = axios.create({

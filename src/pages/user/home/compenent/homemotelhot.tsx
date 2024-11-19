@@ -1,177 +1,134 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { RoomType, getOutstandingMotelApi, getNewMotelApi } from '@/services/api/HomeApi';
 import {
   faLocationDot,
   faMoneyBill,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
+
 function HomeMotelHot() {
-  //dữ liệu mẫu
-  const motels = [
-    {
-      name: "Tên dãy trọ 1",
-      address: "123 Hà Huy Tập, Tân Lợi, TP. Buôn Ma Thuột, Đắk Lắk, Việt Nam",
-      price: "10,000,000 đ/tháng",
-      images: [
-        "https://i-connect.com.vn/data/news/7046/anh-14-mau-phong-tro-thiet-ke-hien-dai.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjQ72yYhxptSLkHEEk6c1IfMZHorRmNlVsrw&s",
-        "https://xaydungthuanphuoc.com/wp-content/uploads/2022/09/mau-phong-tro-co-gac-lung-dep2028-4.jpg",
-      ],
-    },
-    {
-      name: "Tên dãy trọ 1",
-      address: "123 Hà Huy Tập, Tân Lợi, TP. Buôn Ma Thuột, Đắk Lắk, Việt Nam",
-      price: "10,000,000 đ/tháng",
-      images: [
-        "https://i-connect.com.vn/data/news/7046/anh-14-mau-phong-tro-thiet-ke-hien-dai.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjQ72yYhxptSLkHEEk6c1IfMZHorRmNlVsrw&s",
-        "https://xaydungthuanphuoc.com/wp-content/uploads/2022/09/mau-phong-tro-co-gac-lung-dep2028-4.jpg",
-      ],
-    },
-    {
-      name: "Tên dãy trọ 1",
-      address: "123 Hà Huy Tập, Tân Lợi, TP. Buôn Ma Thuột, Đắk Lắk, Việt Nam",
-      price: "10,000,000 đ/tháng",
-      images: [
-        "https://i-connect.com.vn/data/news/7046/anh-14-mau-phong-tro-thiet-ke-hien-dai.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjQ72yYhxptSLkHEEk6c1IfMZHorRmNlVsrw&s",
-        "https://xaydungthuanphuoc.com/wp-content/uploads/2022/09/mau-phong-tro-co-gac-lung-dep2028-4.jpg",
-      ],
-    },
-    {
-      name: "Tên dãy trọ 1",
-      address: "123 Hà Huy Tập, Tân Lợi, TP. Buôn Ma Thuột, Đắk Lắk, Việt Nam",
-      price: "10,000,000 đ/tháng",
-      images: [
-        "https://i-connect.com.vn/data/news/7046/anh-14-mau-phong-tro-thiet-ke-hien-dai.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjQ72yYhxptSLkHEEk6c1IfMZHorRmNlVsrw&s",
-        "https://xaydungthuanphuoc.com/wp-content/uploads/2022/09/mau-phong-tro-co-gac-lung-dep2028-4.jpg",
-      ],
-    },
-    {
-      name: "Tên dãy trọ 1",
-      address: "123 Hà Huy Tập, Tân Lợi, TP. Buôn Ma Thuột, Đắk Lắk, Việt Nam",
-      price: "10,000,000 đ/tháng",
-      images: [
-        "https://i-connect.com.vn/data/news/7046/anh-14-mau-phong-tro-thiet-ke-hien-dai.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjQ72yYhxptSLkHEEk6c1IfMZHorRmNlVsrw&s",
-        "https://xaydungthuanphuoc.com/wp-content/uploads/2022/09/mau-phong-tro-co-gac-lung-dep2028-4.jpg",
-      ],
-    },
-  ];
+  const [motels, setMotels] = useState<RoomType[]>([]);
+  const [selectedType, setSelectedType] = useState<'outstanding' | 'new'>('outstanding'); // Trạng thái chọn loại trọ
+
+  useEffect(() => {
+    const fetchMotels = async () => {
+      try {
+        let response;
+        if (selectedType === 'outstanding') {
+          response = await getOutstandingMotelApi({ id: 0, price: 0, name: "", address: "", images: [] });
+        } else if (selectedType === 'new') {
+          response = await getNewMotelApi({ id: 0, price: 0, name: "", address: "", images: [] });
+        }
+        if (response && response.data) {
+          setMotels(response.data);
+        }
+      } catch (error) {
+        console.error(`Failed to fetch ${selectedType} motels:`, error);
+      }
+    };
+    fetchMotels();
+  }, [selectedType]);
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN').format(price);
+  };
 
   return (
-    <>
-      <section className="home-show-motel-1 mt-5">
-
-        <div className="row justify-content-between align-items-center">
-          <div className="col-12 col-lg-6">
-            <h2>Phòng Trọ Nổi Bật</h2>
-            <p>Những phòng trọ được nhiều người thuê</p>
-          </div>
-          <div className="col-12 col-lg-6 d-flex justify-content-lg-end">
-            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 btn-transform-y2 active-filter-home-show rounded-pill">
-              Trọ nổi bật
-            </button>
-            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 btn-transform-y2 rounded-pill">
-              Trọ mới
-            </button>
-            <button className="btn btn-filter btn-sm px-3 py-2 mx-2 btn-transform-y2 rounded-pill">
-              Trọ sắp trả
-            </button>
-          </div>
+    <section className="home-show-motel-1 mt-5">
+      <div className="row justify-content-between align-items-center">
+        <div className="col-12 col-lg-6 ">
+          <h2 className="mb-0">PHÒNG TRỌ NỔI BẬT</h2>
         </div>
-        <div className="row">
-          {motels.map((motel, index) => (
-            <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3">
-              {/* Slider */}
-              <div>
-                <div
-                  id={`carouselExampleIndicators-1-${index}`}
-                  className="carousel slide"
-                  data-bs-ride="carousel"
-                >
-                  <div className="carousel-indicators mb-0">
-                    {motel.images.map((_, imgIndex) => (
-                      <button
-                        key={imgIndex}
-                        type="button"
-                        data-bs-target={`#carouselExampleIndicators-1-${index}`}
-                        data-bs-slide-to={imgIndex}
-                        className={imgIndex === 0 ? "active" : ""}
-                        aria-label={`Slide ${imgIndex + 1}`}
-                      ></button>
-                    ))}
-                  </div>
-                  <div className="carousel-inner">
-                    {motel.images.map((img, imgIndex) => (
-                      <div
-                        key={imgIndex}
-
-                        className={`carousel-item ${imgIndex === 0 ? "active" : ""
-                          }`}
-                      >
-                        <img
-                          src={img}
-                          className="img-slider-home-motel"
-                          alt="Motel"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target={`#carouselExampleIndicators-1-${index}`}
-                    data-bs-slide="prev"
-                  ></button>
-                  <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target={`#carouselExampleIndicators-1-${index}`}
-                    data-bs-slide="next"
-                  ></button>
-                </div>
-              </div>
-              {/* Phần chữ */}
-              <div className="mt-3">
-                <h5 className="name-motel-home-1">{motel.name}</h5>
-                <p className="dia-chi-motel-home-1">
-                  <FontAwesomeIcon
-                    icon={faLocationDot}
-                    size="lg"
-                    color="#6B7280"
-                    className="icon-table-motel me-2"
-                  />
-                  {motel.address}
-                </p>
-                <span>
-                  <FontAwesomeIcon
-                    icon={faMoneyBill}
-                    size="lg"
-                    color="#6B7280"
-                    className="icon-table-motel me-2"
-                  />
-                  {motel.price}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="d-flex justify-content-center ">
-          <button className="btn mt-3 btn-create-notification btn-transform-y2 rounded-pill d-flex align-items-center">
-            <FontAwesomeIcon
-              icon={faSpinner}
-              size="sm"
-              color=""
-              className="me-2 fa-spin"
-            ></FontAwesomeIcon>
-            Xem thêm
+        <div className="col-12 col-lg-6 d-flex justify-content-lg-end align-items-center">
+          <button
+            className={`btn btn-filter btn-sm px-3 py-2 mx-2 btn-transform-y2 rounded-pill ${selectedType === 'outstanding' ? 'active-filter-home-show' : ''
+              }`}
+            onClick={() => setSelectedType('outstanding')}
+          >
+            Trọ nổi bật
+          </button>
+          <button
+            className={`btn btn-filter btn-sm px-3 py-2 mx-2 btn-transform-y2 rounded-pill ${selectedType === 'new' ? 'active-filter-home-show' : ''
+              }`}
+            onClick={() => setSelectedType('new')}
+          >
+            Trọ mới
           </button>
         </div>
-      </section>
-    </>
+      </div>
+      <div className="row">
+        {motels && motels.length > 0 && motels.map((roomtype, index) => (
+          <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3">
+            <div>
+              <div
+                id={`carouselExampleIndicators-${roomtype.id}`}
+                className="carousel slide"
+                data-bs-ride="carousel"
+              >
+                <div className="carousel-indicators mb-0">
+                  {roomtype.images && roomtype.images.length > 0 && roomtype.images.map((_, imgIndex) => (
+                    <button
+                      key={`${imgIndex}`}
+                      type="button"
+                      data-bs-target={`#carouselExampleIndicators-${roomtype.id}`}
+                      data-bs-slide-to={imgIndex}
+                      className={imgIndex === 0 ? "active" : ""}
+                      aria-label={`Slide ${imgIndex + 1}`}
+                    ></button>
+                  ))}
+                </div>
+                <div className="carousel-inner">
+                  {roomtype.images && roomtype.images.length > 0 && roomtype.images.map((img, imgIndex) => (
+                    <div
+                      key={`${imgIndex}`}
+                      className={`carousel-item ${imgIndex === 0 ? "active" : ""}`}
+                    >
+                      <img
+                        src={img.link || "#"}
+                        className="img-slider-home-motel"
+                        alt={`RoomType ${imgIndex + 1} Image ${imgIndex + 1}`}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="mt-3">
+              <h5 className="name-motel-home-1">{roomtype.name || "N/A"}</h5>
+              <p className="dia-chi-motel-home-1">
+                <FontAwesomeIcon
+                  icon={faLocationDot}
+                  size="lg"
+                  color="#6B7280"
+                  className="icon-table-motel me-2"
+                />
+                {roomtype.address || "Address not available"}
+              </p>
+              <span className="text-danger">
+                <FontAwesomeIcon
+                  icon={faMoneyBill}
+                  size="lg"
+                  color="#6B7280"
+                  className="icon-table-motel me-2"
+                />
+                {formatPrice(roomtype.price)} vnđ
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="d-flex justify-content-center">
+        <button className="btn mt-3 btn-create-notification btn-transform-y2 rounded-pill d-flex align-items-center">
+          <FontAwesomeIcon
+            icon={faSpinner}
+            size="sm"
+            className="me-2 fa-spin"
+          />
+          Xem thêm
+        </button>
+      </div>
+    </section>
   );
 }
 

@@ -37,7 +37,7 @@ export interface Noti {
     type: number;
     title: string;
     content: string;
-    status: number;
+    status: boolean;
 }
 
 export interface AddNoti {
