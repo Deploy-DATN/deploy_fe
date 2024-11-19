@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 import { API } from '../apiConfig'
 
 export interface Image {
@@ -12,6 +12,12 @@ export interface RoomType {
     name: string;
     address: string;
     images: Image[];
+}
+
+export interface UserDetail {
+    fullName: string;
+    phone: string;
+    email: string;
 }
 
 
@@ -29,3 +35,19 @@ export const getNewMotelApi = async (newmotel: RoomType) => {
 export const getSaleRoomTypeApi = async (roomtype: RoomType) => {
     return axios.get(API.ROOMTYPEUNDERMILION, { params: roomtype })
 }
+
+export const postDetaiUserApi = async (userdetail: UserDetail, token: string) => {
+    const formData = new FormData();
+    formData.append('fullName', userdetail.fullName)
+    formData.append('phone', userdetail.phone);
+    formData.append('email', userdetail.email);
+    return axios.put(`${API.UPDATEUSERDETAIL}?token=${token}`, formData)
+}
+
+export const postAvatarApi = async (avatar: File, token: string) => {
+    const formData = new FormData();
+    formData.append('avatar', avatar)
+    return axios.put(`${API.UPDATEUSERDETAIL}?token=${token}`, formData)
+}
+
+
