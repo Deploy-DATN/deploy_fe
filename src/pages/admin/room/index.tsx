@@ -78,22 +78,6 @@ export const Room = () => {
 								<div className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3'>
 									<h2 className='header-name-all'>Dãy trọ: {motel?.name}</h2>
 									<p className='detail-room-text'>Địa chỉ: {motel?.address}</p>
-									<div className='row'>
-										<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá điện:{motel?.price?.electric}</p>
-										<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá nước:{motel?.price?.water}</p>
-										<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Số tiền khác:{motel?.price?.other}</p>
-									</div>
-									{motel?.lastPrice && (
-										<div className='row'>
-											<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá điện tháng sau:{motel?.lastPrice?.electric}</p>
-											<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá nước tháng sau:{motel?.lastPrice?.water}</p>
-											<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Giá khác tháng sau:{motel?.lastPrice?.other}</p>
-										</div>
-									)}
-
-									<div className='row'>
-										<p className='detail-room-text col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>Trạng thái:{CheckStatus(motel?.status ?? 0)}</p>
-									</div>
 								</div>
 								<div className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6'>
 									<div className='d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end mt-3'>
@@ -161,7 +145,7 @@ export const Room = () => {
 											<th scope='col'>Giá phòng</th>
 											<th scope='col'>số diện</th>
 											<th scope='col'>số nước</th>
-											<th scope='col'>SỐ người thuê</th>
+											<th scope='col'>Số người thuê</th>
 											<th scope='col'>Trạng thái</th>
 											<th scope='col'>Thao tác</th>
 										</tr>

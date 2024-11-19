@@ -71,7 +71,6 @@
         display: flex;
         flex-direction: column;
         gap: 12px;
-        margin-bottom: 20px;
         .btn-filter-none {
           background: none !important;
           border: none !important;
@@ -81,15 +80,18 @@
             color: #298b90;
           }
         }
-        .btn-filter-none:active {
-          background-color: transparent; /* Đảm bảo không có màu nền khi nhấn */
-        }
-
-        .btn-filter-none:focus {
-          outline: none; /* Loại bỏ viền khi nút được chọn */
+        .offcanvas-start {
+          .offcanvas-header {
+            position: absolute;
+            right: 0;
+            .btn-close {
+            }
+          }
+          .offcanvas-body {
+          }
         }
       }
-      .btn-filter:hover{
+      .btn-filter:hover {
         background: none !important;
         border: none !important;
       }
@@ -283,12 +285,18 @@
                   padding: initial;
                   border: initial;
                 }
-                input[type="checkbox"]:checked ~ span,
-                input[type="radio"]:checked ~ span {
-                  background-color: #298b90;
+                input[type="radio"][id^="area"]:checked ~ span {
                   border-color: #afd3d4;
+                  background: #0a4281;
+                }
+
+                input[type="radio"][id^="price"]:checked ~ span {
+                  border-color: #ffd3a4;
+                  background: #ff8b20;
                 }
                 input[type="checkbox"]:checked ~ span:after {
+                  padding: 0;
+                  background-color: #298b90;
                   content: "✔"; /* Dấu tích */
                   color: white; /* Màu dấu tích */
                   font-size: 14px; /* Kích thước dấu tích */
@@ -296,6 +304,9 @@
                   top: 50%;
                   left: 50%;
                   transform: translate(-50%, -50%);
+                  width: 100%;
+                  height: 100%;
+                  text-align: center;
                 }
                 span {
                   height: 26px;
