@@ -10,13 +10,25 @@ import SetPassword from "@/pages/ForgotPW/newPW"
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { DetailMotelUser } from './detailMotel';
+import Layout from './layout';
+import Management from './management/layout';
+import Profile from './management';
+import Motel from './management/components/motel';
+import ChangePassword from './management/components/changePassword';
+import TicketUser from './management/components/ticket'
 import { SearchMotel } from './search';
 
 export const User = () => {
   return (
     <Routes>
-      <Route path="/">
+      <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path='user' element={<Management />}>
+          <Route index element={<Profile />} />
+          <Route path="motel" element={<Motel />} />
+          <Route path="change-password" element={<ChangePassword/>} />
+          <Route path="ticket" element={<TicketUser/>} />
+        </Route>
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
