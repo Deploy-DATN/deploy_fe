@@ -26,7 +26,7 @@ const Footer = () => {
             <div className="colum-footer-1 margin-footer-mobie-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3 text-center text-md-start text-lg-start text-xl-start text-xxl-start">
 
               <div className='d-flex align-items-center'>
-                <img src="src/assets/images/Logo-New.png" className='w-25' alt="logo" />
+                <img src="/src/assets/images/Logo-New.png" className='w-25' alt="logo" />
                 <p className='fs-10 m-0 text-dark ms-2'>Thỏ Stay</p>
               </div>
 

@@ -8,7 +8,7 @@ const Header = () => {
         <div className="container-fluid">
           <a className="logo-text-home navbar-brand me-5 d-flex align-items-center" href="/">
             <img
-              src="src/assets/images/Logo-New.png"
+              src="/src/assets/images/Logo-New.png"
               alt=""
               width="50"
               height="50"

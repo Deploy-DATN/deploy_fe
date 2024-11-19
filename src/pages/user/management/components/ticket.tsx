@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Swal from 'sweetalert2';
@@ -6,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { ErrorMessage } from "@hookform/error-message"
 
 import { FormCreate } from '@/services/Dto/ticketDto';
-import '../styles/create_ticket.scss';
+import '@/pages/admin/ticket/styles/create_ticket.scss'
 
 import { Selectbox, Option } from '@/components/form_controls/select';
 import InputField from '@/components/form_controls/input_field';
