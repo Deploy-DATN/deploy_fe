@@ -1,6 +1,6 @@
 //thanh cuộn modal
 .modal-content-admin {
-  max-height: 80vh; /* Giới hạn chiều cao tối đa theo phần trăm của viewport */
+  max-height: 85vh; /* Giới hạn chiều cao tối đa theo phần trăm của viewport */
   overflow-y: auto; /* Hiện thanh cuộn theo chiều dọc khi nội dung vượt quá chiều cao */
 }
 // css hiệu ứng hover button
@@ -148,7 +148,7 @@
         background: white;
         border-radius: 13px 13px 12px 12px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 500px;
+        width: 700px;
         max-width: 100%;
       }
       .modal-overlay-admin{

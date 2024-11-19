@@ -2,11 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/stylemotel.scss";
 import {
   faCamera,
-  faFile,
-  faFileAlt,
-  faFileExcel,
-  faFilePdf,
-  faFileWord,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
@@ -39,7 +34,9 @@ export const AddMotelOwner = () => {
   const [formData, setFormData] = useState(new FormData());
   //dịch vụ ở đây nha
   const [services, setServices] = useState([
-    { id: 1, name: "", price: "", description: "" },
+    { id: 1, name: "Điện", price: "3000", description: "Điện của phòng" },
+    { id: 2, name: "Nước", price: "3000", description: "Nước của phòng" },
+
   ]);
   const addService = () => {
     const newService = {
@@ -273,70 +270,72 @@ export const AddMotelOwner = () => {
                     <div className="invalid-feedback">{errors.address}</div>
                   )}
                 </div>
-				<div className="mt-3">
-                <h4 className="h4-add-motel">Dịch vụ dãy trọ</h4>
-              </div>
-				<div className="d-flex flex-wrap">
-                {services.map((service, index) => (
-                  <div
-                    key={service.id}
-                    className="row flex-wrap col-12 mt-2 px-2"
-                  >
-                    <div className="col-12 col-sm-12 col-md-6 col-lg-3 mt-2">
-                      <label className="label-motel-info">Tên dịch vụ</label>
-                      <input
-                        type="text"
-                        className="form-control mt-2 input-motel-info"
-                        placeholder="Tên dịch vụ"
-                        value={service.name}
-                        onChange={(e) =>
-                          setServices((prev) =>
-                            prev.map((s) =>
-                              s.id === service.id
-                                ? { ...s, name: e.target.value }
-                                : s
+                <div className="mt-3">
+                  <h4 className="h4-add-motel">Dịch vụ dãy trọ</h4>
+                </div>
+                <div className="d-flex flex-wrap">
+                  {services.map((service, index) => (
+                    <div
+                      key={service.id}
+                      className="row flex-wrap col-12 mt-2 px-2"
+                    >
+                      <div className="col-12 col-sm-12 col-md-6 col-lg-3 mt-2">
+                        <label className="label-motel-info">Tên dịch vụ</label>
+                        <input
+                          type="text"
+                          className="form-control mt-2 input-motel-info"
+                          placeholder="Tên dịch vụ"
+                          value={service.name}
+                          onChange={(e) =>
+                            setServices((prev) =>
+                              prev.map((s) =>
+                                s.id === service.id
+                                  ? { ...s, name: e.target.value }
+                                  : s
+                              )
                             )
-                          )
-                        }
-                      />
-                    </div>
-                    <div className="col-12 col-sm-12 col-md-6 col-lg-3 mt-2">
-                      <label className="label-motel-info">Giá dịch vụ</label>
-                      <input
-                        type="text"
-                        className="form-control mt-2 input-motel-info"
-                        placeholder="Giá dịch vụ"
-                        value={service.price}
-                        onChange={(e) =>
-                          setServices((prev) =>
-                            prev.map((s) =>
-                              s.id === service.id
-                                ? { ...s, price: e.target.value }
-                                : s
+                          }
+                        />
+                      </div>
+                      <div className="col-12 col-sm-12 col-md-6 col-lg-3 mt-2">
+                        <label className="label-motel-info">Giá dịch vụ</label>
+                        <input
+                          type="text"
+                          className="form-control mt-2 input-motel-info"
+                          placeholder="Giá dịch vụ"
+                          value={service.price}
+                          onChange={(e) =>
+                            setServices((prev) =>
+                              prev.map((s) =>
+                                s.id === service.id
+                                  ? { ...s, price: e.target.value }
+                                  : s
+                              )
                             )
-                          )
-                        }
-                      />
-                    </div>
-                    <div className="col-12 col-sm-12 col-md-6 col-lg-4 mt-2">
-                      <label className="label-motel-info">Mô tả dịch vụ</label>
-                      <input
-                        type="text"
-                        className="form-control mt-2 input-motel-info"
-                        placeholder="Mô tả dịch vụ"
-                        value={service.description}
-                        onChange={(e) =>
-                          setServices((prev) =>
-                            prev.map((s) =>
-                              s.id === service.id
-                                ? { ...s, description: e.target.value }
-                                : s
+                          }
+                        />
+                      </div>
+                      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mt-2">
+                        <label className="label-motel-info">
+                          Mô tả dịch vụ
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control mt-2 input-motel-info"
+                          placeholder="Mô tả dịch vụ"
+                          value={service.description}
+                          onChange={(e) =>
+                            setServices((prev) =>
+                              prev.map((s) =>
+                                s.id === service.id
+                                  ? { ...s, description: e.target.value }
+                                  : s
+                              )
                             )
-                          )
-                        }
-                      />
-                    </div>
-                    <div className="col-12 col-sm-12 col-lg-2 d-flex justify-content-lg-around align-items-lg-end">
+                          }
+                        />
+                      </div>
+                      <div className="col-12 col-sm-12 col-lg-2 d-flex justify-content-lg-around align-items-lg-end">
                         <button
                           type="button"
                           className="btn btn-transform-y2 btn-xoa-add-motel mt-3"
@@ -344,18 +343,18 @@ export const AddMotelOwner = () => {
                         >
                           Xóa
                         </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
-                <button
-                  className="btn btn-transform-y2 btn-luu-all mt-3"
-                  onClick={addService}
-                  type="button"
-                >
-                  Thêm dịch vụ
-                </button>
-				</div>
-                <div className="col-12 form-group mt-3 px-2">
+                  ))}
+                  <button
+                    className="btn btn-transform-y2 btn-luu-all mt-3"
+                    onClick={addService}
+                    type="button"
+                  >
+                    Thêm dịch vụ
+                  </button>
+                </div>
+                {/* <div className="col-12 form-group mt-3 px-2">
                   <label htmlFor="title" className="label-motel-info">
                     Mô tả
                   </label>
@@ -363,15 +362,13 @@ export const AddMotelOwner = () => {
                     className="form-control mt-2 input-motel-info"
                     placeholder="Mô tả dãy trọ"
                   />
-                    <div className="invalid-feedback">
-                      errer
-                    </div>
-                </div>
+                  <div className="invalid-feedback">errer</div>
+                </div> */}
                 <div className="mt-4">
                   <h4 className="h4-add-motel">Phòng trọ</h4>
                 </div>
                 <div className="row flex-wrap">
-				<div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2">
+                  <div className="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 form-group mt-3 px-2">
                     <label htmlFor="title" className="label-motel-info">
                       Tên phòng
                     </label>
@@ -381,9 +378,9 @@ export const AddMotelOwner = () => {
                       className="form-control mt-2 input-motel-info"
                       placeholder="Tên phòng"
                     />
-                      <div className="invalid-feedback">errer</div>
+                    <div className="invalid-feedback">errer</div>
                   </div>
-                  <div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2">
+                  <div className="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 form-group mt-3 px-2">
                     <label htmlFor="title" className="label-motel-info">
                       Diện tích phòng (m2)
                     </label>
@@ -399,7 +396,7 @@ export const AddMotelOwner = () => {
                       <div className="invalid-feedback">{errors.area}</div>
                     )}
                   </div>
-                  <div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2">
+                  <div className="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 form-group mt-3 px-2">
                     <label htmlFor="title" className="label-motel-info">
                       Giá phòng
                     </label>
@@ -415,70 +412,86 @@ export const AddMotelOwner = () => {
                       <div className="invalid-feedback">{errors.priceRoom}</div>
                     )}
                   </div>
-				  <div className="col-12 form-group mt-3 px-2">
-                  <label htmlFor="title" className="label-motel-info">
-                    Mô tả phòng
-                  </label>
-                  <textarea
-                    className="form-control mt-2 input-motel-info"
-                    placeholder="Mô tả phòng trọ"
-                  />
-                    <div className="invalid-feedback">
-                      errer
-                    </div>
-                </div>
-				  <div className="row">
-                  <div className="col-12 form-group mt-3">
+                  <div className="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3 col-xxl-3 form-group mt-3 px-2">
                     <label htmlFor="title" className="label-motel-info">
-                      Hình ảnh
+                      Số phòng
                     </label>
-                    <div className="row flex-wrap mt-2">
-                      {images.map((image, index) => (
-                        <div
-                          key={index}
-                          className="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2  px-1 position-relative"
-                        >
-                          <img
-                            src={image}
-                            className="rounded-img-info-model img-fluid"
-                            alt="Không có ảnh"
-                          />
-                          <button
-                            type="button"
-                            className="btn-close-img-add-motel position-absolute text-end"
-                            onClick={() => removeImage(index)}
+                    <input
+                      type="text"
+                      id="title"
+                      className="form-control mt-2 input-motel-info"
+                      placeholder="Số phòng"
+                      value={values.priceRoom}
+                      onChange={(e) => handleChange(e, "priceRoom")}
+                    />
+                    {errors.priceRoom && (
+                      <div className="invalid-feedback">{errors.priceRoom}</div>
+                    )}
+                  </div>
+                  <div className="col-12 form-group mt-3 px-2">
+                    <label htmlFor="title" className="label-motel-info">
+                      Mô tả phòng
+                    </label>
+                    <textarea
+                      className="form-control mt-2 input-motel-info"
+                      placeholder="Mô tả phòng trọ"
+                    />
+                    <div className="invalid-feedback">errer</div>
+                  </div>
+                  <div className="row">
+                    <div className="col-12 form-group mt-3">
+                      <label htmlFor="title" className="label-motel-info">
+                        Hình ảnh
+                      </label>
+                      <div className="row flex-wrap mt-2">
+                        {images.map((image, index) => (
+                          <div
+                            key={index}
+                            className="col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2  px-1 position-relative"
                           >
-                            <FontAwesomeIcon icon={faXmark} />
-                          </button>
-                        </div>
-                      ))}
-                      <div className="px-2 col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
-                        <div className="file-input-wrapper ">
-                          <label
-                            htmlFor="file-upload"
-                            className="file-upload-label w-100"
-                          >
-                            <FontAwesomeIcon
-                              icon={faCamera}
-                              className="camera-icon"
+                            <img
+                              src={image}
+                              className="rounded-img-info-model img-fluid"
+                              alt="Không có ảnh"
                             />
-                            <input
-                              type="file"
-                              id="file-upload"
-                              multiple
-                              className="file-upload-input"
-                              onChange={handleImageUpload}
-                              accept="image/*"
-                            />
-                          </label>
+                            <button
+                              type="button"
+                              className="btn-close-img-add-motel position-absolute text-end"
+                              onClick={() => removeImage(index)}
+                            >
+                              <FontAwesomeIcon icon={faXmark} />
+                            </button>
+                          </div>
+                        ))}
+                        <div className="px-2 col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2">
+                          <div className="file-input-wrapper ">
+                            <label
+                              htmlFor="file-upload"
+                              className="file-upload-label w-100"
+                            >
+                              <FontAwesomeIcon
+                                icon={faCamera}
+                                className="camera-icon"
+                              />
+                              <input
+                                type="file"
+                                id="file-upload"
+                                multiple
+                                className="file-upload-input"
+                                onChange={handleImageUpload}
+                                accept="image/*"
+                              />
+                            </label>
+                          </div>
                         </div>
+                        {errors.images && (
+                          <div className="invalid-feedback">
+                            {errors.images}
+                          </div>
+                        )}
                       </div>
-                      {errors.images && (
-                        <div className="invalid-feedback">{errors.images}</div>
-                      )}
                     </div>
                   </div>
-                </div>
                 </div>
                 <div className="mx-auto col-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6 mt-4">
                   <div className="d-flex justify-content-between mt-4">

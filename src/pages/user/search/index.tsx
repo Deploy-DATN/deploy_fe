@@ -89,7 +89,7 @@ export const SearchMotel = () => {
                             />
                           </div>
                           <div className="offcanvas-body">
-                            <FilterSearch />
+                          <FilterSearch prefix="sidebar" />
                           </div>
                         </div>
                       </div>
@@ -208,7 +208,7 @@ export const SearchMotel = () => {
                 </div>
               </section>
               <section className="col-12 col-lg-3 ps-lg-3 ps-xl-4 d-none d-sm-none d-md-none d-lg-block">
-                <FilterSearch />
+                <FilterSearch prefix="main" />
               </section>
             </div>
           </section>

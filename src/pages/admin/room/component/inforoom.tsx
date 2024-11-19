@@ -89,17 +89,6 @@ const Inforoom: React.FC<InfoRoomProps> = ({ motelId, roomId, onClose }) => {
               </div>
             </div>
             <div className="row form-group mt-3">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Khu vực
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="123123"
-                />
-              </div>
               <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
                 <label htmlFor="description" className="">
                   Trạng thái
