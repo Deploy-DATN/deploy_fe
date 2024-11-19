@@ -105,7 +105,7 @@ function HomeMotelHot() {
                 />
                 {roomtype.address || "Address not available"}
               </p>
-              <span className="text-danger">
+              <span className="t">
                 <FontAwesomeIcon
                   icon={faMoneyBill}
                   size="lg"

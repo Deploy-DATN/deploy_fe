@@ -1,19 +1,20 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { Inputs } from '../..'
-
+import Swal from 'sweetalert2';
 import InputField from "@/components/form_controls/input_field"
 import React from 'react'
+import { UserDetail } from '@/services/api/HomeApi';
+
 
 interface Props {
-    onSubmit: ((data: Inputs) => void)
+    onSubmit: ((data: UserDetail) => void)
 }
 
 const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
     const schema = yup
         .object({
-            name: yup
+            fullName: yup
                 .string()
                 .required("Họ và tên không được để trống")
                 .matches(/^\D*$/, "Họ và tên không chứa số")
@@ -28,25 +29,28 @@ const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
                 .required("Số điện thoại không được để trống"),
         })
         .required();
-    const { control, handleSubmit, formState: { errors } } = useForm<Inputs>({
+    const { control, handleSubmit, formState: { errors } } = useForm<UserDetail>({
         defaultValues: {
             phone: '',
-            name: '',
+            fullName: '',
             email: ''
         },
         resolver: yupResolver(schema),
         mode: 'onBlur'
     });
+
+
+
     return (
         <form className='container' onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group" style={{ minHeight: '80px' }}>
                 <InputField
                     control={control}
                     label="Họ và tên"
-                    name="name"
+                    name="fullName"
                     type="text"
                     errors={errors}
-                    classname={`form-control ${errors['name']?.message ? "is-invalid" : ""}`}
+                    classname={`form-control ${errors['fullName']?.message ? "is-invalid" : ""}`}
                 />
             </div>
             <div className="form-group" style={{ minHeight: '80px' }}>
