@@ -1,9 +1,3 @@
-interface PriceInfo {
-  id: number;
-  water: number;
-  electric: number;
-  other: number;
-}
 
 interface OwnerInfo {
   id: number;
@@ -25,13 +19,13 @@ export interface MotelDTO {
   id: number;
   name: string;
   address: string;
+  description: string; // Thêm trường mô tả
+  location: string | null; // Thêm trường vị trí, có thể null
+  rating: number; // Thêm trường đánh giá
   status: number;
   createDate: string;
   totalRoom: number;
-  price: PriceInfo;
-  images: ImageInfo[];
   owner: OwnerInfo;
-  rooms: MotelRoomDTO[];
 }
 
 export interface MotelPaginationResponse {
@@ -43,115 +37,56 @@ export interface MotelPaginationResponse {
 
 // ------------------------------------------------------------------------------------------------
 
-export interface MotelByIdDTO {
-  id: number;
-  name: string;
-  address: string;
-  status: number;
-  createDate: string;
-  totalRoom: number;
-  price: PriceInfo;
-  lastPrice: PriceInfo;
-  images: ImageInfo[];
-  owner: OwnerInfo;
-  rooms: MotelRoomDTO[];
-  terms: MotelTermDTO[];
-  
-}
 
-export interface MotelRoomDTO {
-  id: number;
-  roomNumber: number;
+export interface AddMotelDTO {
+  nameMotel?: string;
+  address?: string;
+  nameRoom?: string;
   area: number;
-  price: number;
-  lastPrice: number;
-  quantityUserInRoom: number;
-  status: number;
-  consumptions: ConsumptionDto[];
+  priceRoom: number;
+  totalRoom: number;
+  description: string;
+  userId: number | undefined;
 }
 
 // ------------------------------------------------------------------------------------------------
 
-
-export interface AddMotelAndRoomDTO {
-  name?: string;
-  address?: string;
-  area: string;
-  priceRoom: string;
-  priceElectric: string;
-  priceWater: string;
-  priceOther: string;
-  totalRoom: string;
-  userId: string;
-
-}
-
-export interface GetEditMotelDTO {
+export interface GetMotelEditDTO {
   id: number;
   name: string;
   address: string;
-  status: number;
-  createDate: string;
-  totalRoom: number;
-  price: PriceInfo;
-  lastPrice: PriceInfo;
-  images: ImageInfo[];
-  terms: MotelTermDTO[];
+  services: GetMotelEditDTO_Service[] | null;
 }
+
+export interface GetMotelEditDTO_Service {
+  id: number;
+  name: string;
+  price: number;
+  description: string;
+}
+// ------------------------------------------------------------------------------------------------
 
 export interface EditMotelDTO {
+  id: number;
   name: string;
   address: string;
-  electric: string;
-  water: string;
-  other: string;
 }
 
-export interface MotelTermDTO {
+// ------------------------------------------------------------------------------------------------
+
+export interface AddServiceDTO {
+  name: string;
+  price: number;
+  description: string;
+  motelId: string;
+}
+
+export interface EditServiceDTO {
   id: number;
   name: string;
-  type: string;
-  link: string;
-}
-
-// ------------------------------------------------------------------------------------------------
-
-export interface RoomDTO {
-  id: number;
-  roomNumber: number;
-  area: number;
   price: number;
-  userFromRoom: number;
-  lastPrice: number;
-  status: number;
+  description: string;
 }
-
-export interface AddRoomDTO {
-  motelId : string;
-  quantityRoom: string;
-  area: string;
-  price: string;
-}
-
-export interface ConsumptionDto {
-  id: number;
-  water: number;
-  electricity: number;
-  time: string;
-}
-
-// ------------------------------------------------------------------------------------------------
-export interface EditRoomByIdDTO {
-  roomNumber: number;
-  area: number;
-  price: number;
-  consumptionElectric: number;
-  consumptionWater: number;
-}
-
-
-
-
 
 
 

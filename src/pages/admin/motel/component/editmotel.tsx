@@ -1,360 +1,292 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../styles/stylemotel.scss";
-import {
-  faCamera,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { getAccountApi } from "@/services/api/authApi";
-import { AddMotelAndRoom } from "@/services/api/MotelApi";
-import { AddMotelAndRoomDTO } from "@/services/Dto/MotelDto";
+import '../styles/stylemotel.scss';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AddService, DeleteService, EditMotel, EditService, GetMotelByEditApi } from '@/services/api/MotelApi';
+import { AddServiceDTO, EditServiceDTO, GetMotelEditDTO, GetMotelEditDTO_Service } from '@/services/Dto/MotelDto';
 
-export const AddMotelOwner = () => {
-  //rút gọn giao diện
-  const [isMotelInfoVisible, setIsMotelInfoVisible] = useState(true);
+export const EditMotelOwner = () => {
+	const { id } = useParams();
 
-  const showMotelInfo = () => setIsMotelInfoVisible(true);
-  const showPriceInfo = () => setIsMotelInfoVisible(false);
-  //trở lại trang trước đó
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  const [values, setValues] = useState<AddMotelAndRoomDTO>({
-    name: "",
-    address: "",
-    area: "",
-    priceRoom: "",
-    priceElectric: "",
-    priceWater: "",
-    priceOther: "",
-    totalRoom: "",
-    userId: "",
-  });
+	const [originalServices, setOriginalServices] = useState<GetMotelEditDTO_Service[]>([]);
+	const [services, setServices] = useState<GetMotelEditDTO_Service[]>([]);
+	const [idServicesDelete, setIdServicesDelete] = useState<number[]>([]);
 
-  const [formData, setFormData] = useState(new FormData());
-  //dịch vụ ở đây nha
-  const [services, setServices] = useState([
-    { id: 1, name: "Điện", price: "3000", description: "Điện của phòng" },
-    { id: 2, name: "Nước", price: "3000", description: "Nước của phòng" },
+	const addService = () => {
+		const newService = {
+			id: Date.now(), // Sử dụng timestamp làm id tạm thời
+			name: '',
+			price: 1000,
+			description: '',
+			isNew: true, // Đánh dấu service mới
+		};
+		setServices((prev) => [...prev, newService]);
+	};
 
-  ]);
-  const addService = () => {
-    const newService = {
-      id: services.length + 1,
-      name: "",
-      price: "",
-      description: "",
-    };
-    setServices((prev) => [...prev, newService]);
-  };
-  const removeService = (id: number) => {
-    setServices((prev) => prev.filter((service) => service.id !== id));
-  };
-  // Thêm state errors ở đầu component
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+	// Thêm state errors ở đầu component
+	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const [images, setImages] = useState<string[]>([]);
+	const [values, setValues] = useState<GetMotelEditDTO>({
+		id: 0,
+		name: '',
+		address: '',
+		services: [],
+	});
 
-  useEffect(() => {
-    const getUser = async () => {
-      var user = await getAccountApi();
-      setValues({ ...values, userId: user.data.data.id });
-    };
-    getUser();
-  }, []);
+	useEffect(() => {
+		const LoadData = async () => {
+			var response = await GetMotelByEditApi(id);
+			setValues(response.data);
+			setServices(response.data.services || []);
+			setOriginalServices(response.data.services || []); // Lưu trữ danh sách services ban đầu
+		};
+		LoadData();
+	}, []);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      Array.from(event.target.files).forEach((file) => {
-        // Thêm file vào formData với key là 'imageFile'
-        formData.append("imageFile", file);
-        const imageUrl = URL.createObjectURL(file);
-        setImages((prevImages) => [...prevImages, imageUrl]);
-      });
-    }
-  };
+	// Thêm hàm validate
+	const validateField = (name: string, value: string) => {
+		if (!value || (value.trim() === '' && name !== 'description')) {
+			setErrors((prev) => ({
+				...prev,
+				[name]: 'Trường này không được để trống',
+			}));
+			return false;
+		}
 
-  const removeImage = (index: number) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  };
-  const [files, setFiles] = useState<
-    { name: string; url: string; type: string }[]
-  >([]);
+		setErrors((prev) => ({ ...prev, [name]: '' }));
+		return true;
+	};
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      Array.from(event.target.files).forEach((file) => {
-        // Thêm file vào formData với key là 'fileTerm'
-        formData.append("fileTerm", file);
-        const fileUrl = URL.createObjectURL(file);
-        setFiles((prevFiles) => [
-          ...prevFiles,
-          { name: file.name, url: fileUrl, type: file.type },
-        ]);
-      });
-    }
-  };
+	// Cập nhật onChange handler
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
+		const value = e.target.value;
+		setValues({ ...values, [field]: value });
+		validateField(field, value);
+	};
 
-  const removeFile = (index: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-  };
+	const removeService = (id: number) => {
+		const serviceToRemove = services.find((s) => s.id === id);
 
-  // Thêm hàm validate
-  const validateField = (name: string, value: string) => {
-    if (!value || value.trim() === "") {
-      setErrors((prev) => ({
-        ...prev,
-        [name]: "Trường này không được để trống",
-      }));
-      return false;
-    }
+		// Nếu không phải service mới (không có isNew), thêm vào danh sách cần xóa
+		if (serviceToRemove && !('isNew' in serviceToRemove)) {
+			setIdServicesDelete((prev) => [...prev, id]);
+		}
 
-    if (name === "priceElectric" || name === "priceWater") {
-      if (isNaN(Number(value))) {
-        setErrors((prev) => ({ ...prev, [name]: "Vui lòng nhập số" }));
-        return false;
-      }
-      if (Number(value) < 1000) {
-        setErrors((prev) => ({
-          ...prev,
-          [name]: "Giá trị phải lớn hơn hoặc bằng 1.000",
-        }));
-        return false;
-      }
-    }
+		console.log(idServicesDelete);
 
-    if (name === "area" || name === "totalRoom") {
-      if (isNaN(Number(value))) {
-        setErrors((prev) => ({ ...prev, [name]: "Vui lòng nhập số" }));
-        return false;
-      }
-      if (Number(value) <= 0) {
-        setErrors((prev) => ({ ...prev, [name]: "Giá trị phải lớn hơn 0" }));
-        return false;
-      }
-    }
-    if (name === "priceRoom") {
-      if (isNaN(Number(value))) {
-        setErrors((prev) => ({ ...prev, [name]: "Vui lòng nhập giá phòng" }));
-        return false;
-      }
-      if (Number(value) <= 100000) {
-        setErrors((prev) => ({
-          ...prev,
-          [name]: "Giá trị phải lớn hơn 100.000",
-        }));
-        return false;
-      }
-    }
+		// Xóa khỏi danh sách services hiện tại
+		setServices((prev) => prev.filter((service) => service.id !== id));
+	};
 
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-    return true;
-  };
+	const handleSubmit = async () => {
+		try {
+			setErrors({});
+			let hasError = false;
 
-  // Cập nhật onChange handler
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: string
-  ) => {
-    const value = e.target.value;
-    setValues({ ...values, [field]: value });
-    validateField(field, value);
-  };
+			// Kiểm tra các trường cơ bản
+			const fieldsToValidate = {
+				name: values.name,
+				address: values.address,
+			};
 
-  const handleSubmit = async () => {
-    try {
-      // Reset errors
-      setErrors({});
+			// Kiểm tra từng trường
+			Object.entries(fieldsToValidate).forEach(([key, value]) => {
+				if (!validateField(key, String(value || ''))) {
+					hasError = true;
+				}
+			});
 
-      // Validate tất cả các trường
-      const fields = {
-        name: values.name || "",
-        address: values.address || "",
-        area: values.area || "",
-        priceRoom: values.priceRoom || "",
-        priceElectric: values.priceElectric || "",
-        priceWater: values.priceWater || "",
-        totalRoom: values.totalRoom || "",
-      };
-      let isValid = true;
-      Object.entries(fields).forEach(([key, value]) => {
-        if (!validateField(key, value)) {
-          isValid = false;
-        }
-      });
+			// Kiểm tra dịch vụ
+			services.forEach((service, index) => {
+				if (!service.name.trim()) {
+					setErrors((prev) => ({
+						...prev,
+						[`service_name_${index}`]: 'Tên dịch vụ không được để trống',
+					}));
+					hasError = true;
+				}
+				if (!service.price.toString().trim()) {
+					setErrors((prev) => ({
+						...prev,
+						[`service_price_${index}`]: 'Giá dịch vụ không được để trống',
+					}));
+					hasError = true;
+				}
+				if (isNaN(service.price) || service.price <= 0) {
+					setErrors((prev) => ({
+						...prev,
+						[`service_price_${index}`]: 'Giá dịch vụ phải là số dương',
+					}));
+					hasError = true;
+				}
+			});
 
-      // Kiểm tra hình ảnh
-      if (images.length === 0) {
-        setErrors((prev) => ({
-          ...prev,
-          images: "Vui lòng tải lên ít nhất 1 hình ảnh",
-        }));
-        isValid = false;
-      }
-      if (files.length === 0) {
-        setErrors((prev) => ({
-          ...prev,
-          files: "Vui lòng tải lên ít nhất 1 file",
-        }));
-        isValid = false;
-      }
+			if (hasError) {
+				return;
+			}
 
-      if (!isValid) {
-        return;
-      }
+			if (idServicesDelete.length > 0) {
+				const response = await DeleteService(idServicesDelete);
+				if (response.code === 200) {
+					console.log('Xóa dịch vụ thành công');
+				}
+			}
 
-      formData.append("name", values.name || "");
-      formData.append("address", values.address || "");
-      formData.append("area", values.area.toString());
-      formData.append("priceRoom", values.priceRoom.toString());
-      formData.append("priceElectric", values.priceElectric.toString());
-      formData.append("priceWater", values.priceWater.toString());
-      formData.append("priceOther", values.priceOther.toString());
-      formData.append("totalRoom", values.totalRoom.toString());
-      formData.append("userId", values.userId);
+			// Tách services thành 2 mảng: cần thêm mới và cần cập nhật
+			const servicesToAdd = services.filter((service) => 'isNew' in service);
+			const servicesToUpdate = services.filter((service) => !('isNew' in service));
 
-      const response = await AddMotelAndRoom(formData);
+			// Thêm services mới
+			if (servicesToAdd.length > 0) {
+				const dataServices: AddServiceDTO[] = servicesToAdd.map((service) => ({
+					name: service.name,
+					price: service.price,
+					description: service.description,
+					motelId: id || '',
+				}));
 
-      if (response.code === 200) {
-        await alert("Thêm phòng trọ thành công");
-        navigate("/admin/motel");
-      }
-    } catch (error: any) {
-      alert(error.response?.data?.message || "Có lỗi xảy ra");
-    }
-  };
+				const addResponse = await AddService(dataServices);
+				if (addResponse.code === 200) {
+					console.log('Thêm dịch vụ thành công');
+				}
+			}
 
-  return (
-    <div className="container-fluid-add-motel">
-      <div className="row align-items-stretch px-0">
-        <div className="w-100 text-center bg-color-theme-thostay">
-          <h2 className="">Thêm dãy trọ</h2>
-        </div>
-        <div className="card w-100">
-          <div className="card-body p-4 info-motel">
-            <form className="form-motel-info">
-              <div className="mt-2">
-                <h4 className="h4-add-motel">Dãy trọ</h4>
-              </div>
-              <div className="row flex-wrap">
-                <div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2">
-                  <label htmlFor="title" className="label-motel-info">
-                    Tên dãy trọ
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    className="form-control mt-2 input-motel-info"
-                    placeholder="Tên dãy trọ"
-                    value={values.name}
-                    onChange={(e) => handleChange(e, "name")}
-                  />
-                  {errors.name && (
-                    <div className="invalid-feedback">{errors.name}</div>
-                  )}
-                </div>
+			// Lọc ra những service đã thay đổi so với ban đầu
+			const changedServices = servicesToUpdate.filter((service) => {
+				const originalService = originalServices.find((s) => s.id === service.id);
+				return originalService && (service.name !== originalService.name || service.price !== originalService.price || service.description !== originalService.description);
+			});
 
-                <div className="col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8 col-xxl-8 form-group mt-3 px-2">
-                  <label htmlFor="title" className="label-motel-info">
-                    Địa chỉ
-                  </label>
-                  <input
-                    type="text"
-                    id="title"
-                    className="form-control mt-2 input-motel-info"
-                    placeholder="Địa chỉ"
-                    value={values.address}
-                    onChange={(e) => handleChange(e, "address")}
-                  />
-                  {errors.address && (
-                    <div className="invalid-feedback">{errors.address}</div>
-                  )}
-                </div>
-                <div className="mt-3">
-                  <h4 className="h4-add-motel">Dịch vụ dãy trọ</h4>
-                </div>
-                <div className="d-flex flex-wrap">
-                  {services.map((service, index) => (
-                    <div
-                      key={service.id}
-                      className="row flex-wrap col-12 mt-2 px-2"
-                    >
-                      <div className="col-12 col-sm-12 col-md-6 col-lg-3 mt-2">
-                        <label className="label-motel-info">Tên dịch vụ</label>
-                        <input
-                          type="text"
-                          className="form-control mt-2 input-motel-info"
-                          placeholder="Tên dịch vụ"
-                          value={service.name}
-                          onChange={(e) =>
-                            setServices((prev) =>
-                              prev.map((s) =>
-                                s.id === service.id
-                                  ? { ...s, name: e.target.value }
-                                  : s
-                              )
-                            )
-                          }
-                        />
-                      </div>
-                      <div className="col-12 col-sm-12 col-md-6 col-lg-3 mt-2">
-                        <label className="label-motel-info">Giá dịch vụ</label>
-                        <input
-                          type="text"
-                          className="form-control mt-2 input-motel-info"
-                          placeholder="Giá dịch vụ"
-                          value={service.price}
-                          onChange={(e) =>
-                            setServices((prev) =>
-                              prev.map((s) =>
-                                s.id === service.id
-                                  ? { ...s, price: e.target.value }
-                                  : s
-                              )
-                            )
-                          }
-                        />
-                      </div>
-                      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mt-2">
-                        <label className="label-motel-info">
-                          Mô tả dịch vụ
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control mt-2 input-motel-info"
-                          placeholder="Mô tả dịch vụ"
-                          value={service.description}
-                          onChange={(e) =>
-                            setServices((prev) =>
-                              prev.map((s) =>
-                                s.id === service.id
-                                  ? { ...s, description: e.target.value }
-                                  : s
-                              )
-                            )
-                          }
-                        />
-                      </div>
-                      <div className="col-12 col-sm-12 col-lg-2 d-flex justify-content-lg-around align-items-lg-end">
-                        <button
-                          type="button"
-                          className="btn btn-transform-y2 btn-xoa-add-motel mt-3"
-                          onClick={() => removeService(service.id)}
-                        >
-                          Xóa
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    className="btn btn-transform-y2 btn-luu-all mt-3"
-                    onClick={addService}
-                    type="button"
-                  >
-                    Thêm dịch vụ
-                  </button>
-                </div>
-                {/* <div className="col-12 form-group mt-3 px-2">
+			if (changedServices.length > 0) {
+				const dataServices: EditServiceDTO[] = changedServices.map((service) => ({
+					id: service.id,
+					name: service.name,
+					price: service.price,
+					description: service.description,
+				}));
+
+				const editResponse = await EditService(dataServices);
+				if (editResponse.code === 200) {
+					console.log('Cập nhật dịch vụ thành công');
+				}
+			}
+
+			const response = await EditMotel(values);
+			if (response.code === 200) {
+				alert('Sửa dãy trọ thành công');
+				navigate(-1);
+			}
+		} catch (error: any) {
+			alert(error.response?.data?.message || 'Có lỗi xảy ra');
+		}
+	};
+
+	return (
+		<div className='container-fluid-add-motel'>
+			<div className='row align-items-stretch px-0'>
+				<div className='w-100 text-center bg-color-theme-thostay'>
+					<h2 className=''>Sửa dãy trọ</h2>
+				</div>
+				<div className='card w-100'>
+					<div className='card-body p-4 info-motel'>
+						<form className='form-motel-info'>
+							<div className='mt-2'>
+								<h4 className='h4-add-motel'>Dãy trọ</h4>
+							</div>
+							<div className='row flex-wrap'>
+								<div className='col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4 form-group mt-3 px-2'>
+									<label
+										htmlFor='title'
+										className='label-motel-info'>
+										Tên dãy trọ
+									</label>
+									<input
+										type='text'
+										id='title'
+										className='form-control mt-2 input-motel-info'
+										placeholder='Tên dãy trọ'
+										value={values?.name}
+										onChange={(e) => handleChange(e, 'name')}
+									/>
+									{errors.name && <div className='err-text'>{errors.name}</div>}
+								</div>
+
+								<div className='col-12 col-sm-12 col-md-6 col-lg-8 col-xl-8 col-xxl-8 form-group mt-3 px-2'>
+									<label
+										htmlFor='title'
+										className='label-motel-info'>
+										Địa chỉ
+									</label>
+									<input
+										type='text'
+										id='title'
+										className='form-control mt-2 input-motel-info'
+										placeholder='Địa chỉ'
+										value={values?.address}
+										onChange={(e) => handleChange(e, 'address')}
+									/>
+									{errors.address && <div className='err-text'>{errors.address}</div>}
+								</div>
+								<div className='mt-3'>
+									<h4 className='h4-add-motel'>Dịch vụ dãy trọ</h4>
+								</div>
+								<div className='d-flex flex-wrap'>
+									{services?.map((service, index) => (
+										<div
+											key={service.id}
+											className='row flex-wrap col-12 mt-2 px-2'>
+											<div className='col-12 col-sm-12 col-md-6 col-lg-3 mt-2'>
+												<label className='label-motel-info'>Tên dịch vụ</label>
+												<input
+													type='text'
+													className='form-control mt-2 input-motel-info'
+													placeholder='Tên dịch vụ'
+													value={service.name}
+													onChange={(e) => setServices((prev) => prev.map((s) => (s.id === service.id ? { ...s, name: e.target.value } : s)))}
+												/>
+												{errors[`service_name_${index}`] && <div className='err-text'>{errors[`service_name_${index}`]}</div>}
+											</div>
+											<div className='col-12 col-sm-12 col-md-6 col-lg-3 mt-2'>
+												<label className='label-motel-info'>Giá dịch vụ</label>
+												<input
+													type='text'
+													className='form-control mt-2 input-motel-info'
+													placeholder='Giá dịch vụ'
+													value={service.price}
+													onChange={(e) => setServices((prev) => prev.map((s) => (s.id === service.id ? { ...s, price: Number(e.target.value) } : s)))}
+												/>
+												{errors[`service_price_${index}`] && <div className='err-text'>{errors[`service_price_${index}`]}</div>}
+											</div>
+											<div className='col-12 col-sm-12 col-md-6 col-lg-4 mt-2'>
+												<label className='label-motel-info'>Mô tả dịch vụ</label>
+												<input
+													type='text'
+													className='form-control mt-2 input-motel-info'
+													placeholder='Mô tả dịch vụ'
+													value={service.description}
+													onChange={(e) => setServices((prev) => prev.map((s) => (s.id === service.id ? { ...s, description: e.target.value } : s)))}
+												/>
+											</div>
+											{errors[`service_description_${index}`] && <div className='err-text'>{errors[`service_description_${index}`]}</div>}
+											<div className='col-12 col-sm-12 col-lg-2 d-flex justify-content-lg-around align-items-lg-end'>
+												<button
+													type='button'
+													className='btn btn-transform-y2 btn-xoa-add-motel mt-3'
+													onClick={() => removeService(service.id)}>
+													Xóa
+												</button>
+											</div>
+										</div>
+									))}
+									<button
+										className='btn btn-transform-y2 btn-luu-all mt-3'
+										onClick={addService}
+										type='button'>
+										Thêm dịch vụ
+									</button>
+								</div>
+								{/* <div className="col-12 form-group mt-3 px-2">
                   <label htmlFor="title" className="label-motel-info">
                     Mô tả
                   </label>
@@ -362,32 +294,30 @@ export const AddMotelOwner = () => {
                     className="form-control mt-2 input-motel-info"
                     placeholder="Mô tả dãy trọ"
                   />
-                  <div className="invalid-feedback">errer</div>
+                  <div className="err-text">errer</div>
                 </div> */}
-                <div className="mx-auto col-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6 mt-4">
-                  <div className="d-flex justify-content-between mt-4">
-                    <button
-                      type="button"
-                      className="btn-style btn-trove-all btn-transform-y2"
-                      onClick={() => navigate(-1)}
-                    >
-                      Trở về
-                    </button>
-                    <button
-                      type="button"
-                      className="btn-style btn-luu-all btn-transform-y2"
-                      onClick={handleSubmit}
-                    >
-                      Thêm
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+								<div className='mx-auto col-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6 mt-4'>
+									<div className='d-flex justify-content-between mt-4'>
+										<button
+											type='button'
+											className='btn-style btn-trove-all btn-transform-y2'
+											onClick={() => navigate(-1)}>
+											Trở về
+										</button>
+										<button
+											type='button'
+											className='btn-style btn-luu-all btn-transform-y2'
+											onClick={handleSubmit}>
+											Sửa
+										</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 };
-export default AddMotelOwner;
+export default EditMotelOwner;
