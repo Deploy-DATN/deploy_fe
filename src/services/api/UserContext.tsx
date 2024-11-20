@@ -21,7 +21,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const getUser = async () => {
         const response = await getAccountApi();
-        setUser(response.data);
+        setUser(response.data.data);
     }
     getUser();
   }, []);

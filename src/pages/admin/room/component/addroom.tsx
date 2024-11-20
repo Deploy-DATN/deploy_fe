@@ -1,17 +1,9 @@
-import { AddRoom } from "@/services/api/MotelApi";
-import { AddRoomDTO } from "@/services/Dto/MotelDto";
+
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 
 const Addroom: React.FC<{ motelId: string | undefined, onClose: () => void }> = ({ motelId, onClose }) => {
-
-  const [room, setRoom] = useState<AddRoomDTO>({
-    motelId: motelId || '',
-    quantityRoom: '',
-    area: '',
-    price: ''
-  });
 
   // Thêm state errors ở đầu component
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});

@@ -1,4 +1,3 @@
-import { AddUserRoomApi } from '@/services/api/MotelApi';
 import React, { useState } from 'react';
 
 interface AddUserRoomProps {
@@ -17,11 +16,7 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 	};
 
 	const handleSubmit = async () => {
-		var response = await AddUserRoomApi(values);
-		if (response.code === 200) {
-			await alert('Thêm người thuê thành công');
-			onClose();
-		}
+
 	};
 
 	return (
