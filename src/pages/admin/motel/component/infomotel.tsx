@@ -1,5 +1,5 @@
-import { getMotelById } from '@/services/api/MotelApi';
-import { MotelByIdDTO } from '@/services/Dto/MotelDto';
+
+import { MotelDTO } from '@/services/Dto/MotelDto';
 import { faBolt, faCalendarCheck, faCalendarPlus, faCalendarXmark, faCamera, faCaretRight, faDroplet, faFile, faFileAlt, faFileExcel, faFilePdf, faFileWord, faLocationDot, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
@@ -8,31 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import productImage from 'src/pages/admin/assets/images/products/s1.jpg';
 
 export const Infomotel = () => {
-	const { id } = useParams();
-	const [motel, setMotel] = useState<MotelByIdDTO>();
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		LoadData();
-	}, []);
-
-	const LoadData = async () => {
-		const response = await getMotelById(id);
-		setMotel(response);
-		console.log(response);
-	};
-
-	const CheckStatus = (status: number) => {
-		if (status === 1) {
-			return <span className='tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3'>Chờ duyệt</span>;
-		} else if (status === 2) {
-			return <span className='tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3'>Đăng hoạt động</span>;
-		} else if (status === 3) {
-			return <span className='tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3'>Ngừng hoạt động</span>;
-		} else if (status === 4) {
-			return <span className='tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3'>Từ chối</span>;
-		}
-	};
+	
 
 	return (
 		<>
