@@ -64,7 +64,7 @@ const Editroom: React.FC<EditRoomProps> = ({ onClose, motelId, roomId }) => {
         </div>
         <form className="form-admin-modal position-relative">
         <div className="row form-group mt-3">
-              <div className="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7">
+              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
                 <label htmlFor="description" className="">
                   Số phòng
                 </label>
@@ -77,20 +77,7 @@ const Editroom: React.FC<EditRoomProps> = ({ onClose, motelId, roomId }) => {
                   onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
                 />
               </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
-                <label htmlFor="description" className="">
-                  Diện tích
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="Diện tích"
-                  value={formData.area}
-                  onChange={(e) => setFormData({ ...formData, area: e.target.value })}
-                />
-              </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7">
+              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
                 <label htmlFor="description" className="">
                   Số điện
                 </label>
@@ -103,7 +90,7 @@ const Editroom: React.FC<EditRoomProps> = ({ onClose, motelId, roomId }) => {
                   onChange={(e) => setFormData({ ...formData, consumptionElectric: e.target.value })}
                 />
               </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
+              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
                 <label htmlFor="description" className="">
                   Số nước
                 </label>
@@ -116,19 +103,6 @@ const Editroom: React.FC<EditRoomProps> = ({ onClose, motelId, roomId }) => {
                   onChange={(e) => setFormData({ ...formData, consumptionWater: e.target.value })}
                 />
               </div>
-            </div>
-            <div className="col-12">
-              <label htmlFor="description" className="">
-                Giá
-              </label>
-              <input
-                type="text"
-                id="title"
-                className="form-control mt-2"
-                placeholder="Giá"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              />
             </div>
             <div className="d-flex justify-content-between mt-4">
             <button

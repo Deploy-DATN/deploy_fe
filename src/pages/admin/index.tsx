@@ -20,6 +20,7 @@ import Unauthorized from "../login/components/unauthorized";
 import ProtectedRoute from "@/services/api/ProtectedRoute";
 import CreateTicket from "./ticket/component/create_ticket";
 import { Roomtesst } from "./room/roomtesst";
+import Inforoom from "./room/component/inforoom";
 
 export const Admin = () => {
   return (
@@ -40,7 +41,8 @@ export const Admin = () => {
         {/* Routes chỉ dành cho Admin và Owner */}
         <Route element={<ProtectedRoute allowedRoles={["Admin", "Owner"]} />}>
           <Route path="room" element={<Room />} />
-		  <Route path="roomtest" element={<Roomtesst />} />
+		      <Route path="roomtest" element={<Roomtesst />} />
+          <Route path="inforoom" element={<Inforoom />} />
         </Route>
 
         {/* Routes chỉ dành cho Owner */}

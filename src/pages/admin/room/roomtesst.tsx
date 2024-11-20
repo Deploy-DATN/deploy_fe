@@ -20,7 +20,6 @@ import Roomtype from "./component/roomtype";
 export const Roomtesst = () => {
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
     addRoom: false,
-    infoRoom: false,
     AddElicWater: false,
     editRoom: false,
     addUserRoom: false,
@@ -57,7 +56,7 @@ export const Roomtesst = () => {
   return (
     <>
       <div className="container-fluid">
-        <div className="row align-items-stretch">
+        <div className="row align-items-stretch mt-3">
           <div className="card w-100">
             <div className="card-body p-4">
               <div className="row">
@@ -137,13 +136,6 @@ export const Roomtesst = () => {
               )}
               {modalState.addElicWater && (
                 <AddElicWater onClose={() => toggleModal("addElicWater")} />
-              )}
-              {modalState.infoRoom && selectedRoomId && (
-                <Inforoom
-                  roomId={selectedRoomId}
-                  onClose={() => toggleModal("infoRoom")}
-                  motelId={id}
-                />
               )}
               {modalState.editRoom && selectedRoomId && (
                 <Editroom

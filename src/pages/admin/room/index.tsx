@@ -3,26 +3,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import './style/room.scss';
 import Addroom from './component/addroom';
-import Inforoom from './component/inforoom';
-import Editroom from './component/editroom';
-import AddUserRoom from './component/addUserRoom';
-import { getMotelById, GetMotelById, GetRoomByMotelId } from '@/services/api/MotelApi';
+import { getMotelById} from '@/services/api/MotelApi';
 import { useParams } from 'react-router-dom';
 import { RoomDTO } from '@/services/Dto/MotelDto';
 import RowTableRoom from './component/rowTableRoom';
-import AddElicWaterf from './component/addElicWater';
 import AddElicWater from './component/addElicWater';
 import { MotelByIdDTO } from '@/services/Dto/MotelDto';
-import Baotriroom from './component/baotriroom';
 
 export const Room = () => {
 	const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
 		addRoom: false,
-		infoRoom: false,
 		AddElicWater: false,
-		editRoom: false,
-		addUserRoom: false,
-		Baotriroom: false,
 	});
 
 	const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
@@ -71,7 +62,7 @@ export const Room = () => {
 	return (
 		<>
 			<div className='container-fluid'>
-				<div className='row align-items-stretch'>
+				<div className='row align-items-stretch mt-3'>
 					<div className='card w-100'>
 						<div className='card-body p-4'>
 							<div className='row'>
@@ -169,32 +160,6 @@ export const Room = () => {
 								/>
 							)}
 							{modalState.addElicWater && <AddElicWater onClose={() => toggleModal('addElicWater')} />}
-							{modalState.infoRoom && selectedRoomId && (
-								<Inforoom
-									roomId={selectedRoomId}
-									onClose={() => toggleModal('infoRoom')}
-									motelId={id}
-								/>
-							)}
-							{modalState.editRoom && selectedRoomId && (
-								<Editroom
-									roomId={selectedRoomId}
-									onClose={() => toggleModal('editRoom')}
-									motelId={id}
-								/>
-							)}
-							{modalState.addUserRoom && selectedRoomId && (
-								<AddUserRoom
-									roomId={selectedRoomId}
-									onClose={() => toggleModal('addUserRoom')}
-								/>
-							)}
-							{modalState.baotriroom && selectedRoomId && (
-								<Baotriroom
-									roomId={selectedRoomId}
-									onClose={() => toggleModal('baotriroom')}
-								/>
-							)}
 						</div>
 					</div>
 				</div>

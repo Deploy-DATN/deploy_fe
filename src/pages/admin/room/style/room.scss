@@ -8,7 +8,7 @@
 
   }
   .span-baotri-room-motel{
-    color: #7a7a7a;
+    color: #535353;
     background-color: #bebebe46;
 
   }
@@ -164,3 +164,46 @@
       }
     }
   }
+
+  //room info
+  .room-info-body{
+    --bs-btn-box-shadow: 0 5px 12px #298b904d;
+    border-radius: 10px;
+    box-shadow: var(--bs-btn-box-shadow);
+  }
+  .table-room-info-history{
+    tr:last-child {
+       td:first-child {
+        border-bottom-left-radius: 1.5rem;
+      }
+
+       td:last-child {
+        border-bottom-right-radius: 1.5rem;
+      }
+    }
+  }
+.bgr-detail-room-info{
+  background-color: #ffffff;
+  --bs-btn-box-shadow: 0 5px 12px #298b904d;
+  border-radius: 10px;
+  box-shadow: var(--bs-btn-box-shadow);
+  .img-info-room-detail{
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  .table-none-all{
+    tbody{
+      tr{
+        border: none !important;
+        td{
+          padding-bottom: 0 !important;
+        }
+      }
+    }
+  }
+}

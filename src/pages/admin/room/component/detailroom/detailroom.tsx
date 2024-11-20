@@ -1,0 +1,134 @@
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from "react";
+
+const Detailroom = () => {
+  const motels = [
+    {
+      status: 2,
+      name: "Tên dãy trọ 1",
+      address: "123 Hà Huy Tập, Tân Lợi, TP. Buôn Ma Thuột, Đắk Lắk, Việt Nam",
+      price: "10,000,000 đ/tháng",
+      images: [
+        "https://i-connect.com.vn/data/news/7046/anh-14-mau-phong-tro-thiet-ke-hien-dai.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjQ72yYhxptSLkHEEk6c1IfMZHorRmNlVsrw&s",
+        "https://xaydungthuanphuoc.com/wp-content/uploads/2022/09/mau-phong-tro-co-gac-lung-dep2028-4.jpg",
+        "https://plus.unsplash.com/premium_photo-1661407582641-9ce38a3c8402?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://cdn.pixabay.com/photo/2024/06/02/16/56/minimalism-8804667_1280.png",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzj64rr7VM1h6_Aln1LMnUvFLq9ZQ_1dpIlg&s",
+        "https://img.pikbest.com/wp/202345/pretty-very-room_9587397.jpg!w700wp",
+        "https://cdn.pixabay.com/video/2024/03/21/205001-926015670_tiny.jpg",
+      ],
+    },
+  ];
+
+  const CheckStatus = (status: number) => {
+    if (status === 1) {
+      return (
+        <span className="tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3">
+          Đang trống
+        </span>
+      );
+    } else if (status === 2) {
+      return (
+        <span className="tt-dangthue bg-light-success rounded-pill px-3 py-2 fs-3">
+          Đang thuê
+        </span>
+      );
+    } else if (status === 3) {
+      return (
+        <span className="span-baotri-room-motel rounded-pill px-3 py-2 fs-3">
+          bảo trì
+        </span>
+      );
+    }
+  };
+  return (
+    <>
+      <div className="row">
+        <div className="col-12 col-md-12 col-lg-9 mt-3">
+          <div className="bgr-detail-room-info p-4">
+            <div className="row">
+              <div className=" col-12 col-lg-5 row  align-content-start flex-wrap">
+                {motels[0].images.map((image, index) => (
+                  <div key={index} className="col-6 col-md-4 col-lg-4 mb-3">
+                    <img
+                      src={image}
+                      alt={`Hình ${index + 1}`}
+                      className="img-fluid rounded img-info-room-detail"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className=" col-12 col-lg-7">
+                <div className=" bgr-detail-motel-text-user">
+                  <h2 className="name-detail-motel-user">Số phòng 1</h2>
+                  {/* Code phần dưới img ở đây là dc */}
+                  <div className="d-flex mt-3 align-items-center">
+                    <h5 className="me-3 mb-0 price-detail-motel-user">
+                      1,000,000 / tháng
+                    </h5>
+                    <FontAwesomeIcon
+                      icon={faCircle}
+                      size="sm"
+                      color="#0B1A46"
+                      className="me-3"
+                    />{" "}
+                    <h5 className=" mb-0 area-detail-motel-user">
+                      22M<sup>2</sup>
+                    </h5>
+                  </div>
+                  <h5 className=" mb-0 table-deltail-motel-user">
+                    <table className="table-none-all">
+                      <tbody>
+                        <tr>
+                          <td className="pe-2">Số điện: </td>
+                          <td>123</td>
+                        </tr>
+                        <tr className="">
+                          <td className="pe-2">Số nước: </td>
+                          <td>234</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </h5>
+                  <h5 className="mt-3 mb-0 text-deltail-motel-user">
+                    <i className="fa-light fa-location-dot me-1"></i>105/3 Hà
+                    Huy Tập, phường Tân Lập, thành phố Buôn Ma Thuột{" "}
+                  </h5>
+                  <h5 className="mt-3 mb-0 text-deltail-motel-user">
+                    <i className="fa-light fa-clock me-1"></i>Cập nhật 1 tuần
+                    trước
+                  </h5>
+                  <div className="mt-3">{CheckStatus(motels[0].status)}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-12 col-md-12 col-lg-3">
+            {/* Người thuê */}
+          <div className="bgr-detail-room-info p-4 mt-3">
+            <div className="row">
+              <div className="col-3 width-height">
+                <img
+                  src="https://png.pngtree.com/png-vector/20240131/ourlarge/pngtree-circle-greek-frame-round-meander-border-decoration-pattern-png-image_11520606.png"
+                  alt="user-avatar"
+                  className="img-fluid rounded-circle"
+                />
+              </div>
+              <div className="col-9 text-nowrap overflow-hidden">
+                <h5>Nguyễn ngọc bảo anh</h5>
+                <h6 className="color-xam">nguyengocbaoah@gmail.com</h6>
+                <h6 className="color-xam">0987654321</h6>
+                <h6 className="color-xam"> 11/11/1111</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Detailroom;

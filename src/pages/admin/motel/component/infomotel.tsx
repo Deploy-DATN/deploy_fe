@@ -37,7 +37,7 @@ export const Infomotel = () => {
 	return (
 		<>
 			<div className='container-fluid'>
-				<div className='row align-items-stretch px-0'>
+				<div className='row align-items-stretch px-0  mt-3'>
 					<div className='w-100 text-center bg-color-theme-thostay'>
 						<h2 className=''>Chi tiết dãy trọ {motel?.name}</h2>
 					</div>

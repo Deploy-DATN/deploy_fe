@@ -105,7 +105,7 @@ export const Account: React.FC = () => {
   return (
     <>
       <div className="container-fluid">
-        <div className="row align-items-stretch">
+        <div className="row align-items-stretch mt-3">
           <div className="card w-100">
             <div className="card-body p-4">
               <div className="d-flex justify-content-between align-items-center">
