@@ -3,7 +3,6 @@ import tk from "@/assets/images/backgrounds/img-login.png";
 import {
   faPenToSquare,
   faPlus,
-  faSearch,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

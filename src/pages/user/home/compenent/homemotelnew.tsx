@@ -8,6 +8,8 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
+
+import { useNavigate } from "react-router-dom";
 function HomeMotelHot() {
   const [roomtypes, setroomtypes] = useState<RoomType[]>([]);
   useEffect(() => {
@@ -31,6 +33,12 @@ function HomeMotelHot() {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN').format(price);
   };
+  const navigate = useNavigate();
+
+  const handleMotelClick = (id: number) => {
+    navigate(`/detailmoteluser/${id}`); // Navigate to the motel detail page using its ID
+  };
+
   return (
     <>
       <section className="home-show-motel-1 mt-5">
@@ -44,7 +52,7 @@ function HomeMotelHot() {
         <div className="row">
           {roomtypes && roomtypes.length > 0 ? (
             roomtypes.map((roomtype, index) => (
-              <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3">
+              <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3"  onClick={() => handleMotelClick(roomtype.id)}>
                 {/* Slider */}
                 <div>
                   <div

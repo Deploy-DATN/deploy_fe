@@ -40,7 +40,7 @@ export const User = () => {
         <Route path="verify" element={<Verify />} />
         <Route path="set-password" element={<SetPassword />} />
       </Route>
-      <Route path="/detailmoteluser" element={<DetailMotelUser />} />
+      <Route path="/detailmoteluser/:id" element={<DetailMotelUser />} />
       <Route path="*" element={<Err />} />
     </Routes>
   )
