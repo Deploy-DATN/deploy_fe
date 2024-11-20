@@ -50,4 +50,10 @@ export const postAvatarApi = async (avatar: File, token: string) => {
     return axios.put(`${API.UPDATEUSERDETAIL}?token=${token}`, formData)
 }
 
+export const GetRoomTypeID = async (id: number) => {
+    return axios.get(`${API.GETROOMTYPEBYID}${id}`)
+}
+
+
+
 
