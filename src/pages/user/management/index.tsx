@@ -1,4 +1,3 @@
-import axios from 'axios';
 import ProfileForm from './components/form/profileForm';
 import './styles/profile.scss'
 import avatar from '@/assets/images/backgrounds/img-login.png'

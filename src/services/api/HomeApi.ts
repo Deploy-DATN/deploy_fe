@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios"
+import axios from "axios"
 import { API } from '../apiConfig'
 
 export interface Image {
@@ -18,6 +18,12 @@ export interface UserDetail {
     fullName: string;
     phone: string;
     email: string;
+}
+
+export interface PasswordUser {
+    currentPassword: string;
+    newPassword: string;
+    confirmNewPassword: string;
 }
 
 
@@ -50,6 +56,9 @@ export const postAvatarApi = async (avatar: File, token: string) => {
     return axios.put(`${API.UPDATEUSERDETAIL}?token=${token}`, formData)
 }
 
+export const postChangePassApi = async (changepass: PasswordUser, token: string) => {
+    return axios.post(`${API.PASSWORDUSER}?token=${token}`, changepass)
+}
 export const GetRoomTypeID = async (id: number) => {
     return axios.get(`${API.GETROOMTYPEBYID}${id}`)
 }
