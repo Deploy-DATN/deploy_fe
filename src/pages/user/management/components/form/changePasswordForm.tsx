@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { Inputs } from '../changePassword'
 
 import InputField from "@/components/form_controls/input_field"
 import React from 'react'
+import { PasswordUser } from '@/services/api/HomeApi'
 
 interface Props {
-    onSubmit: ((data: Inputs) => void)
+    onSubmit: ((data: PasswordUser) => void)
 }
 
 const ChangePasswordForm: React.FC<Props> = ({ onSubmit }) => {
@@ -19,17 +19,17 @@ const ChangePasswordForm: React.FC<Props> = ({ onSubmit }) => {
             newPassword: yup
                 .string()
                 .required("Mật khẩu mới không được để trống"),
-            confirmPassword: yup
+            confirmNewPassword: yup
                 .string()
                 .oneOf([yup.ref("newPassword")], "Xác nhận mật khẩu không khớp với mật khẩu mới")
                 .required("Xác nhận mật khẩu không được để trống")
         })
         .required();
-    const { control, handleSubmit, formState: { errors } } = useForm<Inputs>({
+    const { control, handleSubmit, formState: { errors } } = useForm<PasswordUser>({
         defaultValues: {
             currentPassword: '',
             newPassword: '',
-            confirmPassword: ''
+            confirmNewPassword: ''
         },
         resolver: yupResolver(schema),
         mode: 'onBlur'
@@ -60,10 +60,10 @@ const ChangePasswordForm: React.FC<Props> = ({ onSubmit }) => {
                 <InputField
                     control={control}
                     label="Xác nhận mật khẩu"
-                    name="confirmPassword"
+                    name="confirmNewPassword"
                     type="password"
                     errors={errors}
-                    classname={`form-control ${errors['confirmPassword']?.message ? "is-invalid" : ""}`}
+                    classname={`form-control ${errors['confirmNewPassword']?.message ? "is-invalid" : ""}`}
                 />
             </div>
             <button type="submit" className="btn btn-primary">Đổi mật khẩu</button>

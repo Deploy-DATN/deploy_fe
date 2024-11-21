@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import Swal from 'sweetalert2';
 import InputField from "@/components/form_controls/input_field"
 import React from 'react'
 import { UserDetail } from '@/services/api/HomeApi';

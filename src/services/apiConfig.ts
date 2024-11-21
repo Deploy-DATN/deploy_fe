@@ -48,7 +48,8 @@ export enum API {
     ROOMTYPEUNDERMILION = API_URL + '/api/Main/room-types-under-one-million',
 
     //UserManagement
-    UPDATEUSERDETAIL = API_URL + '/update-user-from-token'
+    UPDATEUSERDETAIL = API_URL + '/update-user-from-token',
+    PASSWORDUSER = API_URL + '/ChangePasswordFromToken'
 }
 
 const axiosInstance = axios.create({
