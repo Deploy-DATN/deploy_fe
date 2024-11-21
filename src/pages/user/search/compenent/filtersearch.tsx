@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 
-const FilterSearch = () => {
-    interface Filters {
-        area: string;
-        price: string;
-        surrounding: string[];
-      }
-      
-      const [filters, setFilters] = useState<Filters>({
-        area: "",
-        price: "",
-        surrounding: [],
-      });
+const FilterSearch = ({ prefix }: { prefix: string }) => {
+  interface Filters {
+    area: string;
+    price: string;
+    surrounding: string[];
+  }
+
+  const [filters, setFilters] = useState<Filters>({
+    area: "",
+    price: "",
+    surrounding: [],
+  });
 
   const resetFilters = () => {
     setFilters({
@@ -31,7 +31,7 @@ const FilterSearch = () => {
     });
   };
 
-  const handleRadioChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
@@ -39,7 +39,6 @@ const FilterSearch = () => {
   //tìm kiếm ở đây
   const handleSearch = () => {
     console.log("Giá trị bộ lọc hiện tại: ", filters);
-    
   };
 
   return (
@@ -70,10 +69,14 @@ const FilterSearch = () => {
             >
               <div className="accordion-body">
                 {["1", "2", "3", "4"].map((value, idx) => (
-                  <label key={idx} className="radio" htmlFor={`area_${value}`}>
+                  <label
+                    key={idx}
+                    className="radio"
+                    htmlFor={`${prefix}_area_${value}`}
+                  >
                     <input
                       type="radio"
-                      id={`area_${value}`}
+                      id={`${prefix}_area_${value}`}
                       name="area"
                       value={value}
                       checked={filters.area === value}
@@ -110,10 +113,14 @@ const FilterSearch = () => {
             >
               <div className="accordion-body">
                 {["1", "2", "3", "4"].map((value, idx) => (
-                  <label key={idx} className="radio" htmlFor={`price_${value}`}>
+                  <label
+                    key={idx}
+                    className="radio"
+                    htmlFor={`${prefix}_price_${value}`}
+                  >
                     <input
                       type="radio"
-                      id={`price_${value}`}
+                      id={`${prefix}_price_${value}`}
                       name="price"
                       value={value}
                       checked={filters.price === value}
@@ -151,15 +158,19 @@ const FilterSearch = () => {
               <div className="accordion-body">
                 {["market", "supermarket", "school", "Hospital", "park"].map(
                   (value, idx) => (
-                    <label key={idx} className="checkbox" htmlFor={value}>
+                    <label
+                      key={idx}
+                      className="checkbox"
+                      htmlFor={`${prefix}_${value}`}
+                    >
                       <input
                         type="checkbox"
-                        id={value}
+                        id={`${prefix}_${value}`}
                         value={value}
                         checked={filters.surrounding.includes(value)}
                         onChange={handleCheckboxChange}
                       />
-                      <span />
+                      <span></span> 
                       <p className="mb-0">
                         {value === "market" && "Chợ"}
                         {value === "supermarket" && "Siêu thị"}

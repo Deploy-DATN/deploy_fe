@@ -59,6 +59,9 @@ export const postAvatarApi = async (avatar: File, token: string) => {
 export const postChangePassApi = async (changepass: PasswordUser, token: string) => {
     return axios.post(`${API.PASSWORDUSER}?token=${token}`, changepass)
 }
+export const GetRoomTypeID = async (id: number) => {
+    return axios.get(`${API.GETROOMTYPEBYID}${id}`)
+}
 
 
 

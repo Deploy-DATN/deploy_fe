@@ -1,15 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../styles/stylemotel.scss';
-import { faCircle, faCircleCheck, faCircleXmark, faEllipsis, faHouseCircleCheck, faHouseCircleXmark, faHouseMedicalCircleExclamation, faPaperPlane, faPenToSquare, faPlus, faSearch, faStop, faUnlock, faUser, faLock, faLockOpen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsis, faPenToSquare, faPlus, faSearch, faLock, faLockOpen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { MotelByIdDTO, MotelDTO } from '@/services/Dto/MotelDto';
-import { getMotelByOwner, LockMotel, RemoveMotel, UnlockMotel } from '@/services/api/MotelApi';
-import MotelOwner from './Owner/motelOwner';
+import { MotelDTO } from '@/services/Dto/MotelDto';
+import { DeleteMotel, getMotelByOwnerApi, LockMotelApi, UnLockMotelApi } from '@/services/api/MotelApi';
 import '../styles/stylemotel.scss';
-import { FilterProps } from '..';
-import { PageDTO } from '..';
-import { getAccountApi } from '@/services/api/authApi';
+import { FilterProps, PageDTO } from '..';
+
 
 export const indexOwner = () => {
 	const [motel, setMotel] = useState<MotelDTO[]>();
@@ -28,6 +26,7 @@ export const indexOwner = () => {
 
 	// ... existing code ...
 	const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
+	const [searchTerm, setSearchTerm] = useState<string>('');
 	// ... existing code ...
 
 	useEffect(() => {
@@ -35,15 +34,13 @@ export const indexOwner = () => {
 	}, [query]);
 
 	const LoadData = async (query: FilterProps) => {
-		var user = await getAccountApi();
-		const response = await getMotelByOwner(user.data.data.id, query);
+		const response = await getMotelByOwnerApi(query);
 		setMotel(await response.items);
 		setPage({
 			totalPages: await response.totalPages,
 			pageNumber: await response.pageNumber,
 			pageSize: await response.pageSize,
 		});
-		console.log(motel);
 	};
 
 	const HandlePage = async (pageNumber: number) => {
@@ -79,40 +76,28 @@ export const indexOwner = () => {
 		}
 	};
 
+
 	const HandleLock = async (id: number) => {
-		try {
-			const response = await LockMotel(id);
-			if (response == 'Vô hiệu hóa phòng trọ thành công') {
-				// Load lại dữ liệu với query hiện tại
-				await LoadData(query);
-				alert('Vô hiệu hóa nhà trọ thành công');
-			}
-		} catch (error) {
-			console.error('Lỗi khi khóa nhà trọ:', error);
+		const response = await LockMotelApi(id);
+		if (response.code === 200) {
+			alert('Khóa dãy trọ thành công');
+			await LoadData(query);
 		}
 	};
 
-	const HandleUnlock = async (id: number) => {
-		try {
-			const response = await UnlockMotel(id);
-			if (response == 'Kích hoạt phòng trọ thành công') {
-				await LoadData(query);
-				alert('Kích hoạt nhà trọ thành công');
-			}
-		} catch (error) {
-			console.error('Lỗi khi mở khóa nhà trọ:', error);
+	const HandleUnLock = async (id: number) => {
+		const response = await UnLockMotelApi(id);
+		if (response.code === 200) {
+			alert('Mở khóa dãy trọ thành công');
+			await LoadData(query);
 		}
 	};
 
 	const HandleRemove = async (id: number) => {
-		try {
-			const response = await RemoveMotel(id);
-			if (response == 'Xóa phòng trọ thành công') {
-				await LoadData(query);
-				alert('Xóa nhà trọ thành công');
-			}
-		} catch (error) {
-			console.error('Lỗi khi xóa nhà trọ:', error);
+		const response = await DeleteMotel(id);
+		if (response.code === 200) {
+			alert('Xoá dãy trọ thành công');
+			await LoadData(query);
 		}
 	};
 
@@ -142,7 +127,7 @@ export const indexOwner = () => {
 							size='2xl'
 							color='#298b90'
 							className='icon-table-motel'
-							icon={faCircleXmark}
+							icon={faLock}
 						/>
 					</a>
 				</>
@@ -151,7 +136,7 @@ export const indexOwner = () => {
 			return (
 				<>
 					<a
-						onClick={() => HandleUnlock(id)}
+						onClick={() => HandleUnLock(id)}
 						className=' px-2 py-1 mx-1 btn-transform-y2'>
 						<FontAwesomeIcon
 							icon={faLockOpen}
@@ -176,27 +161,34 @@ export const indexOwner = () => {
 	};
 
 	const HandleSearch = async (search: string) => {
-		const newQuery = {
-			...query,
-			search: search,
-		};
-		setQuery(newQuery);
-
+		setSearchTerm(search);
+		
 		// Clear timeout cũ nếu có
 		if (timeoutId) clearTimeout(timeoutId);
-
+	
 		// Tạo timeout mới
-		const newTimeoutId = setTimeout(async () => {
+		const newTimeoutId = setTimeout(async () =>  {
+			const newQuery = {
+				...query,
+				search: search,
+				pageNumber: 1 // Reset về trang 1 khi tìm kiếm
+			};
+			await setQuery(newQuery);
 			await LoadData(newQuery);
-		}, 3000);
-
+		}, 500);
+	
 		setTimeoutId(newTimeoutId);
+	};
+
+	//đinh dạng ngày tháng
+	const formatDate = (date: string) => {
+		return new Date(date).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
 	};
 
 	return (
 		<>
 			<div className='container-fluid index-motel'>
-				<div className='row align-items-stretch'>
+				<div className='row align-items-stretch  mt-3'>
 					<div className='card w-100'>
 						<div className='card-body p-4'>
 							<div className='d-flex justify-content-between align-items-center'>
@@ -264,7 +256,7 @@ export const indexOwner = () => {
 										</div>
 										<input
 											onChange={(e) => HandleSearch(e.target.value)}
-											value={query.search || ''}
+											value={searchTerm}
 											type='text'
 											className='form-control'
 											aria-label='Text input with radio button'
@@ -281,9 +273,10 @@ export const indexOwner = () => {
 											<th scope='col'>ID</th>
 											<th scope='col'>Địa chỉ</th>
 											<th scope='col'>Số phòng</th>
-											<th scope='col'>Giá điện</th>
-											<th scope='col'>Giá nước</th>
-											<th scope='col'>Giá khác</th>
+											<th scope='col'>Đánh giá</th>
+											<th scope='col'>Số người thuê</th>
+											<th scope='col'>Ngày tạo</th>
+											<th scope='col'>Mô tả</th>
 											<th scope='col'>Trạng thái</th>
 											<th scope='col'>Thao tác</th>
 										</tr>
@@ -294,11 +287,11 @@ export const indexOwner = () => {
 												<tr>
 													<td>{motel.id}</td>
 													<td className='text-overflow-motel'> {motel?.address}</td>
-													<td>{motel?.rooms?.length} phòng</td>
-													<td>{motel?.price?.electric}</td>
-													<td>{motel?.price?.water}</td>
-													<td>{motel?.price?.other}</td>
-
+													<td>{motel?.totalRoom} phòng</td>
+													<td>{motel?.rating.toFixed(1)}</td>
+													<td>{motel?.totalRoom}</td>
+													<td>{formatDate(motel.createDate)}</td>
+													<td>{motel?.description}</td>
 													<td>{CheckStatus(motel?.status)}</td>
 													<td>
 														<Link
@@ -322,7 +315,7 @@ export const indexOwner = () => {
 																className='icon-table-motel'
 															/>
 														</a>
-														{IconThaoTac(motel?.status, motel.id)}
+														{IconThaoTac(motel.status, motel.id)}
 													</td>
 												</tr>
 											))}

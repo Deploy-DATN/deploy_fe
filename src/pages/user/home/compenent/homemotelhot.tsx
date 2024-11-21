@@ -6,10 +6,11 @@ import {
   faMoneyBill,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
-
+import { useNavigate } from "react-router-dom";
 function HomeMotelHot() {
   const [motels, setMotels] = useState<RoomType[]>([]);
   const [selectedType, setSelectedType] = useState<'outstanding' | 'new'>('outstanding'); // Trạng thái chọn loại trọ
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMotels = async () => {
@@ -33,6 +34,10 @@ function HomeMotelHot() {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN').format(price);
   };
+  const handleMotelClick = (id: number) => {
+    navigate(`/detailmoteluser/${id}`); // Navigate to the motel detail page using its ID
+  };
+
 
   return (
     <section className="home-show-motel-1 mt-5">
@@ -59,14 +64,15 @@ function HomeMotelHot() {
       </div>
       <div className="row">
         {motels && motels.length > 0 && motels.map((roomtype, index) => (
-          <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3">
-            <div>
+          <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3"  onClick={() => handleMotelClick(roomtype.id)}>
+            <div >
               <div
                 id={`carouselExampleIndicators-${roomtype.id}`}
                 className="carousel slide"
                 data-bs-ride="carousel"
+                
               >
-                <div className="carousel-indicators mb-0">
+                <div className="carousel-indicators mb-0"  >
                   {roomtype.images && roomtype.images.length > 0 && roomtype.images.map((_, imgIndex) => (
                     <button
                       key={`${imgIndex}`}
@@ -75,7 +81,9 @@ function HomeMotelHot() {
                       data-bs-slide-to={imgIndex}
                       className={imgIndex === 0 ? "active" : ""}
                       aria-label={`Slide ${imgIndex + 1}`}
-                    ></button>
+
+                    > </button>
+
                   ))}
                 </div>
                 <div className="carousel-inner">

@@ -15,30 +15,10 @@ export const Bill: React.FC = () => {
 
   return (
     <div className="container-fluid noti-container">
-      <div className="row align-items-stretch">
+      <div className="row align-items-stretch  mt-3">
         <div className="card w-100">
           <div className="card-body p-4">
-            <div className="d-flex justify-content-between mb-4">
-              <div className="d-flex flex-wrap">
-                {/* <a
-                  href="#"
-                  className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 d-flex align-items-center"
-                >
-                  Dãy trọ
-                </a>
-                <a
-                  href="#"
-                  className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 d-flex align-items-center"
-                >
-                  Phòng trọ
-                </a>
-                <a
-                  href="#"
-                  className="btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 d-flex align-items-center"
-                >
-                  Người thuê{" "}
-                </a> */}
-              </div>
+            <div className="d-flex justify-content-end mb-4">
               <div className="">
               <button className="btn btn-create-notification btn-transform-y2">
                   <FontAwesomeIcon icon={faFileArrowUp} size="lg" color="#fffffff" className="icon-table-motel me-3" />Xuất hóa đơn
@@ -62,7 +42,7 @@ export const Bill: React.FC = () => {
                 </thead>
                 <tbody>
                   <tr onClick={handleOpenModal}>
-                    <td className="cangiua checkbox-bill">
+                    <td className="cangiua checkbox-bill" onClick={(e) => e.stopPropagation()}>
                         <input type="checkbox" name="" id=""/>
                     </td>
                     <td>

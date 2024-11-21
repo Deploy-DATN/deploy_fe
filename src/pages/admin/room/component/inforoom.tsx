@@ -1,131 +1,120 @@
-import React from 'react'
+import React, { useState } from "react";
+import "../style/room.scss";
+import Detailroom from "./detailroom/detailroom";
+import Historyroom from "./detailroom/historyroom";
+import { Billroom } from "./detailroom/billroom";
+import Editroom from "./editroom";
+import AddUserRoom from "./addUserRoom";
+import Baotriroom from "./baotriroom";
 
-interface InfoRoomProps {
-  motelId: string | undefined;
-  roomId: number;
-  onClose: () => void;
-}
+const Inforoom = () => {
+  const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
+    addRoom: false,
+    AddElicWater: false,
+  });
+  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
 
-const Inforoom: React.FC<InfoRoomProps> = ({ motelId, roomId, onClose }) => {
+  const toggleModal = (
+    modalName: keyof typeof modalState,
+    roomId: number | null = null
+  ) => {
+    setModalState((prevState) => ({
+      ...prevState,
+      [modalName]: !prevState[modalName],
+    }));
+    setSelectedRoomId(roomId);
+  };
+  const [activeTab, setActiveTab] = useState("detail"); // State lưu tab đang được chọn
 
   return (
     <>
-      <div className="modal-overlay-admin">
-        <div className="modal-content-admin position-relative">
-        <div className=''>
-          <h2 className='h2-modal-admin'>Chi tiết</h2>
+      <div className="container-fluid">
+        <div className="row align-items-stretch mt-3">
+          <div className="card w-100">
+            <div className="card-body p-4">
+              {/* Thanh điều hướng */}
+              <div>
+                <div className="d-flex flex-wrap justify-content-between  align-items-center">
+                  <div className="d-flex flex-wrap align-items-center">
+                    <button
+                      onClick={() => setActiveTab("detail")}
+                      className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                        activeTab === "detail" ? "active-filter-motel" : ""
+                      }`}
+                    >
+                      Chi tiết phòng
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("bill")}
+                      className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                        activeTab === "bill" ? "active-filter-motel" : ""
+                      }`}
+                    >
+                      Hóa đơn phòng
+                    </button>
+                    <button
+                      onClick={() => setActiveTab("history")}
+                      className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
+                        activeTab === "history" ? "active-filter-motel" : ""
+                      }`}
+                    >
+                      Lịch sử thuê phòng
+                    </button>
+                  </div>
+                  <div className="d-flex flex-wrap align-items-center">
+                    <button
+                      className={`btn btn-create-notification btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2`}
+                      onClick={() => toggleModal('editRoom', 1)}
+                    >
+                      Sửa phòng
+                    </button>
+                    <button
+                      className={`btn btn-create-notification btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
+                      onClick={() => toggleModal('addUserRoom', 1)}
+                    >
+                      Thêm người thuê
+                    </button>
+                    <button
+                      className={`btn btn-create-notification btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
+                      onClick={() => toggleModal('baotriroom', 1)}
+                    >
+                      Bảo trì
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Nội dung hiển thị */}
+              <div className="">
+                {activeTab === "detail" && <Detailroom />}
+                {activeTab === "bill" && <Billroom />}
+                {activeTab === "history" && <Historyroom />}
+              </div>
+            </div>
+          </div>
         </div>
-          <form className="form-admin-modal position-relative">
-          <div className="row form-group mt-3">
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Người thuê
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="Nguyễn Văn A"
-                />
-              </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Bạn cùng phòng
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="Trần Văn B"
-                />
-              </div>
-            </div>
-          <div className="row form-group mt-3">
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Số phòng
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="123"
-                />
-              </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Giá
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="123,123,123"
-                />
-              </div>
-            </div>
-            <div className="row form-group mt-3">
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Số điện
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="123"
-                />
-              </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Số nước
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="12"
-                />
-              </div>
-            </div>
-            <div className="row form-group mt-3">
-            <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Khu vực
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="123123"
-                />
-              </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
-                <label htmlFor="description" className="">
-                  Trạng thái
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2 span-baotri-room-motel"
-                  placeholder="Bảo trì"
-                />
-              </div>
-            </div>
-            <div className="d-flex justify-content-center mt-4">
-              <button
-                type="button"
-                className="btn-trove-all btn-style btn-transform-y2 w-75"
-                onClick={onClose}
-              >
-                Trở về
-              </button>
-            </div>
-          </form>
-        </div>
+        {modalState.editRoom && selectedRoomId && (
+          <Editroom
+            roomId={selectedRoomId}
+            onClose={() => toggleModal("editRoom")}
+            motelId={"1"}
+          />
+        )}
+        {modalState.addUserRoom && selectedRoomId && (
+          <AddUserRoom
+            roomId={selectedRoomId}
+            onClose={() => toggleModal("addUserRoom")}
+          />
+        )}
+        {modalState.baotriroom && selectedRoomId && (
+          <Baotriroom
+            roomId={selectedRoomId}
+            onClose={() => toggleModal("baotriroom")}
+          />
+        )}
       </div>
     </>
   );
 };
 
-export default Inforoom
+export default Inforoom;

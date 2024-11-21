@@ -150,7 +150,7 @@ export const Dashboard = () => {
     return (
         <div className="container-fluid">
             {/* <!--  Row 1 --> */}
-            <div className="row">
+            <div className="row  mt-3">
                 <div className="col-lg-8 d-flex align-items-strech">
                     <div className="card w-100">
                         <div className="card-body">

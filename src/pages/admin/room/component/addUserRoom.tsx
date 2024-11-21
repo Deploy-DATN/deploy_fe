@@ -1,4 +1,3 @@
-import { AddUserRoomApi } from '@/services/api/MotelApi';
 import React, { useState } from 'react';
 
 interface AddUserRoomProps {
@@ -17,11 +16,7 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 	};
 
 	const handleSubmit = async () => {
-		var response = await AddUserRoomApi(values);
-		if (response.code === 200) {
-			await alert('Thêm người thuê thành công');
-			onClose();
-		}
+
 	};
 
 	return (
@@ -33,7 +28,7 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 					</div>
 					<form className='form-admin-modal position-relative'>
 						<div className='row form-group mt-3'>
-							<div className='col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 col-xxl-7'>
+							<div className='col-12'>
 								<label
 									htmlFor='description'
 									className=''>
@@ -49,17 +44,6 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 									onChange={handleChange}
 								/>
 							</div>
-							{/* <div className="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 col-xxl-5">
-                <label htmlFor="description" className="">
-                  Bạn cùng phòng
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="Họ và tên"
-                />
-              </div> */}
 						</div>
 						<div className='d-flex justify-content-between mt-4'>
 							<button
