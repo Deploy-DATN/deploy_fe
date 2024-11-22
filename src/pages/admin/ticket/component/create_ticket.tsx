@@ -24,8 +24,6 @@ const createTicket = () => {
     const schema = yup.object().shape({
         title: yup.string().required('Vui lòng nhập tiêu đề'),
         content: yup.string().required('Vui lòng nhập nội dung'),
-        receiver: yup.string().nullable().notRequired(),
-        userId: yup.number().nullable().notRequired(),
         modelId: yup.number().nullable().notRequired(),
         imgs: yup.array()
             .of(
@@ -43,8 +41,6 @@ const createTicket = () => {
             title: '',
             content: '',
             type: 1,
-            receiver: null,
-            userId: null,
             modelId: null,
             imgs: []
         }

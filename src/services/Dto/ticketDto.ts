@@ -51,8 +51,6 @@ export interface FormCreate {
     type?: number;
     title: string;
     content: string;
-    receiver?: string | null | undefined;
-    userId?: number | null | undefined;
     modelId?: number | null | undefined;
     imgs: (File | undefined)[];
 }

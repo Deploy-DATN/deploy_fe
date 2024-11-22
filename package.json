@@ -33,6 +33,7 @@
     "sass": "^1.78.0",
     "simplebar": "^6.2.7",
     "sweetalert2": "^11.14.2",
+    "swiper": "^11.1.15",
     "vite-tsconfig-paths": "^5.0.1",
     "yup": "^1.4.0"
   },
