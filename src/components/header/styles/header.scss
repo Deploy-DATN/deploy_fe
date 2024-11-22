@@ -1,4 +1,4 @@
-.header{
+.header {
     border-radius: 0 0 50px 50px;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     position: sticky;
@@ -92,4 +92,58 @@
     font-size: 1.5rem;
     font-family: Roboto Flex;
     font-weight: 600;
+}
+
+.dropdown-custom {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu-custom {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    min-width: 160px;
+    z-index: 1;
+    top: 100%;
+    padding: 2px;
+    right: -6px;
+    border-radius: 10px;
+    margin-top: 4px;
+}
+
+.dropdown-custom:hover .dropdown-menu-custom {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 8px 16px;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    white-space: nowrap;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-divider {
+    margin: 0;
+    border-top: 1px solid #ddd;
+    margin: 5px 0;
+}
+
+/* Ẩn nút tam giác của dropdown */
+.dropdown-toggle::after {
+    display: none;
+}
+
+/* Tùy chỉnh cho icon người dùng */
+.header-avatar img {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
 }

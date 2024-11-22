@@ -52,7 +52,7 @@ function HomeMotelHot() {
         <div className="row">
           {roomtypes && roomtypes.length > 0 ? (
             roomtypes.map((roomtype, index) => (
-              <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3"  onClick={() => handleMotelClick(roomtype.id)}>
+              <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3" onClick={() => handleMotelClick(roomtype.id)}>
                 {/* Slider */}
                 <div>
                   <div
@@ -74,7 +74,7 @@ function HomeMotelHot() {
                           ></button>
                         ))}
                     </div>
-                    <div className="carousel-inner">
+                    <div className="carousel-inner rounded-4">
                       {roomtype.images &&
                         roomtype.images.length > 0 &&
                         roomtype.images.map((img, imgIndex) => (
