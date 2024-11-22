@@ -1,9 +1,15 @@
+import { faCamera, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react'
 
-import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, {  useState } from "react";
+interface EditRoomProps {
+  onClose: () => void;
+  motelId: string | undefined;
+  roomId: number;
+}
 
-const Addroom: React.FC<{ motelId: string | undefined, onClose: () => void }> = ({ motelId, onClose }) => {
+const EditRoomType: React.FC<EditRoomProps> = ({ onClose, motelId, roomId }) => {
+
 
   // Thêm state errors ở đầu component
 	const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -51,47 +57,6 @@ const Addroom: React.FC<{ motelId: string | undefined, onClose: () => void }> = 
 		return true;
 	};
 
-  // Cập nhật onChange handler
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
-		const value = e.target.value;
-		setRoom({ ...room, [field]: value });
-		validateField(field, value);
-	};
-
-
-  const handleSubmit = async () => {
-    try {
-
-      // Reset errors
-			setErrors({});
-
-			// Validate tất cả các trường
-			const fields = {
-				quantityRoom: room.quantityRoom || '',
-				area: room.area || '',
-				price: room.price || '',
-			};
-
-
-			let isValid = true;
-			Object.entries(fields).forEach(([key, value]) => {
-				if (!validateField(key, value)) {
-					isValid = false;
-				}
-			});
-
-			if (!isValid) return;
-
-      const response = await AddRoom(room);
-      if (response.code === 200) {
-        await alert('Thêm phòng thành công');
-        onClose();
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const [images, setImages] = useState<string[]>([]);
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -110,7 +75,7 @@ const Addroom: React.FC<{ motelId: string | undefined, onClose: () => void }> = 
       <div className="modal-overlay-admin">
         <div className="modal-content-admin position-relative">
           <div className="">
-            <h2 className="h2-modal-admin">Thêm loại phòng</h2>
+            <h2 className="h2-modal-admin">Sửa loại phòng</h2>
           </div>
           <form className="form-admin-modal position-relative">
           <div className="row flex-wrap">
@@ -125,20 +90,6 @@ const Addroom: React.FC<{ motelId: string | undefined, onClose: () => void }> = 
                       placeholder="Tên phòng"
                     />
                     <div className="invalid-feedback">errer</div>
-                  </div>
-                  <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 form-group mt-3 px-2">
-                    <label htmlFor="title" className="label-motel-info">
-                      Số phòng
-                    </label>
-                    <input
-                      type="text"
-                      id="title"
-                      className="form-control mt-2 input-motel-info"
-                      placeholder="Số phòng"
-                    />
-                    {errors.priceRoom && (
-                      <div className="invalid-feedback">{errors.priceRoom}</div>
-                    )}
                   </div>
                   <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 form-group mt-3 px-2">
                     <label htmlFor="title" className="label-motel-info">
@@ -244,9 +195,8 @@ const Addroom: React.FC<{ motelId: string | undefined, onClose: () => void }> = 
               <button
                 type="button"
                 className="btn-luu-all btn-style btn-transform-y2"
-                onClick={handleSubmit}
               >
-                Thêm
+                Sửa
               </button>
             </div>
           </form>
@@ -256,4 +206,4 @@ const Addroom: React.FC<{ motelId: string | undefined, onClose: () => void }> = 
   );
 };
 
-export default Addroom;
+export default EditRoomType

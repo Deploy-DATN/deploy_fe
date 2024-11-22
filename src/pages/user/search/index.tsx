@@ -5,6 +5,65 @@ import Footer from "@/components/footer";
 import FilterSearch from "./compenent/filtersearch";
 
 export const SearchMotel = () => {
+  const motels = [
+    {
+      id: 1,
+      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
+      name: "Căn hộ Phòng ABC XYZ j j đó dcm - Quận 11 - TP. HCM",
+      price: "5.5",
+      address: "123 Hà Huy tập, tân lợi, TP BMT, Tỉnh đắk lắk",
+    },
+    {
+      id: 2,
+      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
+      name: "Căn hộ Phòng DEF GHI - Quận 10 - TP. HCM",
+      price: "6",
+      address: "456 Lê Lợi, Quận 10, TP HCM",
+    },
+    {
+      id: 3,
+      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
+      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
+      price: "7",
+      address: "789 Phan Bội Châu, Quận 1, TP HCM",
+    },
+    {
+      id: 3,
+      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
+      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
+      price: "7",
+      address: "789 Phan Bội Châu, Quận 1, TP HCM",
+    },
+    {
+      id: 3,
+      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
+      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
+      price: "7",
+      address: "789 Phan Bội Châu, Quận 1, TP HCM",
+    },
+    {
+      id: 3,
+      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
+      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
+      price: "7",
+      address: "789 Phan Bội Châu, Quận 1, TP HCM",
+    },
+    {
+      id: 3,
+      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
+      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
+      price: "7",
+      address: "789 Phan Bội Châu, Quận 1, TP HCM",
+    },
+    {
+      id: 3,
+      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
+      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
+      price: "7",
+      address: "789 Phan Bội Châu, Quận 1, TP HCM",
+    },
+  ];
+
   return (
     <>
       <Header />
@@ -60,7 +119,7 @@ export const SearchMotel = () => {
                           </select>
                         </div>
                       </div>
-                      <div className="d-lg-none d-sm-block d-md-block btn-filter">
+                      <div className="d-lg-none d-sm-block d-md-block btn-filter-submit">
                         <button
                           className="btn-filter-none"
                           type="button"
@@ -89,7 +148,7 @@ export const SearchMotel = () => {
                             />
                           </div>
                           <div className="offcanvas-body">
-                          <FilterSearch prefix="sidebar" />
+                            <FilterSearch prefix="sidebar" />
                           </div>
                         </div>
                       </div>
@@ -98,7 +157,37 @@ export const SearchMotel = () => {
                   <div className="list-motel-filter-search col-12">
                     <div className="row">
                       {/* Lặp ở đây hub ta */}
-                      <div className="col-12 mt-3">
+                      {motels.map((motel) => (
+                        <div className="col-12 mt-3" key={motel.id}>
+                          <div className="item-list-motel row">
+                            <div className="col-4 list-motel-img">
+                              <a href="#">
+                                <img
+                                  src={motel.img}
+                                  alt="Lỗi khi tải hình ảnh"
+                                  className="img-fluid"
+                                />
+                              </a>
+                            </div>
+                            <div className="col-8 list-motel-body">
+                              <div className="motel-item-name">
+                                <a href="#" className="motel-item-link">
+                                  <h3>{motel.name}</h3>
+                                </a>
+                              </div>
+                              <div className="motel-item-price">
+                                <small className="me-2">Từ</small>
+                                <span>{motel.price} triệu/tháng</span>
+                              </div>
+                              <div className="motel-item-address">
+                                <i className="fa-thin fa-location-dot fa-lg me-2"></i>
+                                <p>{motel.address}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                      {/* <div className="col-12 mt-3">
                         <div className="item-list-motel row">
                           <div className="col-4 list-motel-img">
                             <a href="#" className="">
@@ -132,77 +221,42 @@ export const SearchMotel = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="col-12 mt-3">
-                        <div className="item-list-motel row">
-                          <div className="col-4 list-motel-img">
-                            <a href="#" className="">
-                              <img
-                                src="https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png"
-                                alt="Lỗi khi tải hình ảnh"
-                                className="img-fluid"
-                              />
+                      </div> */}
+                    </div>
+                    <div className="d-flex justify-content-center align-items-center mt-3">
+                      <nav aria-label="Page navigation example">
+                        <ul className="pagination">
+                          <li className="page-item">
+                            <a
+                              className="page-link btn-filter "
+                              href="#"
+                              aria-label="Previous"
+                            >
+                              <span aria-hidden="true">&laquo;</span>
                             </a>
-                          </div>
-                          <div className="col-8 list-motel-body">
-                            <div className="motel-item-name">
-                              <a href="#" className="motel-item-link">
-                                <h3>
-                                  Căn hộ Phòng ABC XYZ j j đó dcm - Quận 11 -
-                                  TP. HCM bbbbbbbbbbbbb vvvvvvvvvvvvvvvvvvvv
-                                  ccccccccccccccccc xxxxxxxxxxxxxx lllllllllllll
-                                  mmmmmmmmmmm
-                                </h3>
-                              </a>
-                            </div>
-                            <div className="motel-item-price">
-                              <small className="me-2">Từ</small>
-                              <span>5.5 triệu/tháng</span>
-                            </div>
-                            <div className="motel-item-address">
-                              <i className="fa-thin fa-location-dot fa-lg me-2"></i>
-                              <p>
-                                123 Hà Huy tập, tân lợi, TP BMT, Tỉnh đắk lắk
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-12 mt-3">
-                        <div className="item-list-motel row">
-                          <div className="col-4 list-motel-img">
-                            <a href="#" className="">
-                              <img
-                                src="https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png"
-                                alt="Lỗi khi tải hình ảnh"
-                                className="img-fluid"
-                              />
+                          </li>
+                          <li className="page-item ">
+                            <a className="page-link btn-filter active-filter-motel" href="#">
+                              1
                             </a>
-                          </div>
-                          <div className="col-8 list-motel-body">
-                            <div className="motel-item-name">
-                              <a href="#" className="motel-item-link">
-                                <h3>
-                                  Căn hộ Phòng ABC XYZ j j đó dcm - Quận 11 -
-                                  TP. HCM bbbbbbbbbbbbb vvvvvvvvvvvvvvvvvvvv
-                                  ccccccccccccccccc xxxxxxxxxxxxxx lllllllllllll
-                                  mmmmmmmmmmm
-                                </h3>
-                              </a>
-                            </div>
-                            <div className="motel-item-price">
-                              <small className="me-2">Từ</small>
-                              <span>5.5 triệu/tháng</span>
-                            </div>
-                            <div className="motel-item-address">
-                              <i className="fa-thin fa-location-dot fa-lg me-2"></i>
-                              <p>
-                                123 Hà Huy tập, tân lợi, TP BMT, Tỉnh đắk lắk
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                          </li>
+                          <li className="page-item">
+                            <a className="page-link btn-filter" href="#">
+                              2
+                            </a>
+                          </li>
+                          <li className="page-item">
+                            <a className="page-link btn-filter" href="#">
+                              3
+                            </a>
+                          </li>
+                          <li className="page-item">
+                            <a className="page-link btn-filter" href="#" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
                     </div>
                   </div>
                 </div>
