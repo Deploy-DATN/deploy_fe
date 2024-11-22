@@ -3,9 +3,9 @@ import "../style/room.scss";
 import Detailroom from "./detailroom/detailroom";
 import Historyroom from "./detailroom/historyroom";
 import { Billroom } from "./detailroom/billroom";
-import Editroom from "./editroom";
-import AddUserRoom from "./addUserRoom";
-import Baotriroom from "./baotriroom";
+import Editroom from "./detailroom/editroom";
+import AddUserRoom from "./detailroom/addUserRoom";
+import Baotriroom from "./detailroom/baotriroom";
 
 const Inforoom = () => {
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
@@ -67,12 +67,6 @@ const Inforoom = () => {
                       onClick={() => toggleModal('editRoom', 1)}
                     >
                       Sửa phòng
-                    </button>
-                    <button
-                      className={`btn btn-create-notification btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                      onClick={() => toggleModal('addUserRoom', 1)}
-                    >
-                      Thêm người thuê
                     </button>
                     <button
                       className={`btn btn-create-notification btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}

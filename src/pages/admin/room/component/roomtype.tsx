@@ -3,6 +3,7 @@ import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Motel } from "../../motel";
+import { Link } from "react-router-dom";
 
 const Roomtype = (props: {
   room: MotelRoomDTO;
@@ -146,12 +147,12 @@ const Roomtype = (props: {
               <div className="d-flex justify-content-lg-around flex-wrap col-12 mt-3">
                 <button
                   className="btn btn-create-notification btn-transform-y2 p-2 me-3 me-lg-0"
-                  onClick={() => toggleModal("addRoom", rooms[0].id)}
+                  onClick={() => toggleModal("AddRoomInType", rooms[0].id)}
                 >
                   Thêm phòng
                 </button>
                 <button
-                  onClick={() => toggleModal("editRoom", rooms[0].id)}
+                  onClick={() => toggleModal("editRoomType", rooms[0].id)}
                   className="btn btn-create-notification btn-transform-y2 me-2 p-2"
                 >
                   Sửa
@@ -162,9 +163,9 @@ const Roomtype = (props: {
           <div className="col-12 col-lg-8 col-xxl-7 row list-room-motel pb-3">
             {/* lặp vòng phòng*/}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -181,12 +182,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3"
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -203,12 +204,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -225,12 +226,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -247,12 +248,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -269,12 +270,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -291,12 +292,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -313,12 +314,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -335,12 +336,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -357,12 +358,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -379,12 +380,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -401,12 +402,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -423,12 +424,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -445,12 +446,12 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>{" "}
             <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <div
+              <Link
                 className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                onClick={() => toggleModal("infoRoom", rooms[0].id)}
+                to={`/admin/inforoom`}
               >
                 <div className="col-12">
                   <h3 className=""> Phòng 01</h3>
@@ -467,7 +468,7 @@ const Roomtype = (props: {
                     1{" "}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

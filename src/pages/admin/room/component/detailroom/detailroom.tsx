@@ -1,8 +1,27 @@
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
+import AddUserRoom from "./addUserRoom";
+import Deleteuseroom from "./deleteuseroom";
 
 const Detailroom = () => {
+  const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
+    addUserRoom: false,
+    deleteuseroom: false,
+  });
+  const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+
+  const toggleModal = (
+    modalName: keyof typeof modalState,
+    roomId: number | null = null
+  ) => {
+    setModalState((prevState) => ({
+      ...prevState,
+      [modalName]: !prevState[modalName],
+    }));
+    setSelectedRoomId(roomId);
+  };
+
   const motels = [
     {
       status: 2,
@@ -107,8 +126,16 @@ const Detailroom = () => {
           </div>
         </div>
         <div className="col-12 col-md-12 col-lg-3">
-            {/* Người thuê */}
-          <div className="bgr-detail-room-info p-4 mt-3">
+          {/* Người thuê */}
+          <div className="bgr-detail-room-info p-4 mt-3 position-relative">
+            <div className="close-user-detai-room">
+              <button
+                className="close-btn-user btn-transform-y2"
+                onClick={() => toggleModal("deleteuseroom", 1)}
+              >
+                <i className="fa-regular fa-xmark fa-xl"></i>
+              </button>
+            </div>
             <div className="row">
               <div className="col-3 width-height">
                 <img
@@ -125,8 +152,26 @@ const Detailroom = () => {
               </div>
             </div>
           </div>
+          <button
+            className={`btn btn-create-notification btn-sm px-3 py-2 mb-3 btn-transform-y2 mt-3`}
+            onClick={() => toggleModal("addUserRoom", 1)}
+          >
+            Thêm người thuê
+          </button>
         </div>
       </div>
+      {modalState.addUserRoom && selectedRoomId && (
+        <AddUserRoom
+          roomId={selectedRoomId}
+          onClose={() => toggleModal("addUserRoom")}
+        />
+      )}
+      {modalState.deleteuseroom && selectedRoomId && (
+        <Deleteuseroom
+          roomId={selectedRoomId}
+          onClose={() => toggleModal("deleteuseroom")}
+        />
+      )}
     </>
   );
 };

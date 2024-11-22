@@ -295,7 +295,7 @@ export const indexOwner = () => {
 													<td>{CheckStatus(motel?.status)}</td>
 													<td>
 														<Link
-															to={`/admin/room/${motel.id}`}
+															to={`/admin/roomtest`}
 															state={motel}
 															className=' px-2 py-1 mx-1 btn-transform-y2'>
 															<FontAwesomeIcon
@@ -328,7 +328,6 @@ export const indexOwner = () => {
 										<li className='page-item'>
 											<a
 												className='page-link  btn-filter'
-												href='#'
 												aria-label='Previous'>
 												<span aria-hidden='true'>&laquo;</span>
 											</a>
@@ -339,8 +338,7 @@ export const indexOwner = () => {
 												key={index}
 												onClick={() => HandlePage(index + 1)}>
 												<a
-													className='page-link  btn-filter'
-													href='#'>
+													className='page-link  btn-filter'>
 													{index + 1}
 												</a>
 											</li>
@@ -348,7 +346,6 @@ export const indexOwner = () => {
 										<li className='page-item'>
 											<a
 												className='page-link  btn-filter'
-												href='#'
 												aria-label='Next'>
 												<span aria-hidden='true'>&raquo;</span>
 											</a>

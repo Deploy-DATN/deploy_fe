@@ -5,25 +5,27 @@ import React, { useState } from "react";
 import AddElicWater from "./component/addElicWater";
 import Addroom from "./component/addroom";
 import Inforoom from "./component/inforoom";
-import Editroom from "./component/editroom";
-import AddUserRoom from "./component/addUserRoom";
-import Baotriroom from "./component/baotriroom";
+import Editroom from "./component/detailroom/editroom";
+import AddUserRoom from "./component/detailroom/addUserRoom";
+import Baotriroom from "./component/detailroom/baotriroom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBolt,
   faDroplet,
+  faPlus,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { MotelByIdDTO } from "@/services/Dto/MotelDto";
 import Roomtype from "./component/roomtype";
+import Addroomintype from "./component/addroomintype";
+import EditRoomType from "./component/editRoomType";
 
 export const Roomtesst = () => {
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
     addRoom: false,
     AddElicWater: false,
-    editRoom: false,
-    addUserRoom: false,
-    Baotriroom: false,
+    AddRoomInType: false,
+    editRoomType: false,
   });
 
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
@@ -66,7 +68,7 @@ export const Roomtesst = () => {
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
                   <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end flex-wrap gap-3 mt-3">
-                    {/* <div className="">
+                    <div className="">
                       <button
                         className="btn btn-create-notification btn-transform-y2"
                         onClick={() => toggleModal("addRoom")}
@@ -77,9 +79,9 @@ export const Roomtesst = () => {
                           color="#fffffff"
                           className="icon-table-motel me-3"
                         />
-                        Thêm phòng trọ
+                        Thêm loại phòng
                       </button>
-                    </div> */}
+                    </div>
                     <div className="">
                       <button
                         className="btn btn-create-notification btn-transform-y2"
@@ -137,23 +139,17 @@ export const Roomtesst = () => {
               {modalState.addElicWater && (
                 <AddElicWater onClose={() => toggleModal("addElicWater")} />
               )}
-              {modalState.editRoom && selectedRoomId && (
-                <Editroom
+              {modalState.editRoomType && selectedRoomId && (
+                <EditRoomType
                   roomId={selectedRoomId}
-                  onClose={() => toggleModal("editRoom")}
+                  onClose={() => toggleModal("editRoomType")}
                   motelId={id}
                 />
               )}
-              {modalState.addUserRoom && selectedRoomId && (
-                <AddUserRoom
+              {modalState.AddRoomInType && selectedRoomId && (
+                <Addroomintype
                   roomId={selectedRoomId}
-                  onClose={() => toggleModal("addUserRoom")}
-                />
-              )}
-              {modalState.baotriroom && selectedRoomId && (
-                <Baotriroom
-                  roomId={selectedRoomId}
-                  onClose={() => toggleModal("baotriroom")}
+                  onClose={() => toggleModal("AddRoomInType")}
                 />
               )}
             </div>

@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react'
 
-interface BaotriroomProps {
+interface DeleteuseroomProps {
   onClose: () => void;
   roomId: number;
 }
 
-const Baotriroom: React.FC<BaotriroomProps> = ({ onClose, roomId }) => {
-  return (
-    <>
+const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId }) => {
+    return (
+<>
       <div className="modal-overlay-admin">
         <div className="modal-content-admin position-relative p-4">
         <div >
               <h2 className="h2-modal-duyet text-center">
-                Bạn có chắc chắn bảo trì phòng này?
+                Bạn có chắc chắn muốn xóa người (tên) thuê này khỏi phòng?
               </h2>
             </div>
             <form className="form-duyet-modal">
@@ -28,7 +28,7 @@ const Baotriroom: React.FC<BaotriroomProps> = ({ onClose, roomId }) => {
                   type="button"
                   className="btn-luu-all btn-style btn-transform-y2"
                 >
-                  Bảo trì
+                  Lưu
                 </button>
               </div>
             </form>
@@ -38,5 +38,4 @@ const Baotriroom: React.FC<BaotriroomProps> = ({ onClose, roomId }) => {
   );
 };
 
-export default Baotriroom
-;
+export default Deleteuseroom

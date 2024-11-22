@@ -206,4 +206,20 @@
       }
     }
   }
+  .close-user-detai-room{
+    position: absolute;
+    top:5px;
+    right: 5px;
+    .close-btn-user{
+      color: #ff5c00;
+      border:none;
+      border-radius: 50rem;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: none;
+    }
+  }
 }

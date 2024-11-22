@@ -67,7 +67,7 @@
           }
         }
       }
-      .btn-filter {
+      .btn-filter-submit {
         display: flex;
         flex-direction: column;
         gap: 12px;
@@ -91,7 +91,7 @@
           }
         }
       }
-      .btn-filter:hover {
+      .btn-filter-submit:hover {
         background: none !important;
         border: none !important;
       }
@@ -177,6 +177,11 @@
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.05);
+    //phần đi theo của filer search
+    // position: sticky;
+    // top: 100px; 
+    // max-height: calc(100vh - 40px);
+    // overflow: auto; 
     .filter-motel-header {
       display: flex;
       flex-direction: column;
@@ -358,4 +363,7 @@
   .Search-motel-user {
     background-color: #ffffff;
   }
+}
+.form-search-motel-main{
+  position: sticky;
 }
