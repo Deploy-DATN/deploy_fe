@@ -17,6 +17,7 @@ import Motel from './management/components/motel';
 import ChangePassword from './management/components/changePassword';
 import TicketUser from './management/components/ticket'
 import { SearchMotel } from './search';
+import History from './management/components/history';
 
 export const User = () => {
   return (
@@ -28,6 +29,7 @@ export const User = () => {
           <Route path="motel" element={<Motel />} />
           <Route path="change-password" element={<ChangePassword/>} />
           <Route path="ticket" element={<TicketUser/>} />
+          <Route path="history" element={<History/>} />
         </Route>
       </Route>
       <Route path="/login" element={<Login />} />
