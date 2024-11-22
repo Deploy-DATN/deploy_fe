@@ -4,13 +4,15 @@ import * as yup from "yup"
 import InputField from "@/components/form_controls/input_field"
 import React from 'react'
 import { UserDetail } from '@/services/api/HomeApi';
-
+import { useLocation } from 'react-router-dom';
 
 interface Props {
     onSubmit: ((data: UserDetail) => void)
 }
 
 const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
+    const location = useLocation();
+    const { state } = location as { state: UserDetail | undefined };
     const schema = yup
         .object({
             fullName: yup
@@ -30,9 +32,9 @@ const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
         .required();
     const { control, handleSubmit, formState: { errors } } = useForm<UserDetail>({
         defaultValues: {
-            phone: '',
-            fullName: '',
-            email: ''
+            phone: state?.phone || '',
+            fullName: state?.fullName || '',
+            email: state?.email || ''
         },
         resolver: yupResolver(schema),
         mode: 'onBlur'

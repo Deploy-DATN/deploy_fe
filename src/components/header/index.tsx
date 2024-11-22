@@ -1,7 +1,57 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import "./styles/header.scss";
+import { GetUserDetailAvaApi, UserDetailAva } from "@/services/api/HomeApi";
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const [userDetails, setUserDetails] = useState<UserDetailAva | null>(null);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    const fetchUserDetails = async () => {
+      if (token) {
+        try {
+          // Tạo một đối tượng mặc định cho UserDetailAva
+          const userDetailData: UserDetailAva = {
+            fullName: "",
+            phone: "",
+            avatar: "",
+            email: ""
+          };
+
+          // Gọi API và truyền token vào
+          const response = await GetUserDetailAvaApi(userDetailData, token);
+          setUserDetails(response.data);
+        } catch (error) {
+          console.error("Error fetching user details:", error);
+        }
+      }
+    };
+
+    fetchUserDetails();
+  }, []);
+
+  const handleProfileClick = () => {
+    if (userDetails) {
+      navigate('/user', {
+        state: {
+          email: userDetails.email,
+          fullName: userDetails.fullName,
+          phone: userDetails.phone,
+          avatar: userDetails.avatar
+        },
+      });
+    }
+  };
+
+  console.log(userDetails);
+  const token = localStorage.getItem("token");
+  const defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media";
+  const toggleDropdown = () => {
+    setDropdownVisible((prevState) => !prevState); // Toggle state khi click vào avatar
+  };
   return (
     <div className="container-lg container-xl container-xxl header">
       <nav className="navbar navbar-expand-lg navbar-light ">
@@ -59,7 +109,28 @@ const Header = () => {
                 <ul className="navbar-nav px-0 mb-lg-0 d-flex align-items-lg-center align-items-xl-center align-items-xxl-center justify-content-lg-end justify-content-xl-end justify-content-xxl-end px-3-lg w-100">
                   <i className="fa-light fa-sun-bright font-size-header text-dark px-3 py-2"></i>
                   <i className="fa-light fa-bell-ring font-size-header text-dark px-3 py-2"></i>
-                  <a href="#" className="text-dark lg-none px-3 py-2 font-size-header"><i className="fa-light fa-user"></i></a>
+                  {token && (
+                    <div className="dropdown-custom" onClick={toggleDropdown}>
+                      <a href="#" className="text-dark lg-none px-3 py-2 font-size-header">
+                        <img
+                          src={userDetails ? userDetails.avatar : defaultAvatar}
+                          alt="User Avatar"
+                          width="30"
+                          height="30"
+                          className="rounded-circle"
+                        />
+                      </a>
+                      {dropdownVisible && (
+                        <div className="dropdown-menu-custom">
+                          <a href="#" className="dropdown-item" onClick={handleProfileClick}>Thông tin cá nhân</a>
+                          <a href="#" className="dropdown-item">Thông báo</a>
+                          <a href="#" className="dropdown-item">Thay đổi mật khẩu</a>
+                          <hr className="dropdown-divider" />
+                          <a href="#" className="dropdown-item">Thoát</a>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </ul>
               </li>
             </ul>

@@ -64,13 +64,13 @@ function HomeMotelHot() {
       </div>
       <div className="row">
         {motels && motels.length > 0 && motels.map((roomtype, index) => (
-          <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3"  onClick={() => handleMotelClick(roomtype.id)}>
+          <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3" onClick={() => handleMotelClick(roomtype.id)}>
             <div >
               <div
                 id={`carouselExampleIndicators-${roomtype.id}`}
                 className="carousel slide"
                 data-bs-ride="carousel"
-                
+
               >
                 <div className="carousel-indicators mb-0"  >
                   {roomtype.images && roomtype.images.length > 0 && roomtype.images.map((_, imgIndex) => (
@@ -86,7 +86,7 @@ function HomeMotelHot() {
 
                   ))}
                 </div>
-                <div className="carousel-inner">
+                <div className="carousel-inner rounded-4">
                   {roomtype.images && roomtype.images.length > 0 && roomtype.images.map((img, imgIndex) => (
                     <div
                       key={`${imgIndex}`}

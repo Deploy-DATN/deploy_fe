@@ -48,6 +48,7 @@ export enum API {
     OUTSTANDINGMOTELS = API_URL + '/api/Main/outstanding-motels',
     NEWMOTELS = API_URL + '/api/Main/new',
     ROOMTYPEUNDERMILION = API_URL + '/api/Main/room-types-under-one-million',
+    USEDETAIL = API_URL + '/GetUserDetailsFromToken',
 
     //UserManagement
     UPDATEUSERDETAIL = API_URL + '/update-user-from-token',
