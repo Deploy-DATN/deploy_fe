@@ -20,7 +20,7 @@ const Motel = () => {
                         }}
                         navigation={true}
                         modules={[Pagination, Navigation]}
-                        className="mySwiper rounded"
+                        className="mySwiper rounded-4"
                     >
                         <SwiperSlide>
                             <img src="https://swiperjs.com/demos/images/nature-1.jpg" className='img-fluid' />

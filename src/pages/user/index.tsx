@@ -18,6 +18,8 @@ import ChangePassword from './management/components/changePassword';
 import TicketUser from './management/components/ticket'
 import { SearchMotel } from './search';
 import History from './management/components/history';
+import Bill from './management/components/bill';
+import BillDetail from './management/components/billDetail';
 
 export const User = () => {
   return (
@@ -30,6 +32,8 @@ export const User = () => {
           <Route path="change-password" element={<ChangePassword/>} />
           <Route path="ticket" element={<TicketUser/>} />
           <Route path="history" element={<History/>} />
+          <Route path="history/:roomId" element={<Bill/>} />
+          <Route path="history/:roomId/:billId" element={<BillDetail/>} />
         </Route>
       </Route>
       <Route path="/login" element={<Login />} />
