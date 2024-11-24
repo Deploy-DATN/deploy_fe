@@ -1,16 +1,16 @@
-import { MotelRoomDTO } from "@/services/Dto/MotelDto";
 import { faUserAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { Motel } from "../../motel";
+import { GetRoomTypeDTO } from "@/services/Dto/MotelDto";
 import { Link } from "react-router-dom";
+import RowRoom from "./rowRoom";
 
 const Roomtype = (props: {
-  room: MotelRoomDTO;
+  roomType: GetRoomTypeDTO;
   motelStatus: number;
   toggleModal: (modalName: string, roomId: number) => void;
 }) => {
-  const { room, toggleModal } = props;
+  const { roomType, motelStatus, toggleModal } = props;
 
   const rooms = [
     {
@@ -71,18 +71,18 @@ const Roomtype = (props: {
   const itemsPerPage = 6; // Số ảnh nhỏ hiển thị tối đa mỗi lần
 
   const displayedImages = Array.from({ length: itemsPerPage }).map((_, i) => {
-    const index = (currentIndex + i) % rooms[0].images.length;
-    return rooms[0].images[index];
+    const index = (currentIndex + i) % roomType.images.length;
+    return roomType.images[index];
   });
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 6) % rooms[0].images.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 6) % roomType.images.length);
   };
 
   const handlePrev = () => {
     setCurrentIndex(
       (prevIndex) =>
-        (prevIndex - 6 + rooms[0].images.length) % rooms[0].images.length
+        (prevIndex - 6 + roomType.images.length) % roomType.images.length
     );
   };
 
@@ -96,13 +96,13 @@ const Roomtype = (props: {
                 <div className="carousel-indicators-container">
                   {/* Hiển thị ảnh tuần hoàn */}
                   <button onClick={handlePrev} className="btn-prev"></button>
-                  {displayedImages.map((image, index) => {
+                  {displayedImages?.map((image, index) => {
                     const actualIndex =
-                      (currentIndex + index) % rooms[0].images.length; // Tính chỉ số thực
+                      (currentIndex + index) % roomType.images.length; // Tính chỉ số thực
                     return (
                       <img
                         key={index}
-                        src={image}
+                        src={image?.link}
                         data-bs-target="#carouselExampleIndicators"
                         data-bs-slide-to={actualIndex} // Sử dụng chỉ số thực
                         alt={`Slide ${actualIndex + 1}`}
@@ -119,40 +119,38 @@ const Roomtype = (props: {
                 <div className="motel-item-name">
                   <a href="#" className="motel-item-link">
                     <h3 className="mb-0">
-                      Căn hộ Phòng ABC XYZ j j đó dcm - Quận 11 - TP. HCM
-                      bbbbbbbbbbbbb vvvvvvvvvvvvvvvvvvvv ccccccccccccccccc
-                      xxxxxxxxxxxxxx lllllllllllll mmmmmmmmmmm
+                      {roomType.name}
                     </h3>
                   </a>
                 </div>
                 <div className="motel-item-price">
                   <small className="me-2">Giá</small>
-                  <span>5.5 triệu/tháng</span>
+                  <span>{(roomType.price / 1000000).toFixed(1)} triệu/tháng</span>
                 </div>
                 <div className="motel-item-price">
                   <small className="me-2">Diện tích</small>
                   <span>
-                    22 M<sup>2</sup>
+                    {roomType?.area} M<sup>2</sup>
                   </span>
                 </div>
                 <div className="motel-item-price">
                   <small className="me-2">Đánh giá</small>
-                  <span>1 2 3 4 5</span>
+                  <span>{roomType?.rating}</span>
                 </div>
                 <div className="motel-item-address">
                   <i className="fa-thin fa-location-dot fa-lg me-2"></i>
-                  <p>123 Hà Huy tập, tân lợi, TP BMT, Tỉnh đắk lắk</p>
-                </div>
+                    <p>{roomType?.motel?.address}</p>
+                  </div>
               </div>
               <div className="d-flex justify-content-lg-around flex-wrap col-12 mt-3">
                 <button
                   className="btn btn-create-notification btn-transform-y2 p-2 me-3 me-lg-0"
-                  onClick={() => toggleModal("AddRoomInType", rooms[0].id)}
+                  onClick={() => toggleModal("AddRoomInType", roomType.id)}
                 >
                   Thêm phòng
                 </button>
                 <button
-                  onClick={() => toggleModal("editRoomType", rooms[0].id)}
+                  onClick={() => toggleModal("editRoomType", roomType.id)}
                   className="btn btn-create-notification btn-transform-y2 me-2 p-2"
                 >
                   Sửa
@@ -162,314 +160,9 @@ const Roomtype = (props: {
           </div>
           <div className="col-12 col-lg-8 col-xxl-7 row list-room-motel pb-3">
             {/* lặp vòng phòng*/}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3"
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>{" "}
-            <div className="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-4 col-xxl-3 mt-3">
-              <Link
-                className="room-motel d-flex align-items-center justify-content-between flex-wrap px-2 py-3 "
-                to={`/admin/inforoom`}
-              >
-                <div className="col-12">
-                  <h3 className=""> Phòng 01</h3>
-                </div>
-                <div className="col-12 d-flex justify-content-between flex-wrap">
-                  <div className="">{CheckStatus(rooms[0].status)}</div>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faUserAlt}
-                      size="sm"
-                      color="#298b90"
-                      className="icon-table-motel me-2"
-                    />{" "}
-                    1{" "}
-                  </div>
-                </div>
-              </Link>
-            </div>
+            {roomType?.rooms?.map((room) => (
+              <RowRoom id={room.id} roomNumber={room.roomNumber} totalUser={room.totalUser} status={room.status} />
+            ))}
           </div>
         </div>
       </div>

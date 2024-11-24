@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import "./style/room.scss";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddElicWater from "./component/addElicWater";
 import Addroom from "./component/addroom";
 import Inforoom from "./component/inforoom";
@@ -15,10 +15,11 @@ import {
   faPlus,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
-import { MotelByIdDTO } from "@/services/Dto/MotelDto";
+import { GetRoomTypeDTO, MotelDTO } from "@/services/Dto/MotelDto";
 import Roomtype from "./component/roomtype";
 import Addroomintype from "./component/addroomintype";
 import EditRoomType from "./component/editRoomType";
+import { GetRoomTypeByMotelId } from "@/services/api/MotelApi";
 
 export const Roomtesst = () => {
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
@@ -43,13 +44,26 @@ export const Roomtesst = () => {
   };
 
   // code logic ở đây nha
-  const [motel, setMotel] = useState<MotelByIdDTO>();
+  const [roomType, setRoomType] = useState<GetRoomTypeDTO[]>();
+  const [motel, setMotel] = useState<MotelDTO>();
+
+  //lấy motelId từ params
+  const { motelId } = useParams();
+
+  //lấy name và address từ location
+  const location = useLocation();
+  const { name, address } = location.state || {};
+  console.log(name, address);
+
+  useEffect(() => {
+    LoadData();
+  }, [motelId]);
 
   const LoadData = async () => {
     try {
-      const response = await getMotelById(id);
-      setMotel(response);
-      console.log(response);
+      const response = await GetRoomTypeByMotelId(motelId);
+      if (response) setRoomType(response.data);
+      console.log(roomType)
     } catch (error) {
       console.log(error);
     }
@@ -63,8 +77,8 @@ export const Roomtesst = () => {
             <div className="card-body p-4">
               <div className="row">
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6 mt-3">
-                  <h2 className="header-name-all">Dãy trọ: {motel?.name}</h2>
-                  <p className="detail-room-text">Địa chỉ: {motel?.address}</p>
+                  <h2 className="header-name-all">Dãy trọ: {name}</h2>
+                  <p className="detail-room-text">Địa chỉ: {address}</p>
                 </div>
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
                   <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end flex-wrap gap-3 mt-3">
@@ -126,29 +140,29 @@ export const Roomtesst = () => {
                   </div>
                 </div>
               </div>
-              <Roomtype
-                // key={rooms.id}
-                // room={room}
-                // motelStatus={motel?.status}
-                toggleModal={toggleModal}
-              />
+              {roomType && roomType.map((roomType) => (
+                <Roomtype
+                  roomType={roomType}
+                  motelStatus={motel?.status || 0}
+                  toggleModal={toggleModal}
+                  />
+                ))}
 
               {modalState.addRoom && (
-                <Addroom motelId={id} onClose={() => toggleModal("addRoom")} />
+                <Addroom motelId={motelId} onClose={() => toggleModal("addRoom")} />
               )}
               {modalState.addElicWater && (
                 <AddElicWater onClose={() => toggleModal("addElicWater")} />
               )}
               {modalState.editRoomType && selectedRoomId && (
                 <EditRoomType
-                  roomId={selectedRoomId}
+                  roomTypeId={selectedRoomId.toString()}
                   onClose={() => toggleModal("editRoomType")}
-                  motelId={id}
                 />
               )}
               {modalState.AddRoomInType && selectedRoomId && (
                 <Addroomintype
-                  roomId={selectedRoomId}
+                roomTypeId={selectedRoomId}
                   onClose={() => toggleModal("AddRoomInType")}
                 />
               )}

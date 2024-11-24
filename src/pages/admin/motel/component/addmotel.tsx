@@ -29,7 +29,6 @@ export const AddMotelOwner = () => {
 		userId: user?.id,
 	});
 
-
 	const [formData, setFormData] = useState(new FormData());
 	//dịch vụ ở đây nha
 	const [services, setServices] = useState([
@@ -195,12 +194,11 @@ export const AddMotelOwner = () => {
 				submitFormData.append(key, String(value || ''));
 			});
 
-
-      services.forEach((service, index) => {
-        submitFormData.append(`Services[${index}].name`, service.name);
-        submitFormData.append(`Services[${index}].description`, service.description);
-        submitFormData.append(`Services[${index}].price`, service.price.toString());
-      });
+			services.forEach((service, index) => {
+				submitFormData.append(`Services[${index}].name`, service.name);
+				submitFormData.append(`Services[${index}].description`, service.description);
+				submitFormData.append(`Services[${index}].price`, service.price.toString());
+			});
 
 			// Append hình ảnh với tên field là Images theo DTO
 			formData.getAll('imageFile').forEach((file) => {

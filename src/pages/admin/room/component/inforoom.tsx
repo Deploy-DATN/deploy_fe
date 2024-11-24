@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../style/room.scss";
 import Detailroom from "./detailroom/detailroom";
 import Historyroom from "./detailroom/historyroom";
@@ -6,6 +6,9 @@ import { Billroom } from "./detailroom/billroom";
 import Editroom from "./detailroom/editroom";
 import AddUserRoom from "./detailroom/addUserRoom";
 import Baotriroom from "./detailroom/baotriroom";
+import { useParams } from "react-router-dom";
+import { GetRoomByIdApi } from "@/services/api/MotelApi";
+import { RoomDTO } from "@/services/Dto/MotelDto";
 
 const Inforoom = () => {
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
@@ -25,6 +28,22 @@ const Inforoom = () => {
     setSelectedRoomId(roomId);
   };
   const [activeTab, setActiveTab] = useState("detail"); // State lưu tab đang được chọn
+
+  const { id } = useParams();
+
+  const [room, setRoom] = useState<RoomDTO | null>(null);
+
+  useEffect(() => {
+    const LoadData = async () => {
+      const response = await GetRoomByIdApi(id);
+      if (response && response.data) {
+        console.log('response', response.data);
+        setRoom(response.data);
+      }
+    }
+    LoadData();
+  }, []);
+  
 
   return (
     <>
@@ -80,7 +99,7 @@ const Inforoom = () => {
 
               {/* Nội dung hiển thị */}
               <div className="">
-                {activeTab === "detail" && <Detailroom />}
+                {activeTab === "detail" && <Detailroom room={room} />}
                 {activeTab === "bill" && <Billroom />}
                 {activeTab === "history" && <Historyroom />}
               </div>
