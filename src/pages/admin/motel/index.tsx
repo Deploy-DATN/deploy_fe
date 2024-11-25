@@ -6,6 +6,7 @@ import ModalThaotac from './component/ModalThaotac';
 import { useEffect, useState } from 'react';
 import { MotelDTO } from '@/services/Dto/MotelDto';
 import { ApproveMotelApi, getMotelByAdminApi, LockMotelApi, RejectMotelApi, UnLockMotelApi } from '@/services/api/MotelApi';
+import { toast } from 'react-toastify';
 
 export interface FilterProps {
 	status: number | null;
@@ -101,7 +102,7 @@ export const Motel: React.FC = () => {
 	const HandleApprove = async (id: number) => {
 		const response = await ApproveMotelApi(id);
 		if (response.code === 200) {
-			alert('Duyệt dãy trọ thành công');
+			toast.success('Duyệt dãy trọ thành công');
 			await LoadData(query);
 		}
 	};
@@ -109,7 +110,7 @@ export const Motel: React.FC = () => {
 	const HandleReject = async (id: number) => {
 		const response = await RejectMotelApi(id);
 		if (response.code === 200) {
-			alert('Từ chối dãy trọ thành công');
+			toast.warning('Từ chối dãy trọ thành công');
 			await LoadData(query);
 		}
 	};
@@ -117,7 +118,7 @@ export const Motel: React.FC = () => {
 	const HandleLock = async (id: number) => {
 		const response = await LockMotelApi(id);
 		if (response.code === 200) {
-			alert('Khóa dãy trọ thành công');
+			toast.error('Khóa dãy trọ thành công');
 			await LoadData(query);
 		}
 	};
@@ -125,7 +126,7 @@ export const Motel: React.FC = () => {
 	const HandleUnLock = async (id: number) => {
 		const response = await UnLockMotelApi(id);
 		if (response.code === 200) {
-			alert('Mở khóa dãy trọ thành công');
+			toast.info('Mở khóa dãy trọ thành công');
 			await LoadData(query);
 		}
 	};

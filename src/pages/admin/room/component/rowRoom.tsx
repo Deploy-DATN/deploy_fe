@@ -48,9 +48,9 @@ const RowRoom = ({ id, roomNumber, totalUser, status }: RowRoomProps) => {
 					<div className='col-12'>
 						<h3 className=''> Phòng {roomNumber}</h3>
 					</div>
-					<div className='col-12 d-flex justify-content-between flex-wrap'>
+					<div className='col-12 d-flex justify-content-between'>
 						<div className=''>{CheckStatus(status)}</div>
-						<div>
+						<div className='d-flex align-items-center'>
 							<FontAwesomeIcon
 								icon={faUserAlt}
 								size='sm'

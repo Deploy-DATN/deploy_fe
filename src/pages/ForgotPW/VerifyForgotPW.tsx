@@ -46,23 +46,19 @@ useEffect(() => {
   const seconds = String(countdown % 60).padStart(2, '0');
 
   const handleInputChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (!/^\d$/.test(value)) return; // Chỉ cho phép nhập số
-    // Cập nhật giá trị của ô input tương ứng ngay lập tức
-    setOtpValues(prev => {
+    const value = e.target.value.trim(); // Loại bỏ khoảng trắng
+    if (!/^\d$/.test(value) && value !== '') return; // Chỉ chấp nhận số hoặc để trống
+  
+    setOtpValues((prev) => {
       const newOtpValues = [...prev];
-      newOtpValues[index] = value; // Ghi đè giá trị
+      newOtpValues[index] = value; // Cập nhật giá trị
       return newOtpValues;
     });
-    if (value !== '') {
-      setError('');
-    }
-    // Chuyển tới ô input kế tiếp nếu có
-    if (index < 3) {
-      inputRefs.current[index + 1]?.focus();
+  
+    if (value && index < 3) {
+      inputRefs.current[index + 1]?.focus(); // Tự động chuyển tới ô tiếp theo nếu có
     }
   };
-
   const onSubmit = async () => {
     const demtime = localStorage.getItem('countdown');
     if(demtime === null) {
@@ -127,6 +123,7 @@ useEffect(() => {
                     type="text"
                     name='otp'
                     maxLength={1}
+                    pattern="\d*" // Chỉ cho phép số
                     className="form-control text-center mx-1 rounded-circle input-xacminh"
                     ref={(el) => (inputRefs.current[index] = el)}
                     onChange={(e) => handleInputChange(index, e)}
@@ -134,12 +131,12 @@ useEffect(() => {
                       if (e.key === 'Backspace') {
                         setOtpValues((prev) => {
                           const newOtpValues = [...prev];
-                          newOtpValues[index] = ''; // Xóa giá trị ở ô hiện tại
+                          newOtpValues[index] = ''; // Xóa giá trị ô hiện tại
                           return newOtpValues;
                         });
                     
                         if (index > 0 && e.currentTarget.value === '') {
-                          inputRefs.current[index - 1]?.focus(); // Di chuyển con trỏ về ô trước
+                          inputRefs.current[index - 1]?.focus(); // Di chuyển về ô trước
                         }
                       }
                     }}
@@ -158,7 +155,7 @@ useEffect(() => {
 
         <div className="col-lg-6 col-12 d-flex justify-content-center align-items-center px-0">
           <img
-            src="src/assets/images/imgforgotPW/forgotpw_2_1.png"
+            src="../src/assets/images/imgforgotPW/forgotpw_2_1.png"
             alt="Responsive"
             className="img-fluid image-verify"
           />

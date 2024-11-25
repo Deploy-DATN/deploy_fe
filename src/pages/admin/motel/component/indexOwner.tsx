@@ -7,6 +7,7 @@ import { MotelDTO } from '@/services/Dto/MotelDto';
 import { DeleteMotel, getMotelByOwnerApi, LockMotelApi, UnLockMotelApi } from '@/services/api/MotelApi';
 import '../styles/stylemotel.scss';
 import { FilterProps, PageDTO } from '..';
+import { toast } from 'react-toastify';
 
 
 export const indexOwner = () => {
@@ -80,7 +81,7 @@ export const indexOwner = () => {
 	const HandleLock = async (id: number) => {
 		const response = await LockMotelApi(id);
 		if (response.code === 200) {
-			alert('Khóa dãy trọ thành công');
+			toast.warning('Khóa dãy trọ thành công');
 			await LoadData(query);
 		}
 	};
@@ -88,7 +89,7 @@ export const indexOwner = () => {
 	const HandleUnLock = async (id: number) => {
 		const response = await UnLockMotelApi(id);
 		if (response.code === 200) {
-			alert('Mở khóa dãy trọ thành công');
+			toast.info('Mở khóa dãy trọ thành công');
 			await LoadData(query);
 		}
 	};
@@ -96,7 +97,7 @@ export const indexOwner = () => {
 	const HandleRemove = async (id: number) => {
 		const response = await DeleteMotel(id);
 		if (response.code === 200) {
-			alert('Xoá dãy trọ thành công');
+			toast.error('Xoá dãy trọ thành công');
 			await LoadData(query);
 		}
 	};
@@ -305,8 +306,8 @@ export const indexOwner = () => {
 																className='icon-table-motel'
 															/>
 														</Link>
-														<a
-															href={`/admin/indexOwner/EditModelOwner/${motel.id}`}
+														<Link
+															to={`/admin/indexOwner/EditModelOwner/${motel.id}`}
 															className=' px-2 py-1 mx-1 btn-transform-y2'>
 															<FontAwesomeIcon
 																icon={faPenToSquare}
@@ -314,7 +315,7 @@ export const indexOwner = () => {
 																color='#298b90'
 																className='icon-table-motel'
 															/>
-														</a>
+														</Link>
 														{IconThaoTac(motel.status, motel.id)}
 													</td>
 												</tr>

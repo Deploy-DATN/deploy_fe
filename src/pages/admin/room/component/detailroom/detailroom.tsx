@@ -1,10 +1,8 @@
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AddUserRoom from "./addUserRoom";
 import Deleteuseroom from "./deleteuseroom";
-import { PathString } from "react-hook-form";
-import { GetRoomByIdApi } from "@/services/api/MotelApi";
 import { RoomDTO } from "@/services/Dto/MotelDto";
 
 const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {

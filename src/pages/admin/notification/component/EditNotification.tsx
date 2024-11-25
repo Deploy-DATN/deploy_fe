@@ -101,7 +101,7 @@ const EditNotification: React.FC<EditNotificationProps> = ({ notificationId, ini
                         {errors['type'] && <div className="invalid-feedback">{errors['type']?.message}</div>}
                     </div>
                     <div className='d-flex justify-content-between mt-4'>
-                        <button type="button" className='btn-trove-all btn-style btn-transform-y2' onClick={onClose}>Trờ về</button>
+                        <button type="button" className='btn-trove-all btn-style btn-transform-y2' onClick={onClose}>Trở về</button>
                         <button type="submit" className='btn-luu-all btn-style btn-transform-y2'>Lưu</button>
                     </div>
                 </form>

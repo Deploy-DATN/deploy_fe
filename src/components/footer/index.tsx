@@ -48,27 +48,27 @@ const Footer = () => {
               </div>
             </div>
             <div className="colum-footer-1 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-2 col-xxl-2 text-start text-md-start text-lg-start text-xl-start text-xxl-start">
-              <h3 className="h3-footer-quick">Quick Links</h3>
+              <h3 className="h3-footer-quick">Liên kết</h3>
               <div className="mt-4">
                 <ul className="list-unstyled">
-                  <li className="my-2"><a className="a-footer-quick" href="#">HomePage</a></li>
-                  <li className="my-2"><a className="a-footer-quick" href="#">All Listings</a></li>
-                  <li className="my-2"><a className="a-footer-quick" href="#">All Location</a></li>
-                  <li className="my-2"><a className="a-footer-quick" href="#">Package</a></li>
-                  <li className="my-2"><a className="a-footer-quick" href="#">Contact Us</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="/">Trang chủ</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#">Danh sách trọ</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#">Tìm kiếm</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#">Giới thiệu</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#"></a></li>
                 </ul>
               </div>
 
             </div>
             <div className="colum-footer-1 col-6 col-sm-6 col-md-5 col-lg-5 col-xl-2 col-xxl-2 text-start text-md-start text-lg-start text-xl-start text-xxl-start">
-              <h3 className="h3-footer-quick">Services</h3>
+              <h3 className="h3-footer-quick">Dịch vụ</h3>
               <div className="mt-4">
                 <ul className="list-unstyled">
-                  <li className="my-2"><a className="a-footer-quick" href="#">Duplex House</a></li>
-                  <li className="my-2"><a className="a-footer-quick" href="#">Guest House</a></li>
-                  <li className="my-2"><a className="a-footer-quick" href="#">Apartment</a></li>
-                  <li className="my-2"><a className="a-footer-quick" href="#">Hotels</a></li>
-                  <li className="my-2"><a className="a-footer-quick" href="#">Plaza</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#">Wifi miễn phí</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#">Đỗ xe miễn phí</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#">Tiện ích phòng</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#">Dịch vụ điện nước miễn phí</a></li>
+                  <li className="my-2"><a className="a-footer-quick" href="#">Dịch vụ nước miễn phí</a></li>
                 </ul>
               </div>
 

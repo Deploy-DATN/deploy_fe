@@ -117,7 +117,7 @@ export const Notification: React.FC = () => {
 
   return (
     <div className="container-fluid noti-container">
-      <div className="row align-items-stretch">
+      <div className="row align-items-stretch mt-3">
         <div className="card w-100">
           <div className="card-body p-4">
             <div className="d-flex justify-content-between mb-4">

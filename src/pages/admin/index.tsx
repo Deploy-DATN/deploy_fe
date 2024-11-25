@@ -29,7 +29,22 @@ export const Admin = () => {
           {/* Route không cần bảo vệ */}
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route index element={<Dashboard />} />
-
+          <Route path="roomtest" element={<Roomtesst />} />
+          <Route path="inforoom" element={<Inforoom />} />
+          <Route path="indexOwner">
+            <Route index element={<IndexOwner />} />
+            <Route path="addModelOwner" element={<AddMotelOwner />} />
+            <Route path="EditModelOwner/:id" element={<EditMotelOwner />} />
+          </Route>
+          <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
+          <Route path="bill" element={<Bill />} />
+          <Route path="support" element={<CreateTicket />} />
+          <Route path="ticket">
+            <Route index element={<TicketPage />} />
+            <Route path=":id" element={<Infoticket />} />
+          </Route>
+          <Route path="account" element={<Account />}></Route>
+          <Route path="notification" element={<Notification />} />
           {/* Routes chỉ dành cho Admin */}
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
             <Route path="motel">

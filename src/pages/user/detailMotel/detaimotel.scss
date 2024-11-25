@@ -1,5 +1,5 @@
 .bgr-detail-motel-user {
-  background-color: #f3f4f6;
+  // background-color: #f3f4f6;
 .img-detail-motel-user-slide{
     border-radius: 10px;
 
@@ -94,9 +94,12 @@
   }
   //phần user
   .bgr-detail-motel-user{
+    background: #fff;
+    box-shadow: 0 2px 14px rgba(70, 80, 110, .3);
     border-radius: 10px;
-    background-color: #FEFEFE;
     width: 100%;
+    position: sticky;
+    top:100px;
     .width-height{
         aspect-ratio: 1 / 1;
     }

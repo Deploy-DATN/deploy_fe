@@ -7,6 +7,7 @@ import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { GetRoomTypeID } from "@/services/api/HomeApi";
 import { useParams } from "react-router-dom"; 
 import { format } from 'date-fns';
+import RelevantMotel from "./compenent/relevantmotel";
 export const DetailMotelUser = () => {
 
   interface Motel {
@@ -42,24 +43,32 @@ export const DetailMotelUser = () => {
   console.log("Images:", motel?.images);
 
 
-  const displayedImages = motel?.images.slice(currentIndex, currentIndex + itemsPerPage) || [];
-
   const handleNext = () => {
     if (!motel?.images?.length) return;
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % motel.images.length);
+    setCurrentIndex((prevIndex) => {
+      const nextIndex = (prevIndex + 1) % motel.images.length;
+      return nextIndex;
+    });
   };
-
+  
   const handlePrev = () => {
     if (!motel?.images?.length) return;
-  setCurrentIndex(
-    (prevIndex) => (prevIndex - 1 + motel.images.length) % motel.images.length
-  );
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + motel.images.length) % motel.images.length
+    );
   };
-
+  
+  // Hiển thị các ảnh tuần hoàn từ currentIndex
+  const displayedImages = [];
+  for (let i = 0; i < itemsPerPage; i++) {
+    const index = (currentIndex + i) % (motel?.images.length || 1); // Sử dụng optional chaining để kiểm tra motel?.images
+    displayedImages.push(motel?.images[index]);
+  }
+  
   return (
     <>
       <Header />
-      <div className="bgr-detail-motel-user">
+      <div className="bgr-detail-motel-user pb-3">
         <div className="container pt-4">
           <section className="">
             <div className="row">
@@ -162,6 +171,7 @@ export const DetailMotelUser = () => {
           <section className="mt-5">
             {/* code phần trọ tương tự ở đây 
             có thể copy từ homemotelnew */}
+            <RelevantMotel />
           </section>
         </div>
       </div>

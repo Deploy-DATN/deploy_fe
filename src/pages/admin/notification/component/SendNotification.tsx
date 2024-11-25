@@ -117,7 +117,7 @@ const SendNotification: React.FC<SendNotificationProps> = ({
                 onClick={onClose}
               >
                 Trở về
-              </button>
+              </button> 
               <button
                 type="submit"
                 className="btn-luu-all btn-style btn-transform-y2"
