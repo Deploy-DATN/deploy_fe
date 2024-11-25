@@ -52,7 +52,8 @@ export enum API {
 
     //UserManagement
     UPDATEUSERDETAIL = API_URL + '/update-user-from-token',
-    PASSWORDUSER = API_URL + '/ChangePasswordFromToken'
+    PASSWORDUSER = API_URL + '/ChangePasswordFromToken',
+    RENTALROOMDETAIL = API_URL + '/GetRentalRoomDetail'
 }
 
 const axiosInstance = axios.create({

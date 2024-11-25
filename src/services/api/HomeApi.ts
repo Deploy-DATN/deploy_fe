@@ -34,6 +34,18 @@ export interface UserDetailAva {
 }
 
 
+export interface otherPrice {
+    name: string;
+    price: string;
+}
+
+export interface roomImages {
+    id: number,
+    link: string,
+    type: string
+}
+
+
 
 
 //API trang chu
@@ -74,6 +86,10 @@ export const GetUserDetailAvaApi = async (changeava: UserDetailAva, token: strin
 
 export const GetRoomTypeID = async (id: number) => {
     return axios.get(`${API.GETROOMTYPEBYID}${id}`)
+}
+
+export const GetRentalRoomDetailAPI = async (token: string) => {
+    return axios.get(`${API.RENTALROOMDETAIL}?token=${token}`)
 }
 
 
