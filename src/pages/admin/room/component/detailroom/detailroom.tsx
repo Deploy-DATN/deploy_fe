@@ -1,10 +1,13 @@
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddUserRoom from "./addUserRoom";
 import Deleteuseroom from "./deleteuseroom";
+import { PathString } from "react-hook-form";
+import { GetRoomByIdApi } from "@/services/api/MotelApi";
+import { RoomDTO } from "@/services/Dto/MotelDto";
 
-const Detailroom = () => {
+const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
     addUserRoom: false,
     deleteuseroom: false,
@@ -40,6 +43,12 @@ const Detailroom = () => {
       ],
     },
   ];
+
+  console.log('room', room?.roomType);
+
+
+
+  
 
   const CheckStatus = (status: number) => {
     if (status === 1) {
@@ -85,7 +94,7 @@ const Detailroom = () => {
                   {/* Code phần dưới img ở đây là dc */}
                   <div className="d-flex mt-3 align-items-center">
                     <h5 className="me-3 mb-0 price-detail-motel-user">
-                      1,000,000 / tháng
+                    {room?.roomType?.price?.toLocaleString('vi-VN')} / tháng
                     </h5>
                     <FontAwesomeIcon
                       icon={faCircle}
@@ -94,7 +103,7 @@ const Detailroom = () => {
                       className="me-3"
                     />{" "}
                     <h5 className=" mb-0 area-detail-motel-user">
-                      22M<sup>2</sup>
+                      {room?.roomType?.area}M<sup>2</sup>
                     </h5>
                   </div>
                   <h5 className=" mb-0 table-deltail-motel-user">
@@ -102,18 +111,14 @@ const Detailroom = () => {
                       <tbody>
                         <tr>
                           <td className="pe-2">Số điện: </td>
-                          <td>123</td>
+                          <td>{room?.consumption?.electricity || 0}</td>
                         </tr>
                         <tr className="">
                           <td className="pe-2">Số nước: </td>
-                          <td>234</td>
+                          <td>{room?.consumption?.water || 0}</td>
                         </tr>
                       </tbody>
                     </table>
-                  </h5>
-                  <h5 className="mt-3 mb-0 text-deltail-motel-user">
-                    <i className="fa-light fa-location-dot me-1"></i>105/3 Hà
-                    Huy Tập, phường Tân Lập, thành phố Buôn Ma Thuột{" "}
                   </h5>
                   <h5 className="mt-3 mb-0 text-deltail-motel-user">
                     <i className="fa-light fa-clock me-1"></i>Cập nhật 1 tuần
@@ -127,31 +132,35 @@ const Detailroom = () => {
         </div>
         <div className="col-12 col-md-12 col-lg-3">
           {/* Người thuê */}
-          <div className="bgr-detail-room-info p-4 mt-3 position-relative">
-            <div className="close-user-detai-room">
-              <button
-                className="close-btn-user btn-transform-y2"
-                onClick={() => toggleModal("deleteuseroom", 1)}
-              >
-                <i className="fa-regular fa-xmark fa-xl"></i>
-              </button>
-            </div>
-            <div className="row">
-              <div className="col-3 width-height">
-                <img
-                  src="https://png.pngtree.com/png-vector/20240131/ourlarge/pngtree-circle-greek-frame-round-meander-border-decoration-pattern-png-image_11520606.png"
-                  alt="user-avatar"
-                  className="img-fluid rounded-circle"
-                />
+          {
+            room?.users.map((user) => (
+              <div className="bgr-detail-room-info p-4 mt-3 position-relative" key={user.id}>
+              <div className="close-user-detai-room">
+                <button
+                  className="close-btn-user btn-transform-y2"
+                  onClick={() => toggleModal("deleteuseroom", 1)}
+                >
+                  <i className="fa-regular fa-xmark fa-xl"></i>
+                </button>
               </div>
-              <div className="col-9 text-nowrap overflow-hidden">
-                <h5>Nguyễn ngọc bảo anh</h5>
-                <h6 className="color-xam">nguyengocbaoah@gmail.com</h6>
-                <h6 className="color-xam">0987654321</h6>
-                <h6 className="color-xam"> 11/11/1111</h6>
+              <div className="row">
+                <div className="col-3 width-height">
+                    <img
+                      src={user?.avatar || ''}
+                    alt="user-avatar"
+                    className="img-fluid rounded-circle"
+                  />
+                </div>
+                <div className="col-9 text-nowrap overflow-hidden">
+                  <h5>{user?.fullName}</h5>
+                  <h6 className="color-xam">{user?.email}</h6>
+                  <h6 className="color-xam">{user?.phone}</h6>
+                </div>
+                </div>
               </div>
-            </div>
-          </div>
+            ))
+            }
+         
           <button
             className={`btn btn-create-notification btn-sm px-3 py-2 mb-3 btn-transform-y2 mt-3`}
             onClick={() => toggleModal("addUserRoom", 1)}
