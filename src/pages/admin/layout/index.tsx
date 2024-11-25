@@ -8,7 +8,6 @@ import { getSentNotiApi } from '@/services/api/notiApi';
 import logo from '@/assets/ThoStay.svg';
 import { getAccountApi } from '@/services/api/authApi';
 import { Account } from '@/services/Dto/authDto';
-import { User } from '@/pages/user';
 import 'src/pages/admin/layout/layout.scss'
 
 export const Layout = () => {

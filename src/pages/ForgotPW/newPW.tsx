@@ -119,7 +119,7 @@ const NewPW = () => {
                 {errorcf && <div className="text-danger mt-1">{errorcf}</div>}
               </div>
 
-              <button type="submit" className="btn heightinput-60 btn-color w-100 mb-3 rounded-pill text-white mt-4 ">Xác nhận</button>
+              <button type="submit" className="btn heightinput-60 btn-color w-100 mb-3 rounded-pill text-white mt-4">Xác nhận</button>
             </form>
           </div>
 

@@ -7,7 +7,7 @@ export enum API {
     //autherize
     LOGIN = API_URL + '/login',
     REGISTER = API_URL + '/register-customer',
-    FOGOTPASSWORD = '/senderOtpToEmail',
+    FOGOTPASSWORD = API_URL + '/senderOtpToEmail',
     OTP = API_URL + '/checkOtp',
     NEWPASS = API_URL + '/changePassword',
 
@@ -120,8 +120,6 @@ axiosInstance.interceptors.response.use(
 
 
 //refreshtoken nếu token hết hạn
-
-
 
 export default axiosInstance;
 
