@@ -4,6 +4,9 @@ import HomeMotelNew from "./compenent/homemotelnew";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
+
+
 export const Home = () => {
   //motel nha
   type LocationOption = {
@@ -23,7 +26,7 @@ export const Home = () => {
     code: null,
   });
   const [selectedWard, setSelectedWard] = useState<string>("Phường");
-
+  const [searchQuery, setSearchQuery] = useState<string>("");
   useEffect(() => {
     // Lấy danh sách tỉnh
     axios
@@ -47,6 +50,8 @@ export const Home = () => {
     setSelectedWard("Phường");
   }, [selectedProvince]);
 
+
+
   useEffect(() => {
     if (selectedDistrict.code) {
       // Lấy danh sách phường/xã khi quận/huyện được chọn
@@ -60,6 +65,12 @@ export const Home = () => {
     setSelectedWard("Phường");
   }, [selectedDistrict]);
 
+  const navigate = useNavigate();
+  const handleSearch = () => {
+    console.log("Giá trị bộ lọc hiện tại: ", selectedProvince.name, selectedDistrict.name, selectedWard);
+    const searchLink = `/search?Province=${encodeURIComponent(selectedProvince.name)}&District=${encodeURIComponent(selectedDistrict.name)}&Ward=${encodeURIComponent(selectedWard)}&search=${encodeURIComponent(searchQuery)}`;
+    navigate(searchLink);
+  };
   return (
     <div className="container">
       <section className="header-home">
@@ -96,7 +107,10 @@ export const Home = () => {
                   <input
                     type="text"
                     className="form-control border-0"
+
                     placeholder="Tìm kiếm trọ"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
                   <span className="bg-transparent border-0 p-0">
                     <i className="fa-solid fa-magnifying-glass"></i>
@@ -202,7 +216,7 @@ export const Home = () => {
                 <div className="line"></div>
               </div>
               <div className="d-flex justify-content-center flex-lg-fill button-search-box col-12 col-sm-12 col-md-12 justify-content-sm-start">
-                <button className="btn btn-create-notification btn-transform-y2 rounded-pill d-flex align-items-center text-nowrap justify-content-md-center">
+                <button className="btn btn-create-notification btn-transform-y2 rounded-pill d-flex align-items-center text-nowrap justify-content-md-center" onClick={handleSearch}>
                   Tìm kiếm theo địa chỉ
                   <i className="fa-solid fa-magnifying-glass ms-2"></i>
                 </button>

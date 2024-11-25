@@ -36,7 +36,7 @@ export const User = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/header" element={<Header />} />
       <Route path="/footer" element={<Footer />} />
-      <Route path="/searchmotel" element={<SearchMotel />} />
+      <Route path="/search" element={<SearchMotel />} />
       <Route path="/forgot-password">
         <Route index element={<ForgotPassword />} />
         <Route path="verify" element={<Verify />} />
