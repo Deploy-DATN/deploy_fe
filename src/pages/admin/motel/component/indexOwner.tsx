@@ -295,8 +295,8 @@ export const indexOwner = () => {
 													<td>{CheckStatus(motel?.status)}</td>
 													<td>
 														<Link
-															to={`/admin/roomtest`}
-															state={motel}
+															to={`/admin/roomtest/${motel.id}`}
+															state={{ name: motel?.name, address: motel?.address }}
 															className=' px-2 py-1 mx-1 btn-transform-y2'>
 															<FontAwesomeIcon
 																icon={faEllipsis}

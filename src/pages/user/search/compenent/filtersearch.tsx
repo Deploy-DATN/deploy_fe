@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-const FilterSearch = ({ prefix }: { prefix: string }) => {
+const FilterSearch = ({
+  prefix,
+  onFilterChange, // Prop từ cha
+}: {
+  prefix: string;
+  onFilterChange: (filters: any) => void; // Định nghĩa kiểu dữ liệu của bộ lọc
+}) => {
   interface Filters {
     area: string;
     price: string;
@@ -19,8 +25,15 @@ const FilterSearch = ({ prefix }: { prefix: string }) => {
       price: "",
       surrounding: [],
     });
+    onFilterChange({
+      minArea: 0,
+      maxArea: Infinity,
+      minPrice: 0,
+      maxPrice: Infinity,
+      surrounding: [],
+    });
   };
-
+  
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
     setFilters((prev) => {
@@ -35,12 +48,50 @@ const FilterSearch = ({ prefix }: { prefix: string }) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
-
   //tìm kiếm ở đây
   const handleSearch = () => {
-    console.log("Giá trị bộ lọc hiện tại: ", filters);
+    const mappedFilters = {
+      minArea: filters.area
+        ? filters.area === "1"
+          ? 0
+          : filters.area === "2"
+          ? 0
+          : filters.area === "3"
+          ? 0
+          : 25
+        : null,
+      maxArea: filters.area
+        ? filters.area === "1"
+          ? 15
+          : filters.area === "2"
+          ? 20
+          : filters.area === "3"
+          ? 25
+          : Infinity
+        : null,
+      minPrice: filters.price
+        ? filters.price === "1"
+          ? 0
+          : filters.price === "2"
+          ? 0
+          : filters.price === "3"
+          ? 0
+          : 3000
+        : null,
+      maxPrice: filters.price
+        ? filters.price === "1"
+          ? 1000
+          : filters.price === "2"
+          ? 2000
+          : filters.price === "3"
+          ? 3000
+          : Infinity
+        : null,
+      surrounding: filters.surrounding.length ? filters.surrounding : null,
+    };
+    onFilterChange(mappedFilters);
+    console.log("Bộ lọc đã ánh xạ: ", mappedFilters);
   };
-
   return (
     <div className="filter-motel-search">
       <div className="filter-motel-header">
@@ -75,12 +126,12 @@ const FilterSearch = ({ prefix }: { prefix: string }) => {
                     htmlFor={`${prefix}_area_${value}`}
                   >
                     <input
-                      type="radio"
-                      id={`${prefix}_area_${value}`}
-                      name="area"
-                      value={value}
-                      checked={filters.area === value}
-                      onChange={handleRadioChange}
+                     type="radio"
+                     id={`${prefix}_area_${value}`}
+                     name="area"
+                     value={value}
+                     checked={filters.area === value}
+                     onChange={handleRadioChange}
                     />
                     <span></span>
                     <p>

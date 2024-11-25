@@ -39,8 +39,8 @@ export const Admin = () => {
 
           {/* Routes chỉ dành cho Admin và Owner */}
           <Route element={<ProtectedRoute allowedRoles={["Admin", "Owner"]} />}>
-            <Route path="roomtest" element={<Roomtesst />} />
-            <Route path="inforoom" element={<Inforoom />} />
+            <Route path="roomtest/:motelId" element={<Roomtesst />} />
+            <Route path="inforoom/:id" element={<Inforoom />} />
           </Route>
 
           {/* Routes chỉ dành cho Owner */}
