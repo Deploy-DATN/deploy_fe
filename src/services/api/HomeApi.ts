@@ -92,6 +92,10 @@ export const GetRentalRoomDetailAPI = async (token: string) => {
     return axios.get(`${API.RENTALROOMDETAIL}?token=${token}`)
 }
 
+export const GetRentalRoomHistoryAPI = async (token: string, pageIndex: number, pageSize: number) => {
+    return axios.get(`${API.RENTALROOMHISTORY}?token=${token}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+}
+
 
 
 
