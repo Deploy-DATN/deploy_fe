@@ -70,19 +70,18 @@ export const GetRentalRoomHistoryAPI = async (token: string, pageIndex: number, 
     return axios.get(`${API.RENTALROOMHISTORY}?token=${token}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
 }
 
-
-
-
 // API search trang chu
-export const getSearchMotelApi = async (Province: string, District: string, Ward: string, search:string, pageNumber: number, sortOption: string,
-      minPrice: Number, maxPrice: Number, minArea: Number, maxArea: Number
-     ) => {
-    return axios.get(API.SEARCHMOTEL, { params: { Province, District, Ward, search, pageNumber, sortOption,
-          minPrice, maxPrice, minArea, maxArea
-         } })
+export const getSearchMotelApi = async (Province: string, District: string, Ward: string, search: string, pageNumber: number, sortOption: string,
+    minPrice: Number, maxPrice: Number, minArea: Number, maxArea: Number
+) => {
+    return axios.get(API.SEARCHMOTEL, {
+        params: {
+            Province, District, Ward, search, pageNumber, sortOption,
+            minPrice, maxPrice, minArea, maxArea
+        }
+    })
 }
-// export const getSearchMotelApi = (params: any) => {
-//     return axios.get(API.SEARCHMOTEL, {
-//         params: params
-//     });
-// }
+
+export const getBillUserApi = async (id: number, pageIndex: number, pageSize: number) => {
+    return axios.get(`${API.BILLUSER}?id=${id}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+}
