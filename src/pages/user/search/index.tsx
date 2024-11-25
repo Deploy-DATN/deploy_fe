@@ -1,88 +1,100 @@
-import React from "react";
-import "../search/search.scss";
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import FilterSearch from "./compenent/filtersearch";
+import { getSearchMotelApi } from "@/services/api/HomeApi";
+import "../search/search.scss";
 
 export const SearchMotel = () => {
-  const motels = [
-    {
-      id: 1,
-      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
-      name: "Căn hộ Phòng ABC XYZ j j đó dcm - Quận 11 - TP. HCM",
-      price: "5.5",
-      address: "123 Hà Huy tập, tân lợi, TP BMT, Tỉnh đắk lắk",
-    },
-    {
-      id: 2,
-      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
-      name: "Căn hộ Phòng DEF GHI - Quận 10 - TP. HCM",
-      price: "6",
-      address: "456 Lê Lợi, Quận 10, TP HCM",
-    },
-    {
-      id: 3,
-      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
-      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
-      price: "7",
-      address: "789 Phan Bội Châu, Quận 1, TP HCM",
-    },
-    {
-      id: 3,
-      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
-      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
-      price: "7",
-      address: "789 Phan Bội Châu, Quận 1, TP HCM",
-    },
-    {
-      id: 3,
-      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
-      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
-      price: "7",
-      address: "789 Phan Bội Châu, Quận 1, TP HCM",
-    },
-    {
-      id: 3,
-      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
-      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
-      price: "7",
-      address: "789 Phan Bội Châu, Quận 1, TP HCM",
-    },
-    {
-      id: 3,
-      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
-      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
-      price: "7",
-      address: "789 Phan Bội Châu, Quận 1, TP HCM",
-    },
-    {
-      id: 3,
-      img: "https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png",
-      name: "Căn hộ Phòng XYZ PQR - Quận 1 - TP. HCM",
-      price: "7",
-      address: "789 Phan Bội Châu, Quận 1, TP HCM",
-    },
-  ];
+  interface Motel {
+    id: number;
+    images: { id: number; link: string; type: string }[];
+    name: string;
+    price: string;
+    address: string;
+  }
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const [motels, setMotels] = useState<Motel[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [sortOption, setSortOption] = useState<string>("new"); // Default sort
+
+  const province = queryParams.get("Province") || "";
+  const district = queryParams.get("District") || "";
+  const ward = queryParams.get("Ward") || "";
+  const search = queryParams.get("search") || "";
+
+  const [filters, setFilters] = useState({
+    minArea: 0,
+    maxArea:0,
+    minPrice: 0,
+    maxPrice: 0,
+    surrounding: [],
+  });
+
+
+  useEffect(() => {
+    const fetchMotels = async () => {
+      setLoading(true);
+      try {
+        const response = await getSearchMotelApi(province, district, ward, search, currentPage, sortOption,
+          filters.minPrice,
+          filters.maxPrice,
+          filters.minArea,
+          filters.maxArea
+        ); // Pass sortOption to API
+        if (response.data && response.data.data) {
+          setMotels(response.data.data.list);
+          setTotalPages(response.data.data.totalPage || 1);
+          console.log(response.data);
+          console.log("Số trang", response.data.data.totalPage);
+          console.log(response.data.data.list);
+        }
+      } catch (error) {
+        console.error("Error fetching motels:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMotels();
+  }, [province, district, ward, search, currentPage, sortOption, filters]); // Add sortOption to dependencies
+
+  const handlePageChange = async (pageNumber: number) => {
+    if (pageNumber < 1 || pageNumber > totalPages) return;
+    console.log("Tổng trang", totalPages);
+    setCurrentPage(pageNumber);
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.target.value); // Update the sort option
+  };
+
+  const pageNumbers = Array.from({ length: totalPages || 1 }, (_, i) => i + 1);
+
+  const handleFilterChange = (newFilters: typeof filters) => {
+    setFilters(newFilters);
+    setCurrentPage(1);
+  };
 
   return (
     <>
       <Header />
       <div className="Search-motel-user pt-3 pb-5">
-        <div className="container ">
+        <div className="container">
           <section className="mt-3 link-search">
             <div className="d-flex breadcrumbs-wrap">
               <span className="span-link">
-                {" "}
-                <a href="/" className="a-link">
-                  Trang chủ
-                </a>
+                <a href="/" className="a-link">Trang chủ</a>
               </span>
               <span className="span-link"> /</span>
               <span className="span-link">
-                {" "}
-                <a href="/" className="a-link">
-                  Tìm kiếm
-                </a>
+                <a href="/" className="a-link">Tìm kiếm</a>
               </span>
             </div>
           </section>
@@ -97,74 +109,39 @@ export const SearchMotel = () => {
             <div className="row">
               <section className="col-12 col-lg-9 pe-lg-3 pe-xl-4 row">
                 <div className="list-motel-search col-12">
-                  <div className="row ">
-                    <div className="col-12 d-flex justify-content-between align-items-center flex-wrap">
-                      <div className="d-none d-sm-none d-md-none d-lg-block count">
-                        <strong>Tổng (Số) kết quả </strong>
-                      </div>
-                      <div className="arrange">
-                        <div className="arrange-label">Sắp xếp theo: </div>
-                        <div className="arrange-select">
-                          {" "}
-                          <select
-                            className="form-select px-2"
-                            id="floatingSelect"
-                            aria-label="Floating label select example"
-                          >
-                            <option value="moinhat" selected>
-                              Mới nhất
-                            </option>
-                            <option value="tangdan">Tăng dần</option>
-                            <option value="giamdan">Giảm dần</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="d-lg-none d-sm-block d-md-block btn-filter-submit">
-                        <button
-                          className="btn-filter-none"
-                          type="button"
-                          data-bs-toggle="offcanvas"
-                          data-bs-target="#staticBackdrop"
-                          aria-controls="staticBackdrop"
+                  <div className="col-12 d-flex justify-content-between align-items-center flex-wrap">
+                    <div className="d-none d-sm-none d-md-none d-lg-block count">
+                      <strong>Tổng (Số) kết quả </strong>
+                    </div>
+                    <div className="arrange">
+                      <div className="arrange-label">Sắp xếp theo: </div>
+                      <div className="arrange-select">
+                        <select
+                          className="form-select px-2"
+                          id="floatingSelect"
+                          aria-label="Floating label select example"
+                          value={sortOption} // Bind value to state
+                          onChange={handleSortChange} // Handle sort change
                         >
-                          <h2 className="h2-filter-motel">
-                            <i className="fa-solid fa-filter fa-lg"></i> Lọc kết
-                            quả
-                          </h2>
-                        </button>
-                        <div
-                          className="offcanvas offcanvas-start"
-                          data-bs-backdrop="static"
-                          tabIndex={-1}
-                          id="staticBackdrop"
-                          aria-labelledby="staticBackdropLabel"
-                        >
-                          <div className="offcanvas-header">
-                            <button
-                              type="button"
-                              className="btn-close"
-                              data-bs-dismiss="offcanvas"
-                              aria-label="Close"
-                            />
-                          </div>
-                          <div className="offcanvas-body">
-                            <FilterSearch prefix="sidebar" />
-                          </div>
-                        </div>
+                          <option value="new">Mới nhất</option>
+                          <option value="price_asc">Tăng dần</option>
+                          <option value="price_desc">Giảm dần</option>
+                        </select>
                       </div>
                     </div>
                   </div>
-                  <div className="list-motel-filter-search col-12">
+                  {loading ? (
+                    <p>Loading...</p>
+                  ) : (
                     <div className="row">
-                      {/* Lặp ở đây hub ta */}
                       {motels.map((motel) => (
                         <div className="col-12 mt-3" key={motel.id}>
                           <div className="item-list-motel row">
                             <div className="col-4 list-motel-img">
                               <a href="#">
                                 <img
-                                  src={motel.img}
-                                  alt="Lỗi khi tải hình ảnh"
+                                  src={motel.images[0]?.link || "#"}
+                                  alt="Hình ảnh không khả dụng"
                                   className="img-fluid"
                                 />
                               </a>
@@ -187,82 +164,55 @@ export const SearchMotel = () => {
                           </div>
                         </div>
                       ))}
-                      {/* <div className="col-12 mt-3">
-                        <div className="item-list-motel row">
-                          <div className="col-4 list-motel-img">
-                            <a href="#" className="">
-                              <img
-                                src="https://tromoi.com/uploads/static/phong_tro_hcm/Quan_11/124_PhoCoDieu/124_PhoCoDieu_hinh4.png"
-                                alt="Lỗi khi tải hình ảnh"
-                                className="img-fluid"
-                              />
-                            </a>
-                          </div>
-                          <div className="col-8 list-motel-body">
-                            <div className="motel-item-name">
-                              <a href="#" className="motel-item-link">
-                                <h3>
-                                  Căn hộ Phòng ABC XYZ j j đó dcm - Quận 11 -
-                                  TP. HCM bbbbbbbbbbbbb vvvvvvvvvvvvvvvvvvvv
-                                  ccccccccccccccccc xxxxxxxxxxxxxx lllllllllllll
-                                  mmmmmmmmmmm
-                                </h3>
-                              </a>
-                            </div>
-                            <div className="motel-item-price">
-                              <small className="me-2">Từ</small>
-                              <span>5.5 triệu/tháng</span>
-                            </div>
-                            <div className="motel-item-address">
-                              <i className="fa-thin fa-location-dot fa-lg me-2"></i>
-                              <p>
-                                123 Hà Huy tập, tân lợi, TP BMT, Tỉnh đắk lắk
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
                     </div>
-                    <div className="d-flex justify-content-center align-items-center mt-3">
-                      <nav aria-label="Page navigation example">
-                        <ul className="pagination">
-                          <li className="page-item">
-                            <a
-                              className="page-link btn-filter "
-                              href="#"
-                              aria-label="Previous"
+                  )}
+                  <div className="d-flex justify-content-center align-items-center mt-3">
+                    <nav aria-label="Page navigation example">
+                      <ul className="pagination">
+                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                          <button
+                            className="page-link btn-filter"
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                          >
+                            &laquo;
+                          </button>
+                        </li>
+                        {totalPages > 0 ? (
+                          pageNumbers.map((number) => (
+                            <li
+                              className={`page-item ${number === currentPage ? "active" : ""}`}
+                              key={number}
                             >
-                              <span aria-hidden="true">&laquo;</span>
-                            </a>
+                              <button
+                                className="page-link btn-filter"
+                                onClick={() => handlePageChange(number)}
+                              >
+                                {number}
+                              </button>
+                            </li>
+                          ))
+                        ) : (
+                          <li className="page-item disabled">
+                            <span className="page-link">No pages</span>
                           </li>
-                          <li className="page-item ">
-                            <a className="page-link btn-filter active-filter-motel" href="#">
-                              1
-                            </a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link btn-filter" href="#">
-                              2
-                            </a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link btn-filter" href="#">
-                              3
-                            </a>
-                          </li>
-                          <li className="page-item">
-                            <a className="page-link btn-filter" href="#" aria-label="Next">
-                              <span aria-hidden="true">&raquo;</span>
-                            </a>
-                          </li>
-                        </ul>
-                      </nav>
-                    </div>
+                        )}
+                        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                          <button
+                            className="page-link btn-filter"
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          >
+                            &raquo;
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
                   </div>
                 </div>
               </section>
               <section className="col-12 col-lg-3 ps-lg-3 ps-xl-4 d-none d-sm-none d-md-none d-lg-block">
-                <FilterSearch prefix="main" />
+                <FilterSearch prefix="main" onFilterChange={handleFilterChange}/>
               </section>
             </div>
           </section>
