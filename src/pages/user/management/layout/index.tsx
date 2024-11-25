@@ -1,9 +1,17 @@
-import avatar from '@/assets/images/backgrounds/Silehome.png'
 import '../styles/management.scss'
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useLocation, useNavigate  } from 'react-router-dom'
 
+import { useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
 
 const Layout = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const userData = useSelector((state: RootState) => state.user.data);
+    const isExactActive = (path: string) => location.pathname === path;
+
+    const isPartialActive = (path: string) => location.pathname.includes(path);
+
     return (
         <div className="container mt-5 management">
             <div className="row">
@@ -11,36 +19,44 @@ const Layout = () => {
                     <ul className="shadow-sm m-0 bg-body rounded">
                         <li className='menu-item'>
                             <div className='px-2 py-3 d-flex align-items-center account'>
-                                <img src={avatar} className='rounded-circle account__avatar' alt="avatar" />
+                                <img src={userData?.avatar} className='rounded-circle account__avatar' alt="avatar" />
                                 <div className='text-dark ms-2 content'>
-                                    <p className='m-0 content__name'>Dũng Hồ</p>
-                                    <p className='m-0 content_phone-number'>0123456789</p>
+                                    <p className='m-0 content__name'>{userData?.fullName}</p>
+                                    <p className='m-0 content_phone-number'>{userData?.phone}</p>
                                 </div>
                             </div>
                         </li>
                         <li className='menu-item'>
-                            <Link to={"123"} className="text-dark px-2 py-3 d-block menu-item__link--active">Thông tin cá nhân</Link>
+                            <Link to='/user' className={`text-dark px-2 py-3 d-block ${isExactActive('/user') ? 'menu-item__link--active' : 'menu-item__link'}`}>Thông tin cá nhân</Link>
                         </li>
                         <li className='menu-item'>
-                            <Link to={"123"} className="text-dark px-2 py-3 d-block menu-item__link">Trọ</Link>
+                            <Link to="/user/motel" className={`text-dark px-2 py-3 d-block ${isPartialActive('/motel') ? 'menu-item__link--active' : 'menu-item__link'}`}>Trọ</Link>
                         </li>
                         <li className='menu-item'>
-                            <Link to={"123"} className="text-dark px-2 py-3 d-block menu-item__link">Lịch sử thuê</Link>
+                            <Link to="/user/history" className={`text-dark px-2 py-3 d-block ${isPartialActive('/history') ? 'menu-item__link--active' : 'menu-item__link'}`}>Lịch sử thuê</Link>
                         </li>
                         <li className='menu-item'>
-                            <Link to={"123"} className="text-dark px-2 py-3 d-block menu-item__link">Đổi mật khẩu</Link>
+                            <Link to="/user/change-password" className={`text-dark px-2 py-3 d-block ${isPartialActive('/change-password') ? 'menu-item__link--active' : 'menu-item__link'}`}>Đổi mật khẩu</Link>
                         </li>
                         <li className='menu-item'>
-                            <Link to={"123"} className="text-dark px-2 py-3 d-block menu-item__link">Trợ giúp</Link>
+                            <Link to="/user/ticket" className={`text-dark px-2 py-3 d-block ${isPartialActive('/ticket') ? 'menu-item__link--active' : 'menu-item__link'}`}>Trợ giúp</Link>
                         </li>
                         <li className='menu-item'>
-                            <Link to={"123"} className="text-dark px-2 py-3 d-block menu-item__link">Đăng xuất</Link>
+                            <div
+                                onClick={()=>{
+                                    localStorage.removeItem('token');
+                                    window.location.href = '/';
+                                }}
+                                className="text-dark px-2 py-3 d-block menu-item__link cursor-pointer"
+                            >
+                                Đăng xuất
+                            </div>
                         </li>
                     </ul>
                 </div>
                 <div className="col-9">
                     <div className="shadow-sm m-0 bg-body rounded">
-                        <Outlet/>
+                        <Outlet />
                     </div>
                 </div>
             </div>

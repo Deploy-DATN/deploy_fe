@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import userReducer from '@/components/header/redux/action'
 import { useDispatch } from 'react-redux'
 
 export const store = configureStore({
     reducer: {
-
+        user: userReducer
     },
 })
 

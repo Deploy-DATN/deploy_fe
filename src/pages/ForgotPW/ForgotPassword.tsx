@@ -22,15 +22,13 @@ const ForgotPWForm = () => {
   const onSubmit = async (data: ForgotPassword) => {
     try {
       const response = await postForgotApi(data);
-      console.log(response);
-      console.log(data)
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',
           title: 'Gửi OTP thành công',
           text: 'Vui lòng check email của bạn',
         });
-        navigate('/VerifyForgotPWForm');
+        navigate('/forgot-password/verify');
       } else {
         Swal.fire({
           icon: 'error',

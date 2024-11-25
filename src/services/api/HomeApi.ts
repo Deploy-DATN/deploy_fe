@@ -26,29 +26,6 @@ export interface PasswordUser {
     newPassword: string;
     confirmNewPassword: string;
 }
-
-export interface UserDetailAva {
-    fullName: string;
-    phone: string;
-    avatar: string;
-    email: string;
-}
-
-
-export interface otherPrice {
-    name: string;
-    price: string;
-}
-
-export interface roomImages {
-    id: number,
-    link: string,
-    type: string
-}
-
-
-
-
 //API trang chu
 
 export const getOutstandingMotelApi = async (osMotels: RoomType) => {
@@ -79,10 +56,6 @@ export const postAvatarApi = async (avatar: File, token: string) => {
 
 export const postChangePassApi = async (changepass: PasswordUser, token: string) => {
     return axios.post(`${API.PASSWORDUSER}?token=${token}`, changepass)
-}
-
-export const GetUserDetailAvaApi = async (changeava: UserDetailAva, token: string) => {
-    return axios.get(`${API.USEDETAIL}?token=${token}`, { params: changeava })
 }
 
 export const GetRoomTypeID = async (id: number) => {
