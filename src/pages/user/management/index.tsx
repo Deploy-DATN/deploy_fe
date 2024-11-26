@@ -2,13 +2,16 @@ import ProfileForm from './components/form/profileForm';
 import './styles/profile.scss';
 import Swal from 'sweetalert2';
 import { postDetaiUserApi, UserDetail, postAvatarApi } from '@/services/api/HomeApi';
-import { useLocation } from 'react-router-dom';
-import { useState } from 'react';
+
+import { useSelector } from 'react-redux';
+import { RootState,userAppDispatch } from '@/redux/store';
+import { fetchAccount } from '@/components/header/redux/action';
 
 const Profile = () => {
-    const location = useLocation();
-    const { avatar: initialAvatar } = location.state || {}; // Lấy avatar từ state hoặc fallback
-    const [currentAvatar, setCurrentAvatar] = useState(initialAvatar || 'https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media'); // Ảnh mặc định nếu không có avatar
+
+    const dispatch = userAppDispatch();
+
+    const userData = useSelector((state: RootState) => state.user.data);
 
     const handleSubmit = async (data: UserDetail) => {
         const token = localStorage.getItem('token');
@@ -24,6 +27,7 @@ const Profile = () => {
         try {
             const response = await postDetaiUserApi(data, token);
             if (response.status === 200) {
+                dispatch(fetchAccount());
                 Swal.fire({
                     icon: 'success',
                     title: 'Thành công',
@@ -61,11 +65,8 @@ const Profile = () => {
 
             try {
                 const response = await postAvatarApi(file, token);
-                console.log(`response: ${response.data}`)
                 if (response.status === 200) {
-                    const newAvatarUrl = response.data.avatarLink; // Giả sử API trả về URL ảnh mới
-                    console.log(newAvatarUrl)
-                    setCurrentAvatar(newAvatarUrl); // Cập nhật avatar
+                    dispatch(fetchAccount());
                     Swal.fire({
                         icon: 'success',
                         title: 'Thành công',
@@ -100,11 +101,11 @@ const Profile = () => {
             <div className="row">
                 <div className="col-5 d-flex flex-column align-items-center">
                     <img
-                        src={currentAvatar}
+                        src={userData?.avatar}
                         className="avatar rounded-circle mb-2"
                         alt="avatar"
                         onError={(e) => {
-                            e.currentTarget.src = 'https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media'; // Đổi sang ảnh mặc định nếu lỗi
+                            e.currentTarget.src = 'https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media';
                         }}
                     />
                     <input

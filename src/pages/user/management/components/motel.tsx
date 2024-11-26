@@ -29,9 +29,9 @@ const Motel = () => {
     console.log(rentalDetail)
     return (
         <div className="container user-motel p-4">
-            {rentalDetail && (
-                <div className='row align-items-center'>
-                    <div className='col-5'>
+            {rentalDetail ? (
+                <div className="row align-items-center">
+                    <div className="col-5">
                         <Swiper
                             slidesPerView={1}
                             spaceBetween={10}
@@ -50,35 +50,19 @@ const Motel = () => {
                             ))}
                         </Swiper>
                     </div>
-                    <div className='col-7 container'>
-                        <div className='row mb-3'>
-                            <div className='col-6'>
-                                <div className='motel text-dark'>
-                                    {rentalDetail.motelName}
-                                </div>
-                                <div className='address text-dark'>
-                                    {rentalDetail.motelAdress}
-                                </div>
-                                <div className='room text-dark'>
-                                    {rentalDetail.roomNumber}
-                                </div>
-                                <div className='price text-dark'>
-                                    Giá thuê: {rentalDetail.price} VNĐ
-                                </div>
-                                <div className='area text-dark'>
-                                    Diện tích: {rentalDetail.area} m²
-                                </div>
+                    <div className="col-7 container">
+                        <div className="row mb-3">
+                            <div className="col-6">
+                                <div className="motel text-dark">{rentalDetail.motelName}</div>
+                                <div className="address text-dark">{rentalDetail.motelAdress}</div>
+                                <div className="room text-dark">{rentalDetail.roomNumber}</div>
+                                <div className="price text-dark">Giá thuê: {rentalDetail.price} VNĐ</div>
+                                <div className="area text-dark">Diện tích: {rentalDetail.area} m²</div>
                             </div>
-                            <div className='col-6'>
-                                <div className='service-title text-dark'>
-                                    Dịch vụ tiện ích
-                                </div>
-                                <div className='service text-dark'>
-                                    Điện: {rentalDetail.electricPrice} vnd
-                                </div>
-                                <div className='service text-dark'>
-                                    Nước: {rentalDetail.waterPrice} vnd
-                                </div>
+                            <div className="col-6">
+                                <div className="service-title text-dark">Dịch vụ tiện ích</div>
+                                <div className="service text-dark">Điện: {rentalDetail.electricPrice} vnd</div>
+                                <div className="service text-dark">Nước: {rentalDetail.waterPrice} vnd</div>
                                 {rentalDetail.otherService.map((service: any, index: number) => (
                                     <div key={index} className="service text-dark">
                                         {service.name}: {service.price} vnđ
@@ -86,46 +70,41 @@ const Motel = () => {
                                 ))}
                             </div>
                         </div>
-                        <div className='row mb-3'>
-                            <div className='col-6'>
-                                <div className='infomation-title text-dark'>
-                                    Người thuê
-                                </div>
-                                <div className='infomation text-dark'>
-                                    {rentalDetail.fullName}
-                                </div>
-                                <div className='infomation text-dark'>
+                        <div className="row mb-3">
+                            <div className="col-6">
+                                <div className="infomation-title text-dark">Người thuê</div>
+                                <div className="infomation text-dark">{rentalDetail.fullName}</div>
+                                <div className="infomation text-dark">
                                     Ngày thuê: {new Date(rentalDetail.createDate).toLocaleDateString()}
                                 </div>
-                                <div className='infomation text-dark'>
+                                <div className="infomation text-dark">
                                     Tháng {new Date(rentalDetail.createDate).getMonth() + 1}:
                                     {rentalDetail.status ? 'Đã thanh toán' : 'Chưa thanh toán'}
                                 </div>
                             </div>
-                            <div className='col-6'>
-                                <div className='owner-title text-dark'>
-                                    Liên hệ chủ trọ
-                                </div>
-                                <div className='owner text-dark'>
-                                    {rentalDetail.owner}
-                                </div>
-                                <div className='owner text-dark'>
-                                    SDT: {rentalDetail.phone}
-                                </div>
+                            <div className="col-6">
+                                <div className="owner-title text-dark">Liên hệ chủ trọ</div>
+                                <div className="owner text-dark">{rentalDetail.owner}</div>
+                                <div className="owner text-dark">SDT: {rentalDetail.phone}</div>
                             </div>
                         </div>
-                        <div className='row'>
-                            <div className='col-6'>
-                                <button className='btn btn-primary col-10'>Thêm người thuê</button>
+                        <div className="row">
+                            <div className="col-6">
+                                <button className="btn btn-primary col-10">Thêm người thuê</button>
                             </div>
-                            <div className='col-6'>
-                                <button className='btn btn-primary col-10'>Phản hồi</button>
+                            <div className="col-6">
+                                <button className="btn btn-primary col-10">Phản hồi</button>
                             </div>
                         </div>
                     </div>
                 </div>
+            ) : (
+                <div className="text-center text-dark">
+                    <h4>Bạn chưa thuê phòng nào</h4>
+                </div>
             )}
         </div>
+
 
     )
 }

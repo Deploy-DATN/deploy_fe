@@ -5,6 +5,7 @@ import * as yup from "yup"
 
 import InputField from '@/components/form_controls/input_field'
 import { Account } from '@/services/api/authApi'
+import { Link } from 'react-router-dom'
 
 // import style from '../styles/Login.module.scss'
 
@@ -71,7 +72,7 @@ const LoginForm: React.FC<loginProps> = ({ onSubmit }) => {
                     <input type="checkbox" className="check form-check-input" />
                     <label className="form-check-label">Duy trì đăng nhập</label>
                 </div>
-                <a href='#' className='link text-decoration-none'>Quên mật khẩu</a>
+                <Link to='/forgot-password' className='link text-decoration-none'>Quên mật khẩu</Link>
             </div>
             <button type="submit" className="btn btn-submit form-control rounded-pill">Đăng nhập</button>
         </form>

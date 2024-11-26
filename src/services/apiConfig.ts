@@ -7,7 +7,7 @@ export enum API {
     //autherize
     LOGIN = API_URL + '/login',
     REGISTER = API_URL + '/register-customer',
-    FOGOTPASSWORD = '/senderOtpToEmail',
+    FOGOTPASSWORD = API_URL + '/senderOtpToEmail',
     OTP = API_URL + '/checkOtp',
     NEWPASS = API_URL + '/changePassword',
 
@@ -50,10 +50,15 @@ export enum API {
     ROOMTYPEUNDERMILION = API_URL + '/api/Main/room-types-under-one-million',
     USEDETAIL = API_URL + '/GetUserDetailsFromToken',
 
+    // search Motel
+    SEARCHMOTEL = API_URL + '/api/Main/search',
+
     //UserManagement
     UPDATEUSERDETAIL = API_URL + '/update-user-from-token',
     PASSWORDUSER = API_URL + '/ChangePasswordFromToken',
-    RENTALROOMDETAIL = API_URL + '/GetRentalRoomDetail'
+    RENTALROOMDETAIL = API_URL + '/GetRentalRoomDetail',
+    RENTALROOMHISTORY = API_URL + '/api/Main/get-rental-history',
+    BILLUSER = API_URL + '/api/Main/get-Bill'
 }
 
 const axiosInstance = axios.create({
@@ -121,8 +126,6 @@ axiosInstance.interceptors.response.use(
 
 
 //refreshtoken nếu token hết hạn
-
-
 
 export default axiosInstance;
 

@@ -1,5 +1,6 @@
 import axios from "axios"
 import { API } from '../apiConfig'
+import { NumericKeys } from "node_modules/react-hook-form/dist/types/path/common";
 
 export interface Image {
     id: number;
@@ -25,29 +26,6 @@ export interface PasswordUser {
     newPassword: string;
     confirmNewPassword: string;
 }
-
-export interface UserDetailAva {
-    fullName: string;
-    phone: string;
-    avatar: string;
-    email: string;
-}
-
-
-export interface otherPrice {
-    name: string;
-    price: string;
-}
-
-export interface roomImages {
-    id: number,
-    link: string,
-    type: string
-}
-
-
-
-
 //API trang chu
 
 export const getOutstandingMotelApi = async (osMotels: RoomType) => {
@@ -80,10 +58,6 @@ export const postChangePassApi = async (changepass: PasswordUser, token: string)
     return axios.post(`${API.PASSWORDUSER}?token=${token}`, changepass)
 }
 
-export const GetUserDetailAvaApi = async (changeava: UserDetailAva, token: string) => {
-    return axios.get(`${API.USEDETAIL}?token=${token}`, { params: changeava })
-}
-
 export const GetRoomTypeID = async (id: number) => {
     return axios.get(`${API.GETROOMTYPEBYID}${id}`)
 }
@@ -92,6 +66,22 @@ export const GetRentalRoomDetailAPI = async (token: string) => {
     return axios.get(`${API.RENTALROOMDETAIL}?token=${token}`)
 }
 
+export const GetRentalRoomHistoryAPI = async (token: string, pageIndex: number, pageSize: number) => {
+    return axios.get(`${API.RENTALROOMHISTORY}?token=${token}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+}
 
+// API search trang chu
+export const getSearchMotelApi = async (Province: string, District: string, Ward: string, search: string, pageNumber: number, sortOption: string,
+    minPrice: Number, maxPrice: Number, minArea: Number, maxArea: Number
+) => {
+    return axios.get(API.SEARCHMOTEL, {
+        params: {
+            Province, District, Ward, search, pageNumber, sortOption,
+            minPrice, maxPrice, minArea, maxArea
+        }
+    })
+}
 
-
+export const getBillUserApi = async (id: number, pageIndex: number, pageSize: number) => {
+    return axios.get(`${API.BILLUSER}?id=${id}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+}
