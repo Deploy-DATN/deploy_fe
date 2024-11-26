@@ -10,7 +10,7 @@ import {
 
 
 import { useNavigate } from "react-router-dom";
-function HomeMotelHot() {
+function HomeMotelNew() {
   const [roomtypes, setroomtypes] = useState<RoomType[]>([]);
   useEffect(() => {
     const fetchOutstandingMotels = async (data: RoomType) => {
@@ -156,4 +156,4 @@ function HomeMotelHot() {
   );
 }
 
-export default HomeMotelHot;
+export default HomeMotelNew;

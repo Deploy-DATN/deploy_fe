@@ -1,5 +1,6 @@
 import { AddRoomApi } from '@/services/api/MotelApi';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface Addroomintype {
 	onClose: () => void;
@@ -40,7 +41,7 @@ const Addroomintype: React.FC<Addroomintype> = ({ onClose, roomTypeId }) => {
     }
     var response = await AddRoomApi(data);
 		if (response) {
-			alert('Thêm phòng thành công');
+			toast.success('Thêm phòng thành công');
       window.location.reload();
 			onClose();
 		}

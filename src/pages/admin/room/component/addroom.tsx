@@ -3,6 +3,7 @@ import { faCamera, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Addroom: React.FC<{ motelId: string | undefined; onClose: () => void }> = ({ motelId, onClose }) => {
 	const [values, setValues] = useState({
@@ -149,12 +150,13 @@ const Addroom: React.FC<{ motelId: string | undefined; onClose: () => void }> = 
 
 			const response = await AddRoomTypeApi(submitFormData);
 			if (response.code === 200) {
-				alert('Thêm phòng trọ thành công');
+				toast.success("Thêm phòng trọ thành công");
 				window.location.reload();
 				onClose();
 			}
 		} catch (error: any) {
-			alert(error.response?.data?.message || 'Có lỗi xảy ra');
+			toast.error("Thêm phòng trọ thất bại");
+            console.error(error);
 		}
 	};
 
@@ -251,7 +253,7 @@ const Addroom: React.FC<{ motelId: string | undefined; onClose: () => void }> = 
 										className='label-motel-info'>
 										Hình ảnh
 									</label>
-									<div className='row flex-wrap mt-2'>
+									<div className='row flex-wrap g-2'>
 										{images.map((image, index) => (
 											<div
 												key={index}

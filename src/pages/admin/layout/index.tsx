@@ -9,6 +9,8 @@ import logo from '@/assets/ThoStay.svg';
 import { getAccountApi } from '@/services/api/authApi';
 import { Account } from '@/services/Dto/authDto';
 import 'src/pages/admin/layout/layout.scss'
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Layout = () => {
 	const scrollableNodeRef = useRef<HTMLDivElement>(null);
@@ -121,6 +123,7 @@ export const Layout = () => {
 			data-sidebar-position='fixed'
 			data-header-position='fixed'>
 			{/* <!-- Sidebar Start --> */}
+			<ToastContainer />
 			<aside className='left-sidebar'>
 				{/* <!-- Sidebar scroll--> */}
 				<div

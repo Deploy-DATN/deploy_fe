@@ -7,6 +7,7 @@ import { getAccountApi } from '@/services/api/authApi';
 import { AddMotel } from '@/services/api/MotelApi';
 import { useUser } from '@/services/api/UserContext';
 import { AddMotelDTO } from '@/services/Dto/MotelDto';
+import { toast } from 'react-toastify';
 
 export const AddMotelOwner = () => {
 	const { user } = useUser();
@@ -212,17 +213,17 @@ export const AddMotelOwner = () => {
 
 			const response = await AddMotel(submitFormData);
 			if (response.code === 200) {
-				alert('Thêm phòng trọ thành công');
+				toast.success("Thêm dãy trọ thành công");
 				navigate(-1);
 			}
 		} catch (error: any) {
-			alert(error.response?.data?.message || 'Có lỗi xảy ra');
+			toast.error("Thêm dãy trọ thất bại");
 		}
 	};
 
 	return (
 		<div className='container-fluid-add-motel'>
-			<div className='row align-items-stretch px-0'>
+			<div className='row align-items-stretch mt-3'>
 				<div className='w-100 text-center bg-color-theme-thostay'>
 					<h2 className=''>Thêm dãy trọ</h2>
 				</div>
@@ -269,7 +270,7 @@ export const AddMotelOwner = () => {
 								<div className='mt-3'>
 									<h4 className='h4-add-motel'>Dịch vụ dãy trọ</h4>
 								</div>
-								<div className='d-flex flex-wrap'>
+								<div className='d-flex flex-wrap px-0'>
 									{services.map((service, index) => (
 										<div
 											key={service.id}
@@ -317,12 +318,15 @@ export const AddMotelOwner = () => {
 											</div>
 										</div>
 									))}
+									<div className='px-2'>
 									<button
 										className='btn btn-transform-y2 btn-luu-all mt-3'
 										onClick={addService}
 										type='button'>
 										Thêm dịch vụ
 									</button>
+									</div>
+
 								</div>
 								{/* <div className="col-12 form-group mt-3 px-2">
                   <label htmlFor="title" className="label-motel-info">
@@ -437,11 +441,11 @@ export const AddMotelOwner = () => {
 												className='label-motel-info'>
 												Hình ảnh
 											</label>
-											<div className='row flex-wrap mt-2'>
+											<div className='row flex-wrap mt-2 g-1'>
 												{images.map((image, index) => (
 													<div
 														key={index}
-														className='col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2  px-1 position-relative'>
+														className='col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2  position-relative'>
 														<img
 															src={image}
 															className='rounded-img-info-model img-fluid'
@@ -451,11 +455,11 @@ export const AddMotelOwner = () => {
 															type='button'
 															className='btn-close-img-add-motel position-absolute text-end'
 															onClick={() => removeImage(index)}>
-															<FontAwesomeIcon icon={faXmark} />
+															<FontAwesomeIcon icon={faXmark}/>
 														</button>
 													</div>
 												))}
-												<div className='px-2 col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2'>
+												<div className=' col-4 col-sm-3 col-md-3 col-lg-2 col-xl-2 col-xxl-2'>
 													<div className='file-input-wrapper '>
 														<label
 															htmlFor='file-upload'

@@ -3,6 +3,7 @@ import { GetRoomTypeByEditDTO } from '@/services/Dto/MotelDto';
 import { faCamera, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface EditRoomProps {
 	onClose: () => void;
@@ -163,12 +164,12 @@ const EditRoomType: React.FC<EditRoomProps> = ({ onClose, roomTypeId }) => {
 
 			const response = await EditRoomTypeApi(submitFormData);
 			if (response.code === 200) {
-				alert('Sửa loại phòng thành công');
+				toast.success('Sửa loại phòng thành công');
 				window.location.reload();
 				onClose();
 			}
 		} catch (error: any) {
-			alert(error.response?.data?.message || 'Có lỗi xảy ra');
+			toast.error(error.response?.data?.message || 'Có lỗi xảy ra');
 		}
 	};
 
@@ -266,7 +267,7 @@ const EditRoomType: React.FC<EditRoomProps> = ({ onClose, roomTypeId }) => {
 										className='label-motel-info'>
 										Hình ảnh
 									</label>
-									<div className='row flex-wrap mt-2'>
+									<div className='row flex-wrap g-2'>
 										{images.map((image, index) => (
 											<div
 												key={index}
