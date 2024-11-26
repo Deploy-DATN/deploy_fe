@@ -1,6 +1,6 @@
 import axios from "axios"
 import { API } from '../apiConfig'
-import { NumericKeys } from "node_modules/react-hook-form/dist/types/path/common";
+
 
 export interface Image {
     id: number;
@@ -66,8 +66,10 @@ export const GetRentalRoomDetailAPI = async (token: string) => {
     return axios.get(`${API.RENTALROOMDETAIL}?token=${token}`)
 }
 
-export const GetRentalRoomHistoryAPI = async (token: string, pageIndex: number, pageSize: number) => {
-    return axios.get(`${API.RENTALROOMHISTORY}?token=${token}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+export const GetRentalRoomHistoryAPI = async (token: string, pageIndex: number, pageSize: number, searchTerm?: string) => {
+    return axios.get
+        (`${API.RENTALROOMHISTORY}?token=${token}&pageIndex=${pageIndex}&pageSize=${pageSize}
+        ${searchTerm ? `&searchTerm=${encodeURIComponent(searchTerm)}` : ''}`);
 }
 
 // API search trang chu
@@ -82,6 +84,10 @@ export const getSearchMotelApi = async (Province: string, District: string, Ward
     })
 }
 
-export const getBillUserApi = async (id: number, pageIndex: number, pageSize: number) => {
-    return axios.get(`${API.BILLUSER}?id=${id}&pageIndex=${pageIndex}&pageSize=${pageSize}`)
+export const getBillUserApi = async (id: number, pageIndex: number, pageSize: number, searchTerm?: string) => {
+    return axios.get(`${API.BILLUSER}?id=${id}&pageIndex=${pageIndex}&pageSize=${pageSize}${searchTerm ? `&searchTerm=${encodeURIComponent(searchTerm)}` : ''}`)
+}
+
+export const getBillDetailApi = async (id: number) => {
+    return axios.get(`${API.BILLDETAIL}${id}`)
 }

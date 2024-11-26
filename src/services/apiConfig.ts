@@ -58,7 +58,8 @@ export enum API {
     PASSWORDUSER = API_URL + '/ChangePasswordFromToken',
     RENTALROOMDETAIL = API_URL + '/GetRentalRoomDetail',
     RENTALROOMHISTORY = API_URL + '/api/Main/get-rental-history',
-    BILLUSER = API_URL + '/api/Main/get-Bill'
+    BILLUSER = API_URL + '/api/Main/get-Bill',
+    BILLDETAIL = API_URL + '/api/Main/get-Bill-detail/'
 }
 
 const axiosInstance = axios.create({

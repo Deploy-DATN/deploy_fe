@@ -1,39 +1,80 @@
+import { useEffect, useState } from 'react';
 import '../styles/billDetail.scss'
+import { useParams } from 'react-router-dom';
+import { getBillDetailApi } from '@/services/api/HomeApi';
+interface BillDetailData {
+    motelName: string;
+    address: string;
+    roomNumber: string;
+    billId: number;
+    createDate: string;
+    status: number;
+    fullName: string;
+    electric: number;
+    water: number;
+    roomPrice: number;
+    waterName: string;
+    electricName: string;
+    waterPrice: number;
+    electricPrice: number;
+    otherService: { name: string; price: number }[];
+}
 
 const BillDetail = () => {
+    const { billId } = useParams<{ billId: string }>();
+    const [billData, setBillData] = useState<BillDetailData | null>(null);
+
+    useEffect(() => {
+        const fetchBillDetails = async () => {
+            if (billId) {
+                try {
+                    const response = await getBillDetailApi(Number(billId));
+                    setBillData(response.data);
+                } catch (error) {
+                    console.error('Failed to fetch bill details:', error);
+                }
+            }
+        };
+        fetchBillDetails();
+    }, [billId]);
+    const formatDate = (date: string) => {
+        const formattedDate = new Date(date);
+        return formattedDate.toLocaleDateString('vi-VN'); // Định dạng ngày theo kiểu Việt Nam (Ngày/Tháng/Năm)
+    };
+
     return (
         <div className="bill-detail py-4 px-5">
-            <div className="title text-dark mb-3">
-                Thông tin hóa đơn
+            <div className="title text-dark mb-3 ">
+                <h1>Thông tin hóa đơn</h1>
             </div>
             <div className="infomation container">
                 <div className="row">
                     <div className="col-8">
                         <div className="motel-description mb-4">
                             <div className="text-dark motel-description__name">
-                                Dũng Hồ
+                                Tên dãy trọ: {billData?.motelName}
                             </div>
                             <div className="text-dark motel-description__address">
-                                Địa chỉ: 12 phạm hùng, buôn ma thuột
+                                Phòng: {billData?.address}
                             </div>
                             <div className="text-dark motel-description__room-name">
-                                phòng: 202
+                                {billData?.roomNumber}
                             </div>
                         </div>
                         <div className="user-name text-dark">
-                            Khách hàng: Hồ Tấn Dũng
+                            Khách hàng: {billData?.fullName}
                         </div>
                     </div>
                     <div className="col-4 text-end">
                         <div className='bill-description'>
                             <div className='bill-description__number text-dark'>
-                                Số: 12iu16u21
+                                Số: {billData?.billId}
                             </div>
                             <div className='bill-description__create-date text-dark'>
-                                Ngày tạo: 23/11/2024
+                                Ngày tạo: {billData?.createDate ? formatDate(billData.createDate) : ''}
                             </div>
                             <div className='bill-description__status text-dark'>
-                                Trạng thái: Đã thanh toán
+                                Trạng thái: {billData?.status === 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}
                             </div>
                         </div>
                     </div>
@@ -52,34 +93,50 @@ const BillDetail = () => {
                         <tr>
                             <th scope="row">1</th>
                             <td>Điện</td>
-                            <td>3200</td>
-                            <td>100</td>
-                            <td>320000</td>
+
+                            <td>{billData?.electricPrice} vnđ</td>
+                            <td>{billData?.electric}</td>
+                            <td>{(billData?.electric && billData?.electricPrice
+                                ? (billData.electric * billData.electricPrice).toLocaleString()
+                                : '')} vnđ</td>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
                             <td>Nước</td>
-                            <td>1200</td>
-                            <td>100</td>
-                            <td>120000</td>
+
+                            <td>{billData?.waterPrice} vnđ</td>
+                            <td>{billData?.water}</td>
+                            <td>{(billData?.water && billData?.waterPrice)
+                                ? (billData?.water * billData?.waterPrice).toLocaleString()
+                                : ''} vnđ</td>
                         </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Wifi</td>
-                            <td>20000</td>
-                            <td>Không có</td>
-                            <td>20000</td>
-                        </tr>
+                        {billData?.otherService.map((service, index) => (
+                            <tr key={index}>
+                                <th scope="row">{index + 3}</th>
+                                <td>{service.name}</td>
+                                <td>{service.price.toLocaleString()} vnđ</td>
+                                <td>Không có</td>
+                                <td>{service.price.toLocaleString()} vnđ</td>
+                            </tr>
+                        ))}
                         <tr>
                             <th scope="row">3</th>
                             <td>Giá phòng</td>
-                            <td>1200000</td>
+                            <td>{billData?.roomPrice} vnđ</td>
                             <td>Không có</td>
-                            <td>1200000</td>
+                            <td>{billData?.roomPrice} vnđ</td>
                         </tr>
                         <tr className='fs-5'>
                             <th colSpan={4}>Thành tiền</th>
-                            <td>10000000</td>
+                            <td>{billData
+                                ? (
+                                    (billData.roomPrice || 0) +
+                                    (billData.water || 0) * (billData.waterPrice || 0) +
+                                    (billData.electric || 0) * (billData.electricPrice || 0) +
+                                    (billData.otherService?.reduce((sum, service) => sum + (service.price || 0), 0) || 0)
+                                ).toLocaleString()
+                                : '0'}{' '}
+                                vnđ</td>
                         </tr>
                     </tbody>
                 </table>

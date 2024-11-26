@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getBillUserApi } from '@/services/api/HomeApi';
 
@@ -16,16 +16,17 @@ const Bill = () => {
     const [bills, setBills] = useState<BillData[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [searchTerm, setSearchTerm] = useState('');
     const pageSize = 10;
 
     const handleClickBill = (billId: number) => {
         navigate(`/user/history/${roomId}/${billId}`);
     };
 
-    const fetchBills = async (page: number) => {
+    const fetchBills = async (page: number, search: string = '') => {
         try {
             if (roomId) {
-                const response = await getBillUserApi(Number(roomId), page, pageSize);
+                const response = await getBillUserApi(Number(roomId), page, pageSize, search);
                 const { items, totalItems } = response.data;
 
                 setBills(items);
@@ -34,8 +35,8 @@ const Bill = () => {
             }
         } catch (error) {
             console.error('Failed to fetch bills:', error);
-            setBills([]); // Nếu lỗi, đặt dữ liệu rỗng
-            setTotalPages(1); // Luôn có ít nhất 1 trang
+            setBills([]);
+            setTotalPages(1);
         }
     };
 
@@ -45,12 +46,33 @@ const Bill = () => {
         }
     };
 
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSearchTerm(value);
+        fetchBills(1, value);
+        setCurrentPage(1);
+    };
+
     useEffect(() => {
-        fetchBills(currentPage);
+        fetchBills(currentPage, searchTerm);
     }, [currentPage]);
 
+    const formatDate = (date: string) => {
+        const formattedDate = new Date(date);
+        return formattedDate.toLocaleDateString('vi-VN'); // Định dạng ngày theo kiểu Việt Nam (Ngày/Tháng/Năm)
+    };
     return (
         <div className="bill p-3">
+            <div className="mb-3 d-flex align-items-center">
+                <input
+                    type="text"
+                    className="form-control me-2"
+                    style={{ width: '250px' }}
+                    placeholder="Tìm kiếm..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
+            </div>
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -68,7 +90,7 @@ const Bill = () => {
                                 <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
                                 <td>{item.priceRoom.toLocaleString()} VND</td>
                                 <td>{item.total.toLocaleString()} VND</td>
-                                <td>{new Date(item.createdDate).toLocaleDateString()}</td>
+                                <td>{formatDate(item.createdDate)}</td>
                                 <td>{item.status === 0 ? 'Chưa thanh toán' : 'Đã thanh toán'}</td>
                             </tr>
                         ))
