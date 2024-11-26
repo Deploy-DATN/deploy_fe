@@ -16,27 +16,28 @@ const History = () => {
     const [historyData, setHistoryData] = useState<RentalRoomHistory[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [searchTerm, setSearchTerm] = useState('');
     const pageSize = 10;
 
     const handleClickRoom = (roomId: number) => {
         navigate(`/user/history/${roomId}`);
     };
 
-    const fetchHistoryData = async (page: number) => {
+    const fetchHistoryData = async (page: number, search: string = '') => {
         try {
             const token = localStorage.getItem('token');
             if (token) {
-                const response = await GetRentalRoomHistoryAPI(token, page, pageSize);
+                const response = await GetRentalRoomHistoryAPI(token, page, pageSize, search);
                 const { items, totalItems } = response.data;
 
-                setHistoryData(items); // Lưu dữ liệu lịch sử
-                const calculatedTotalPages = Math.max(1, Math.ceil(totalItems / pageSize)); // Tính số trang
+                setHistoryData(items);
+                const calculatedTotalPages = Math.max(1, Math.ceil(totalItems / pageSize));
                 setTotalPages(calculatedTotalPages);
             }
         } catch (error) {
             console.error('Failed to fetch history:', error);
-            setHistoryData([]); // Đặt danh sách trống khi có lỗi
-            setTotalPages(1);   // Luôn có ít nhất 1 trang
+            setHistoryData([]);
+            setTotalPages(1);
         }
     };
 
@@ -46,12 +47,35 @@ const History = () => {
         }
     };
 
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSearchTerm(value);
+        fetchHistoryData(1, value); // Gọi API ngay khi thay đổi giá trị tìm kiếm
+        setCurrentPage(1); // Đặt lại về trang 1
+    };
+
     useEffect(() => {
-        fetchHistoryData(currentPage);
+        fetchHistoryData(currentPage, searchTerm);
     }, [currentPage]);
+
+    const formatDate = (date: string) => {
+        const formattedDate = new Date(date);
+        return formattedDate.toLocaleDateString('vi-VN'); // Định dạng ngày theo kiểu Việt Nam (Ngày/Tháng/Năm)
+    };
 
     return (
         <div className="history p-3">
+            <div className="mb-3 d-flex align-items-center">
+                <input
+                    type="text"
+                    className="form-control me-2"
+                    style={{ width: '250px' }}
+                    placeholder="Tìm kiếm..."
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
+            </div>
+
             <table className="table table-hover">
                 <thead>
                     <tr>
@@ -71,7 +95,7 @@ const History = () => {
                                 <td>{item.motelName}</td>
                                 <td>{item.roomNumber}</td>
                                 <td>{item.price.toLocaleString()} VND</td>
-                                <td>{new Date(item.createDate).toLocaleDateString()}</td>
+                                <td>{formatDate(item.createDate)}</td>
                                 <td>{item.endDate ? new Date(item.endDate).toLocaleDateString() : 'Chưa trả'}</td>
                             </tr>
                         ))
@@ -82,6 +106,7 @@ const History = () => {
                     )}
                 </tbody>
             </table>
+            {/* Phân trang */}
             <div className="w-100 d-flex justify-content-center mt-3">
                 <nav aria-label="Page navigation">
                     <ul className="pagination">
