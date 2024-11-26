@@ -41,12 +41,16 @@ export const SearchMotel = () => {
   useEffect(() => {
     const fetchMotels = async () => {
       setLoading(true);
+      //log ra xem có lấy được dữ liệu không
+      console.log(province, district, ward, search, currentPage, sortOption, filters.surrounding);
+      
       try {
         const response = await getSearchMotelApi(province, district, ward, search, currentPage, sortOption,
           filters.minPrice,
           filters.maxPrice,
           filters.minArea,
-          filters.maxArea
+          filters.maxArea,
+          filters.surrounding || [] 
         ); // Pass sortOption to API
         if (response.data && response.data.data) {
           setMotels(response.data.data.list);
@@ -54,12 +58,14 @@ export const SearchMotel = () => {
           console.log(response.data);
           console.log("Số trang", response.data.data.totalPage);
           console.log(response.data.data.list);
+          
         }
       } catch (error) {
         console.error("Error fetching motels:", error);
       } finally {
         setLoading(false);
       }
+
     };
 
     fetchMotels();
@@ -81,7 +87,6 @@ export const SearchMotel = () => {
     setFilters(newFilters);
     setCurrentPage(1);
   };
-
   return (
     <>
       <Header />

@@ -138,7 +138,7 @@ const FilterSearch = ({
                       {value === "1" && "Dưới 15 m²"}
                       {value === "2" && "Dưới 20 m²"}
                       {value === "3" && "Dưới 25 m²"}
-                      {value === "4" && "Trên 30 m²"}
+                      {value === "4" && "Trên 25 m²"}
                     </p>
                   </label>
                 ))}
@@ -182,7 +182,7 @@ const FilterSearch = ({
                       {value === "1" && "Dưới 1 triệu/tháng"}
                       {value === "2" && "Dưới 2 triệu/tháng"}
                       {value === "3" && "Dưới 3 triệu/tháng"}
-                      {value === "4" && "Trên 4 triệu/tháng"}
+                      {value === "4" && "Trên 3 triệu/tháng"}
                     </p>
                   </label>
                 ))}
@@ -207,7 +207,7 @@ const FilterSearch = ({
               className="accordion-collapse collapse show"
             >
               <div className="accordion-body">
-                {["market", "supermarket", "school", "Hospital", "park"].map(
+                {["chợ", "siêu thị", "trường", "bệnh viện", "công viên"].map(
                   (value, idx) => (
                     <label
                       key={idx}
@@ -223,11 +223,11 @@ const FilterSearch = ({
                       />
                       <span></span> 
                       <p className="mb-0">
-                        {value === "market" && "Chợ"}
-                        {value === "supermarket" && "Siêu thị"}
-                        {value === "school" && "Trường học"}
-                        {value === "Hospital" && "Bệnh viện"}
-                        {value === "park" && "Công viên"}
+                        {value === "chợ" && "Chợ"}
+                        {value === "siêu thị" && "Siêu thị"}
+                        {value === "trường" && "Trường học"}
+                        {value === "bệnh viện" && "Bệnh viện"}
+                        {value === "công viên" && "Công viên"}
                       </p>
                     </label>
                   )

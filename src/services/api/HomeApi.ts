@@ -72,12 +72,11 @@ export const GetRentalRoomHistoryAPI = async (token: string, pageIndex: number, 
 
 // API search trang chu
 export const getSearchMotelApi = async (Province: string, District: string, Ward: string, search: string, pageNumber: number, sortOption: string,
-    minPrice: Number, maxPrice: Number, minArea: Number, maxArea: Number
-) => {
+    minPrice: Number, maxPrice: Number, minArea: Number, maxArea: Number, surrounding: string[]) => {
     return axios.get(API.SEARCHMOTEL, {
         params: {
             Province, District, Ward, search, pageNumber, sortOption,
-            minPrice, maxPrice, minArea, maxArea
+            minPrice, maxPrice, minArea, maxArea, surrounding: surrounding.join(',')
         }
     })
 }
