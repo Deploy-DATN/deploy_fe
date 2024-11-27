@@ -3,11 +3,11 @@ import { RootState, userAppDispatch } from '@/redux/store';
 import { postDetaiUserApi, UserDetail, postAvatarApi } from '@/services/api/HomeApi';
 import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
-import { fetchAccount } from '@/pages/admin/layout/redux/action';
+import { fetchAccount } from '@/components/header/redux/action';
 import './adminprofile.scss'
 const AdminProfile = () => {
     const dispatch = userAppDispatch();
-    const userData = useSelector((state: RootState) => state.admin.data);
+    const userData = useSelector((state: RootState) => state.user.data);
     console.log(userData)
     const handleSubmit = async (data: UserDetail) => {
         const token = localStorage.getItem('token');

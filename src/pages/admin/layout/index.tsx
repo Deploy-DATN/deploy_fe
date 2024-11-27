@@ -11,9 +11,10 @@ import { Account } from '@/services/Dto/authDto';
 import 'src/pages/admin/layout/layout.scss'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 import { userAppDispatch, RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
-import { fetchAccount } from "./redux/action";
+import { fetchAccount } from "@/components/header/redux/action";
 
 export const Layout = () => {
 
@@ -22,6 +23,7 @@ export const Layout = () => {
 	useEffect(() => {
 		dispatch(fetchAccount());
 	}, [dispatch]);
+	
 	const scrollableNodeRef = useRef<HTMLDivElement>(null);
 	const [user, setUser] = useState<Account>();
 	const [sentNotifications, setSentNotifications] = useState<any[]>([]);

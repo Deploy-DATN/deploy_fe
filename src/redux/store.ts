@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
 import userReducer from '@/components/header/redux/action'
 import { useDispatch } from 'react-redux'
-import adminReducer from '@/pages/admin/layout/redux/action'
 
 export const store = configureStore({
     reducer: {
-        user: userReducer,
-        admin: adminReducer
+        user: userReducer
     },
 })
 
