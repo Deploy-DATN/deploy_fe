@@ -1,17 +1,13 @@
-import ProfileForm from './components/form/profileForm';
-import './styles/profile.scss';
-import Swal from 'sweetalert2';
-import { postDetaiUserApi, UserDetail, postAvatarApi } from '@/services/api/HomeApi';
-
-import { useSelector } from 'react-redux';
+import MyAccount from "../Profile/Form/MyAccount";
 import { RootState, userAppDispatch } from '@/redux/store';
-import { fetchAccount } from '@/components/header/redux/action';
-
-const Profile = () => {
-
+import { postDetaiUserApi, UserDetail, postAvatarApi } from '@/services/api/HomeApi';
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import { fetchAccount } from '@/pages/admin/layout/redux/action';
+import './adminprofile.scss'
+const AdminProfile = () => {
     const dispatch = userAppDispatch();
-
-    const userData = useSelector((state: RootState) => state.user.data);
+    const userData = useSelector((state: RootState) => state.admin.data);
     console.log(userData)
     const handleSubmit = async (data: UserDetail) => {
         const token = localStorage.getItem('token');
@@ -97,7 +93,7 @@ const Profile = () => {
     };
 
     return (
-        <div className="container profile py-5">
+        <div className="container adminprofile py-5">
             <div className="row">
                 <div className="col-5 d-flex flex-column align-items-center">
                     <img
@@ -125,11 +121,11 @@ const Profile = () => {
                 </div>
 
                 <div className="col-7">
-                    <ProfileForm onSubmit={handleSubmit} />
+                    <MyAccount onSubmit={handleSubmit} />
                 </div>
             </div>
         </div>
     );
-};
+}
 
-export default Profile;
+export default AdminProfile;

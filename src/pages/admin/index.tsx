@@ -20,6 +20,7 @@ import CreateTicket from "./ticket/component/create_ticket";
 import { Roomtesst } from "./room/roomtesst";
 import Inforoom from "./room/component/inforoom";
 import { UserProvider } from "@/services/api/UserContext";
+import Profile from "../user/management";
 
 export const Admin = () => {
   return (
@@ -28,6 +29,7 @@ export const Admin = () => {
         <Route path="/" element={<Layout />}>
           {/* Route không cần bảo vệ */}
           <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path="adminprofile" element={<Profile />} />
           <Route index element={<Dashboard />} />
           <Route path="roomtest" element={<Roomtesst />} />
           <Route path="inforoom" element={<Inforoom />} />
