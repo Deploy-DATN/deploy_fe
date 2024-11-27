@@ -41,11 +41,11 @@ const Motel = () => {
                             }}
                             navigation={true}
                             modules={[Pagination, Navigation]}
-                            className="mySwiper rounded"
+                            className="mySwiper rounded my-custom-swiper"
                         >
                             {rentalDetail.roomImages.map((image: any) => (
                                 <SwiperSlide key={image.id}>
-                                    <img src={image.link} alt="Room" className="img-fluid" />
+                                    <img src={image.link} alt="Room" className="slide-img" />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -90,7 +90,7 @@ const Motel = () => {
                         </div>
                         <div className="row">
                             <div className="col-6">
-                                <button className="btn btn-primary col-10">Thêm người thuê</button>
+                                <button className="btn btn-primary col-10 d-none">Thêm người thuê</button>
                             </div>
                             <div className="col-6">
                                 <button className="btn btn-primary col-10">Phản hồi</button>
