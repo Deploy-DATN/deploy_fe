@@ -1,19 +1,7 @@
-import "../styles/stylemotel.scss";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  AddService,
-  DeleteService,
-  EditMotel,
-  EditService,
-  GetMotelByEditApi,
-} from "@/services/api/MotelApi";
-import {
-  AddServiceDTO,
-  EditServiceDTO,
-  GetMotelEditDTO,
-  GetMotelEditDTO_Service,
-} from "@/services/Dto/MotelDto";
+import { EditMotel, GetMotelByEditApi } from "@/services/api/MotelApi";
+import { GetMotelEditDTO } from "@/services/Dto/MotelDto";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -22,22 +10,6 @@ export const EditMotelOwner = () => {
 
   const navigate = useNavigate();
 
-  const [originalServices, setOriginalServices] = useState<
-    GetMotelEditDTO_Service[]
-  >([]);
-  const [services, setServices] = useState<GetMotelEditDTO_Service[]>([]);
-  const [idServicesDelete, setIdServicesDelete] = useState<number[]>([]);
-
-  const addService = () => {
-    const newService = {
-      id: Date.now(), // Sử dụng timestamp làm id tạm thời
-      name: "",
-      price: 1000,
-      description: "",
-      isNew: true, // Đánh dấu service mới
-    };
-    setServices((prev) => [...prev, newService]);
-  };
   //phần địa chỉ
   type LocationOption = {
     name: string;
@@ -100,37 +72,6 @@ export const EditMotelOwner = () => {
         .catch((error) => console.error("Lỗi khi lấy xã:", error));
     }
   }, [selectedDistrict]);
-  //tách hàm địa chỉ ra
-  const splitAddress = (address: string) => {
-    const regex =
-      /^(.*?),\s*(Phường|Xã)\s*(.*?),\s*(Quận|Huyện)\s*(.*?),\s*(Thành phố|Tỉnh)\s*(.*?)$/i;
-
-    // Trường hợp không khớp đầy đủ
-    if (!regex.test(address)) {
-      const parts = address.split(",").map((part) => part.trim());
-      return {
-        detailAddress: parts.slice(0, parts.length - 3).join(", "),
-        ward: parts[parts.length - 3] || "",
-        district: parts[parts.length - 2] || "",
-        province: parts[parts.length - 1] || "",
-      };
-    }
-
-    const match = address.match(regex);
-    return match
-      ? {
-          detailAddress: match[1].trim(),
-          ward: match[3].trim(),
-          district: match[5].trim(),
-          province: match[7].trim(),
-        }
-      : {
-          detailAddress: "",
-          ward: "",
-          district: "",
-          province: "",
-        };
-  };
 
   useEffect(() => {
     console.log(
@@ -165,6 +106,39 @@ export const EditMotelOwner = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  //hầm tách địa chỉ
+  const splitAddress = (address: string) => {
+    const regex =
+      /^(.*?),\s*(Phường|Xã)\s*(.*?),\s*(Quận|Huyện)\s*(.*?),\s*(Thành phố|Tỉnh)\s*(.*?)$/i;
+
+    // Trường hợp không khớp đầy đủ
+    if (!regex.test(address)) {
+      const parts = address.split(",").map((part) => part.trim());
+      return {
+        detailAddress: parts.slice(0, parts.length - 3).join(", "),
+        ward: parts[parts.length - 3] || "",
+        district: parts[parts.length - 2] || "",
+        province: parts[parts.length - 1] || "",
+      };
+    }
+
+    const match = address.match(regex);
+    return match
+      ? {
+          detailAddress: match[1].trim(),
+          ward: match[3].trim(),
+          district: match[5].trim(),
+          province: match[7].trim(),
+        }
+      : {
+          detailAddress: "",
+          ward: "",
+          district: "",
+          province: "",
+        };
+  };
+
   //Hết phần địa chỉ
   // Thêm state errors ở đầu component
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -178,19 +152,17 @@ export const EditMotelOwner = () => {
 
   useEffect(() => {
     const LoadData = async () => {
-      var response = await GetMotelByEditApi(id);
-      setValues(response.data);
-      setServices(response.data.services || []);
-      setOriginalServices(response.data.services || []); // Lưu trữ danh sách services ban đầu
-      const addressParts = splitAddress(response.data.address || "");
-      setValues({ ...response.data, address: addressParts.detailAddress });
+      const response = await GetMotelByEditApi(id);
+      const data = response.data;
+
+      const addressParts = splitAddress(data.address || "");
+      setValues({ ...data, address: addressParts.detailAddress });
       setSelectedProvince({ name: addressParts.province, code: null });
       setSelectedDistrict({ name: addressParts.district, code: null });
       setSelectedWard(addressParts.ward || ""); // Đảm bảo selectedWard có giá trị mặc định
     };
     LoadData();
   }, []);
-
   // Thêm hàm validate
   const validateField = (name: string, value: string) => {
     if (name === "province") {
@@ -214,7 +186,7 @@ export const EditMotelOwner = () => {
         return false;
       }
     }
-    
+
     if (!value || (value.trim() === "" && name !== "description")) {
       setErrors((prev) => ({
         ...prev,
@@ -237,20 +209,6 @@ export const EditMotelOwner = () => {
     validateField(field, value);
   };
 
-  const removeService = (id: number) => {
-    const serviceToRemove = services.find((s) => s.id === id);
-
-    // Nếu không phải service mới (không có isNew), thêm vào danh sách cần xóa
-    if (serviceToRemove && !("isNew" in serviceToRemove)) {
-      setIdServicesDelete((prev) => [...prev, id]);
-    }
-
-    console.log(idServicesDelete);
-
-    // Xóa khỏi danh sách services hiện tại
-    setServices((prev) => prev.filter((service) => service.id !== id));
-  };
-
   const handleSubmit = async () => {
     try {
       setErrors({});
@@ -270,90 +228,9 @@ export const EditMotelOwner = () => {
           hasError = true;
         }
       });
-      // Kiểm tra dịch vụ
-      services.forEach((service, index) => {
-        if (!service.name.trim()) {
-          setErrors((prev) => ({
-            ...prev,
-            [`service_name_${index}`]: "Tên dịch vụ không được để trống",
-          }));
-          hasError = true;
-        }
-        if (!service.price.toString().trim()) {
-          setErrors((prev) => ({
-            ...prev,
-            [`service_price_${index}`]: "Giá dịch vụ không được để trống",
-          }));
-          hasError = true;
-        }
-        if (isNaN(service.price) || service.price <= 0) {
-          setErrors((prev) => ({
-            ...prev,
-            [`service_price_${index}`]: "Giá dịch vụ phải là số dương",
-          }));
-          hasError = true;
-        }
-      });
 
       if (hasError) {
         return;
-      }
-
-      if (idServicesDelete.length > 0) {
-        const response = await DeleteService(idServicesDelete);
-        if (response.code === 200) {
-          console.log("Xóa dịch vụ thành công");
-        }
-      }
-
-      // Tách services thành 2 mảng: cần thêm mới và cần cập nhật
-      const servicesToAdd = services.filter((service) => "isNew" in service);
-      const servicesToUpdate = services.filter(
-        (service) => !("isNew" in service)
-      );
-
-      // Thêm services mới
-      if (servicesToAdd.length > 0) {
-        const dataServices: AddServiceDTO[] = servicesToAdd.map((service) => ({
-          name: service.name,
-          price: service.price,
-          description: service.description,
-          motelId: id || "",
-        }));
-
-        const addResponse = await AddService(dataServices);
-        if (addResponse.code === 200) {
-          console.log("Thêm dịch vụ thành công");
-        }
-      }
-
-      // Lọc ra những service đã thay đổi so với ban đầu
-      const changedServices = servicesToUpdate.filter((service) => {
-        const originalService = originalServices.find(
-          (s) => s.id === service.id
-        );
-        return (
-          originalService &&
-          (service.name !== originalService.name ||
-            service.price !== originalService.price ||
-            service.description !== originalService.description)
-        );
-      });
-
-      if (changedServices.length > 0) {
-        const dataServices: EditServiceDTO[] = changedServices.map(
-          (service) => ({
-            id: service.id,
-            name: service.name,
-            price: service.price,
-            description: service.description,
-          })
-        );
-
-        const editResponse = await EditService(dataServices);
-        if (editResponse.code === 200) {
-          console.log("Cập nhật dịch vụ thành công");
-        }
       }
       if (!hasError) {
         values.address = addressall;
@@ -361,7 +238,6 @@ export const EditMotelOwner = () => {
       const response = await EditMotel(values);
       if (response.code === 200) {
         toast.success("Sửa dãy trọ thành công");
-        navigate(-1);
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Sửa dãy trọ thất bại");
@@ -553,115 +429,6 @@ export const EditMotelOwner = () => {
                     <div className="err-text">{errors.address}</div>
                   )}
                 </div>
-                <div className="mt-3">
-                  <h4 className="h4-add-motel">Dịch vụ dãy trọ</h4>
-                </div>
-                <div className="d-flex flex-wrap">
-                  {services?.map((service, index) => (
-                    <div
-                      key={service.id}
-                      className="row flex-wrap col-12 mt-2 px-2"
-                    >
-                      <div className="col-12 col-sm-12 col-md-6 col-lg-3 mt-2">
-                        <label className="label-motel-info">Tên dịch vụ</label>
-                        <input
-                          type="text"
-                          className="form-control mt-2 input-motel-info"
-                          placeholder="Tên dịch vụ"
-                          value={service.name}
-                          onChange={(e) =>
-                            setServices((prev) =>
-                              prev.map((s) =>
-                                s.id === service.id
-                                  ? { ...s, name: e.target.value }
-                                  : s
-                              )
-                            )
-                          }
-                        />
-                        {errors[`service_name_${index}`] && (
-                          <div className="err-text">
-                            {errors[`service_name_${index}`]}
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-sm-12 col-md-6 col-lg-3 mt-2">
-                        <label className="label-motel-info">Giá dịch vụ</label>
-                        <input
-                          type="text"
-                          className="form-control mt-2 input-motel-info"
-                          placeholder="Giá dịch vụ"
-                          value={service.price}
-                          onChange={(e) =>
-                            setServices((prev) =>
-                              prev.map((s) =>
-                                s.id === service.id
-                                  ? { ...s, price: Number(e.target.value) }
-                                  : s
-                              )
-                            )
-                          }
-                        />
-                        {errors[`service_price_${index}`] && (
-                          <div className="err-text">
-                            {errors[`service_price_${index}`]}
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-sm-12 col-md-6 col-lg-4 mt-2">
-                        <label className="label-motel-info">
-                          Mô tả dịch vụ
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control mt-2 input-motel-info"
-                          placeholder="Mô tả dịch vụ"
-                          value={service.description}
-                          onChange={(e) =>
-                            setServices((prev) =>
-                              prev.map((s) =>
-                                s.id === service.id
-                                  ? { ...s, description: e.target.value }
-                                  : s
-                              )
-                            )
-                          }
-                        />
-                      </div>
-                      {errors[`service_description_${index}`] && (
-                        <div className="err-text">
-                          {errors[`service_description_${index}`]}
-                        </div>
-                      )}
-                      <div className="col-12 col-sm-12 col-lg-2 d-flex justify-content-lg-around align-items-lg-end">
-                        <button
-                          type="button"
-                          className="btn btn-transform-y2 btn-xoa-add-motel mt-3"
-                          onClick={() => removeService(service.id)}
-                        >
-                          Xóa
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                  <button
-                    className="btn btn-transform-y2 btn-luu-all mt-3"
-                    onClick={addService}
-                    type="button"
-                  >
-                    Thêm dịch vụ
-                  </button>
-                </div>
-                {/* <div className="col-12 form-group mt-3 px-2">
-                  <label htmlFor="title" className="label-motel-info">
-                    Mô tả
-                  </label>
-                  <textarea
-                    className="form-control mt-2 input-motel-info"
-                    placeholder="Mô tả dãy trọ"
-                  />
-                  <div className="err-text">errer</div>
-                </div> */}
                 <div className="mx-auto col-12 col-md-12 col-lg-8 col-xl-6 col-xxl-6 mt-4">
                   <div className="d-flex justify-content-between mt-4">
                     <button
