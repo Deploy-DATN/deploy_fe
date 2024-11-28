@@ -9,6 +9,7 @@ interface RentalRoomHistory {
     price: number;
     createDate: string;
     endDate: string;
+    adress: string;
 }
 
 const History = () => {
@@ -60,7 +61,7 @@ const History = () => {
 
     const formatDate = (date: string) => {
         const formattedDate = new Date(date);
-        return formattedDate.toLocaleDateString('vi-VN'); // Định dạng ngày theo kiểu Việt Nam (Ngày/Tháng/Năm)
+        return formattedDate.toLocaleDateString('vi-VN');
     };
 
     return (
@@ -81,6 +82,7 @@ const History = () => {
                     <tr>
                         <th scope="col">STT</th>
                         <th scope="col">Dãy trọ</th>
+                        <th scope="col">Địa chỉ</th>
                         <th scope="col">Số phòng</th>
                         <th scope="col">Giá</th>
                         <th scope="col">Ngày thuê</th>
@@ -93,6 +95,7 @@ const History = () => {
                             <tr key={item.roomId} onClick={() => handleClickRoom(item.roomId)}>
                                 <th scope="row">{(currentPage - 1) * pageSize + index + 1}</th>
                                 <td>{item.motelName}</td>
+                                <td>{item.adress}</td>
                                 <td>{item.roomNumber}</td>
                                 <td>{item.price.toLocaleString()} VND</td>
                                 <td>{formatDate(item.createDate)}</td>

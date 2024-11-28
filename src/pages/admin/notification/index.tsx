@@ -26,6 +26,7 @@ export const Notification: React.FC = () => {
   };
 
   const handleCloseModal = () => {
+    fetchNotifications();
     setShowModal(false);
 
     setCurrentNotification(null);
@@ -38,6 +39,7 @@ export const Notification: React.FC = () => {
   };
 
   const handleCloseEditModal = () => {
+    fetchNotifications();
     setShowEditModal(false);
     setCurrentNotification(null);
   };
@@ -48,6 +50,7 @@ export const Notification: React.FC = () => {
     setShowEditModal(false);
   };
   const handleCloseSendPopup = () => {
+    fetchNotifications();
     setShowSendPopup(false);
     setCurrentNotification(null);
   }
@@ -170,57 +173,66 @@ export const Notification: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {notifications?.items.map((noti, index) => (
-                    <tr key={noti.id}>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <div>
-                            <h6 className="mb-1 fw-bolder">{index + 1}</h6>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p className="fs-3 fw-normal mb-0">{noti.title}</p>
-                      </td>
-                      <td>
-                        <p className="fs-3 fw-normal mb-0"><span dangerouslySetInnerHTML={{ __html: formatContent(noti.content) }} /></p>
-                      </td>
-                      <td>
-                        <span className={`badge rounded-pill px-3 py-2 fs-3 ${getNotificationTypeClass(noti.type)}`}>
-                          {noti.type === 1 ? 'Thông thường' :
-                            noti.type === 2 ? 'Cảnh báo' :
-                              noti.type === 3 ? 'Khẩn cấp' : 'Hệ thống'}
-                        </span>
-                      </td>
-                      <td>
-                        {noti.status === false ? (
-                          <span className={`tt-choduyet badge bg-warning rounded-pill px-3 py-2 fs-3 text-white`}>
-                            Chưa gửi
-                          </span>
-                        ) : (
-                          <span className={`tt-choduyet badge bg-success rounded-pill px-3 py-2 fs-3 text-white`}>
-                            Đã gửi
-                          </span>
-                        )}
-                      </td>
-                      <td>
-                        <button
-                          className="btn text-white btn-sm btn-mokhoa px-3 py-2 mx-2"
-                          onClick={() => handleOpenEditModal(noti)}
-                        >
-                          Sửa
-                        </button>
-                        <a
-                          href="#"
-                          className="btn text-white btn-sm btn-chitiet px-3 py-2 mx-2"
-                          onClick={() => handleOpenSendPopup(noti)}
-                        >
-                          Gửi
-                        </a>
+                  {notifications?.items.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} className="text-center">
+                        Bạn hiện tại chưa tạo thông báo nào
                       </td>
                     </tr>
-                  ))}
+                  ) : (
+                    notifications?.items.map((noti, index) => (
+                      <tr key={noti.id}>
+                        <td>
+                          <div className="d-flex align-items-center">
+                            <div>
+                              <h6 className="mb-1 fw-bolder">{index + 1}</h6>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <p className="fs-3 fw-normal mb-0">{noti.title}</p>
+                        </td>
+                        <td>
+                          <p className="fs-3 fw-normal mb-0"><span dangerouslySetInnerHTML={{ __html: formatContent(noti.content) }} /></p>
+                        </td>
+                        <td>
+                          <span className={`badge rounded-pill px-3 py-2 fs-3 ${getNotificationTypeClass(noti.type)}`}>
+                            {noti.type === 1 ? 'Thông thường' :
+                              noti.type === 2 ? 'Cảnh báo' :
+                                noti.type === 3 ? 'Khẩn cấp' : 'Hệ thống'}
+                          </span>
+                        </td>
+                        <td>
+                          {noti.status === false ? (
+                            <span className={`tt-choduyet badge bg-warning rounded-pill px-3 py-2 fs-3 text-white`}>
+                              Chưa gửi
+                            </span>
+                          ) : (
+                            <span className={`tt-choduyet badge bg-success rounded-pill px-3 py-2 fs-3 text-white`}>
+                              Đã gửi
+                            </span>
+                          )}
+                        </td>
+                        <td>
+                          <button
+                            className="btn text-white btn-sm btn-mokhoa px-3 py-2 mx-2" style={{ pointerEvents: noti.status ? 'none' : 'auto', opacity: noti.status ? 0.5 : 1 }}
+                            onClick={() => handleOpenEditModal(noti)}
+                          >
+                            Sửa
+                          </button>
+                          <a
+                            href="#"
+                            className="btn text-white btn-sm btn-chitiet px-3 py-2 mx-2" style={{ pointerEvents: noti.status ? 'none' : 'auto', opacity: noti.status ? 0.5 : 1 }}
+                            onClick={() => handleOpenSendPopup(noti)}
+                          >
+                            Gửi
+                          </a>
+                        </td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
+
               </table>
             </div>
             {notifications && notifications?.totalPages > 1 && (

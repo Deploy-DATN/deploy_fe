@@ -12,7 +12,18 @@ import 'src/pages/admin/layout/layout.scss'
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { userAppDispatch, RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
+import { fetchAccount } from "@/components/header/redux/action";
+
 export const Layout = () => {
+
+	const dispatch = userAppDispatch();
+	const { data } = useSelector((state: RootState) => state.user);
+	useEffect(() => {
+		dispatch(fetchAccount());
+	}, [dispatch]);
+
 	const scrollableNodeRef = useRef<HTMLDivElement>(null);
 	const [user, setUser] = useState<Account>();
 	const [sentNotifications, setSentNotifications] = useState<any[]>([]);
@@ -34,12 +45,10 @@ export const Layout = () => {
 			const response = await getAccountApi();
 			const userData = response.data.data;
 			setUser(userData);
-			console.log(userData);
 			// Gọi API getSentNotiApi với email của user
 			if (userData?.email) {
 				const sentNotiResponse = await getSentNotiApi({ email: userData.email });
 				setSentNotifications(sentNotiResponse.data.notifications); // Lưu dữ liệu thông báo vào biến state
-				console.log("Sent Notifications:", sentNotiResponse.data.notifications);
 			}
 		} catch (error) {
 			console.error("Error loading user data:", error);
@@ -259,7 +268,7 @@ export const Layout = () => {
 							</li>
 						</ul>
 						<div
-							className="navbar-collapse justify-content-end px-0 card rounded-0"
+							className="navbar-collapse justify-content-end px-0 card rounded-0 mb-0"
 							id="navbarNav"
 						>
 							<ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
@@ -300,30 +309,36 @@ export const Layout = () => {
 										aria-expanded="false"
 									>
 										<img
-											src={logo}
+											src={data?.avatar}
 											alt=""
 											width="35"
 											height="35"
 											className="rounded-circle"
 										/>
 										<div className="ps-2">
-											<h5 className="mb-0">{user?.name} 12312312</h5>
-											<h6>{user?.email}dsfdsfdsfds</h6>
+											<h5 className="mb-0">{data?.fullName}</h5>
+											<h6>{data?.email}</h6>
 										</div>
 									</a>
 
 									<div
-										className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
+										className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up me-4"
 										aria-labelledby="drop2"
 									>
 										<div className="message-body">
-											<a
-												href="#"
+											<Link to='/admin/adminprofile'
 												className="d-flex align-items-center gap-2 dropdown-item"
 											>
 												<i className="ti ti-user fs-6"></i>
 												<p className="mb-0 fs-3">Tài khoản của tôi</p>
-											</a>
+											</Link>
+
+											<Link to='/admin/changepassword'
+												className="d-flex align-items-center gap-2 dropdown-item"
+											>
+												<i className="ti ti-lock fs-6"></i>
+												<p className="mb-0 fs-3">Đổi mật khẩu</p>
+											</Link>
 											<a
 												href="#"
 												className="d-flex align-items-center gap-2 dropdown-item"
