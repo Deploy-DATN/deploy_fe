@@ -233,7 +233,7 @@ export const AddMotelOwner = () => {
     try {
       setErrors({});
       let hasError = false;
-	  const addressall: string = `${selectedProvince.name || ''}, ${selectedDistrict.name || ''}, ${selectedWard || ''}, ${values.address}`;
+	  const addressall: string = `${values.address}, ${selectedWard}, ${selectedDistrict.name}, ${selectedProvince.name}`;
 	  console.log(addressall);
       // Kiểm tra các trường cơ bản
       const fieldsToValidate = {
@@ -522,7 +522,7 @@ export const AddMotelOwner = () => {
                     id="title"
                     className="form-control mt-2 input-motel-info"
                     placeholder="Địa chỉ cụ thể"
-                    value={values.address}
+                    value={values?.address}
                     onChange={(e) => handleChange(e, "address")}
                   />
                   {errors.address && (
