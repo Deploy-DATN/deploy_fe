@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { fetchAccount } from '@/components/header/redux/action';
 import './adminprofile.scss'
+import { useNavigate } from 'react-router-dom';
 const AdminProfile = () => {
+    const navigate = useNavigate();
     const dispatch = userAppDispatch();
     const userData = useSelector((state: RootState) => state.user.data);
     console.log(userData)
@@ -93,38 +95,75 @@ const AdminProfile = () => {
     };
 
     return (
-        <div className="container adminprofile py-5">
-            <div className="row">
-                <div className="col-5 d-flex flex-column align-items-center">
-                    <img
-                        src={userData?.avatar}
-                        className="avatar rounded-circle mb-2"
-                        alt="avatar"
-                        onError={(e) => {
-                            e.currentTarget.src = 'https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media';
-                        }}
-                    />
-                    <input
-                        type="file"
-                        accept="image/*"
-                        id="avatarInput"
-                        style={{ display: 'none' }}
-                        onChange={handleAvatarChange}
-                    />
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={handleButtonClick}
-                    >
-                        Cập nhật avatar
-                    </button>
-                </div>
+        <div className="container-fluid adminprofile">
 
-                <div className="col-7">
-                    <MyAccount onSubmit={handleSubmit} />
+
+            <div className="row align-items-stretch mt-3">
+
+                <div className="card w-100">
+                    <button
+                        className="position-absolute fw-bold btn-cancel"
+                        onClick={() => navigate('/admin')}
+                    >
+                        X
+                    </button>
+                    <div className="card-body p-4 mb-5">
+
+                        <h1 className="my-5 fw-bold" style={{ marginLeft: '13%' }}>THÔNG TIN TÀI KHOẢN</h1>
+                        <div className="row">
+                            {/* Avatar Section */}
+                            <div className="col-md-5 d-flex flex-column align-items-center">
+                                <img
+                                    src={userData?.avatar}
+                                    className="avatar rounded-circle mb-2"
+                                    alt="avatar"
+                                    onError={(e) => {
+                                        e.currentTarget.src =
+                                            'https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media';
+                                    }}
+                                />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    id="avatarInput"
+                                    style={{ display: 'none' }}
+                                    onChange={handleAvatarChange}
+                                />
+
+                                <div className="form-group mx-2" style={{ minHeight: '80px' }}>
+                                    <br />
+                                    <div className="d-flex align-items-center">
+                                        {/* Hình tròn màu xanh lá cây */}
+                                        <span
+                                            className="rounded-circle"
+                                            style={{
+                                                backgroundColor: 'green',
+                                                width: '12px',
+                                                height: '12px',
+                                                display: 'inline-block',
+                                                marginRight: '10px',
+                                            }}
+                                        ></span>
+                                        <label htmlFor="" className="mb-0">Đang hoạt động</label>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={handleButtonClick}
+                                >
+                                    Cập nhật avatar
+                                </button>
+                            </div>
+                            <div className="col-md-7">
+                                <MyAccount onSubmit={handleSubmit} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     );
 }
 

@@ -23,7 +23,7 @@ export const Layout = () => {
 	useEffect(() => {
 		dispatch(fetchAccount());
 	}, [dispatch]);
-	
+
 	const scrollableNodeRef = useRef<HTMLDivElement>(null);
 	const [user, setUser] = useState<Account>();
 	const [sentNotifications, setSentNotifications] = useState<any[]>([]);
@@ -268,7 +268,7 @@ export const Layout = () => {
 							</li>
 						</ul>
 						<div
-							className="navbar-collapse justify-content-end px-0 card rounded-0"
+							className="navbar-collapse justify-content-end px-0 card rounded-0 mb-0"
 							id="navbarNav"
 						>
 							<ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
@@ -326,13 +326,19 @@ export const Layout = () => {
 										aria-labelledby="drop2"
 									>
 										<div className="message-body">
-											<a
-												href="#"
+											<Link to='/admin/adminprofile'
 												className="d-flex align-items-center gap-2 dropdown-item"
 											>
 												<i className="ti ti-user fs-6"></i>
-												<p className="mb-0 fs-3"><Link to='/admin/adminprofile'>Tài khoản của tôi</Link></p>
-											</a>
+												<p className="mb-0 fs-3">Tài khoản của tôi</p>
+											</Link>
+
+											<Link to='/admin/changepassword'
+												className="d-flex align-items-center gap-2 dropdown-item"
+											>
+												<i className="ti ti-lock fs-6"></i>
+												<p className="mb-0 fs-3">Đổi mật khẩu</p>
+											</Link>
 											<a
 												href="#"
 												className="d-flex align-items-center gap-2 dropdown-item"

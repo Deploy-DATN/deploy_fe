@@ -43,7 +43,7 @@ const MyAccount: React.FC<Props> = ({ onSubmit }) => {
 
     return (
         <form className='container' onSubmit={handleSubmit(onSubmit)}>
-            <div className="form-group" style={{ minHeight: '80px' }}>
+            <div className="form-group" style={{ minHeight: '80px', width: '80%' }}>
                 <InputField
                     control={control}
                     label="Họ và tên"
@@ -53,7 +53,7 @@ const MyAccount: React.FC<Props> = ({ onSubmit }) => {
                     classname={`form-control ${errors['fullName']?.message ? "is-invalid" : ""}`}
                 />
             </div>
-            <div className="form-group" style={{ minHeight: '80px' }}>
+            <div className="form-group" style={{ minHeight: '80px', width: '80%' }}>
                 <InputField
                     control={control}
                     label="Số điện thoại"
@@ -63,7 +63,7 @@ const MyAccount: React.FC<Props> = ({ onSubmit }) => {
                     classname={`form-control ${errors['phone']?.message ? "is-invalid" : ""}`}
                 />
             </div>
-            <div className="form-group" style={{ minHeight: '80px' }}>
+            <div className="form-group" style={{ minHeight: '80px', width: '80%' }}>
                 <InputField
                     control={control}
                     label="Email"
@@ -73,6 +73,8 @@ const MyAccount: React.FC<Props> = ({ onSubmit }) => {
                     classname={`form-control ${errors['email']?.message ? "is-invalid" : ""}`}
                 />
             </div>
+
+
             <button type="submit" className="btn btn-primary">Cập nhật</button>
         </form>
     )
