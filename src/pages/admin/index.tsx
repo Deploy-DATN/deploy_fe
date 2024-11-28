@@ -33,7 +33,7 @@ export const Admin = () => {
           {/* nào test xong xóa sau */}
           <Route path="roomtest" element={<Roomtesst />} />
           <Route path="inforoom" element={<Inforoom />} />
-          <Route path="testcode" element={<Testcode />} />
+          <Route path="testcode/:id" element={<Testcode />} />
           <Route path="indexOwner">
             <Route index element={<IndexOwner />} />
             <Route path="addModelOwner" element={<AddMotelOwner />} />
