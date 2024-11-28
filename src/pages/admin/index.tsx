@@ -20,6 +20,7 @@ import CreateTicket from "./ticket/component/create_ticket";
 import { Roomtesst } from "./room/roomtesst";
 import Inforoom from "./room/component/inforoom";
 import { UserProvider } from "@/services/api/UserContext";
+import Testcode from "@/context/testcode";
 
 export const Admin = () => {
   return (
@@ -29,8 +30,10 @@ export const Admin = () => {
           {/* Route không cần bảo vệ */}
           <Route path="unauthorized" element={<Unauthorized />} />
           <Route index element={<Dashboard />} />
+          {/* nào test xong xóa sau */}
           <Route path="roomtest" element={<Roomtesst />} />
           <Route path="inforoom" element={<Inforoom />} />
+          <Route path="testcode" element={<Testcode />} />
           <Route path="indexOwner">
             <Route index element={<IndexOwner />} />
             <Route path="addModelOwner" element={<AddMotelOwner />} />
@@ -45,6 +48,7 @@ export const Admin = () => {
           </Route>
           <Route path="account" element={<Account />}></Route>
           <Route path="notification" element={<Notification />} />
+          {/* xóa tới đây */}
           {/* Routes chỉ dành cho Admin */}
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
             <Route path="motel">
