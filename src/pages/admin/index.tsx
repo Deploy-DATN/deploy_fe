@@ -24,6 +24,7 @@ import { UserProvider } from "@/services/api/UserContext";
 import Profile from "../admin/Profile/index";
 import ChangePassword from '../admin/Profile/ChangePass';
 import Testcode from "@/context/testcode";
+import Package from "./Profile/package";
 export const Admin = () => {
   return (
     <UserProvider>
@@ -52,6 +53,7 @@ export const Admin = () => {
           </Route>
           <Route path="account" element={<Account />}></Route>
           <Route path="notification" element={<Notification />} />
+          <Route path="package" element={<Package />} />
           {/* xóa tới đây */}
           {/* Routes chỉ dành cho Admin */}
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
@@ -76,6 +78,7 @@ export const Admin = () => {
             <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
             <Route path="bill" element={<Bill />} />
             <Route path="support" element={<CreateTicket />} />
+            <Route path="package" element={<Package />} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["Admin", "Staff"]} />}>

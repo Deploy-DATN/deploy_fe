@@ -1,6 +1,8 @@
 import React from "react";
 import { GetRoomTypeDTO } from "@/services/Dto/MotelDto";
 import RowRoom from "./rowRoom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBolt, faDroplet } from "@fortawesome/free-solid-svg-icons";
 
 const Roomtype = (props: {
   roomType: GetRoomTypeDTO;
@@ -48,7 +50,7 @@ const Roomtype = (props: {
       <div className="room-type-owner mt-3">
         <div className="row justify-content-between px-3">
           <div className="col-12 col-lg-4 col-xxl-5 row justify-content-between pb-3">
-            <div className="col-12 col-lg-12 col-xxl-6 mt-3 list-img-room-motel row g-2">
+            <div className="col-12 col-lg-12 col-xxl-6 mt-3 list-img-room-motel row g-2 mb-3">
               {roomType?.images?.map((image, index) => (
                 <div className="col-3 col-md-2 col-lg-4 g-2">
                   <img
@@ -83,24 +85,30 @@ const Roomtype = (props: {
                   <small className="me-2">Đánh giá</small>
                   <span>{roomType?.rating}</span>
                 </div>
-                <div className="motel-item-address">
-                  <i className="fa-thin fa-location-dot fa-lg me-2"></i>
-                  <p>{roomType?.motel?.address}</p>
-                </div>
               </div>
-              <div className="d-flex justify-content-lg-around col-12 mt-3 px-0">
-                <button
-                  className="btn btn-create-notification btn-transform-y2 p-2 me-2 me-lg-0 "
-                  onClick={() => toggleModal("AddRoomInType", roomType.id)}
-                >
-                  Thêm phòng
-                </button>
-                <button
-                  onClick={() => toggleModal("editRoomType", roomType.id)}
-                  className="btn btn-create-notification btn-transform-y2 p-2 col-lg-4"
-                >
-                  Sửa
-                </button>
+              <div className="g-2">
+                <div className="">
+                  <button
+                    className="btn btn-create-notification btn-transform-y2"
+                    onClick={() => toggleModal("addElicWater", roomType.id)}
+                  >
+                    Thêm điện nước
+                  </button>
+                </div>
+                <div className="d-flex justify-content-lg-between col-12 mt-3 px-0">
+                  <button
+                    className="btn btn-create-notification btn-transform-y2 p-2 me-2 me-lg-0 "
+                    onClick={() => toggleModal("AddRoomInType", roomType.id)}
+                  >
+                    Thêm phòng
+                  </button>
+                  <button
+                    onClick={() => toggleModal("editRoomType", roomType.id)}
+                    className="btn btn-create-notification btn-transform-y2 p-2 col-lg-4"
+                  >
+                    Sửa
+                  </button>
+                </div>
               </div>
             </div>
           </div>
