@@ -11,6 +11,7 @@ import EditAccount from "./Component/editAccount";
 import DeleteAccount from "./Component/deleteAccount";
 
 import { getAllUser } from "@/services/api/userApi";
+import { set } from "date-fns";
 
 interface User {
   id: number;
@@ -53,15 +54,22 @@ export const Account: React.FC = () => {
   const handleCloseDeleteModal = () => {
     setShowDeleteModal(false);
   };
+  const token = localStorage.getItem("token");
   const fetchUser = async (pageNumber = 1, searchString = "") => {
     try {
-      const res = await getAllUser({ pageNumber, searchString });
+      const res = await getAllUser({ token, pageNumber, searchString });
       if (res.data.code === 200) {
         setUsers(res.data.data.list);
         setTotalPages(res.data.data.totalPage);
       }
+      else {
+        setUsers([]);
+        setTotalPages(0);
+      }
+
     } catch (error) {
-      console.error("Error fetching users:", error);
+      setUsers([]);
+
     }
   };
 
@@ -78,7 +86,7 @@ export const Account: React.FC = () => {
     setCurrentPage(pageNumber);
     // gọi ở đây
     try {
-      const res = await getAllUser({ pageNumber: pageNumber });
+      const res = await getAllUser({token, pageNumber: pageNumber });
       console.log(res);
       // đặt lại ng dùng
       if (res.data.code === 200) {
@@ -100,7 +108,7 @@ export const Account: React.FC = () => {
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") handleSearch();
   };
- 
+
   return (
     <>
       <div className="container-fluid">
@@ -168,29 +176,33 @@ export const Account: React.FC = () => {
                           </span>
                         </td>
                         <td>
-                          <a
-                            className="px-2 py-1 mx-1 btn-transform-y2"
-                            onClick={() => handleOpenEditModal(user.id)}
-                          >
-                            <FontAwesomeIcon
-                              icon={faPenToSquare}
-                              size="2xl"
-                              color="#298b90"
-                              className="icon-table-motel"
-                            />
-                          </a>
-                          <a
-                            href="#"
-                            className="px-2 py-1 mx-1 btn-transform-y2"
-                            onClick={() => handleOpenDeleteModal(user.id)}
-                          >
-                            <FontAwesomeIcon
-                              icon={faTrashCan}
-                              size="2xl"
-                              color="#298b90"
-                              className="icon-table-motel"
-                            />
-                          </a>
+                          {user.role !== "Admin" && (
+                            <>
+                              <a
+                                className="px-2 py-1 mx-1 btn-transform-y2"
+                                onClick={() => handleOpenEditModal(user.id)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faPenToSquare}
+                                  size="2xl"
+                                  color="#298b90"
+                                  className="icon-table-motel"
+                                />
+                              </a>
+                              <a
+                                href="#"
+                                className="px-2 py-1 mx-1 btn-transform-y2"
+                                onClick={() => handleOpenDeleteModal(user.id)}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faTrashCan}
+                                  size="2xl"
+                                  color="#298b90"
+                                  className="icon-table-motel"
+                                />
+                              </a>
+                            </>
+                          )}
                         </td>
                       </tr>
                     ))}
