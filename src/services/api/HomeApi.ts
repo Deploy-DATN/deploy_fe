@@ -99,3 +99,7 @@ export const getBillDetailApi = async (id: number) => {
 export const postVnpayApi = async (vnpay: VnPay) => {
     return axios.post(API.VNPAY, vnpay)
 }
+
+export const getRelatedApi = async (address: string) => {
+    return axios.get(`${API.RELATED}?adress=${address}`)
+}
