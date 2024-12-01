@@ -77,11 +77,11 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
             <div className="row">
               <div className=" col-12 col-lg-5 row  align-content-start flex-wrap">
                 {motels[0].images.map((image, index) => (
-                  <div key={index} className="col-6 col-md-4 col-lg-4 mb-3">
+                  <div key={index} className="col-6 col-md-4 col-lg-4 mb-2 px-1">
                     <img
                       src={image}
                       alt={`Hình ${index + 1}`}
-                      className="img-fluid rounded img-info-room-detail"
+                      className="img-fluid img-info-room-detail"
                     />
                   </div>
                 ))}
