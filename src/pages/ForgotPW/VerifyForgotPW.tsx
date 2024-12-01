@@ -86,7 +86,7 @@ useEffect(() => {
           title: 'Thành công',
           text: 'Nhập OTP thành công',
         });
-        navigate('/NewPW');
+        navigate('/forgot-password/set-password');
 
       } else {
         Swal.fire({

@@ -21,6 +21,10 @@ import { Roomtesst } from "./room/roomtesst";
 import Inforoom from "./room/component/inforoom";
 import { UserProvider } from "@/services/api/UserContext";
 
+import Profile from "../admin/Profile/index";
+import ChangePassword from '../admin/Profile/ChangePass';
+import Testcode from "@/context/testcode";
+import Package from "./Profile/package";
 export const Admin = () => {
   return (
     <UserProvider>
@@ -28,9 +32,13 @@ export const Admin = () => {
         <Route path="/" element={<Layout />}>
           {/* Route không cần bảo vệ */}
           <Route path="unauthorized" element={<Unauthorized />} />
+          <Route path="adminprofile" element={<Profile />} />
+          <Route path="changepassword" element={<ChangePassword />} />
           <Route index element={<Dashboard />} />
+          {/* nào test xong xóa sau */}
           <Route path="roomtest" element={<Roomtesst />} />
           <Route path="inforoom" element={<Inforoom />} />
+          <Route path="testcode/:id" element={<Testcode />} />
           <Route path="indexOwner">
             <Route index element={<IndexOwner />} />
             <Route path="addModelOwner" element={<AddMotelOwner />} />
@@ -45,6 +53,8 @@ export const Admin = () => {
           </Route>
           <Route path="account" element={<Account />}></Route>
           <Route path="notification" element={<Notification />} />
+          <Route path="package" element={<Package />} />
+          {/* xóa tới đây */}
           {/* Routes chỉ dành cho Admin */}
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
             <Route path="motel">
@@ -68,6 +78,7 @@ export const Admin = () => {
             <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
             <Route path="bill" element={<Bill />} />
             <Route path="support" element={<CreateTicket />} />
+            <Route path="package" element={<Package />} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["Admin", "Staff"]} />}>

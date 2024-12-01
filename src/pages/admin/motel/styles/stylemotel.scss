@@ -505,3 +505,14 @@ table {
   font-size: 0.875em;
   margin-top: 0.25rem;
 }
+.section-search-add-motel-address{
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+    border-radius: 10px;
+  .btn-search-add-motel-address {
+    border: none;
+  }
+}

@@ -14,11 +14,12 @@ const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         .string()
         .required("Tiêu đề không được bỏ trống")
         .min(20, "Tiêu đề phải có ít nhất 10 kí tự")
-        .max(40, "Tiêu đề phải có nhiều nhất 30 ký tự"),
+        .max(40, "Tiêu đề quá dài!!"),
       content: yup
         .string()
         .required("Mô tả không được bỏ trống")
-        .min(10, "Mô tả phải có ít nhất 10 kí tự"),
+        .min(10, "Mô tả phải có ít nhất 20 kí tự")
+        .max(500, "Mô tả quá dài!!"),
       type: yup
         .number()
         .typeError("Loại phải là số")
@@ -80,9 +81,8 @@ const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               type="text"
               name="title"
               errors={errors}
-              classname={`input form-control mt-2 ${
-                errors["title"]?.message ? "is-invalid" : ""
-              }`}
+              classname={`input form-control mt-2 ${errors["title"]?.message ? "is-invalid" : ""
+                }`}
               placeholder="Cấp phép nhà trọ"
             />
           </div>
@@ -93,9 +93,8 @@ const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               type="textarea"
               name="content"
               errors={errors}
-              classname={`input form-control mt-2 ${
-                errors["content"]?.message ? "is-invalid" : ""
-              }`}
+              classname={`input form-control mt-2 ${errors["content"]?.message ? "is-invalid" : ""
+                }`}
               placeholder="Nhà trọ của bạn đã được duyệt, xem thêm thông tin chi tiết."
               rows={3}
             />
@@ -108,9 +107,8 @@ const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               render={({ field }: { field: any }) => (
                 <select
                   {...field}
-                  className={`input form-control mt-2 ${
-                    errors["type"]?.message ? "is-invalid" : ""
-                  }`}
+                  className={`input form-control mt-2 ${errors["type"]?.message ? "is-invalid" : ""
+                    }`}
                 >
                   <option value={1} selected>
                     Thông thường

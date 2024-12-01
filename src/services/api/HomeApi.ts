@@ -26,6 +26,11 @@ export interface PasswordUser {
     newPassword: string;
     confirmNewPassword: string;
 }
+
+export interface VnPay {
+    orderId: string;
+    amount: number;
+}
 //API trang chu
 
 export const getOutstandingMotelApi = async (osMotels: RoomType) => {
@@ -89,4 +94,8 @@ export const getBillUserApi = async (id: number, pageIndex: number, pageSize: nu
 
 export const getBillDetailApi = async (id: number) => {
     return axios.get(`${API.BILLDETAIL}${id}`)
+}
+
+export const postVnpayApi = async (vnpay: VnPay) => {
+    return axios.post(API.VNPAY, vnpay)
 }

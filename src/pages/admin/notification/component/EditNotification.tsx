@@ -13,15 +13,27 @@ interface EditNotificationProps {
 }
 
 const validationSchema = yup.object().shape({
-    title: yup.string().required('Tiêu đề không được để trống'),
-    content: yup.string().required('Nội dung không được để trống'),
-    type: yup.number().required('Loại không được để trống').typeError('Loại phải là một số'),
+    title: yup
+        .string()
+        .required('Tiêu đề không được để trống')
+        .min(10, 'Tiêu đề phải có ít nhất 10 ký tự')
+        .max(20, 'Tiêu đề quá dài'),
+    content: yup
+        .string()
+        .required('Nội dung không được để trống')
+        .min(20, 'Nội dung phải có ít nhất 20 ký tự')
+        .max(500, 'Nội dung quá dài'),
+    type: yup
+        .number()
+        .required('Loại không được để trống')
+        .typeError('Loại phải là một số'),
 });
 
 const EditNotification: React.FC<EditNotificationProps> = ({ notificationId, initialData, onClose }) => {
     const { control, handleSubmit, formState: { errors } } = useForm<UpdateNoti>({
         resolver: yupResolver(validationSchema),
         defaultValues: initialData,
+        mode: 'onBlur',
     });
 
     const onSubmit = async (data: UpdateNoti) => {

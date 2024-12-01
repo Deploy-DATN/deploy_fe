@@ -96,26 +96,6 @@ export const Roomtesst = () => {
                         Thêm loại phòng
                       </button>
                     </div>
-                    <div className="">
-                      <button
-                        className="btn btn-create-notification btn-transform-y2"
-                        onClick={() => toggleModal("addElicWater")}
-                      >
-                        <FontAwesomeIcon
-                          icon={faBolt}
-                          size="lg"
-                          color="#fffffff"
-                          className="icon-table-motel me-2"
-                        />
-                        <FontAwesomeIcon
-                          icon={faDroplet}
-                          size="lg"
-                          color="#fffffff"
-                          className="icon-table-motel me-2"
-                        />
-                        Thêm điện nước
-                      </button>
-                    </div>
                   </div>
 
                   <div className="d-flex justify-content-start mt-3 justify-content-lg-end justify-content-xl-end justify-content-xxl-end">

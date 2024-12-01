@@ -70,11 +70,17 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
         //fecth role data
         const role = await getRole();
         //set role data
-        console.log("role data:", role.data.data);
+        
         const roleOptions = role.data.data.map((item: any) => ({
           value: item.name,
           label: item.name,
         }));
+        if (roleOptions.some((role: { value: string; label: string }) => role.value === "Admin")) {
+          roleOptions.splice(
+            roleOptions.findIndex((role: { value: string; label: string }) => role.value === "Admin"),
+            1
+          );
+        }
         setOptions(roleOptions);
         if (res.data.code === 200) {
           setUserData(res.data.data);

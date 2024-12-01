@@ -71,6 +71,14 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
             value: item.name,
             label: item.name,
           }));
+          //nếu vai trò có admin thì loại bỏ giá trị
+          if (roleOptions.some((role: { value: string; label: string }) => role.value === "Admin")) {
+            roleOptions.splice(
+              roleOptions.findIndex((role: { value: string; label: string }) => role.value === "Admin"),
+              1
+            );
+          }
+          console.log("Role: ",roleOptions);
           setOptions(roleOptions);
           setFormData((prev) => ({ ...prev, role: roleOptions[2] || roleOptions[0] })); // Đặt vai trò mặc định
         }

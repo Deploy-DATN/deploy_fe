@@ -1,12 +1,11 @@
 import '../styles/management.scss'
-import { Link, Outlet, useLocation, useNavigate  } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 
 import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
 
 const Layout = () => {
     const location = useLocation();
-    const navigate = useNavigate();
     const userData = useSelector((state: RootState) => state.user.data);
     const isExactActive = (path: string) => location.pathname === path;
 
@@ -43,7 +42,7 @@ const Layout = () => {
                         </li>
                         <li className='menu-item'>
                             <div
-                                onClick={()=>{
+                                onClick={() => {
                                     localStorage.removeItem('token');
                                     window.location.href = '/';
                                 }}
