@@ -1,10 +1,10 @@
 import Swal from 'sweetalert2';
 import { CreateTicket } from '@/services/api/ticketApi';
 import { FormCreate } from '@/services/Dto/ticketDto';
-import TicketForm from './form/ticketForm';
+import TicketForm from '@/components/form/ticketForm';
 
 const createTicket = () => {
-    const handleSubmit = async (data: FormCreate) => {
+    const handleSubmit = async (data: FormCreate, reset: Function) => {
         try {
             const res = await CreateTicket(data);
             if (res.data.code === 200) {
@@ -13,6 +13,7 @@ const createTicket = () => {
                     title: 'Thành công',
                     text: 'Thành công',
                 });
+                reset();
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -33,7 +34,7 @@ const createTicket = () => {
 
     return (
         <div className="container create-ticket py-3">
-            <TicketForm onSubmit={handleSubmit} />
+            <TicketForm onSubmit={handleSubmit} className='col-7 block-content mx-auto' />
         </div>
     );
 };
