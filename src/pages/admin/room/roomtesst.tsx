@@ -63,7 +63,7 @@ export const Roomtesst = () => {
     try {
       const response = await GetRoomTypeByMotelId(motelId);
       if (response) setRoomType(response.data);
-      console.log(roomType)
+      console.log(roomType);
     } catch (error) {
       console.log(error);
     }
@@ -100,36 +100,36 @@ export const Roomtesst = () => {
 
                   <div className="d-flex justify-content-start mt-3 justify-content-lg-end justify-content-xl-end justify-content-xxl-end">
                     <div>
-                      <div className="input-group">
-                        <div className="input-group-text">
-                          <FontAwesomeIcon
-                            icon={faSearch}
-                            size="lg"
-                            color="#0B1A46"
-                            className="form-check-input mt-0 border border-0"
+                      <div className="form-group has-search position-relative">
+                        <form
+                          className="d-flex align-items-center border border-secondary-subtle ps-3 rounded"
+                        >
+                          <span className="fa fa-search form-control-feedback"></span>
+                          <input
+                            type="search"
+                            className="form-control border-0"
+                            placeholder="Tìm kiếm tiêu đề"
                           />
-                        </div>
-                        <input
-                          type="text"
-                          className="form-control"
-                          aria-label="Text input with radio button"
-                          placeholder="Tìm kiếm"
-                        ></input>
+                        </form>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              {roomType && roomType.map((roomType) => (
-                <Roomtype
-                  roomType={roomType}
-                  motelStatus={motel?.status || 0}
-                  toggleModal={toggleModal}
+              {roomType &&
+                roomType.map((roomType) => (
+                  <Roomtype
+                    roomType={roomType}
+                    motelStatus={motel?.status || 0}
+                    toggleModal={toggleModal}
                   />
                 ))}
 
               {modalState.addRoom && (
-                <Addroom motelId={motelId} onClose={() => toggleModal("addRoom")} />
+                <Addroom
+                  motelId={motelId}
+                  onClose={() => toggleModal("addRoom")}
+                />
               )}
               {modalState.addElicWater && (
                 <AddElicWater onClose={() => toggleModal("addElicWater")} />
@@ -142,7 +142,7 @@ export const Roomtesst = () => {
               )}
               {modalState.AddRoomInType && selectedRoomId && (
                 <Addroomintype
-                roomTypeId={selectedRoomId}
+                  roomTypeId={selectedRoomId}
                   onClose={() => toggleModal("AddRoomInType")}
                 />
               )}

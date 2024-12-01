@@ -61,15 +61,12 @@ export const Account: React.FC = () => {
       if (res.data.code === 200) {
         setUsers(res.data.data.list);
         setTotalPages(res.data.data.totalPage);
-      }
-      else {
+      } else {
         setUsers([]);
         setTotalPages(0);
       }
-
     } catch (error) {
       setUsers([]);
-
     }
   };
 
@@ -86,15 +83,14 @@ export const Account: React.FC = () => {
     setCurrentPage(pageNumber);
     // gọi ở đây
     try {
-      const res = await getAllUser({token, pageNumber: pageNumber });
+      const res = await getAllUser({ token, pageNumber: pageNumber });
       console.log(res);
       // đặt lại ng dùng
       if (res.data.code === 200) {
         setUsers(res.data.data.list);
         setTotalPages(res.data.data.totalPage);
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error fetching users:", error);
       // reload
       window.location.reload();
@@ -115,30 +111,37 @@ export const Account: React.FC = () => {
         <div className="row align-items-stretch mt-3">
           <div className="card w-100">
             <div className="card-body p-4">
-              <div className="d-flex justify-content-between align-items-center">
-                <h2 className="header-name-all">Quản lý tài khoản</h2>
-                <div className="search-container">
-                  <input
-                    type="text"
-                    placeholder="Tìm kiếm..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    className="form-control"
-                  />
+              <div className="">
+                <div className="d-flex justify-content-between align-items-center">
+                  <h2 className="header-name-all">Quản lý tài khoản</h2>
+                  <button
+                    className="btn btn-create-notification btn-transform-y2"
+                    onClick={handleOpenModal}
+                  >
+                    <FontAwesomeIcon
+                      icon={faPlus}
+                      size="lg"
+                      color="#fffffff"
+                      className="icon-table-motel me-3"
+                    />
+                    Thêm tài khoản
+                  </button>
                 </div>
-                <button
-                  className="btn btn-create-notification btn-transform-y2"
-                  onClick={handleOpenModal}
-                >
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    size="lg"
-                    color="#fffffff"
-                    className="icon-table-motel me-3"
-                  />
-                  Thêm tài khoản
-                </button>
+                <div className="d-flex justify-content-end mt-3">
+                  <div className="form-group has-search position-relative">
+                    <form className="d-flex align-items-center border border-secondary-subtle ps-3 rounded">
+                      <span className="fa fa-search form-control-feedback"></span>
+                      <input
+                        type="search"
+                        className="form-control border-0"
+                        placeholder="Tìm kiếm tiêu đề"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                      />
+                    </form>
+                  </div>
+                </div>
               </div>
               <div className="table-responsive mt-3" data-simplebar>
                 <table className="test-table table table-borderless align-middle text-nowrap">
@@ -226,7 +229,9 @@ export const Account: React.FC = () => {
                       <li className="page-item" key={number}>
                         <a
                           style={{ caretColor: "transparent" }}
-                          className={`page-link btn-filter ${number === currentPage ? "active" : ""}`}
+                          className={`page-link btn-filter ${
+                            number === currentPage ? "active" : ""
+                          }`}
                           onClick={() => handlePageChange(number)}
                         >
                           {number}
@@ -252,11 +257,28 @@ export const Account: React.FC = () => {
       </div>
 
       {/* Add Account Modal */}
-      {showModal && <AddAccount onClose={handleCloseModal} onSubmit={() => handlePageChange(currentPage)} />}
+      {showModal && (
+        <AddAccount
+          onClose={handleCloseModal}
+          onSubmit={() => handlePageChange(currentPage)}
+        />
+      )}
       {/* Edit Account Modal */}
-      {showEditModal && userId !== null && <EditAccount userId={userId} onClose={handleCloseEditModal} onSubmit={() => handlePageChange(currentPage)} />}
+      {showEditModal && userId !== null && (
+        <EditAccount
+          userId={userId}
+          onClose={handleCloseEditModal}
+          onSubmit={() => handlePageChange(currentPage)}
+        />
+      )}
       {/* Delete Account Modal */}
-      {showDeleteModal && userId !== null && <DeleteAccount userId={userId} onClose={handleCloseDeleteModal} onSubmit={() => handlePageChange(currentPage)} />}
+      {showDeleteModal && userId !== null && (
+        <DeleteAccount
+          userId={userId}
+          onClose={handleCloseDeleteModal}
+          onSubmit={() => handlePageChange(currentPage)}
+        />
+      )}
     </>
   );
 };

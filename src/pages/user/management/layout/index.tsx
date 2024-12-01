@@ -32,6 +32,9 @@ const Layout = () => {
                             <Link to="/user/motel" className={`text-dark px-2 py-3 d-block ${isPartialActive('/motel') ? 'menu-item__link--active' : 'menu-item__link'}`}>Trọ</Link>
                         </li>
                         <li className='menu-item'>
+                            <Link to="/user/noti" className={`text-dark px-2 py-3 d-block ${isPartialActive('/noti') ? 'menu-item__link--active' : 'menu-item__link'}`}>Thông báo</Link>
+                        </li>
+                        <li className='menu-item'>
                             <Link to="/user/history" className={`text-dark px-2 py-3 d-block ${isPartialActive('/history') ? 'menu-item__link--active' : 'menu-item__link'}`}>Lịch sử thuê</Link>
                         </li>
                         <li className='menu-item'>

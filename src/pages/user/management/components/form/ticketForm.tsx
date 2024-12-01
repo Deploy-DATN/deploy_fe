@@ -132,7 +132,7 @@ const TicketForm: React.FC<Props> = ({ onSubmit }) => {
                         />
                     </div>
                     <div className="action">
-                        <button type="submit" className="btn btn-primary">Gửi</button>
+                        <button type="submit" className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2">Gửi</button>
                     </div>
                 </div>
             </div>

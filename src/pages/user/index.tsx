@@ -20,6 +20,7 @@ import { SearchMotel } from './search';
 import History from './management/components/history';
 import Bill from './management/components/bill';
 import BillDetail from './management/components/billDetail';
+import Noti from './management/components/noti';
 
 export const User = () => {
   return (
@@ -31,6 +32,7 @@ export const User = () => {
           <Route path="motel" element={<Motel />} />
           <Route path="change-password" element={<ChangePassword/>} />
           <Route path="ticket" element={<TicketUser/>} />
+          <Route path="noti" element={<Noti/>} />
           <Route path="history" element={<History/>} />
           <Route path="history/:roomId" element={<Bill/>} />
           <Route path="history/:roomId/:billId" element={<BillDetail/>} />
