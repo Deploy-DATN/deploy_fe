@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import { userAppDispatch, RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { fetchAccount } from "./redux/action";
+import RegisterOwner from "./components/registerOwner";
 
 const Header = () => {
   const dispatch = userAppDispatch();
   const { data } = useSelector((state: RootState) => state.user);
+  const [modalShow, setModalShow] = useState(false);
+
   useEffect(() => {
     dispatch(fetchAccount());
   }, [dispatch]);
@@ -76,25 +79,45 @@ const Header = () => {
                   <i className="fa-light fa-sun-bright font-size-header text-dark px-3 py-2"></i>
                   <i className="fa-light fa-bell-ring font-size-header text-dark px-3 py-2"></i>
                   {token ? (
-                    <div className="dropdown-custom" onClick={toggleDropdown}>
-                      <a href="#" className="text-dark lg-none px-3 py-2 font-size-header">
-                        <img
-                          src={data?.avatar}
-                          alt="avatar"
-                          width="30"
-                          height="30"
-                          className="rounded-circle"
-                        />
-                      </a>
-                      {dropdownVisible && (
-                        <div className="dropdown-menu-custom">
-                          <Link to='/user' className="dropdown-item">Thông tin cá nhân</Link>
-                          <a href="#" className="dropdown-item">Thông báo</a>
-                          <a href="#" className="dropdown-item">Thay đổi mật khẩu</a>
-                          <hr className="dropdown-divider" />
-                          <a href="#" className="dropdown-item">Thoát</a>
-                        </div>
-                      )}
+                    <div className="d-flex">
+                      <div className="dropdown-custom" onClick={toggleDropdown}>
+                        <a href="#" className="text-dark lg-none px-3 py-2 font-size-header">
+                          <img
+                            src={data?.avatar}
+                            alt="avatar"
+                            width="30"
+                            height="30"
+                            className="rounded-circle"
+                          />
+                        </a>
+                        {dropdownVisible && (
+                          <div className="dropdown-menu-custom">
+                            <Link to='/user' className="dropdown-item">Thông tin cá nhân</Link>
+                            <a href="#" className="dropdown-item">Thông báo</a>
+                            <Link to="/user/change-password" className="dropdown-item">Thay đổi mật khẩu</Link>
+                            <hr className="dropdown-divider" />
+                            <div
+                              onClick={() => {
+                                localStorage.removeItem('token');
+                                window.location.href = '/';
+                              }}
+                              className="dropdown-item"
+                            >
+                              Đăng xuất
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        className="d-flex align-items-center border border-success rounded-1 px-1"
+                        onClick={() => setModalShow(true)}
+                      >
+                        Bạn là chủ?
+                      </button>
+                      <RegisterOwner
+                        show={modalShow}
+                        onHide={() => setModalShow(false)}
+                      />
                     </div>
                   ) :
                     <Link to='/login' className="text-dark lg-none px-3 py-2 font-size-header"><i className="fa-light fa-user"></i></Link>

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { postVnpayApi, VnPay } from "@/services/api/HomeApi";
 import '../styles/motel.scss'
 import { GetRentalRoomDetailAPI } from '@/services/api/HomeApi';
+import Feedback from './feedback';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 const Motel = () => {
@@ -24,12 +25,9 @@ const Motel = () => {
             } catch (error) {
                 console.log("fetch error!!", error)
             }
-
         };
         fetchRetalRoomDetail();
     }, []);
-
-    console.log(rentalDetail)
 
     const handleVnPayPayment = async (billId: number, amount: number) => {
         console.log('Inside handleVnPayPayment');
@@ -93,7 +91,6 @@ const Motel = () => {
         }
 
     }, []);
-
     return (
         <div className="container user-motel p-4">
             {rentalDetail ? (
@@ -108,11 +105,11 @@ const Motel = () => {
                             }}
                             navigation={true}
                             modules={[Pagination, Navigation]}
-                            className="mySwiper rounded"
+                            className="mySwiper rounded my-custom-swiper"
                         >
                             {rentalDetail.roomImages.map((image: any) => (
                                 <SwiperSlide key={image.id}>
-                                    <img src={image.link} alt="Room" className="img-fluid" />
+                                    <img src={image.link} alt="Room" className="slide-img" />
                                 </SwiperSlide>
                             ))}
                         </Swiper>
@@ -162,6 +159,7 @@ const Motel = () => {
                             <div className="col-6">
                                 <button className="btn col-10 btn-motel" >Phản hồi</button>
                             </div>
+                            <Feedback motelId ={rentalDetail.id}/>
                         </div>
                     </div>
                 </div>
