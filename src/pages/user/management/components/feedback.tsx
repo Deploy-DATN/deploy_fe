@@ -1,23 +1,79 @@
+import { FormCreate } from '@/services/Dto/ticketDto';
+import { useRef, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import TicketForm from '@/components/form/ticketForm';
+import { CreateTicket } from '@/services/api/ticketApi';
+import Swal from 'sweetalert2';
 
+import '../styles/feedback.scss'
 
-const Feedback = () => {
-    return (
-        <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex={-1} aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h1 className="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body">
-                        ...
-                    </div>
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary">Understood</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+type Props = {
+    motelId: number;
 }
+
+const Feedback = ({ motelId }: Props) => {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const formRef = useRef<{ submitForm: () => void }>(null);
+
+    const handleSubmit = async (data: FormCreate) => {
+        data.modelId = motelId;
+        try {
+            const res = await CreateTicket(data);
+            if (res.data.code === 200) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công',
+                    text: 'Thành công',
+                });
+                handleClose();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi!',
+                    text: 'Thất bại',
+                });
+            }
+
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: 'Có lỗi xảy ra trong quá trình gửi phản hồi',
+            });
+            console.error('Lỗi API:', error);
+        }
+    }
+
+    return (
+        <>
+            <div className='col-6'>
+                <Button variant="primary" onClick={handleShow}>
+                    Phản hồi
+                </Button>
+            </div>
+            <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Phản hồi</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className='create-feedback'>
+                    <TicketForm ref={formRef} onSubmit={handleSubmit} buttonNone='d-none' motel={true} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Hủy
+                    </Button>
+                    <Button variant="primary" onClick={() => formRef.current?.submitForm()}>
+                        Gửi phản hồi
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+}
+
+export default Feedback

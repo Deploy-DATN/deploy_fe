@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import '../styles/motel.scss'
 import { GetRentalRoomDetailAPI } from '@/services/api/HomeApi';
+import Feedback from './feedback';
 const Motel = () => {
     const [rentalDetail, setRentalDetail] = useState<any | null>(null);
     useEffect(() => {
@@ -21,12 +22,10 @@ const Motel = () => {
             } catch (error) {
                 console.log("fetch error!!", error)
             }
-
         };
         fetchRetalRoomDetail();
     }, []);
 
-    console.log(rentalDetail)
     return (
         <div className="container user-motel p-4">
             {rentalDetail ? (
@@ -92,9 +91,7 @@ const Motel = () => {
                             <div className="col-6">
                                 <button className="btn btn-primary col-10 d-none">Thêm người thuê</button>
                             </div>
-                            <div className="col-6">
-                                <button className="btn btn-primary col-10">Phản hồi</button>
-                            </div>
+                            <Feedback motelId ={rentalDetail.id}/>
                         </div>
                     </div>
                 </div>
