@@ -8,8 +8,11 @@ import { postVnpayApi, VnPay } from "@/services/api/HomeApi";
 import '../styles/motel.scss'
 import { GetRentalRoomDetailAPI } from '@/services/api/HomeApi';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 const Motel = () => {
+    const location = useLocation(); // Lấy thông tin URL hiện tại
+    const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
+    const [orderId, setOrderId] = useState<string | null>(null);
     const navigate = useNavigate();
     const [rentalDetail, setRentalDetail] = useState<any | null>(null);
     useEffect(() => {
@@ -42,20 +45,7 @@ const Motel = () => {
             const response = await postVnpayApi(vnpayPayload);
             console.log('API response:', response);
             if (response.status === 200) {
-
                 window.location.href = response.data;
-                if (response.data) {
-                    sessionStorage.setItem('paymentPending', 'true');
-                    navigate('/user/motel');
-                    Swal.fire({
-                        title: 'Thanh toán thành công',
-                        text: 'Bạn đã thanh toán thành công hóa đơn này.',
-                        icon: 'success',
-                        timer: 2000,
-                        timerProgressBar: true,
-                        showConfirmButton: false
-                    })
-                }
 
             } else {
                 sessionStorage.setItem('paymentPending', 'false');
@@ -76,23 +66,33 @@ const Motel = () => {
     };
 
     useEffect(() => {
-        const paymentPending = sessionStorage.getItem('paymentPending');
+        const queryParams = new URLSearchParams(location.search);
+        const status = queryParams.get('status');
+        const orderId = queryParams.get('orderId');
 
-        if (paymentPending === 'true') {
+        if (status === 'success' && orderId) {
             Swal.fire({
                 title: 'Thanh toán thành công',
-                text: 'Bạn đã thanh toán thành công hóa đơn này.',
+                text: `Hóa đơn #${orderId} đã được thanh toán thành công.`,
                 icon: 'success',
                 timer: 2000,
                 timerProgressBar: true,
-                showConfirmButton: false
+                showConfirmButton: false,
             });
 
-            // Sau khi hiển thị thông báo, xóa thông tin thanh toán
-            sessionStorage.removeItem('paymentPending');
+            window.history.replaceState({}, document.title, '/user/motel');
+        } else if (status === 'fail') {
+            Swal.fire({
+                title: 'Thanh toán thất bại',
+                text: 'Vui lòng thử lại.',
+                icon: 'error',
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+            window.history.replaceState({}, document.title, '/user/motel');
         }
-
-    }, []);
+    }, [location.search]);
 
     return (
         <div className="container user-motel p-4">
@@ -146,7 +146,7 @@ const Motel = () => {
                                 </div>
                                 <div className="infomation text-dark">
                                     Tháng {new Date(rentalDetail.createDate).getMonth() + 1}:
-                                    {rentalDetail.status = 1 ? ' Đã thanh toán' : ' Chưa thanh toán'}
+                                    {rentalDetail.status === 1 ? ' Chưa thanh toán' : ' Đã thanh toán'}
                                 </div>
                             </div>
                             <div className="col-6">
@@ -156,8 +156,13 @@ const Motel = () => {
                             </div>
                         </div>
                         <div className="row">
-                            <div className="col-6">
-                                <button className="btn col-10 btn-motel" onClick={() => handleVnPayPayment(rentalDetail.billId, rentalDetail.totalMoney)} style={{ pointerEvents: rentalDetail.status ? 'none' : 'auto', opacity: rentalDetail.status ? 0.5 : 1 }}>Thanh toán</button>
+                            <div className={`col-6 ${rentalDetail.status === 2 ? 'd-none' : ''}`}>
+                                <button
+                                    className="btn col-10 btn-motel"
+                                    onClick={() => handleVnPayPayment(rentalDetail.billId, rentalDetail.totalMoney)}
+                                >
+                                    Thanh toán
+                                </button>
                             </div>
                             <div className="col-6">
                                 <button className="btn col-10 btn-motel" >Phản hồi</button>
