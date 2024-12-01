@@ -38,6 +38,7 @@ const Motel = () => {
             const vnpayPayload: VnPay = {
                 orderId: billId.toString(),
                 amount,
+                returnUrl: ``,
             };
             const response = await postVnpayApi(vnpayPayload);
             console.log('API response:', response);
