@@ -30,6 +30,7 @@ export interface PasswordUser {
 export interface VnPay {
     orderId: string;
     amount: number;
+    returnUrl: string;
 }
 //API trang chu
 
@@ -97,5 +98,5 @@ export const getBillDetailApi = async (id: number) => {
 }
 
 export const postVnpayApi = async (vnpay: VnPay) => {
-    return axios.post(API.VNPAY, vnpay)
+    return axios.post(API.VNPAY, vnpay )
 }
