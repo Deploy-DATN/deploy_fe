@@ -156,10 +156,7 @@ const Motel = () => {
                             <div className="col-6">
                                 <button className="btn col-10 btn-motel" onClick={() => handleVnPayPayment(rentalDetail.billId, rentalDetail.totalMoney)} style={{ pointerEvents: rentalDetail.status ? 'none' : 'auto', opacity: rentalDetail.status ? 0.5 : 1 }}>Thanh toán</button>
                             </div>
-                            <div className="col-6">
-                                <button className="btn col-10 btn-motel" >Phản hồi</button>
-                            </div>
-                            <Feedback motelId ={rentalDetail.id}/>
+                            <Feedback motelId={rentalDetail.id} />
                         </div>
                     </div>
                 </div>

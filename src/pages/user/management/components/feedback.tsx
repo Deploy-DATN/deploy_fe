@@ -52,7 +52,7 @@ const Feedback = ({ motelId }: Props) => {
     return (
         <>
             <div className='col-6'>
-                <Button variant="primary" onClick={handleShow}>
+                <Button variant="btn col-10 btn-motel" onClick={handleShow}>
                     Phản hồi
                 </Button>
             </div>
