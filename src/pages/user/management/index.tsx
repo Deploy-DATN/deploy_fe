@@ -117,7 +117,7 @@ const Profile = () => {
                     />
                     <button
                         type="button"
-                        className="btn btn-primary"
+                        className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2"
                         onClick={handleButtonClick}
                     >
                         Cập nhật avatar
