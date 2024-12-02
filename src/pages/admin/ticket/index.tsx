@@ -138,7 +138,7 @@ export const TicketPage: React.FC = () => {
                         <td>
                           <p className="fs-3 fw-normal mb-0">
                             {/* type: 0:mặc định, 1:lỗi hệ thống, 2:yêu cầu, 3:tố cáo, 4:trợ giúp
-                          status: 0:mặc định, 1:tiếp nhận, 2:đang sử lý, 3:đã hoàn thành */}
+                          status: 0:mặc định, 1:tiếp nhận, 2:đang xử lý, 3:đã hoàn thành */}
                             {
                               item.type === 1 ? "Lỗi hệ thống" : item.type === 2 ? "Yêu cầu" : item.type === 3 ? "Tố cáo" : item.type === 4 ? "Trợ giúp" : "Chưa có"
                             }
@@ -161,7 +161,7 @@ export const TicketPage: React.FC = () => {
                         <td>
                           <p className="fs-3 fw-normal mb-0">
                             {
-                              item.status === 1 ? "Tiếp nhận" : item.status === 2 ? "Đang sử lý" : item.status === 3 ? "Hoàn thành" : "Chưa có"
+                              item.status === 1 ? "Tiếp nhận" : item.status === 2 ? "Đang xử lý" : item.status === 3 ? "Hoàn thành" : "Chưa có"
                             }
                           </p>
                         </td>

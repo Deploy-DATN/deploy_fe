@@ -6,6 +6,7 @@ import { getUserById } from "@/services/api/userApi";
 import { updateUser } from "@/services/api/userApi";
 import { getRole } from "@/services/api/userApi";
 import Swal from 'sweetalert2';
+import { toast } from "react-toastify";
 interface EditAccountProps {
   userId: number;
   onClose: () => void;
@@ -129,31 +130,19 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
         console.log('User added successfully:', response.data);
         if (response.data.code === 200) {
           onClose();
-          Swal.fire({
-            icon: 'success',
-            title: 'Thành công!',
-            text: 'Cập nhật tài khoản thành công',
-            timer: 1500
-          });
+          toast.success("Sửa tài khoản thành công");
+
         }
         if (response.data.code === 404) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Lỗi!',
-            text: response.data.message,
-            timer: 1500,
-          });
+          toast.error("xóa tài khoản thất bại " +response.data.message);
+          console.log(response.data.message);
         }
         // Optionally, handle success (like resetting the form, showing a success message, etc.)
         onSubmit();
       } catch (error) {
         //shoe error
-        Swal.fire({
-          icon: 'error',
-          title: 'Lỗi!',
-          text: 'Đã xảy ra lỗi trong quá trình cập nhật: ' + error,
-          timer: 1500
-        });
+        toast.error("xóa tài khoản thất bại " +error);
+        console.log(error);
       }
     }
 

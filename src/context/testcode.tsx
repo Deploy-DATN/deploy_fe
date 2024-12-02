@@ -166,13 +166,16 @@ export const EditMotelOwner = () => {
   // Thêm hàm validate
   const validateField = (name: string, value: string) => {
     if (name === "province") {
-      if (!selectedProvince.name || selectedProvince.code === null) {
+      console.log("Province: ", selectedProvince);
+      console.log("District: ", selectedDistrict);
+      console.log("Ward: ", selectedWard);
+      if (!selectedProvince.name) {
         setErrors((prev) => ({
           ...prev,
           province: "Vui lòng chọn Tỉnh/Thành phố, Quận/ Huyện và Phường/ Xã",
         }));
         return false;
-      } else if (!selectedDistrict.name || selectedDistrict.code === null) {
+      } else if (!selectedDistrict.name) {
         setErrors((prev) => ({
           ...prev,
           province: "Vui lòng chọn Quận/ Huyện và Phường/ Xã",

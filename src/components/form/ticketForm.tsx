@@ -184,7 +184,7 @@ const TicketForm = forwardRef(({ onSubmit, className, buttonNone, motel }: Props
                         />
                     </div>
                     <div className={clsx("action", buttonNone)}>
-                        <button type="submit" className="btn btn-primary">Gửi trợ giúp</button>
+                        <button type="submit" className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2">Gửi trợ giúp</button>
                     </div>
                 </div>
             </div>

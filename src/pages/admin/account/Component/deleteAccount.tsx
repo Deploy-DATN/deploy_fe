@@ -1,6 +1,7 @@
 import React from "react";
 import { deleteUser } from "@/services/api/userApi";
 import Swal from 'sweetalert2';
+import { toast } from "react-toastify";
 interface DeleteAccountProps {
   userId: number;
   onClose: () => void;
@@ -18,21 +19,14 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ userId, onClose, onSubmit
       }
 
       // Notify the parent component or refresh data, if needed
-      Swal.fire({
-        icon: 'success',
-        title: 'Thành công!',
-        text: 'Xóa tải khoản thành công' ,
-        timer: 1500
-      });
+      toast.success("xóa tài khoản thành công");
+
       onClose();
       onSubmit();
     } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Lỗi!',
-        text: 'Đã xảy ra lỗi trong quá trình Xóa: ' + error,
-        timer: 1500
-      });
+          toast.error("xóa tài khoản thất bại" +error);
+          console.log(error);
+
     }
   };
   return (
@@ -61,7 +55,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({ userId, onClose, onSubmit
                 onClick={onDelete}
                 className="btn-luu-all btn-style btn-transform-y2"
               >
-                Lưu
+                Xóa
               </button>
             </div>
           </form>
