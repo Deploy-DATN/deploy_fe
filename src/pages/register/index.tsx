@@ -37,13 +37,21 @@ const Register = () => {
                     text: 'Đăng kí thất bại',
                 });
             }
-        } catch (error) {
+        } catch (error: unknown) { // Kiểu hóa lỗi để đảm bảo an toàn
+            let errorMessage = 'Có lỗi xảy ra!';
+
+            // Xử lý lỗi API từ Axios
+            if (error instanceof Error && (error as any).response?.data?.message) {
+                errorMessage = (error as any).response.data.message;
+            }
+        
             Swal.fire({
                 icon: 'error',
                 title: 'Lỗi!',
-                text: 'Đăng kí thất bại',
+                text: `Đăng kí thất bại: ${errorMessage}`,
             });
-            console.log(`ERR đăng ký: ${error}`);
+        
+            console.error(`ERR đăng ký: ${JSON.stringify(error)}`);
         }
     }
 
@@ -72,7 +80,7 @@ const Register = () => {
                             <div className={clsx(style.text)}>
                                 <p>
                                     <label>
-                                        Bạn đã có tài khoản? <a href="#">Đăng nhập</a>
+                                        Bạn đã có tài khoản? <a href="/login">Đăng nhập</a>
                                     </label>
                                 </p>
                             </div>

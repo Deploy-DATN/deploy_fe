@@ -84,5 +84,4 @@ const ChangePasswordForm: React.FC<Props> = ({ onSubmit }) => {
     </form>
   );
 };
-
 export default ChangePasswordForm;

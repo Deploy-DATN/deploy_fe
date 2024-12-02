@@ -1,8 +1,7 @@
-import { To, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LoginForm from './components/loginForm';
 
 import { AccountDto, getLoginApi } from '@/services/api/authApi';
-import { KEY_LOCAL, saveToLocalStorage } from '@/ustils/local/F_LocalStorage';
 
 import './styles/login.scss';
 
@@ -14,15 +13,13 @@ import information from '@/assets/icon/information.png';
 import location from '@/assets/icon/location.png';
 import proceeds from '@/assets/icon/proceeds.png';
 import Swal from 'sweetalert2';
-import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
-import { User } from '../user';
+import { useEffect} from 'react';
 import { getRouteFromToken } from '@/services/apiConfig';
 
-interface TokenPayload {
-	role: string;
-	'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
-}
+// interface TokenPayload {
+// 	role: string;
+// 	'http://schemas.microsoft.com/ws/2008/06/identity/claims/role': string;
+// }
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -87,7 +84,7 @@ const Login = () => {
 					<p>
 						Bạn không có tài khoản?{' '}
 						<a
-							href='#'
+							href='/register'
 							className='link text-decoration-none'>
 							Đăng ký
 						</a>

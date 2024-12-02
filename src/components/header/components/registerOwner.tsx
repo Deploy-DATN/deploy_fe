@@ -89,42 +89,42 @@ const RegisterOwner = ({ show, onHide }: Props) => {
                         const response = await AddMotel(submitFormData);
                         try {
                             if (response.code === 200) {
+                                onHide();
+                                setStep(1);
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Thành công',
                                     text: 'Thành công',
                                 });
-                                onHide();
-                                setStep(1);
                             }
                             else {
+                                onHide();
+                                setStep(1);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Lỗi!',
                                     text: 'Thất bại',
                                 });
-                                onHide();
-                                setStep(1);
                             }
                         } catch (error) {
+                            onHide();
+                            setStep(1);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Lỗi!',
                                 text: 'Tạo mới dãy trọ',
                             });
-                            onHide();
-                            setStep(1);
                         }
                     }
                 } catch (error) {
+                    onHide();
+                    setStep(1);
                     console.log(`Lỗi lấy user ${error}`);
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi!',
                         text: 'Không có token',
                     });
-                    onHide();
-                    setStep(1);
                 }
             };
 

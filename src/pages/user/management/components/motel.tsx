@@ -39,6 +39,7 @@ const Motel = () => {
             const vnpayPayload: VnPay = {
                 orderId: billId.toString(),
                 amount,
+                returnUrl: ``,
             };
             const response = await postVnpayApi(vnpayPayload);
             console.log('API response:', response);
@@ -161,10 +162,7 @@ const Motel = () => {
                                     Thanh toán
                                 </button>
                             </div>
-                            <div className="col-6">
-                                <button className="btn col-10 btn-motel" >Phản hồi</button>
-                            </div>
-                            <Feedback motelId ={rentalDetail.id}/>
+                            <Feedback motelId={rentalDetail.id} />
                         </div>
                     </div>
                 </div>

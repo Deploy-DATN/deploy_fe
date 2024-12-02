@@ -44,11 +44,17 @@ export enum API {
     DELETEUSER = API_URL + '/User/',
     GETROLE = API_URL + '/Role',
 
+    //Package
+    GETALLPACKAGE = API_URL + '/api/Package',
+    REGISTERPACKAGE = API_URL + '/api/Package',
+    CHECKPACKAGE = API_URL + '/api/Package/check',
+
     //Home
     OUTSTANDINGMOTELS = API_URL + '/api/Main/outstanding-motels',
     NEWMOTELS = API_URL + '/api/Main/new',
     ROOMTYPEUNDERMILION = API_URL + '/api/Main/room-types-under-one-million',
     USEDETAIL = API_URL + '/GetUserDetailsFromToken',
+    RELATED = API_URL + '/api/Main/get-RealatedRoom-By-Adress',
 
     // search Motel
     SEARCHMOTEL = API_URL + '/api/Main/search',
