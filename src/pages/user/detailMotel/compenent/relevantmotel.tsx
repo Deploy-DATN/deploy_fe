@@ -135,7 +135,7 @@ function RelevantMotel() {
                   className="carousel slide"
                   data-bs-ride="carousel"
                 >
-                  <div className="carousel-indicators mb-0">
+                  <div className="carousel-indicators mb-0 ">
                     {motel.images.map((_, imgIndex) => (
                       <button
                         key={imgIndex}
@@ -147,7 +147,7 @@ function RelevantMotel() {
                       ></button>
                     ))}
                   </div>
-                  <div className="carousel-inner">
+                  <div className="carousel-inner  rounded-3">
                     {motel.images.map((img, imgIndex) => (
                       <div
                         key={imgIndex}
