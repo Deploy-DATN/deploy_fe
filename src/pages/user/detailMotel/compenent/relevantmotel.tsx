@@ -129,21 +129,7 @@ function RelevantMotel({ address }: RelevantMotelProps) {
                       ></button>
                     </div>
                   </div>
-                  <div className="carousel-inner  rounded-3">
-                    {motel.images.map((img, imgIndex) => (
-                      <div
-                        key={imgIndex}
-                        className={`carousel-item ${
-                          imgIndex === 0 ? "active" : ""
-                        }`}
-                      >
-                        <img
-                          src={img}
-                          className="img-slider-home-motel"
-                          alt="Motel"
-                        />
-                      </div>
-                    ))}
+
                   {/* Phần chữ */}
                   <div className="mt-3">
                     <h5 className="name-motel-home-1">{motel.name}</h5>
