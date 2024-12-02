@@ -149,7 +149,7 @@ export const Layout = () => {
               <h1>Thỏ Stay</h1>
             </a>
             <div
-              className="close-btn d-xl-none d-block sidebartoggler cursor-pointer"
+              className="close-btn d-xl-none d-block sidebartoggler cursor-pointer d-flex justify-content-center align-items-center"
               id="sidebarCollapse"
               onClick={() => {
                 handleSidebarToggle();

@@ -141,9 +141,13 @@
 
 /* Tùy chỉnh cho icon người dùng */
 .header-avatar img {
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+.link-dropdown-header-user:hover{
+    background-color: #298B90 !important;
+    color: #fff !important;
 }
 
 .dropdown-noti--header-user {

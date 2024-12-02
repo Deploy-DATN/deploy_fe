@@ -30,7 +30,7 @@ const Infoticket = () => {
 
     const selectStatus: Option[] = [
         { value: 1, label: 'Tiếp nhận' },
-        { value: 2, label: 'Đang sử lý' },
+        { value: 2, label: 'Đang xử lý' },
         { value: 3, label: 'Hoàn thành' }
     ];
 
@@ -151,7 +151,7 @@ const Infoticket = () => {
                                 <div className='row mb-3'>
                                     {user && user.role === "Owner" ?
                                         <div className='receiver col-6'>
-                                            <div className='receiver__label mb-2'>Người sử lý:</div>
+                                            <div className='receiver__label mb-2'>Người xử lý:</div>
                                             <input
                                                 value={infoticket?.receiver}
                                                 className='receiver__content form-control'
@@ -159,7 +159,7 @@ const Infoticket = () => {
                                         </div>
                                         :
                                         <div className='receiver col-6'>
-                                            <div className='receiver__label mb-2'>Người sử lý:</div>
+                                            <div className='receiver__label mb-2'>Người xử lý:</div>
                                             <Selectbox control={control} name='receiver' className='form-select' options={selectReceiver} />
                                         </div>
                                     }
