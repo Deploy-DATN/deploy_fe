@@ -21,6 +21,7 @@ import History from './management/components/history';
 import Bill from './management/components/bill';
 import BillDetail from './management/components/billDetail';
 import Noti from './management/components/noti';
+import MyMotel from './management/components/myMotel';
 
 export const User = () => {
   return (
@@ -30,6 +31,7 @@ export const User = () => {
         <Route path='user' element={<Management />}>
           <Route index element={<Profile />} />
           <Route path="motel" element={<Motel />} />
+          <Route path="my-motel" element={<MyMotel />} />
           <Route path="change-password" element={<ChangePassword/>} />
           <Route path="ticket" element={<TicketUser/>} />
           <Route path="noti" element={<Noti/>} />

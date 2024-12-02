@@ -6,7 +6,7 @@ import { RootState } from '@/redux/store'
 
 const Layout = () => {
     const location = useLocation();
-    const userData = useSelector((state: RootState) => state.user.data);
+    const userData = useSelector((state: RootState) => state.user.user);
     const isExactActive = (path: string) => location.pathname === path;
 
     const isPartialActive = (path: string) => location.pathname.includes(path);
@@ -30,6 +30,9 @@ const Layout = () => {
                         </li>
                         <li className='menu-item'>
                             <Link to="/user/motel" className={`text-dark px-2 py-3 d-block ${isPartialActive('/motel') ? 'menu-item__link--active' : 'menu-item__link'}`}>Trọ</Link>
+                        </li>
+                        <li className='menu-item'>
+                            <Link to="/user/my-motel" className={`text-dark px-2 py-3 d-block ${isPartialActive('/my-motel') ? 'menu-item__link--active' : 'menu-item__link'}`}>Trọ của tôi</Link>
                         </li>
                         <li className='menu-item'>
                             <Link to="/user/noti" className={`text-dark px-2 py-3 d-block ${isPartialActive('/noti') ? 'menu-item__link--active' : 'menu-item__link'}`}>Thông báo</Link>

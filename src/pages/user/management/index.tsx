@@ -11,8 +11,7 @@ const Profile = () => {
 
     const dispatch = userAppDispatch();
 
-    const userData = useSelector((state: RootState) => state.user.data);
-    console.log(userData)
+    const userData = useSelector((state: RootState) => state.user.user);
     const handleSubmit = async (data: UserDetail) => {
         const token = localStorage.getItem('token');
         if (!token) {

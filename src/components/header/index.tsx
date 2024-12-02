@@ -3,16 +3,17 @@ import "./styles/header.scss";
 import { Link } from "react-router-dom";
 import { userAppDispatch, RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
-import { fetchAccount } from "./redux/action";
+import { fetchAccount, fetchMyMotel } from "./redux/action";
 import RegisterOwner from "./components/registerOwner";
 
 const Header = () => {
   const dispatch = userAppDispatch();
-  const { data } = useSelector((state: RootState) => state.user);
+  const { user, myMotel } = useSelector((state: RootState) => state.user);
   const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAccount());
+    dispatch(fetchMyMotel());
   }, [dispatch]);
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -203,10 +204,10 @@ const Header = () => {
                                 {noti.type === 1
                                   ? "Khẩn cấp"
                                   : noti.type === 2
-                                  ? "Hệ thống"
-                                  : noti.type === 3
-                                  ? "Cảnh báo"
-                                  : "Thông thường"}
+                                    ? "Hệ thống"
+                                    : noti.type === 3
+                                      ? "Cảnh báo"
+                                      : "Thông thường"}
                               </div>
                               <div className="dropdown-noti-item--date">
                                 {noti.date}
@@ -232,7 +233,7 @@ const Header = () => {
                       <div className="dropdown-custom" onClick={toggleDropdown}>
                         <a href="#" className="text-dark lg-none px-3 py-2 font-size-header">
                           <img
-                            src={data?.avatar}
+                            src={user?.avatar}
                             alt="avatar"
                             width="30"
                             height="30"
@@ -257,16 +258,21 @@ const Header = () => {
                           </div>
                         )}
                       </div>
-                      <button
-                        className="d-flex align-items-center border border-success rounded-1 px-1"
-                        onClick={() => setModalShow(true)}
-                      >
-                        Bạn là chủ?
-                      </button>
-                      <RegisterOwner
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                      />
+                      {myMotel ? ''
+                        : (
+                          <>
+                            <button
+                              className="d-flex align-items-center border border-success rounded-1 px-1"
+                              onClick={() => setModalShow(true)}
+                            >
+                              Bạn là chủ?
+                            </button>
+                            <RegisterOwner
+                              show={modalShow}
+                              onHide={() => setModalShow(false)}
+                            />
+                          </>
+                        )}
                     </div>
                   ) : (
                     <Link

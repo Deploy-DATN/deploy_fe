@@ -1,100 +1,14 @@
-import { Swiper, SwiperSlide } from 'swiper/react'
-import 'swiper/css'
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Pagination, Navigation } from 'swiper/modules';
-import { useEffect, useState } from "react";
-import { postVnpayApi, VnPay } from "@/services/api/HomeApi";
-import '../styles/motel.scss'
-import { GetRentalRoomDetailAPI } from '@/services/api/HomeApi';
-import Feedback from './feedback';
-import Swal from 'sweetalert2';
-import { useNavigate, useLocation } from 'react-router-dom';
-const Motel = () => {
-    const location = useLocation(); // Lấy thông tin URL hiện tại
-    const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
-    const [orderId, setOrderId] = useState<string | null>(null);
-    const navigate = useNavigate();
-    const [rentalDetail, setRentalDetail] = useState<any | null>(null);
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        const fetchRetalRoomDetail = async () => {
-            try {
-                if (token) {
-                    const response = await GetRentalRoomDetailAPI(token)
-                    setRentalDetail(response.data)
-                    console.log(response)
-                }
-            } catch (error) {
-                console.log("fetch error!!", error)
-            }
-        };
-        fetchRetalRoomDetail();
-    }, []);
+import { useSelector } from 'react-redux';
+import { RootState, userAppDispatch } from '@/redux/store';
+import { fetchMyMotel } from '@/components/header/redux/action';
 
-    const handleVnPayPayment = async (billId: number, amount: number) => {
-        console.log('Inside handleVnPayPayment');
-        try {
-            console.log('Payload:', { billId, amount });
-            const vnpayPayload: VnPay = {
-                orderId: billId.toString(),
-                amount,
-                returnUrl: ``,
-            };
-            const response = await postVnpayApi(vnpayPayload);
-            console.log('API response:', response);
-            if (response.status === 200) {
-                window.location.href = response.data;
+const MyMotel = () => {
+    const dispatch = userAppDispatch();
 
-            } else {
-                sessionStorage.setItem('paymentPending', 'false');
-                Swal.fire({
-                    title: 'Chưa thanh toán',
-                    text: 'Thanh toán thất bại',
-                    icon: 'error',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                });
-                navigate('/user/motel');
-            }
-        } catch (error: any) {
-            console.error('Error creating order:', error.message);
-            alert('An error occurred while creating the order');
-        }
-    };
-
-    useEffect(() => {
-        const queryParams = new URLSearchParams(location.search);
-        const status = queryParams.get('status');
-        const orderId = queryParams.get('orderId');
-
-        if (status === 'success' && orderId) {
-            Swal.fire({
-                title: 'Thanh toán thành công',
-                text: `Hóa đơn #${orderId} đã được thanh toán thành công.`,
-                icon: 'success',
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: false,
-            });
-
-            window.history.replaceState({}, document.title, '/user/motel');
-        } else if (status === 'fail') {
-            Swal.fire({
-                title: 'Thanh toán thất bại',
-                text: 'Vui lòng thử lại.',
-                icon: 'error',
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: false,
-            });
-            window.history.replaceState({}, document.title, '/user/motel');
-        }
-    }, [location.search]);
+    // const {MyMotel} = useSelector((state: RootState) => state.user.myMotel);
     return (
         <div className="container user-motel p-4">
-            {rentalDetail ? (
+            {/* {rentalDetail ? (
                 <div className="row align-items-center">
                     <div className="col-5">
                         <Swiper
@@ -170,9 +84,9 @@ const Motel = () => {
                 <div className="text-center text-dark">
                     <h4>Bạn chưa thuê phòng nào</h4>
                 </div>
-            )}
+            )} */}
         </div>
     )
 }
 
-export default Motel
+export default MyMotel

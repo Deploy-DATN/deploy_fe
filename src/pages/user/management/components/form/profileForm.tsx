@@ -12,7 +12,7 @@ interface Props {
 }
 
 const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
-    const { data } = useSelector((state: RootState) => state.user);
+    const { user } = useSelector((state: RootState) => state.user);
     const schema = yup
         .object({
             fullName: yup
@@ -32,9 +32,9 @@ const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
         .required();
     const { control, handleSubmit, formState: { errors } } = useForm<UserDetail>({
         defaultValues: {
-            phone: data?.phone || '',
-            fullName: data?.fullName || '',
-            email: data?.email || ''
+            phone: user?.phone || '',
+            fullName: user?.fullName || '',
+            email: user?.email || ''
         },
         resolver: yupResolver(schema),
         mode: 'onBlur'
