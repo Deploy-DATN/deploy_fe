@@ -22,11 +22,21 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
                 .string()
                 .required("Họ và tên không được để trống")
                 .matches(/^\D*$/, "Họ và tên không chứa số")
-                .matches(/^[\p{L}\d\s]*$/u, "Họ và tên không chứa ký tự đặc biệt"),
-            email: yup
+                .matches(/^[\p{L}\d\s'’]*$/u, "Họ và tên không chứa ký tự đặc biệt")
+                .matches(/^(?!.*\s{2,}).*$/, "Không chứa quá nhiều khoãng trắng"),
+                email: yup
                 .string()
                 .email("Email không hợp lệ")
-                .required("Email không được để trống"),
+                .required("Email không được để trống")
+                .test(
+                    "contains-dot-in-domain",
+                    "Email phải chứa dấu chấm trong phần tên miền",
+                    (value) => {
+                        if (!value) return false;
+                        const domain = value.split("@")[1];
+                        return domain?.includes(".");
+                    }
+                ),
             phone: yup
                 .string()
                 .matches(/^0\d{9}$/, "Số điện thoại không đúng định dạng")
@@ -34,7 +44,9 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
             password: yup
                 .string()
                 .min(6, "Mật khẩu phải có ít nhất 6 ký tự")
-                .required("Mật khẩu không được để trống"),
+                .matches(/[a-zA-Z]/, "Mật khẩu phải chứa ít nhất 1 ký tự chữ")
+                .required("Mật khẩu không được để trống")
+                .matches(/^\S*$/, "Mật khẩu không được chứa khoảng trắng"),
             checkbox: yup
                 .boolean()
                 .oneOf([true], "Bạn phải đồng ý với Điều khoản & Dịch vụ")

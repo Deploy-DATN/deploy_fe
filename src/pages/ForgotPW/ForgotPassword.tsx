@@ -90,7 +90,7 @@ const ForgotPWForm = () => {
                   className="img-fluid mb-2"
                   style={{ maxWidth: '150px' }}
                 />
-                <p className="mb-0 color-xam">Bạn chưa có tài khoản? <a href="#" className="dangky-color">Đăng ký</a></p>
+                <p className="mb-0 color-xam">Bạn chưa có tài khoản? <a href="/register" className="dangky-color">Đăng ký</a></p>
               </div>
             </form>
           </div>
