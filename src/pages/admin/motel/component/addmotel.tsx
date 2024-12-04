@@ -9,6 +9,7 @@ import { useUser } from "@/services/api/UserContext";
 import { AddMotelDTO } from "@/services/Dto/MotelDto";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { Editor } from "@tinymce/tinymce-react";
 
 export const AddMotelOwner = () => {
   const { user } = useUser();
@@ -228,13 +229,22 @@ export const AddMotelOwner = () => {
     validateField(field, value);
     console.log(values);
   };
+  const handleChangeDescription = (value: string, field: string) => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      [field]: value,
+    }));
+    validateField(field, value);
+    console.log("Updated description:", value);
+  };
 
   const handleSubmit = async () => {
     try {
       setErrors({});
       let hasError = false;
-	  const addressall: string = `${values.address}, ${selectedWard}, ${selectedDistrict.name}, ${selectedProvince.name}`;
-	  console.log(addressall);
+      const addressall: string = `${values.address}, ${selectedWard}, ${selectedDistrict.name}, ${selectedProvince.name}`;
+      console.log(addressall);
+      console.log(values.description);
       // Kiểm tra các trường cơ bản
       const fieldsToValidate = {
         nameMotel: values.nameMotel,
@@ -727,11 +737,25 @@ export const AddMotelOwner = () => {
                     <label htmlFor="title" className="label-motel-info">
                       Mô tả phòng
                     </label>
-                    <textarea
+                    {/* <textarea
                       className="form-control mt-2 input-motel-info"
                       placeholder="Mô tả phòng trọ"
                       value={values.description}
                       onChange={(e) => handleChange(e, "description")}
+                    /> */}
+                    <Editor
+                      apiKey="5xbwcmrb59xx0v3s64b62ge0xvr0on8enfdafu51357g0d1a"
+                      value={values.description}
+                      onEditorChange={(content) =>
+                        handleChangeDescription(content, "description")
+                      }
+                      init={{
+                        height: 300,
+                        menubar: false,
+                        placeholder: "Mô tả phòng trọ",
+                        content_css: false,
+                        body_class: "form-control mt-2 input-motel-info", // Thêm class vào nội dung editor
+                      }}
                     />
                   </div>
                   <div className="row">
