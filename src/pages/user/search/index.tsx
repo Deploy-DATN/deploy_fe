@@ -141,84 +141,85 @@ export const SearchMotel = () => {
                       </select>
                     </div>
                   </div>
-                {loading ? (
-                  <p>Loading...</p>
-                ) : (
-                  <div className="row list-motel-filter-search">
-                    {motels.map((motel) => (
-                      <div className="col-12 mt-3" key={motel.id}>
-                        <div className="item-list-motel row">
-                          <div className="col-4 list-motel-img">
-                            <a href="#">
-                              <img
-                                src={motel.images[0]?.link || "#"}
-                                alt="Hình ảnh không khả dụng"
-                                className="img-fluid"
-                              />
-                            </a>
-                          </div>
-                          <div className="col-8 list-motel-body">
-                            <div className="motel-item-name">
-                              <a href="#" className="motel-item-link">
-                                <h3>{motel.name}</h3>
+                  {loading ? (
+                    <p>Loading...</p>
+                  ) : (
+                    <div className="row list-motel-filter-search">
+                      {motels.map((motel) => (
+                        <div className="col-12 mt-3" key={motel.id}>
+                          <div className="item-list-motel row">
+                            <div className="col-4 list-motel-img">
+                              <a href="#">
+                                <img
+                                  src={motel.images[0]?.link || "#"}
+                                  alt="Hình ảnh không khả dụng"
+                                  className="img-fluid"
+                                />
                               </a>
                             </div>
-                            <div className="motel-item-price">
-                              <small className="me-2">Từ</small>
-                              <span>{motel.price} triệu/tháng</span>
-                            </div>
-                            <div className="motel-item-address">
-                              <i className="fa-thin fa-location-dot fa-lg me-2"></i>
-                              <p>{motel.address}</p>
+                            <div className="col-8 list-motel-body">
+                              <div className="motel-item-name">
+                                <a href="#" className="motel-item-link">
+                                  <h3>{motel.name}</h3>
+                                </a>
+                              </div>
+                              <div className="motel-item-price">
+                                <small className="me-2">Từ</small>
+                                <span>{motel.price} triệu/tháng</span>
+                              </div>
+                              <div className="motel-item-address">
+                                <i className="fa-thin fa-location-dot fa-lg me-2"></i>
+                                <p>{motel.address}</p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="d-flex justify-content-center align-items-center mt-3">
-                  <nav aria-label="Page navigation example">
-                    <ul className="pagination">
-                      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                        <button
-                          className="page-link btn-filter"
-                          onClick={() => handlePageChange(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        >
-                          &laquo;
-                        </button>
-                      </li>
-                      {totalPages > 0 ? (
-                        pageNumbers.map((number) => (
-                          <li
-                            className={`page-item ${number === currentPage ? "active" : ""}`}
-                            key={number}
+                      ))}
+                    </div>
+                  )}
+                  <div className="d-flex justify-content-center align-items-center mt-3">
+                    <nav aria-label="Page navigation example">
+                      <ul className="pagination">
+                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                          <button
+                            className="page-link btn-filter"
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
                           >
-                            <button
-                              className="page-link btn-filter"
-                              onClick={() => handlePageChange(number)}
-                            >
-                              {number}
-                            </button>
-                          </li>
-                        ))
-                      ) : (
-                        <li className="page-item disabled">
-                          <span className="page-link">No pages</span>
+                            &laquo;
+                          </button>
                         </li>
-                      )}
-                      <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                        <button
-                          className="page-link btn-filter"
-                          onClick={() => handlePageChange(currentPage + 1)}
-                          disabled={currentPage === totalPages}
-                        >
-                          &raquo;
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
+                        {totalPages > 0 ? (
+                          pageNumbers.map((number) => (
+                            <li
+                              className={`page-item ${number === currentPage ? "active" : ""}`}
+                              key={number}
+                            >
+                              <button
+                                className="page-link btn-filter"
+                                onClick={() => handlePageChange(number)}
+                              >
+                                {number}
+                              </button>
+                            </li>
+                          ))
+                        ) : (
+                          <li className="page-item disabled">
+                            <span className="page-link">No pages</span>
+                          </li>
+                        )}
+                        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                          <button
+                            className="page-link btn-filter"
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                          >
+                            &raquo;
+                          </button>
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
                 </div>
               </div>
             </section>
