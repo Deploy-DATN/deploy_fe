@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 import axiosInstance, { API_URL } from '../apiConfig';
-import { AddServiceDTO, EditMotelDTO, EditRoomTypeDTO, EditServiceDTO, GetMotelEditDTO, GetMotelEditDTO_Service, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO } from '../Dto/MotelDto';
+import { AddServiceDTO, EditMotelDTO, EditRoomTypeDTO, EditServiceDTO, GetHistoryByRoomIdDTO, GetMotelEditDTO, GetMotelEditDTO_Service, GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, SendElicWaterDTO } from '../Dto/MotelDto';
 
 import { ResponseDTO } from './RepositoryDto';
 import { FilterProps } from '@/pages/admin/motel';
@@ -128,5 +128,25 @@ export const GetRoomTypeByEditApi = async (id: string | undefined) => {
 
 export const EditRoomTypeApi = async (data: FormData) => {
 	const response = await axios.put<ResponseDTO<null>>(`${API_URL}/Room/edit-room-type`, data);
+	return response.data;
+};
+
+export const GetHistoryByRoomIdApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetHistoryByRoomIdDTO[]>>(`${API_URL}/Room/get-history-by-room-id/${id}`);
+	return response.data;
+};
+
+export const GetRoomTypeByAddElicWaterApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetRoomTypeByAddElicWaterDTO[]>>(`${API_URL}/Room/get-room-by-export-bill/${id}`);
+	return response.data;
+};
+
+export const SendElicWaterApi = async (data: SendElicWaterDTO) => {
+	const response = await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-electric-and-water-to-bill`, data);
+	return response.data;
+};
+
+export const GetPriceByRoomTypeApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetPriceByRoomTypeDTO>>(`${API_URL}/Room/get-price-by-room-type-id/${id}`);
 	return response.data;
 };

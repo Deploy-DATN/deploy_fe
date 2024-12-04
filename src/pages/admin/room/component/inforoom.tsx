@@ -101,7 +101,7 @@ const Inforoom = () => {
               <div className="">
                 {activeTab === "detail" && <Detailroom room={room} />}
                 {activeTab === "bill" && <Billroom />}
-                {activeTab === "history" && <Historyroom />}
+                {activeTab === "history" && <Historyroom roomId={Number(id)} />}
               </div>
             </div>
           </div>
