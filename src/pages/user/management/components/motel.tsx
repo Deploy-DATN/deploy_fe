@@ -23,7 +23,6 @@ const Motel = () => {
                 if (token) {
                     const response = await GetRentalRoomDetailAPI(token)
                     setRentalDetail(response.data)
-                    console.log(response)
                 }
             } catch (error) {
                 console.log("fetch error!!", error)
@@ -118,7 +117,7 @@ const Motel = () => {
                     <div className="col-7 container">
                         <div className="row mb-3">
                             <div className="col-6">
-                                <div className="motel text-dark">Tên dãy trọ: {rentalDetail.motelName}</div>
+                                <div className="motel text-dark">Dãy trọ: {rentalDetail.motelName}</div>
                                 <div className="address text-dark">Địa chỉ: {rentalDetail.motelAdress}</div>
                                 <div className="room text-dark">Phòng: {rentalDetail.roomNumber}</div>
                                 <div className="price text-dark">Giá thuê: {rentalDetail.price} VNĐ</div>
@@ -172,8 +171,6 @@ const Motel = () => {
                 </div>
             )}
         </div>
-
-
     )
 }
 

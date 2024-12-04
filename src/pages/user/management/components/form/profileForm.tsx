@@ -12,37 +12,33 @@ interface Props {
 }
 
 const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
-  const { data } = useSelector((state: RootState) => state.user);
-  const schema = yup
-    .object({
-      fullName: yup
-        .string()
-        .required("Họ và tên không được để trống")
-        .matches(/^\D*$/, "Họ và tên không chứa số")
-        .matches(/^[\p{L}\d\s]*$/u, "Họ và tên không chứa ký tự đặc biệt"),
-      email: yup
-        .string()
-        .email("Email không hợp lệ")
-        .required("Email không được để trống"),
-      phone: yup
-        .string()
-        .matches(/^0\d{9}$/, "Số điện thoại không đúng định dạng")
-        .required("Số điện thoại không được để trống"),
-    })
-    .required();
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UserDetail>({
-    defaultValues: {
-      phone: data?.phone || "",
-      fullName: data?.fullName || "",
-      email: data?.email || "",
-    },
-    resolver: yupResolver(schema),
-    mode: "onBlur",
-  });
+    const { user } = useSelector((state: RootState) => state.user);
+    const schema = yup
+        .object({
+            fullName: yup
+                .string()
+                .required("Họ và tên không được để trống")
+                .matches(/^\D*$/, "Họ và tên không chứa số")
+                .matches(/^[\p{L}\d\s]*$/u, "Họ và tên không chứa ký tự đặc biệt"),
+            email: yup
+                .string()
+                .email("Email không hợp lệ")
+                .required("Email không được để trống"),
+            phone: yup
+                .string()
+                .matches(/^0\d{9}$/, "Số điện thoại không đúng định dạng")
+                .required("Số điện thoại không được để trống"),
+        })
+        .required();
+    const { control, handleSubmit, formState: { errors } } = useForm<UserDetail>({
+        defaultValues: {
+            phone: user?.phone || '',
+            fullName: user?.fullName || '',
+            email: user?.email || ''
+        },
+        resolver: yupResolver(schema),
+        mode: 'onBlur'
+    });
 
   return (
     <form className="container" onSubmit={handleSubmit(onSubmit)}>

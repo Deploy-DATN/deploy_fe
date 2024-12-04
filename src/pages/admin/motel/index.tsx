@@ -350,7 +350,7 @@ export const Motel: React.FC = () => {
                       <td>{motel.rating.toFixed(1)}</td>
                       <td>{motel.totalRoom}</td>
                       <td>{formatDate(motel.createDate)}</td>
-                      <td>{motel.description}</td>
+                      <td className="motel-diachi" dangerouslySetInnerHTML={{ __html: motel?.description || "" }}></td>                    
                       <td>{CheckStatus(motel.status)}</td>
                       <td>
                         <Link

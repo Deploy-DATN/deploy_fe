@@ -122,13 +122,20 @@ export const DetailMotelUser = () => {
               </div>
               {/* thông tin trọ */}
               <div className="mt-4 bgr-detail-motel-text-user p-4 ">
-
                 <h2 className="name-detail-motel-user">{motel?.name}</h2>
-
-                <div className="d-flex mt-3 align-items-center">
-                  <h3 className="me-3 mb-0 price-detail-motel-user">Giá: {motel?.price} / tháng</h3>
-                  <FontAwesomeIcon icon={faCircle} size="sm" color="#0B1A46" className="me-3" />
-                  <h3 className="mb-0 area-detail-motel-user">Diện tích: {motel?.area}M<sup>2</sup></h3>
+                  <div className="d-flex mt-3 align-items-center">
+                    <h3 className="me-3 mb-0 price-detail-motel-user">Giá: {motel?.price} / tháng</h3>
+                    <FontAwesomeIcon icon={faCircle} size="sm" color="#0B1A46" className="me-3" />
+                    <h3 className="mb-0 area-detail-motel-user">Diện tích: {motel?.area}M<sup>2</sup></h3>
+                  </div>
+                  <h5 className="mt-3 mb-0 text-deltail-motel-user">
+                    <i className="fa-light fa-location-dot me-1"></i>
+                    {motel?.address}
+                  </h5>
+                  <h5 className="mt-3 mb-0 text-deltail-motel-user"><i className="fa-light fa-clock me-1"></i>Thời gian cập nhật lần cuối:  {format(motel?.updateDate ? new Date(motel?.updateDate) : new Date(), 'dd/MM/yyyy')} </h5>
+                  <h4 className="mt-5 mb-0 motachitiet-deltail-motel-user" dangerouslySetInnerHTML={{ __html: motel?.description || "" }}>                            
+                    {/* {motel?.description} */}
+                  </h4>
                 </div>
                 <h5 className="mt-3 mb-0 text-deltail-motel-user">
                   <i className="fa-light fa-location-dot me-1"></i>

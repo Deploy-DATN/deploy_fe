@@ -54,6 +54,7 @@ export enum API {
     NEWMOTELS = API_URL + '/api/Main/new',
     ROOMTYPEUNDERMILION = API_URL + '/api/Main/room-types-under-one-million',
     USEDETAIL = API_URL + '/GetUserDetailsFromToken',
+    MYMOTEL = API_URL + '/api/Main/get-infomation-register-motel',
     RELATED = API_URL + '/api/Main/get-RealatedRoom-By-Adress',
 
     // search Motel
@@ -66,7 +67,8 @@ export enum API {
     RENTALROOMHISTORY = API_URL + '/api/Main/get-rental-history',
     BILLUSER = API_URL + '/api/Main/get-Bill',
     BILLDETAIL = API_URL + '/api/Main/get-Bill-detail/',
-    VNPAY = API_URL + '/api/Main/create-order'
+    VNPAY = API_URL + '/api/Main/create-order',
+    DELETEMYMOTEL = API_URL + '/api/Main/delete-register-motel-owner'
 }
 
 const axiosInstance = axios.create({

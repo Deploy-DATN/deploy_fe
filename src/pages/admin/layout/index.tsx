@@ -6,8 +6,6 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { getSentNotiApi } from "@/services/api/notiApi";
 import logo from "@/assets/ThoStay.svg";
-import { getAccountApi } from "@/services/api/authApi";
-import { Account } from "@/services/Dto/authDto";
 import "src/pages/admin/layout/layout.scss";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,17 +16,16 @@ import { fetchAccount } from "@/components/header/redux/action";
 
 export const Layout = () => {
   const dispatch = userAppDispatch();
-  const { data } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector((state: RootState) => state.user);
   useEffect(() => {
     dispatch(fetchAccount());
   }, [dispatch]);
 
   const scrollableNodeRef = useRef<HTMLDivElement>(null);
-  const [user, setUser] = useState<Account>();
   const [sentNotifications, setSentNotifications] = useState<any[]>([]);
 
   useEffect(() => {
-    LoadUser();
+    LoadNofi();
     if (scrollableNodeRef.current) {
       new SimpleBar(scrollableNodeRef.current);
     }
@@ -37,17 +34,11 @@ export const Layout = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const LoadUser = async () => {
-    const response = await getAccountApi();
-    setUser(response.data.data);
+  const LoadNofi = async () => {
     try {
-      const response = await getAccountApi();
-      const userData = response.data.data;
-      setUser(userData);
-      // Gọi API getSentNotiApi với email của user
-      if (userData?.email) {
+      if (user?.email) {
         const sentNotiResponse = await getSentNotiApi({
-          email: userData.email,
+          email: user.email,
         });
         setSentNotifications(sentNotiResponse.data.notifications); // Lưu dữ liệu thông báo vào biến state
       }
@@ -375,15 +366,15 @@ export const Layout = () => {
                     aria-expanded="false"
                   >
                     <img
-                      src={data?.avatar}
+                      src={user?.avatar}
                       alt=""
                       width="35"
                       height="35"
                       className="rounded-circle"
                     />
                     <div className="ps-2">
-                      <h5 className="mb-0">{data?.fullName}</h5>
-                      <h6>{data?.email}</h6>
+                      <h5 className="mb-0">{user?.fullName}</h5>
+                      <h6>{user?.email}</h6>
                     </div>
                   </a>
 

@@ -93,7 +93,6 @@ const BillDetail = () => {
                         <tr>
                             <th scope="row">1</th>
                             <td>Điện</td>
-
                             <td>{billData?.electricPrice} vnđ</td>
                             <td>{billData?.electric}</td>
                             <td>{(billData?.electric && billData?.electricPrice
