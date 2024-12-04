@@ -34,13 +34,16 @@ export const Roomtesst = () => {
 
   const toggleModal = (
     modalName: keyof typeof modalState,
-    roomId: number | null = null
+    param: number | any[] = []
   ) => {
-    setModalState((prevState) => ({
-      ...prevState,
-      [modalName]: !prevState[modalName],
-    }));
-    setSelectedRoomId(roomId);
+    setModalState(prev => ({...prev, [modalName]: !prev[modalName]}));
+    if (Array.isArray(param)) {
+      // Xử lý khi param là mảng rooms
+      setSelectedRooms(param);
+    } else {
+      // Xử lý khi param là roomId
+      setSelectedRoomId(param);
+    }
   };
 
   // code logic ở đây nha
@@ -68,6 +71,8 @@ export const Roomtesst = () => {
       console.log(error);
     }
   };
+
+  const [selectedRooms, setSelectedRooms] = useState<any[]>([]);
 
   return (
     <>
@@ -131,8 +136,8 @@ export const Roomtesst = () => {
                   onClose={() => toggleModal("addRoom")}
                 />
               )}
-              {modalState.addElicWater && (
-                <AddElicWater onClose={() => toggleModal("addElicWater")} />
+              {modalState.addElicWater && selectedRoomId && (
+                <AddElicWater roomTypeId={selectedRoomId} onClose={() => toggleModal("addElicWater")} />
               )}
               {modalState.editRoomType && selectedRoomId && (
                 <EditRoomType

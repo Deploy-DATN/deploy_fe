@@ -7,7 +7,7 @@ import { faBolt, faDroplet } from "@fortawesome/free-solid-svg-icons";
 const Roomtype = (props: {
   roomType: GetRoomTypeDTO;
   motelStatus: number;
-  toggleModal: (modalName: string, roomId: number) => void;
+  toggleModal: (modalName: string, param: number | any[]) => void;
 }) => {
   const { roomType, motelStatus, toggleModal } = props;
 
@@ -92,7 +92,7 @@ const Roomtype = (props: {
                     className="btn btn-create-notification btn-transform-y2"
                     onClick={() => toggleModal("addElicWater", roomType.id)}
                   >
-                    Thêm điện nước
+                    Xuất hoá đơn
                   </button>
                 </div>
                 <div className="d-flex justify-content-lg-between col-12 mt-3 px-0">

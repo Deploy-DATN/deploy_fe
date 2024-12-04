@@ -185,6 +185,7 @@ export const Layout = () => {
                   selected: isPartialActive("account"),
                 })}
               >
+                 {user && user.role === "Admin" ? (
                 <Link
                   to="account"
                   className={clsx(
@@ -197,8 +198,10 @@ export const Layout = () => {
                     <i className="ti ti-article fs-7 text-warning"></i>
                   </span>
                   <span className="hide-menu ms-2 ps-1">Tài khoản</span>
-                </Link>
+                </Link>)
+                : ""}
               </li>
+              
               <li
                 className={clsx("sidebar-item", {
                   selected: isPartialActive("notification"),

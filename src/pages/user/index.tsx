@@ -7,8 +7,6 @@ import Register from '@/pages/register/index'
 import ForgotPassword from "@/pages/ForgotPW/ForgotPassword"
 import Verify from "@/pages/ForgotPW/VerifyForgotPW"
 import SetPassword from "@/pages/ForgotPW/newPW"
-import Header from '@/components/header';
-import Footer from '@/components/footer';
 import { DetailMotelUser } from './detailMotel';
 import Layout from './layout';
 import Management from './management/layout';
@@ -21,6 +19,8 @@ import History from './management/components/history';
 import Bill from './management/components/bill';
 import BillDetail from './management/components/billDetail';
 import Noti from './management/components/noti';
+import Contact from './contact';
+import Introduce from './introduce';
 import MyMotel from './management/components/myMotel';
 import Gioithieu from './home/compenent/gioithieu';
 
@@ -40,19 +40,19 @@ export const User = () => {
           <Route path="history/:roomId" element={<Bill/>} />
           <Route path="history/:roomId/:billId" element={<BillDetail/>} />
         </Route>
+        <Route path='search' element={<SearchMotel />} />
+        <Route path="detailmoteluser/:id" element={<DetailMotelUser />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="introduce" element={<Introduce />} />
+        <Route path="/gioithieu" element={<Gioithieu />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/header" element={<Header />} />
-      <Route path="/footer" element={<Footer />} />
-      <Route path="/search" element={<SearchMotel />} />
-      <Route path="/gioithieu" element={<Gioithieu />} />
       <Route path="/forgot-password">
         <Route index element={<ForgotPassword />} />
         <Route path="verify" element={<Verify />} />
         <Route path="set-password" element={<SetPassword />} />
       </Route>
-      <Route path="/detailmoteluser/:id" element={<DetailMotelUser />} />
       <Route path="*" element={<Err />} />
     </Routes>
   )

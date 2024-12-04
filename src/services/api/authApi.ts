@@ -86,7 +86,6 @@ export interface RegisterAccountOwner {
 
 
 
-
 // API đăng nhập
 export const getLoginApi = (account: AccountDto) => {
     return axios.post(API.LOGIN, account);
@@ -155,7 +154,6 @@ export const getRevenueStatisticApi = async (revenue: Revenue) => {
 export const getPercentageApi = async (percentage: Percentage) => {
     return axios.get(API.PERCENTAGE, { params: percentage })
 }
-
 
 
 
