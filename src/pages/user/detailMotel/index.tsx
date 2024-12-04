@@ -66,9 +66,9 @@ export const DetailMotelUser = () => {
   return (
     <div className="bgr-detail-motel-user pb-3">
       <div className="container pt-4">
-        <section className="">
-          <div className="row">
-            <div className="col-12 col-sm-12 col-lg-9">
+      <section className="">
+      <div className="row">
+      <div className="col-12 col-sm-12 col-lg-9">
               <div id="carouselExampleIndicators" className="carousel slide">
                 <div className="carousel-inner img-detail-motel-user-slide">
                   {motel?.images.map((image, index) => (
@@ -136,7 +136,7 @@ export const DetailMotelUser = () => {
                   <h4 className="mt-5 mb-0 motachitiet-deltail-motel-user" dangerouslySetInnerHTML={{ __html: motel?.description || "" }}>                            
                     {/* {motel?.description} */}
                   </h4>
-                </div>
+                  
                 <h5 className="mt-3 mb-0 text-deltail-motel-user">
                   <i className="fa-light fa-location-dot me-1"></i>
                   {motel?.address}
@@ -176,7 +176,7 @@ export const DetailMotelUser = () => {
             có thể copy từ homemotelnew */}
           <RelevantMotel address={motel?.address || ""} />
         </section>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };

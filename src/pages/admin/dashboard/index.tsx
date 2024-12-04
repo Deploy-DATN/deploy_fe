@@ -319,7 +319,7 @@ export const Dashboard = () => {
                 </div>
                 )}
             </div>
-           {roleFromToken?.toUpperCase() !== 'ADMIN' &&(
+           {roleFromToken?.toUpperCase() == 'OWNER' &&(
             <div className="row align-items-stretch">
                 <div className="card w-100">
                     <div className="card-body p-4">

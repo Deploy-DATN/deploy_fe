@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, } from "react-router-dom";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import FilterSearch from "./compenent/filtersearch";
 import { getSearchMotelApi } from "@/services/api/HomeApi";
 import "../search/search.scss";
+import { useNavigate } from "react-router-dom";
 
 export const SearchMotel = () => {
   interface Motel {
@@ -87,6 +88,14 @@ export const SearchMotel = () => {
     setFilters(newFilters);
     setCurrentPage(1);
   };
+
+  const navigate = useNavigate();
+
+  const handleMotelClick = (id: number) => {
+    navigate(`/detailmoteluser/${id}`); // Navigate to the motel detail page using its ID
+  };
+
+
   return (
     <>
       <Header />
@@ -140,7 +149,7 @@ export const SearchMotel = () => {
                   ) : (
                     <div className="row">
                       {motels.map((motel) => (
-                        <div className="col-12 mt-3" key={motel.id}>
+                        <div className="col-12 mt-3" key={motel.id} onClick={() => handleMotelClick(motel.id)}>
                           <div className="item-list-motel row">
                             <div className="col-4 list-motel-img">
                               <a href="#">
