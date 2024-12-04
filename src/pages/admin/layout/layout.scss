@@ -30,3 +30,17 @@
 .dropdown-item:last-child {
     margin-bottom: 0;
 }
+.icon-package-vip-user-header-admin{
+    position: relative;
+    img{
+        position: relative;
+        z-index: 99;
+    }
+    .icon-vip-user-header-admin{
+        position: absolute;
+        top: 11px;
+        left: -4px;
+        rotate: -25deg;
+        color: #ce9b05;
+    }
+}

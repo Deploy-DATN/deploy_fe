@@ -22,6 +22,7 @@ import Noti from './management/components/noti';
 import Contact from './contact';
 import Introduce from './introduce';
 import MyMotel from './management/components/myMotel';
+import Gioithieu from './home/compenent/gioithieu';
 
 export const User = () => {
   return (
@@ -43,6 +44,7 @@ export const User = () => {
         <Route path="detailmoteluser/:id" element={<DetailMotelUser />} />
         <Route path="contact" element={<Contact />} />
         <Route path="introduce" element={<Introduce />} />
+        <Route path="/gioithieu" element={<Gioithieu />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

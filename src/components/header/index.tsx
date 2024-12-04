@@ -63,20 +63,25 @@ const Header = () => {
                       <a
                         className="nav-link color-text-header"
                         aria-current="page"
-                        href="#"
+                        href="/"
                       >
-                        Địa điểm
+                        Trang chủ
                       </a>
                     </li>
                     <li className="nav-item">
                       <a className="nav-link color-text-header" href="#">
-                        Trọ mới
+                        Nhà trọ
                       </a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link color-text-header" href="#">
-                        Sắp trả
-                      </a>
+                      <Link to="/gioithieu" className="nav-link color-text-header">
+                        Giới thiệu
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/contact" className="nav-link color-text-header">
+                        Liên hệ
+                      </Link>
                     </li>
                   </ul>
                 </div>
