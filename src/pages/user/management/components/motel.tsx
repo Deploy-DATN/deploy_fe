@@ -23,7 +23,6 @@ const Motel = () => {
                 if (token) {
                     const response = await GetRentalRoomDetailAPI(token)
                     setRentalDetail(response.data)
-                    console.log(response)
                 }
             } catch (error) {
                 console.log("fetch error!!", error)

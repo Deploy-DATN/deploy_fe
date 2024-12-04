@@ -6,7 +6,7 @@ import { RootState } from '@/redux/store'
 
 const Layout = () => {
     const location = useLocation();
-    const userData = useSelector((state: RootState) => state.user.user);
+    const { user, myMotel } = useSelector((state: RootState) => state.user);
     const isExactActive = (path: string) => location.pathname === path;
 
     const isPartialActive = (path: string) => location.pathname.includes(path);
@@ -18,10 +18,10 @@ const Layout = () => {
                     <ul className="shadow-sm m-0 bg-body rounded">
                         <li className='menu-item'>
                             <div className='px-2 py-3 d-flex align-items-center account'>
-                                <img src={userData?.avatar} className='rounded-circle account__avatar' alt="avatar" />
+                                <img src={user?.avatar} className='rounded-circle account__avatar' alt="avatar" />
                                 <div className='text-dark ms-2 content'>
-                                    <p className='m-0 content__name'>{userData?.fullName}</p>
-                                    <p className='m-0 content_phone-number'>{userData?.phone}</p>
+                                    <p className='m-0 content__name'>{user?.fullName}</p>
+                                    <p className='m-0 content_phone-number'>{user?.phone}</p>
                                 </div>
                             </div>
                         </li>
@@ -29,11 +29,13 @@ const Layout = () => {
                             <Link to='/user' className={`text-dark px-2 py-3 d-block ${isExactActive('/user') ? 'menu-item__link--active' : 'menu-item__link'}`}>Thông tin cá nhân</Link>
                         </li>
                         <li className='menu-item'>
-                            <Link to="/user/motel" className={`text-dark px-2 py-3 d-block ${isPartialActive('/motel') ? 'menu-item__link--active' : 'menu-item__link'}`}>Trọ</Link>
+                            <Link to="/user/motel" className={`text-dark px-2 py-3 d-block ${isPartialActive('/motel') ? 'menu-item__link--active' : 'menu-item__link'}`}>Trọ của tôi</Link>
                         </li>
-                        <li className='menu-item'>
-                            <Link to="/user/my-motel" className={`text-dark px-2 py-3 d-block ${isPartialActive('/my-motel') ? 'menu-item__link--active' : 'menu-item__link'}`}>Trọ của tôi</Link>
-                        </li>
+                        {myMotel ? (
+                            <li className='menu-item'>
+                                <Link to="/user/my-motel" className={`text-dark px-2 py-3 d-block ${isPartialActive('/my-motel') ? 'menu-item__link--active' : 'menu-item__link'}`}>Thông tin đăng ký trọ</Link>
+                            </li>
+                        ) : ''}
                         <li className='menu-item'>
                             <Link to="/user/noti" className={`text-dark px-2 py-3 d-block ${isPartialActive('/noti') ? 'menu-item__link--active' : 'menu-item__link'}`}>Thông báo</Link>
                         </li>

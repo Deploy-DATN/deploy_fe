@@ -3,7 +3,7 @@ import { getAccount, getMyMotel, MyMotel, User } from './reducer'
 
 interface AccountState {
     user: User | null;
-    myMotel: MyMotel | null;
+    myMotel: MyMotel[] | null;
     isLoading: boolean;
     isErr: boolean;
 }

@@ -66,7 +66,8 @@ export enum API {
     RENTALROOMHISTORY = API_URL + '/api/Main/get-rental-history',
     BILLUSER = API_URL + '/api/Main/get-Bill',
     BILLDETAIL = API_URL + '/api/Main/get-Bill-detail/',
-    VNPAY = API_URL + '/api/Main/create-order'
+    VNPAY = API_URL + '/api/Main/create-order',
+    DELETEMYMOTEL = API_URL + '/api/Main/delete-register-motel-owner'
 }
 
 const axiosInstance = axios.create({

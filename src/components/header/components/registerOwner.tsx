@@ -7,6 +7,9 @@ import { getAccountApi } from '@/services/api/authApi';
 import { AddMotel } from '@/services/api/MotelApi';
 import Swal from 'sweetalert2';
 
+import { userAppDispatch } from '@/redux/store';
+import { fetchMyMotel } from '@/components/header/redux/action';
+
 interface Props {
     show: boolean;
     onHide: () => void;
@@ -41,6 +44,8 @@ const RegisterOwner = ({ show, onHide }: Props) => {
     const [step, setStep] = useState(1);
     const [data, setData] = useState<Result>();
 
+    const dispatch = userAppDispatch();
+
     const nextStep = (formData: Result) => {
         setData((prev) => ({ ...prev, ...formData }));
         setStep((prev) => prev + 1);
@@ -49,7 +54,6 @@ const RegisterOwner = ({ show, onHide }: Props) => {
     useEffect(() => {
         if (step === 3) {
             const sendDataToApi = async () => {
-                alert('Ok');
                 const res = await getAccountApi();
                 try {
                     const user = res.data.data;
@@ -82,24 +86,19 @@ const RegisterOwner = ({ show, onHide }: Props) => {
                             submitFormData.append('images', file);
                         });
 
-                        for (let pair of submitFormData.entries()) {
-                            console.log(pair[0], pair[1]);
-                        }
-
-                        const response = await AddMotel(submitFormData);
                         try {
+                            onHide();
+                            setStep(1);
+                            const response = await AddMotel(submitFormData);
                             if (response.code === 200) {
-                                onHide();
-                                setStep(1);
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Thành công',
                                     text: 'Thành công',
                                 });
+                                dispatch(fetchMyMotel());
                             }
                             else {
-                                onHide();
-                                setStep(1);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Lỗi!',
@@ -107,8 +106,6 @@ const RegisterOwner = ({ show, onHide }: Props) => {
                                 });
                             }
                         } catch (error) {
-                            onHide();
-                            setStep(1);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Lỗi!',
