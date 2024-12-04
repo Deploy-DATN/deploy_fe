@@ -5,8 +5,10 @@ import { userAppDispatch, RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { fetchAccount, fetchMyMotel, fetchMyNoti } from "./redux/action";
 import RegisterOwner from "./components/registerOwner";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();
   const dispatch = userAppDispatch();
   const { user, myMotel, notification } = useSelector((state: RootState) => state.user);
   const [modalShow, setModalShow] = useState(false);
@@ -22,6 +24,67 @@ const Header = () => {
   const token = localStorage.getItem("token");
   const toggleDropdown = () => {
     setDropdownVisible((prevState) => !prevState);
+  };
+
+  type LocationOption = {
+    name: string;
+    code: number | null;
+  };
+  const [provinces, setProvinces] = useState<LocationOption[]>([]);
+  const [districts, setDistricts] = useState<LocationOption[]>([]);
+  const [wards, setWards] = useState<LocationOption[]>([]);
+
+  const [selectedProvince, setSelectedProvince] = useState<LocationOption>({
+    name: "Tỉnh",
+    code: null,
+  });
+  const [selectedDistrict, setSelectedDistrict] = useState<LocationOption>({
+    name: "Thành phố",
+    code: null,
+  });
+  const [selectedWard, setSelectedWard] = useState<string>("Phường");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  useEffect(() => {
+    // Lấy danh sách tỉnh
+    axios
+      .get("https://provinces.open-api.vn/api/p/")
+      .then((response) => setProvinces(response.data))
+      .catch((error) => console.error("Error fetching provinces:", error));
+  }, []);
+
+  useEffect(() => {
+    if (selectedProvince.code) {
+      // Lấy danh sách quận/huyện khi tỉnh được chọn
+      axios
+        .get(
+          `https://provinces.open-api.vn/api/p/${selectedProvince.code}/?depth=2`
+        )
+        .then((response) => setDistricts(response.data.districts))
+        .catch((error) => console.error("Error fetching districts:", error));
+    }
+    setSelectedDistrict({ name: "Thành phố", code: null });
+    setWards([]);
+    setSelectedWard("Phường");
+  }, [selectedProvince]);
+
+
+
+  useEffect(() => {
+    if (selectedDistrict.code) {
+      // Lấy danh sách phường/xã khi quận/huyện được chọn
+      axios
+        .get(
+          `https://provinces.open-api.vn/api/d/${selectedDistrict.code}/?depth=2`
+        )
+        .then((response) => setWards(response.data.wards))
+        .catch((error) => console.error("Error fetching wards:", error));
+    }
+    setSelectedWard("Phường");
+  }, [selectedDistrict]);
+  const handleSearch = () => {
+    console.log("Giá trị bộ lọc hiện tại: ", selectedProvince.name, selectedDistrict.name, selectedWard);
+    const searchLink = `/search?Province=${encodeURIComponent(selectedProvince.name)}&District=${encodeURIComponent(selectedDistrict.name)}&Ward=${encodeURIComponent(selectedWard)}&search=${encodeURIComponent(searchQuery)}`;
+    navigate(searchLink);
   };
   return (
     <div className="container-lg container-xl container-xxl header">

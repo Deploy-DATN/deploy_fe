@@ -63,6 +63,14 @@ export const DetailMotelUser = () => {
     displayedImages.push(motel?.images[index]);
   }
 
+  const handleZaloRedirect = (phoneNumber: string) => {
+    if (!phoneNumber) return;
+    // Tạo URL deep link của Zalo
+    const zaloLink = `https://zalo.me/${phoneNumber}`;
+    // Mở link Zalo trong một tab mới
+    window.open(zaloLink, "_blank");
+  };
+
   return (
     <div className="bgr-detail-motel-user pb-3">
       <div className="container pt-4">
@@ -153,7 +161,10 @@ export const DetailMotelUser = () => {
                   <p className="text-detail-motel-user">Tổng dãy trọ có trên <a href="#" className="header-thotay">Thỏ Stay</a>: {motel?.roomTypeCount}</p>
                 </div>
                 <div>
-                  <button className="btn mt-3 btn-create-notification btn-transform-y2 rounded-3 w-100">
+                  <button
+                    className="btn mt-3 btn-create-notification btn-transform-y2 rounded-3 w-100"
+                    onClick={() => motel?.phoneNumber && handleZaloRedirect(motel.phoneNumber)}
+                  >
                     {motel?.phoneNumber}
                   </button>
                 </div>
