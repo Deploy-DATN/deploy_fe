@@ -171,7 +171,7 @@ export const DetailMotelUser = () => {
           <section className="mt-5">
             {/* code phần trọ tương tự ở đây 
             có thể copy từ homemotelnew */}
-            <RelevantMotel address={motel?.address || ""} />
+            <RelevantMotel address={motel?.address || ""} currentMotelId={id} />
           </section>
         </div>
       </div>

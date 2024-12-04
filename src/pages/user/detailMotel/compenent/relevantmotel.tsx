@@ -4,10 +4,12 @@ import { useState, useEffect } from "react";
 import { getRelatedApi } from '@/services/api/HomeApi';
 
 interface RelevantMotelProps {
-  address: string | undefined;
+  address: string | undefined,
+  currentMotelId: string | undefined
 }
 
 interface Motel {
+  id: number;
   name: string;
   address: string;
   price: string;
@@ -17,7 +19,7 @@ interface Motel {
 
 
 
-function RelevantMotel({ address }: RelevantMotelProps) {
+function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
   const [motels, setMotels] = useState<Motel[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 4;
@@ -27,8 +29,9 @@ function RelevantMotel({ address }: RelevantMotelProps) {
     if (typeof address === 'string' && address.trim() !== '') {
       getRelatedApi(address)
         .then((response) => {
-          setMotels(response.data.data.value);
-          console.log('console log ở đây', response.data.data.value)
+          const motels = response.data.data.value
+          const filteredMotels = motels.filter((motel: Motel) => motel.id !== Number(currentMotelId));
+          setMotels(filteredMotels);
         })
 
         .catch((error) => {
@@ -37,7 +40,7 @@ function RelevantMotel({ address }: RelevantMotelProps) {
     } else {
       console.error("Địa chỉ không hợp lệ:", address);
     }
-  }, [address]);
+  }, [address, currentMotelId]);
   console.log(motels)
   console.log(address)
   // Xác định dãy trọ hiển thị theo kiểu tuần hoàn
