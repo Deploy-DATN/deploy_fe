@@ -2,14 +2,13 @@ import { faLocationDot, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { getRelatedApi } from '@/services/api/HomeApi';
+import React from "react";
 
 interface RelevantMotelProps {
-  address: string | undefined,
-  currentMotelId: string | undefined
+  address: string | undefined;
 }
 
 interface Motel {
-  id: number;
   name: string;
   address: string;
   price: string;
@@ -19,7 +18,7 @@ interface Motel {
 
 
 
-function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
+function RelevantMotel({ address }: RelevantMotelProps) {
   const [motels, setMotels] = useState<Motel[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 4;
@@ -29,9 +28,8 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
     if (typeof address === 'string' && address.trim() !== '') {
       getRelatedApi(address)
         .then((response) => {
-          const motels = response.data.data.value
-          const filteredMotels = motels.filter((motel: Motel) => motel.id !== Number(currentMotelId));
-          setMotels(filteredMotels);
+          setMotels(response.data.data.value);
+          console.log('console log ở đây', response.data.data.value)
         })
 
         .catch((error) => {
@@ -40,7 +38,7 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
     } else {
       console.error("Địa chỉ không hợp lệ:", address);
     }
-  }, [address, currentMotelId]);
+  }, [address]);
   console.log(motels)
   console.log(address)
   // Xác định dãy trọ hiển thị theo kiểu tuần hoàn
