@@ -48,7 +48,7 @@ const Roomtype = (props: {
   return (
     <>
       <div className="room-type-owner mt-3">
-        <div className="row justify-content-between px-3">
+        <div className="row justify-content-between p-3">
           <div className="col-12 col-lg-4 col-xxl-5 row justify-content-between pb-3">
             <div className="col-12 col-lg-12 col-xxl-6 mt-3 list-img-room-motel row g-2 mb-3">
               {roomType?.images?.map((image, index) => (

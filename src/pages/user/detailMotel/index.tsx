@@ -139,8 +139,8 @@ export const DetailMotelUser = () => {
                     {motel?.address}
                   </h5>
                   <h5 className="mt-3 mb-0 text-deltail-motel-user"><i className="fa-light fa-clock me-1"></i>Thời gian cập nhật lần cuối:  {format(motel?.updateDate ? new Date(motel?.updateDate) : new Date(), 'dd/MM/yyyy')} </h5>
-                  <h4 className="mt-5 mb-0 motachitiet-deltail-motel-user">
-                    {motel?.description}
+                  <h4 className="mt-5 mb-0 motachitiet-deltail-motel-user" dangerouslySetInnerHTML={{ __html: motel?.description || "" }}>                            
+                    {/* {motel?.description} */}
                   </h4>
                 </div>
               </div>
