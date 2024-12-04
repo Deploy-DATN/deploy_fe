@@ -136,6 +136,10 @@ export const DetailMotelUser = () => {
                 <h4 className="mt-5 mb-0 motachitiet-deltail-motel-user" dangerouslySetInnerHTML={{ __html: motel?.description || "" }}>
                   {/* {motel?.description} */}
                 </h4>
+<<<<<<< HEAD
+=======
+
+>>>>>>> b82c9af4f6203167f0d100451cffecd2ec60b464
                 <h5 className="mt-3 mb-0 text-deltail-motel-user">
                   <i className="fa-light fa-location-dot me-1"></i>
                   {motel?.address}
@@ -173,9 +177,14 @@ export const DetailMotelUser = () => {
         <section className="mt-5">
           {/* code phần trọ tương tự ở đây 
             có thể copy từ homemotelnew */}
-          <RelevantMotel address={motel?.address || ""} />
+          <RelevantMotel address={motel?.address || ""} currentMotelId={id} />
         </section>
       </div >
     </div >
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> b82c9af4f6203167f0d100451cffecd2ec60b464
   );
 };
