@@ -22,6 +22,7 @@ import Bill from './management/components/bill';
 import BillDetail from './management/components/billDetail';
 import Noti from './management/components/noti';
 import MyMotel from './management/components/myMotel';
+import Gioithieu from './home/compenent/gioithieu';
 
 export const User = () => {
   return (
@@ -45,6 +46,7 @@ export const User = () => {
       <Route path="/header" element={<Header />} />
       <Route path="/footer" element={<Footer />} />
       <Route path="/search" element={<SearchMotel />} />
+      <Route path="/gioithieu" element={<Gioithieu />} />
       <Route path="/forgot-password">
         <Route index element={<ForgotPassword />} />
         <Route path="verify" element={<Verify />} />
