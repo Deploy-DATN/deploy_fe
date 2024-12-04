@@ -1,3 +1,5 @@
+
+import { getSentNotiApi, SentNoti } from '@/services/api/notiApi';
 import { API } from '@/services/apiConfig';
 import axios from 'axios';
 
@@ -43,6 +45,23 @@ export interface MyMotel {
   ]
 }
 
+export interface Notification {
+  userId: number;
+  email: string;
+  notificationCount: number;
+  notifications: [
+    {
+      id: number;
+      type: number;
+      title: string;
+      content: string;
+      status: boolean;
+      createDate: Date;
+      sender: string
+    }
+  ]
+}
+
 
 export const getAccount = async () => {
   const token = localStorage.getItem("token");
@@ -60,4 +79,17 @@ export const getMyMotel = async () => {
     return res.data.data;
   }
   return null
+}
+
+export const getNoti = async () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const res = await axios.get(API.USEDETAIL, { params: { token: token } })
+    const emailuser: SentNoti = { email: res.data.email }
+    const getNoti1 = await getSentNotiApi(emailuser);
+    console.log('api noti', getNoti1)
+    return getNoti1.data;
+  }
+  return null
+
 }

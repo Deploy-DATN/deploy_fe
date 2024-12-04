@@ -3,17 +3,18 @@ import "./styles/header.scss";
 import { Link } from "react-router-dom";
 import { userAppDispatch, RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
-import { fetchAccount, fetchMyMotel } from "./redux/action";
+import { fetchAccount, fetchMyMotel, fetchMyNoti } from "./redux/action";
 import RegisterOwner from "./components/registerOwner";
 
 const Header = () => {
   const dispatch = userAppDispatch();
-  const { user, myMotel } = useSelector((state: RootState) => state.user);
+  const { user, myMotel, myNoti } = useSelector((state: RootState) => state.user);
   const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAccount());
     dispatch(fetchMyMotel());
+    dispatch(fetchMyNoti());
   }, [dispatch]);
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -65,6 +66,7 @@ const Header = () => {
       sender: "Admin",
     },
   ];
+  console.log('user', myNoti)
   return (
     <div className="container-lg container-xl container-xxl header">
       <nav className="navbar navbar-expand-lg navbar-light ">
@@ -145,85 +147,34 @@ const Header = () => {
                           Tất cả thông báo
                         </a>
                       </div>
-                      {/* <div className="dropdown-nav-noti mb-2">
-                        <div className="tab">
-                          <input
-                            type="radio"
-                            name="tabs"
-                            id="all"
-                            className="tab__radio"
-                          ></input>
-                          <label htmlFor="all" className="tab__label">
-                            Tất cả
-                          </label>
-                        </div>
-                        <div id="notif_type_1" className="tab">
-                          <input
-                            type="radio"
-                            name="tabs"
-                            id="khan-cap"
-                            className="tab__radio"
-                            value="1"
-                          ></input>
-                          <label htmlFor="khan-cap" className="tab__label">
-                            Khẩn cấp{" "}
-                          </label>
-                        </div>
-                        <div id="notif_type_2" className="tab">
-                          <input
-                            type="radio"
-                            name="tabs"
-                            id="he-thong"
-                            className="tab__radio"
-                            value="2"
-                          ></input>
-                          <label htmlFor="he-thong" className="tab__label">
-                            Hệ thống{" "}
-                          </label>
-                        </div>
-                        <div id="notif_type_3" className="tab">
-                          <input
-                            type="radio"
-                            name="tabs"
-                            id="thong-thuong"
-                            className="tab__radio"
-                            value="3"
-                          ></input>
-                          <label htmlFor="thong-thuong" className="tab__label">
-                            Thông thường{" "}
-                          </label>
-                        </div>
-                      </div> */}
                       <div className="dropdown-noti-item row g-2">
-                        {notifis.map((noti) => (
-                          <div className="col-12 dropdown-noti-item-row px-3">
-                            <div className="d-flex justify-content-between align-items-center ">
-                              <div
-                                className={`dropdown-noti-item--type dropdown-noti-item-type-${noti.type}`}
-                              >
-                                {noti.type === 1
-                                  ? "Khẩn cấp"
-                                  : noti.type === 2
-                                    ? "Hệ thống"
-                                    : noti.type === 3
-                                      ? "Cảnh báo"
-                                      : "Thông thường"}
+                        <div className="dropdown-noti-item row g-2">
+                          {/* {myNoti && myNoti.notifications.length ? (
+                            myNoti?.notifications?.map((noti)=> (
+                              <div className="col-12 dropdown-noti-item-row px-3" key={noti.id}>
+                                <div className="d-flex justify-content-between align-items-center ">
+                                  <div
+                                    className={`dropdown-noti-item--type dropdown-noti-item-type-${noti.type}`}
+                                  >
+                                    {noti.type === 1
+                                      ? "Khẩn cấp"
+                                      : noti.type === 2
+                                        ? "Hệ thống"
+                                        : noti.type === 3
+                                          ? "Cảnh báo"
+                                          : "Thông thường"}
+                                  </div>
+                                  <div className="dropdown-noti-item--date">{noti.date}</div>
+                                </div>
+                                <div className="dropdown-noti-item--name">{noti.name}</div>
+                                <div className="dropdown-noti-item--content">{noti.content}</div>
+                                <div className="dropdown-noti-item--sender">{noti.sender}</div>
                               </div>
-                              <div className="dropdown-noti-item--date">
-                                {noti.date}
-                              </div>
-                            </div>
-                            <div className="dropdown-noti-item--name">
-                              {noti.name}
-                            </div>
-                            <div className="dropdown-noti-item--content">
-                              {noti.content}
-                            </div>
-                            <div className="dropdown-noti-item--sender">
-                              {noti.sender}
-                            </div>
-                          </div>
-                        ))}
+                            ))
+                          ) : (
+                            <div className="text-center">Không có thông báo nào</div>
+                          )} */}
+                        </div>
                       </div>
                     </div>
                   </div>
