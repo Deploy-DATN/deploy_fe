@@ -136,7 +136,7 @@ export const SearchMotel = () => {
                 {loading ? (
                   <p>Loading...</p>
                 ) : (
-                  <div className="row">
+                  <div className="row list-motel-filter-search">
                     {motels.map((motel) => (
                       <div className="col-12 mt-3" key={motel.id}>
                         <div className="item-list-motel row">
