@@ -98,7 +98,11 @@ export const getBillDetailApi = async (id: number) => {
 }
 
 export const postVnpayApi = async (vnpay: VnPay) => {
-    return axios.post(API.VNPAY, vnpay )
+    return axios.post(API.VNPAY, vnpay)
+}
+
+export const deleteMyMotel = async (id: number) => {
+    return axios.delete(API.DELETEMYMOTEL, { params: { id: id } })
 }
 
 export const getRelatedApi = async (address: string) => {
