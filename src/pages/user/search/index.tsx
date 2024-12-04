@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, } from "react-router-dom";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import FilterSearch from "./compenent/filtersearch";
 import { getSearchMotelApi } from "@/services/api/HomeApi";
 import "../search/search.scss";
+import { useNavigate } from "react-router-dom";
 
 export const SearchMotel = () => {
   interface Motel {
@@ -87,6 +88,14 @@ export const SearchMotel = () => {
     setFilters(newFilters);
     setCurrentPage(1);
   };
+
+  const navigate = useNavigate();
+
+  const handleMotelClick = (id: number) => {
+    navigate(`/detailmoteluser/${id}`); // Navigate to the motel detail page using its ID
+  };
+
+
   return (
     <div className="Search-motel-user pt-3 pb-5">
       <div className="container">
@@ -132,7 +141,6 @@ export const SearchMotel = () => {
                       </select>
                     </div>
                   </div>
-                </div>
                 {loading ? (
                   <p>Loading...</p>
                 ) : (
