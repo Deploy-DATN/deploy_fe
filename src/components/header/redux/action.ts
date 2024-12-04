@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
-import { getAccount, getMyMotel, getNoti, MyMotel, User } from './reducer'
+import { getAccount, getMyMotel, getNoti, MyMotel, User, Notification } from './reducer'
 
 interface AccountState {
     user: User | null;
     myMotel: MyMotel[] | null;
-    myNoti: Notification | null;
+    notification: Notification | null;
     isLoading: boolean;
     isErr: boolean;
 }
@@ -33,7 +33,7 @@ export const fetchMyNoti = createAsyncThunk(
 const initialState: AccountState = {
     user: null,
     myMotel: null,
-    myNoti: null,
+    notification: null,
     isLoading: false,
     isErr: false
 }
@@ -79,7 +79,7 @@ export const action = createSlice({
 
         builder
             .addCase(fetchMyNoti.fulfilled, (state, action) => {
-                state.myNoti = action.payload;
+                state.notification = action.payload;
                 state.isLoading = false;
                 state.isErr = false;
             })

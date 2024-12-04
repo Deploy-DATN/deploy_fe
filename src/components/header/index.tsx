@@ -8,7 +8,7 @@ import RegisterOwner from "./components/registerOwner";
 
 const Header = () => {
   const dispatch = userAppDispatch();
-  const { user, myMotel, myNoti } = useSelector((state: RootState) => state.user);
+  const { user, myMotel, notification } = useSelector((state: RootState) => state.user);
   const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
@@ -23,50 +23,6 @@ const Header = () => {
   const toggleDropdown = () => {
     setDropdownVisible((prevState) => !prevState);
   };
-  const notifis = [
-    {
-      id: 1,
-      name: "Thông báo 1",
-      content:
-        "Thông báo về việc bảo trì hệ thống cccccc vvvvvvvvvvvvv cccccccccc xxxxxxxxxxxx zzzzzzzzzz ddddddd gggggggg fffffffffff ddddd ccccccc bbbbbbbbbbb nnnnnnnn mmmmmmmmm kkkkkkk uuuuuuuu iiiiiii .",
-      type: 1,
-      date: "2024-11-30",
-      sender: "Admin",
-    },
-    {
-      id: 2,
-      name: "Thông báo 2",
-      content: "Hệ thống sẽ ngừng hoạt động lúc 10h tối.",
-      type: 2,
-      date: "2024-11-29",
-      sender: "Quản lý kỹ thuật",
-    },
-    {
-      id: 3,
-      name: "Thông báo 3",
-      content: "Cập nhật chính sách nội bộ mới.",
-      type: 3,
-      date: "2024-11-28",
-      sender: "Phòng Nhân sự",
-    },
-    {
-      id: 4,
-      name: "Thông báo 4",
-      content: "Lịch nghỉ Tết Dương lịch đã được cập nhật.",
-      type: 4,
-      date: "2024-11-27",
-      sender: "Phòng Hành chính",
-    },
-    {
-      id: 5,
-      name: "Thông báo 5",
-      content: "Thông báo khẩn: Sự cố mạng đang được xử lý.",
-      type: 1,
-      date: "2024-11-26",
-      sender: "Admin",
-    },
-  ];
-  console.log('user', myNoti)
   return (
     <div className="container-lg container-xl container-xxl header">
       <nav className="navbar navbar-expand-lg navbar-light ">
@@ -143,16 +99,15 @@ const Header = () => {
                     <div className="dropdown-menu dropdown-menu-noti-header dropdown-menu-lg-end">
                       <div className="dropdown-header">
                         <div className="header-noti-title">Thông báo</div>
-                        <a href="#" className="header-noti-tatca">
-                          Tất cả thông báo
-                        </a>
+                        <Link to='/user/noti'>Tất cả thông báo</Link>
                       </div>
                       <div className="dropdown-noti-item row g-2">
                         <div className="dropdown-noti-item row g-2">
-                          {/* {myNoti && myNoti.notifications.length ? (
-                            myNoti?.notifications?.map((noti)=> (
-                              <div className="col-12 dropdown-noti-item-row px-3" key={noti.id}>
-                                <div className="d-flex justify-content-between align-items-center ">
+
+                          {notification && notification.notifications.length ? (
+                            notification?.notifications?.map((noti) => (
+                              <div className="col-12 dropdown-noti-item-row px-3 mb-2 border rounded bg-light mt-2 py-2 " key={noti.id}>
+                                <div className="d-flex justify-content-between align-items-center mb-2">
                                   <div
                                     className={`dropdown-noti-item--type dropdown-noti-item-type-${noti.type}`}
                                   >
@@ -164,16 +119,16 @@ const Header = () => {
                                           ? "Cảnh báo"
                                           : "Thông thường"}
                                   </div>
-                                  <div className="dropdown-noti-item--date">{noti.date}</div>
+                                  <div className="dropdown-noti-item--date">{(new Date(noti.createDate).toLocaleDateString('vi-VN'))}</div>
                                 </div>
-                                <div className="dropdown-noti-item--name">{noti.name}</div>
+                                <div className="dropdown-noti-item--name">{noti.title}</div>
                                 <div className="dropdown-noti-item--content">{noti.content}</div>
                                 <div className="dropdown-noti-item--sender">{noti.sender}</div>
                               </div>
                             ))
                           ) : (
                             <div className="text-center">Không có thông báo nào</div>
-                          )} */}
+                          )}
                         </div>
                       </div>
                     </div>

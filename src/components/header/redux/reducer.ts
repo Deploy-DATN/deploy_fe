@@ -49,17 +49,15 @@ export interface Notification {
   userId: number;
   email: string;
   notificationCount: number;
-  notifications: [
-    {
-      id: number;
-      type: number;
-      title: string;
-      content: string;
-      status: boolean;
-      createDate: Date;
-      sender: string
-    }
-  ]
+  notifications: {
+    id: number;
+    type: number;
+    title: string;
+    content: string;
+    status: boolean;
+    createDate: Date;
+    sender: string;
+  }[];
 }
 
 
