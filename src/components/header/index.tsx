@@ -132,7 +132,7 @@ const Header = () => {
                       </a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link color-text-header" href="#">
+                      <a className="nav-link color-text-header" href="#" onClick={handleSearch}>
                         Nhà trọ
                       </a>
                     </li>
