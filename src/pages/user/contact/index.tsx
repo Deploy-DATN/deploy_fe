@@ -2,23 +2,21 @@ import "./styles/contact.scss";
 
 export const Contact: React.FC = () => {
     return (
-        <div className="contact">
+        <div className="contact mt-3">
             <div className="contact-container">
-                <div className="contact-info">
-                    <h2>Get In Touch</h2>
+                <div className="contact-info rounded-3">
+                    <h2>Thỏ Stay</h2>
                     <p>
-                        Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-                        amet sint. Velit officia consequat duis enim velit mollit.
-                        Exercitation veniam consequat.
+                        Trang web bạn đang tìm là Thỏ Stay. Đây là một nền tảng cung cấp dịch vụ thuê trọ, giúp người dùng dễ dàng tìm kiếm và thuê phòng trọ phù hợp với nhu cầu của mình. Thỏ Stay cung cấp nhiều lựa chọn phòng trọ với các mức giá khác nhau, từ phòng trọ giá rẻ cho sinh viên đến các căn hộ dịch vụ cao cấp.
                     </p>
                     <div className="info">
                         <p>
                             <i className="fas fa-phone-alt"></i> +911234567890
                         </p>
                         <p>
-                            <i className="fas fa-envelope"></i> test123@gmail.com
+                            <i className="fas fa-envelope"></i> thostay@gmail.com
                         </p>
-                        <p>Abc:</p>
+                        <p>Tân An, Thành phố Buôn Ma Thuột, Tỉnh DakLak</p>
                     </div>
                     <div className="social-icons">
                         <a href="#">
@@ -41,7 +39,7 @@ export const Contact: React.FC = () => {
                 <div className="contact-form">
                     <form>
                         <div className="form-group">
-                            <label htmlFor="first-name">First Name</label>
+                            <label htmlFor="first-name">Họ</label>
                             <input
                                 id="first-name"
                                 name="first-name"
@@ -50,7 +48,7 @@ export const Contact: React.FC = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="last-name">Last Name</label>
+                            <label htmlFor="last-name">Tên</label>
                             <input
                                 id="last-name"
                                 name="last-name"
@@ -63,11 +61,11 @@ export const Contact: React.FC = () => {
                             <input id="email" name="email" type="email" className="input" />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="phone">Phone Number</label>
+                            <label htmlFor="phone">Số điện thoại</label>
                             <input id="phone" name="phone" type="text" className="input" />
                         </div>
                         <div className="form-group full-width">
-                            <label htmlFor="message">Message</label>
+                            <label htmlFor="message">Lời nhắn</label>
                             <textarea
                                 id="message"
                                 name="message"
@@ -76,7 +74,7 @@ export const Contact: React.FC = () => {
                         </div>
                         <div className="form-group button">
                             <button type="submit" className="btn-submit">
-                                Submit
+                                Gửi
                             </button>
                         </div>
                     </form>

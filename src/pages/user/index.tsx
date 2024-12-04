@@ -44,7 +44,7 @@ export const User = () => {
         <Route path="detailmoteluser/:id" element={<DetailMotelUser />} />
         <Route path="contact" element={<Contact />} />
         <Route path="introduce" element={<Introduce />} />
-        <Route path="/gioithieu" element={<Gioithieu />} />
+        <Route path="gioithieu" element={<Gioithieu />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

@@ -1,35 +1,29 @@
-import Footer from "@/components/footer";
-import Header from "@/components/header";
-import React from "react";
-
 const Gioithieu = () => {
   return (
-    <>
-      <Header />
-      <div className="container Introduce">
-        <div className="link-Introduce-0">
-          <div className="Link-Introduce-1">
-            <span>
-              <a href="/" className="header-text">
-                Thỏ Stay
-              </a>
-            </span>
-            <i className="fa-regular fa-chevron-right mx-2"></i>{" "}
-            <span>
-              <a href="/" className="">
-                về Thỏ Stay
-              </a>
-            </span>
-          </div>
+    <div className="container Introduce">
+      <div className="link-Introduce-0">
+        <div className="Link-Introduce-1">
+          <span>
+            <a href="/" className="header-text">
+              Thỏ Stay
+            </a>
+          </span>
+          <i className="fa-regular fa-chevron-right mx-2"></i>{" "}
+          <span>
+            <a href="/" className="">
+              về Thỏ Stay
+            </a>
+          </span>
         </div>
-        <div className="row body-Introduce-0 mt-3">
-          <div className="col-12 col-lg-9 body-Introduce-col-0">
-            <h3 className="h3-header-Introduce">Về chúng tôi</h3>
-            <img
-              src="src/assets/images/backgrounds/Introduce-bgr.png"
-              className="img-fluid"
-            ></img>
-            <div className="Introduce-body-text mt-3">
+      </div>
+      <div className="row body-Introduce-0 mt-3">
+        <div className="col-12 col-lg-9 body-Introduce-col-0">
+          <h3 className="h3-header-Introduce">Về chúng tôi</h3>
+          <img
+            src="src/assets/images/backgrounds/Introduce-bgr.png"
+            className="img-fluid"
+          ></img>
+          <div className="Introduce-body-text mt-3">
             <p className="p-Introduce-body">
               Trang web bạn đang tìm là <strong className="header-text-Introduce">Thỏ Stay</strong>. Đây là một
               nền tảng cung cấp dịch vụ thuê trọ, giúp người dùng dễ dàng tìm
@@ -113,29 +107,27 @@ const Gioithieu = () => {
               tưởng cho những ai đang tìm kiếm phòng trọ hoặc cần quản lý nhà
               trọ một cách hiệu quả.
             </p>
-            </div>
           </div>
-          <div className="col-12 col-lg-3 body-Introduce-col-1">
-            <div className="menu-Introduce-body">
-              <h4 className="h4-mucluc-Introduce">
-                <span>
-                  Mục lục
-                </span>
-              </h4>
-              <div className="gach-ngang"></div>
-              <div className="ps-3 menu-link-Introduce mt-2">
-                  <ul>
-                    <li><a href="/" className="link-menu">Trang chủ</a></li>
-                    <li><a className="link-menu">Tìm kiếm trọ</a></li>
-                    <li><a className="link-menu">Danh sách trọ</a></li>
-                  </ul>
-              </div>
+        </div>
+        <div className="col-12 col-lg-3 body-Introduce-col-1">
+          <div className="menu-Introduce-body">
+            <h4 className="h4-mucluc-Introduce">
+              <span>
+                Mục lục
+              </span>
+            </h4>
+            <div className="gach-ngang"></div>
+            <div className="ps-3 menu-link-Introduce mt-2">
+              <ul>
+                <li><a href="/" className="link-menu">Trang chủ</a></li>
+                <li><a className="link-menu">Tìm kiếm trọ</a></li>
+                <li><a className="link-menu">Danh sách trọ</a></li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
 
