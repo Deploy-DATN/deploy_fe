@@ -1,305 +1,363 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, GetRoomTypeDTO_Room, SendElicWaterDTO } from '@/services/Dto/MotelDto';
+import { GetPriceByRoomTypeApi, GetRoomTypeByAddElicWaterApi, SendElicWaterApi } from '@/services/api/MotelApi';
 
-const AddElicWater: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [isConfirm, setIsConfirm] = useState(false);
+interface BillCalculation {
+	totalElectric: number;
+	totalWater: number;
+	totalOther: number;
+	totalRoom: number;
+	total: number;
+}
 
-  const handSaveclick = () => {
-    setIsConfirm(true);
-  };
-  const handleCloseClick = () => {
-    setIsConfirm(false);
-  };
+const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ roomTypeId, onClose }) => {
+	const [isConfirm, setIsConfirm] = useState(false);
+	const [price, setPrice] = useState<GetPriceByRoomTypeDTO>({
+		roomTypeId: 0,
+		price: 0,
+		price_Electric: 0,
+		price_Water: 0,
+	});
 
-  return (
-    <>
-      <div className="modal-overlay-admin">
-        <div className="modal-content-admin position-relative w50resposi">
-          <div className="">
-            <h2 className="h2-modal-admin">Thêm số điện, nước</h2>
-          </div>
-          <form className="form-admin-modal position-relative">
-            <div className="d-flex flex-wrap justify-content-center">
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>{" "}
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>{" "}
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>{" "}
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>{" "}
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-              <a
-                href="#"
-                className="btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2"
-              >
-                Phòng 1
-              </a>
-            </div>
-            <div className="row form-group mt-3">
-              <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
-                <label htmlFor="description" className="">
-                  Số điện
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="Số điện"
-                />
-              </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
-                <label htmlFor="description" className="">
-                  Số nước
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="Số nước"
-                />
-              </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4">
-                <label htmlFor="description" className="">
-                  Chi phí khác
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  className="form-control mt-2"
-                  placeholder="Chi phi khác"
-                />
-              </div>
-            </div>
-            <div></div>
-            {isConfirm && (
-              <div className="form-group mt-3">
-                <div className="text-info-bill">
-                  <p>
-                    Phòng số: <span> 12</span>
-                  </p>
-                  <p>
-                    Người thuê: <span> Tô Thanh</span>
-                  </p>
-                </div>
-                <div className="border-bottom-info-bill mt-3"></div>
-                <div className="text-info-bill mt-2">
-                  <p className="d-flex justify-content-between">
-                    Tiền điện: <span> 123</span>{" "}
-                  </p>
-                  <p className="d-flex justify-content-between">
-                    Tiền nước: <span> 123</span>
-                  </p>
-                  <p className="d-flex justify-content-between">
-                    Tiền thuê trọ: <span> 123</span>
-                  </p>
-                </div>
-                <div className="border-bottom-info-bill mt-3"></div>
-                <div className="text-info-bill mt-2">
-                  <p className="d-flex justify-content-between">
-                    Chi phi khác: <span> 123</span>
-                  </p>
-                </div>
-                <div className="border-bottom-info-bill mt-3"></div>
-                <div className="text-info-bill mt-2">
-                  <p className="d-flex justify-content-between">
-                    Thành tiền: <span> 123</span>{" "}
-                  </p>
-                </div>
-              </div>
-            )}
+	const [billDetails, setBillDetails] = useState<BillCalculation>({
+		totalElectric: 0,
+		totalWater: 0,
+		totalOther: 0,
+		totalRoom: 0,
+		total: 0,
+	});
 
-            {!isConfirm ? (
-              <div className="d-flex justify-content-between mt-4">
-                <button
-                  type="button"
-                  className="btn-trove-all btn-style btn-transform-y2"
-                  onClick={onClose}
-                >
-                  Trở về
-                </button>
-                <button
-                  type="button"
-                  className="btn-luu-all btn-style btn-transform-y2"
-                  onClick={handSaveclick}
-                >
-                  Lưu
-                </button>
-              </div>
-            ) : (
-                <div className="d-flex justify-content-between mt-4">
-                <button
-                  type="button"
-                  className="btn-trove-all btn-style btn-transform-y2"
-                  onClick={!isConfirm ? onClose : handleCloseClick}                >
-                  Trở về
-                </button>
-                <button
-                  type="button"
-                  className="btn-luu-all btn-style btn-transform-y2"
-                  
-                >
-                  Xác nhận
-                </button>
-              </div>
-            )}
-          </form>
-        </div>
-      </div>
-    </>
-  );
+	const handSaveclick = async () => {
+		setErrors({});
+		let hasError = false;
+
+		// Kiểm tra các trường cơ bản
+		const fieldsToValidate = {
+			electric: sendElicWaterDTO.electric,
+			water: sendElicWaterDTO.water,
+			other: sendElicWaterDTO.other,
+		};
+
+		// Kiểm tra từng trường
+		Object.entries(fieldsToValidate).forEach(([key, value]) => {
+			if (!validateField(key, String(value || ''))) {
+				hasError = true;
+			}
+		});
+		console.log(hasError);
+
+		if (hasError) {
+			return;
+		}
+
+		const repository = await GetPriceByRoomTypeApi(roomTypeId);
+		const priceData = repository.data;
+
+		const newTotalElectric = priceData.price_Electric * (sendElicWaterDTO.electric - electricity);
+		const newTotalWater = priceData.price_Water * (sendElicWaterDTO.water - water);
+		const newTotalOther = sendElicWaterDTO.other;
+		const newTotalRoom = priceData.price;
+
+		const newBillDetails = {
+			totalElectric: newTotalElectric,
+			totalWater: newTotalWater,
+			totalOther: newTotalOther,
+			totalRoom: newTotalRoom,
+			total: newTotalElectric + newTotalWater + newTotalOther + newTotalRoom,
+		};
+
+		await setBillDetails(newBillDetails);
+		setTimeout(() => {
+			setIsConfirm(true);
+		}, 0);
+	};
+
+	const handleCloseClick = () => {
+		setIsConfirm(false);
+	};
+
+	const [sendElicWaterDTO, setSendElicWaterDTO] = useState<SendElicWaterDTO>({
+		roomId: 0,
+		water: 0,
+		electric: 0,
+		other: 0,
+	});
+
+	const [data, setData] = useState<GetRoomTypeByAddElicWaterDTO[]>([]);
+	useEffect(() => {
+		const LoadData = async () => {
+			const res = await GetRoomTypeByAddElicWaterApi(roomTypeId);
+			setData(res.data);
+			if (res.data && res.data.length > 0) {
+				setRoomId(res.data[0].id);
+				setWater(res.data[0].consumption?.water || 0);
+				setElectricity(res.data[0].consumption?.electricity || 0);
+				setRoomNumber(res.data[0].roomNumber || 0);
+			} else {
+				alert('không có phòng trọ nào cần xuất hoá đơn!');
+			}
+		};
+		LoadData();
+	}, []);
+
+	const [roomId, setRoomId] = useState<number>(0);
+
+	const [roomNumber, setRoomNumber] = useState<number>(0);
+
+	const handleRoomNumber = async (roomId: number) => {
+		setRoomId(roomId);
+		const res = data.find((item) => item.id === roomId);
+		setWater(res?.consumption?.water || 0);
+		setElectricity(res?.consumption?.electricity || 0);
+		setRoomNumber(res?.roomNumber || 0);
+	};
+
+	const [water, setWater] = useState<number>(0);
+	const [electricity, setElectricity] = useState<number>(0);
+
+	const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setSendElicWaterDTO({ ...sendElicWaterDTO, [name]: value });
+		validateField(name, value);
+	};
+
+	const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+	// Thêm hàm validate
+	const validateField = (name: string, value: string) => {
+		if (value.trim() === '' && name !== 'other') {
+			setErrors((prev) => ({
+				...prev,
+				[name]: 'Trường này không được để trống',
+			}));
+			return false;
+		}
+
+		if (name === 'electric') {
+			if (Number(value) <= electricity || isNaN(Number(value))) {
+				setErrors((prev) => ({
+					...prev,
+					[name]: 'Giá trị phải lớn hơn số điện cũ',
+				}));
+				return false;
+			}
+		}
+
+		if (name === 'water') {
+			if (Number(value) <= water || isNaN(Number(value))) {
+				setErrors((prev) => ({ ...prev, [name]: 'Giá trị phải lớn hơn số nước cũ' }));
+				return false;
+			}
+		}
+
+		setErrors((prev) => ({ ...prev, [name]: '' }));
+		return true;
+	};
+
+	const handSubmit = async () => {
+		try {
+			setErrors({});
+			let hasError = false;
+
+			// Kiểm tra các trường cơ bản
+			const fieldsToValidate = {
+				electric: sendElicWaterDTO.electric,
+				water: sendElicWaterDTO.water,
+				other: sendElicWaterDTO.other,
+			};
+
+			// Kiểm tra từng trường
+			Object.entries(fieldsToValidate).forEach(([key, value]) => {
+				if (!validateField(key, String(value || ''))) {
+					hasError = true;
+				}
+			});
+
+			if (hasError) {
+				return;
+			}
+			sendElicWaterDTO.roomId = roomId;
+			const res = await SendElicWaterApi(sendElicWaterDTO);
+			if (res.code === 200) {
+				alert('Thêm số điện, nước thành công!');
+				onClose();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	return (
+		<>
+			<div className='modal-overlay-admin'>
+				<div className='modal-content-admin position-relative w50resposi'>
+					<div className=''>
+						<h2 className='h2-modal-admin'>Thêm số điện, nước</h2>
+					</div>
+					<form className='form-admin-modal position-relative'>
+						<div className='d-flex flex-wrap justify-content-center'>
+							{data.map((item) => (
+								<a
+									key={item.id}
+									className='btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2'
+									onClick={() => handleRoomNumber(item.id)}>
+									Phòng {item.roomNumber}
+								</a>
+							))}
+						</div>
+						<div className='row form-group mt-3'>
+							<div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4'>
+								<label
+									htmlFor='description'
+									className=''>
+									Số điện
+								</label>
+								<input
+									type='text'
+									id='title'
+									className='form-control mt-2'
+									placeholder='Số điện'
+									value={electricity}
+									disabled
+								/>
+							</div>
+							<div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4'>
+								<label
+									htmlFor='description'
+									className=''>
+									Số điện mới
+								</label>
+								<input
+									type='text'
+									id='title'
+									className='form-control mt-2'
+									placeholder='Số điện mới'
+									onChange={HandleChange}
+									name='electric'
+								/>
+								{errors.electric && <p className='text-danger'>{errors.electric}</p>}
+							</div>
+						</div>
+						<div className='row form-group mt-3'>
+							<div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4'>
+								<label
+									htmlFor='description'
+									className=''>
+									Số nước
+								</label>
+								<input
+									type='text'
+									id='title'
+									className='form-control mt-2'
+									placeholder='Số nước'
+									value={water}
+									disabled
+								/>
+							</div>
+							<div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4'>
+								<label
+									htmlFor='description'
+									className=''>
+									Số nước mới
+								</label>
+								<input
+									type='text'
+									id='title'
+									className='form-control mt-2'
+									placeholder='Số điện mới'
+									onChange={HandleChange}
+									name='water'
+								/>
+								{errors.water && <p className='text-danger'>{errors.water}</p>}
+							</div>
+							<div className='col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4 col-xxl-4'>
+								<label
+									htmlFor='description'
+									className=''>
+									Chi phí khác
+								</label>
+								<input
+									type='text'
+									id='title'
+									className='form-control mt-2'
+									placeholder='Chi phí khác'
+									onChange={HandleChange}
+									name='other'
+								/>
+								{errors.other && <p className='text-danger'>{errors.other}</p>}
+							</div>
+						</div>
+						<div></div>
+						{isConfirm && billDetails && (
+							<div className='form-group mt-3'>
+								<div className='text-info-bill'>
+									<p>
+										Phòng số: <span>{roomNumber}</span>
+									</p>
+								</div>
+								<div className='border-bottom-info-bill mt-3'></div>
+								<div className='text-info-bill mt-2'>
+									<p className='d-flex justify-content-between'>
+										Tiền điện: <span> {billDetails.totalElectric}</span>{' '}
+									</p>
+									<p className='d-flex justify-content-between'>
+										Tiền nước: <span> {billDetails.totalWater}</span>
+									</p>
+									<p className='d-flex justify-content-between'>
+										Tiền thuê trọ: <span> {billDetails.totalRoom}</span>
+									</p>
+								</div>
+								<div className='border-bottom-info-bill mt-3'></div>
+								<div className='text-info-bill mt-2'>
+									<p className='d-flex justify-content-between'>
+										Chi phi khác: <span> {billDetails.totalOther}</span>
+									</p>
+								</div>
+								<div className='border-bottom-info-bill mt-3'></div>
+								<div className='text-info-bill mt-2'>
+									<p className='d-flex justify-content-between'>
+										Thành tiền: <span> {billDetails.total}</span>{' '}
+									</p>
+								</div>
+							</div>
+						)}
+
+						{!isConfirm ? (
+							<div className='d-flex justify-content-between mt-4'>
+								<button
+									type='button'
+									className='btn-trove-all btn-style btn-transform-y2'
+									onClick={onClose}>
+									Trở về
+								</button>
+								<button
+									type='button'
+									className='btn-luu-all btn-style btn-transform-y2'
+									onClick={handSaveclick}>
+									Lưu
+								</button>
+							</div>
+						) : (
+							<div className='d-flex justify-content-between mt-4'>
+								<button
+									type='button'
+									className='btn-trove-all btn-style btn-transform-y2'
+									onClick={!isConfirm ? onClose : handleCloseClick}>
+									Trở về
+								</button>
+								<button
+									type='button'
+									className='btn-luu-all btn-style btn-transform-y2'
+									onClick={handSubmit}>
+									Xác nhận
+								</button>
+							</div>
+						)}
+					</form>
+				</div>
+			</div>
+		</>
+	);
 };
 
 export default AddElicWater;
