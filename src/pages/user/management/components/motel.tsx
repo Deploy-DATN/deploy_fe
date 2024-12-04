@@ -12,8 +12,6 @@ import Swal from 'sweetalert2';
 import { useNavigate, useLocation } from 'react-router-dom';
 const Motel = () => {
     const location = useLocation(); // Lấy thông tin URL hiện tại
-    const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
-    const [orderId, setOrderId] = useState<string | null>(null);
     const navigate = useNavigate();
     const [rentalDetail, setRentalDetail] = useState<any | null>(null);
     useEffect(() => {
