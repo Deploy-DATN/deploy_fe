@@ -7,8 +7,6 @@ import Register from '@/pages/register/index'
 import ForgotPassword from "@/pages/ForgotPW/ForgotPassword"
 import Verify from "@/pages/ForgotPW/VerifyForgotPW"
 import SetPassword from "@/pages/ForgotPW/newPW"
-import Header from '@/components/header';
-import Footer from '@/components/footer';
 import { DetailMotelUser } from './detailMotel';
 import Layout from './layout';
 import Management from './management/layout';

@@ -31,7 +31,7 @@ export const SearchMotel = () => {
 
   const [filters, setFilters] = useState({
     minArea: 0,
-    maxArea:0,
+    maxArea: 0,
     minPrice: 0,
     maxPrice: 0,
     surrounding: [],
@@ -43,14 +43,14 @@ export const SearchMotel = () => {
       setLoading(true);
       //log ra xem có lấy được dữ liệu không
       console.log(province, district, ward, search, currentPage, sortOption, filters.surrounding);
-      
+
       try {
         const response = await getSearchMotelApi(province, district, ward, search, currentPage, sortOption,
           filters.minPrice,
           filters.maxPrice,
           filters.minArea,
           filters.maxArea,
-          filters.surrounding || [] 
+          filters.surrounding || []
         ); // Pass sortOption to API
         if (response.data && response.data.data) {
           setMotels(response.data.data.list);
@@ -58,7 +58,7 @@ export const SearchMotel = () => {
           console.log(response.data);
           console.log("Số trang", response.data.data.totalPage);
           console.log(response.data.data.list);
-          
+
         }
       } catch (error) {
         console.error("Error fetching motels:", error);
@@ -88,142 +88,138 @@ export const SearchMotel = () => {
     setCurrentPage(1);
   };
   return (
-    <>
-      <Header />
-      <div className="Search-motel-user pt-3 pb-5">
-        <div className="container">
-          <section className="mt-3 link-search">
-            <div className="d-flex breadcrumbs-wrap">
-              <span className="span-link">
-                <a href="/" className="a-link">Trang chủ</a>
-              </span>
-              <span className="span-link"> /</span>
-              <span className="span-link">
-                <a href="/" className="a-link">Tìm kiếm</a>
-              </span>
-            </div>
-          </section>
-          <section className="mt-3">
-            <div className="box-header-search">
-              <h1 className="box-title">
-                CHO THUÊ PHÒNG TRỌ BUÔN MA THUỘC RẺ, MỚI NHẤT
-              </h1>
-            </div>
-          </section>
-          <section className="mt-3 main-motel-search">
-            <div className="row">
-              <section className="col-12 col-lg-9 pe-lg-3 pe-xl-4 row">
-                <div className="list-motel-search col-12">
-                  <div className="col-12 d-flex justify-content-between align-items-center flex-wrap">
-                    <div className="d-none d-sm-none d-md-none d-lg-block count">
-                      <strong>Tổng (Số) kết quả </strong>
-                    </div>
-                    <div className="arrange">
-                      <div className="arrange-label">Sắp xếp theo: </div>
-                      <div className="arrange-select">
-                        <select
-                          className="form-select px-2"
-                          id="floatingSelect"
-                          aria-label="Floating label select example"
-                          value={sortOption} // Bind value to state
-                          onChange={handleSortChange} // Handle sort change
-                        >
-                          <option value="new">Mới nhất</option>
-                          <option value="price_asc">Tăng dần</option>
-                          <option value="price_desc">Giảm dần</option>
-                        </select>
-                      </div>
+    <div className="Search-motel-user pt-3 pb-5">
+      <div className="container">
+        <section className="mt-3 link-search">
+          <div className="d-flex breadcrumbs-wrap">
+            <span className="span-link">
+              <a href="/" className="a-link">Trang chủ</a>
+            </span>
+            <span className="span-link"> /</span>
+            <span className="span-link">
+              <a href="/" className="a-link">Tìm kiếm</a>
+            </span>
+          </div>
+        </section>
+        <section className="mt-3">
+          <div className="box-header-search">
+            <h1 className="box-title">
+              CHO THUÊ PHÒNG TRỌ BUÔN MA THUỘC RẺ, MỚI NHẤT
+            </h1>
+          </div>
+        </section>
+        <section className="mt-3 main-motel-search">
+          <div className="row">
+            <section className="col-12 col-lg-9 pe-lg-3 pe-xl-4 row">
+              <div className="list-motel-search col-12">
+                <div className="col-12 d-flex justify-content-between align-items-center flex-wrap">
+                  <div className="d-none d-sm-none d-md-none d-lg-block count">
+                    <strong>Tổng (Số) kết quả </strong>
+                  </div>
+                  <div className="arrange">
+                    <div className="arrange-label">Sắp xếp theo: </div>
+                    <div className="arrange-select">
+                      <select
+                        className="form-select px-2"
+                        id="floatingSelect"
+                        aria-label="Floating label select example"
+                        value={sortOption} // Bind value to state
+                        onChange={handleSortChange} // Handle sort change
+                      >
+                        <option value="new">Mới nhất</option>
+                        <option value="price_asc">Tăng dần</option>
+                        <option value="price_desc">Giảm dần</option>
+                      </select>
                     </div>
                   </div>
-                  {loading ? (
-                    <p>Loading...</p>
-                  ) : (
-                    <div className="row">
-                      {motels.map((motel) => (
-                        <div className="col-12 mt-3" key={motel.id}>
-                          <div className="item-list-motel row">
-                            <div className="col-4 list-motel-img">
-                              <a href="#">
-                                <img
-                                  src={motel.images[0]?.link || "#"}
-                                  alt="Hình ảnh không khả dụng"
-                                  className="img-fluid"
-                                />
+                </div>
+                {loading ? (
+                  <p>Loading...</p>
+                ) : (
+                  <div className="row">
+                    {motels.map((motel) => (
+                      <div className="col-12 mt-3" key={motel.id}>
+                        <div className="item-list-motel row">
+                          <div className="col-4 list-motel-img">
+                            <a href="#">
+                              <img
+                                src={motel.images[0]?.link || "#"}
+                                alt="Hình ảnh không khả dụng"
+                                className="img-fluid"
+                              />
+                            </a>
+                          </div>
+                          <div className="col-8 list-motel-body">
+                            <div className="motel-item-name">
+                              <a href="#" className="motel-item-link">
+                                <h3>{motel.name}</h3>
                               </a>
                             </div>
-                            <div className="col-8 list-motel-body">
-                              <div className="motel-item-name">
-                                <a href="#" className="motel-item-link">
-                                  <h3>{motel.name}</h3>
-                                </a>
-                              </div>
-                              <div className="motel-item-price">
-                                <small className="me-2">Từ</small>
-                                <span>{motel.price} triệu/tháng</span>
-                              </div>
-                              <div className="motel-item-address">
-                                <i className="fa-thin fa-location-dot fa-lg me-2"></i>
-                                <p>{motel.address}</p>
-                              </div>
+                            <div className="motel-item-price">
+                              <small className="me-2">Từ</small>
+                              <span>{motel.price} triệu/tháng</span>
+                            </div>
+                            <div className="motel-item-address">
+                              <i className="fa-thin fa-location-dot fa-lg me-2"></i>
+                              <p>{motel.address}</p>
                             </div>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                  <div className="d-flex justify-content-center align-items-center mt-3">
-                    <nav aria-label="Page navigation example">
-                      <ul className="pagination">
-                        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                          <button
-                            className="page-link btn-filter"
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 1}
-                          >
-                            &laquo;
-                          </button>
-                        </li>
-                        {totalPages > 0 ? (
-                          pageNumbers.map((number) => (
-                            <li
-                              className={`page-item ${number === currentPage ? "active" : ""}`}
-                              key={number}
-                            >
-                              <button
-                                className="page-link btn-filter"
-                                onClick={() => handlePageChange(number)}
-                              >
-                                {number}
-                              </button>
-                            </li>
-                          ))
-                        ) : (
-                          <li className="page-item disabled">
-                            <span className="page-link">No pages</span>
-                          </li>
-                        )}
-                        <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                          <button
-                            className="page-link btn-filter"
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                          >
-                            &raquo;
-                          </button>
-                        </li>
-                      </ul>
-                    </nav>
+                      </div>
+                    ))}
                   </div>
+                )}
+                <div className="d-flex justify-content-center align-items-center mt-3">
+                  <nav aria-label="Page navigation example">
+                    <ul className="pagination">
+                      <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                        <button
+                          className="page-link btn-filter"
+                          onClick={() => handlePageChange(currentPage - 1)}
+                          disabled={currentPage === 1}
+                        >
+                          &laquo;
+                        </button>
+                      </li>
+                      {totalPages > 0 ? (
+                        pageNumbers.map((number) => (
+                          <li
+                            className={`page-item ${number === currentPage ? "active" : ""}`}
+                            key={number}
+                          >
+                            <button
+                              className="page-link btn-filter"
+                              onClick={() => handlePageChange(number)}
+                            >
+                              {number}
+                            </button>
+                          </li>
+                        ))
+                      ) : (
+                        <li className="page-item disabled">
+                          <span className="page-link">No pages</span>
+                        </li>
+                      )}
+                      <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                        <button
+                          className="page-link btn-filter"
+                          onClick={() => handlePageChange(currentPage + 1)}
+                          disabled={currentPage === totalPages}
+                        >
+                          &raquo;
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
                 </div>
-              </section>
-              <section className="col-12 col-lg-3 ps-lg-3 ps-xl-4 d-none d-sm-none d-md-none d-lg-block">
-                <FilterSearch prefix="main" onFilterChange={handleFilterChange}/>
-              </section>
-            </div>
-          </section>
-        </div>
+              </div>
+            </section>
+            <section className="col-12 col-lg-3 ps-lg-3 ps-xl-4 d-none d-sm-none d-md-none d-lg-block">
+              <FilterSearch prefix="main" onFilterChange={handleFilterChange} />
+            </section>
+          </div>
+        </section>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };
