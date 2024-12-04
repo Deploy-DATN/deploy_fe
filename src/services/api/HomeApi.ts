@@ -104,3 +104,7 @@ export const postVnpayApi = async (vnpay: VnPay) => {
 export const deleteMyMotel = async (id: number) => {
     return axios.delete(API.DELETEMYMOTEL, { params: { id: id } })
 }
+
+export const getRelatedApi = async (address: string) => {
+    return axios.get(`${API.RELATED}?adress=${address}`)
+}

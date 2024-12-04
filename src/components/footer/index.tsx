@@ -74,7 +74,7 @@ const Footer = () => {
 
             </div>
             <div className="colum-footer-1 col-12 col-sm-12 col-md-5 col-lg-5 col-xl-3 col-xxl-3 text-start text-md-start text-lg-start text-xl-start text-xxl-start">
-              <h3 className="h3-footer-quick">Get In Touch</h3>
+              <h3 className="h3-footer-quick">Liên hệ</h3>
               <div className="mt-4">
                 <ul className="list-unstyled">
                   <li className=" a-footer-quick d-flex justify-content-start justify-content-md-start justify-content-lg-start justify-content-xl-start justify-content-xxl-start">

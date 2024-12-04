@@ -1,14 +1,14 @@
-import { useForm } from 'react-hook-form'
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
-import InputField from "@/components/form_controls/input_field"
-import React from 'react'
-import { UserDetail } from '@/services/api/HomeApi';
-import { useSelector } from 'react-redux'
-import { RootState } from '@/redux/store'
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import InputField from "@/components/form_controls/input_field";
+import React from "react";
+import { UserDetail } from "@/services/api/HomeApi";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 interface Props {
-    onSubmit: ((data: UserDetail) => void)
+  onSubmit: (data: UserDetail) => void;
 }
 
 const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
@@ -40,43 +40,52 @@ const ProfileForm: React.FC<Props> = ({ onSubmit }) => {
         mode: 'onBlur'
     });
 
+  return (
+    <form className="container" onSubmit={handleSubmit(onSubmit)}>
+      <div className="form-group" style={{ minHeight: "80px" }}>
+        <InputField
+          control={control}
+          label="Họ và tên"
+          name="fullName"
+          type="text"
+          errors={errors}
+          classname={`form-control ${
+            errors["fullName"]?.message ? "is-invalid" : ""
+          }`}
+        />
+      </div>
+      <div className="form-group" style={{ minHeight: "80px" }}>
+        <InputField
+          control={control}
+          label="Số điện thoại"
+          name="phone"
+          type="text"
+          errors={errors}
+          classname={`form-control ${
+            errors["phone"]?.message ? "is-invalid" : ""
+          }`}
+        />
+      </div>
+      <div className="form-group" style={{ minHeight: "80px" }}>
+        <InputField
+          control={control}
+          label="Email"
+          name="email"
+          type="text"
+          errors={errors}
+          classname={`form-control ${
+            errors["email"]?.message ? "is-invalid" : ""
+          }`}
+        />
+      </div>
+      <button
+        type="submit"
+        className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2"
+      >
+        Cập nhật
+      </button>
+    </form>
+  );
+};
 
-
-    return (
-        <form className='container' onSubmit={handleSubmit(onSubmit)}>
-            <div className="form-group" style={{ minHeight: '80px' }}>
-                <InputField
-                    control={control}
-                    label="Họ và tên"
-                    name="fullName"
-                    type="text"
-                    errors={errors}
-                    classname={`form-control ${errors['fullName']?.message ? "is-invalid" : ""}`}
-                />
-            </div>
-            <div className="form-group" style={{ minHeight: '80px' }}>
-                <InputField
-                    control={control}
-                    label="Số điện thoại"
-                    name="phone"
-                    type="text"
-                    errors={errors}
-                    classname={`form-control ${errors['phone']?.message ? "is-invalid" : ""}`}
-                />
-            </div>
-            <div className="form-group" style={{ minHeight: '80px' }}>
-                <InputField
-                    control={control}
-                    label="Email"
-                    name="email"
-                    type="text"
-                    errors={errors}
-                    classname={`form-control ${errors['email']?.message ? "is-invalid" : ""}`}
-                />
-            </div>
-            <button type="submit" className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2">Cập nhật</button>
-        </form>
-    )
-}
-
-export default ProfileForm
+export default ProfileForm;

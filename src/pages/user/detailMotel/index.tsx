@@ -1,11 +1,11 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../detailMotel/detaimotel.scss";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { GetRoomTypeID } from "@/services/api/HomeApi";
-import { useParams } from "react-router-dom"; 
+import { useParams } from "react-router-dom";
 import { format } from 'date-fns';
 import RelevantMotel from "./compenent/relevantmotel";
 export const DetailMotelUser = () => {
@@ -16,7 +16,7 @@ export const DetailMotelUser = () => {
     price: string;
     images: { id: number; link: string; type: string }[];
     updateDate: string;
-    area : number;
+    area: number;
     fullName: string,
     phoneNumber: string,
     email: string,
@@ -50,21 +50,21 @@ export const DetailMotelUser = () => {
       return nextIndex;
     });
   };
-  
+
   const handlePrev = () => {
     if (!motel?.images?.length) return;
     setCurrentIndex(
       (prevIndex) => (prevIndex - 1 + motel.images.length) % motel.images.length
     );
   };
-  
+
   // Hiển thị các ảnh tuần hoàn từ currentIndex
   const displayedImages = [];
   for (let i = 0; i < itemsPerPage; i++) {
     const index = (currentIndex + i) % (motel?.images.length || 1); // Sử dụng optional chaining để kiểm tra motel?.images
     displayedImages.push(motel?.images[index]);
   }
-  
+
   return (
     <>
       <Header />
@@ -95,7 +95,7 @@ export const DetailMotelUser = () => {
                       <i className="fa-light fa-angle-left"></i>
                     </button>
                     {displayedImages.map((image, index) => {
-                     const actualIndex = (currentIndex + index) % (motel?.images?.length || 1); // Tính chỉ số thực
+                      const actualIndex = (currentIndex + index) % (motel?.images?.length || 1); // Tính chỉ số thực
                       return (
                         <img
                           key={index}
@@ -171,7 +171,7 @@ export const DetailMotelUser = () => {
           <section className="mt-5">
             {/* code phần trọ tương tự ở đây 
             có thể copy từ homemotelnew */}
-            <RelevantMotel />
+            <RelevantMotel address={motel?.address || ""} />
           </section>
         </div>
       </div>

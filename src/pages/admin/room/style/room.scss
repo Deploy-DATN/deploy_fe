@@ -178,7 +178,7 @@
       overflow-y: visible;
     }
   }
-  @media (min-width: 992px) and (max-width:1399px) {
+  @media (min-width: 992px) and (max-width: 1399px) {
     .list-room-motel {
       max-height: calc(
         2 * 250px
@@ -245,6 +245,26 @@
       justify-content: center;
       align-items: center;
       background: none;
+    }
+  }
+}
+
+.add-user-room {
+  .dropdown-list-add-user-room {
+    position: relative;
+    left: 0; /* Căn trái theo cha */
+    right: 0; /* Căn phải theo cha */
+    width: 100%; /* Đảm bảo full width */
+    .list-add-user-room {
+      position: fixed;
+      background-color: #fff;
+      box-shadow: var(--bs-box-shadow-sm) !important;
+      max-width: 660px;
+      width: 90%;
+      .item-add-user-room {
+        padding: 8px 12px;
+        border-bottom: 1px solid #535353;
+      }
     }
   }
 }

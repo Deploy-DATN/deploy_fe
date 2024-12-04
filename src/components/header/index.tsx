@@ -242,16 +242,16 @@ const Header = () => {
                         </a>
                         {dropdownVisible && (
                           <div className="dropdown-menu-custom">
-                            <Link to='/user' className="dropdown-item">Thông tin cá nhân</Link>
-                            <a href="#" className="dropdown-item">Thông báo</a>
-                            <Link to="/user/change-password" className="dropdown-item">Thay đổi mật khẩu</Link>
+                            <Link to='/user' className="dropdown-item link-dropdown-header-user">Thông tin cá nhân</Link>
+                            <Link to='/user/noti' className="dropdown-item link-dropdown-header-user">Thông báo</Link>
+                            <Link to="/user/change-password" className="dropdown-item link-dropdown-header-user">Thay đổi mật khẩu</Link>
                             <hr className="dropdown-divider" />
                             <div
                               onClick={() => {
                                 localStorage.removeItem('token');
                                 window.location.href = '/';
                               }}
-                              className="dropdown-item"
+                              className="dropdown-item link-dropdown-header-user"
                             >
                               Đăng xuất
                             </div>
