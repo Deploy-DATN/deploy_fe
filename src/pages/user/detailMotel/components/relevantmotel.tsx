@@ -2,7 +2,7 @@ import { faLocationDot, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { getRelatedApi } from '@/services/api/HomeApi';
-
+import { useNavigate } from "react-router-dom";
 interface RelevantMotelProps {
   address: string | undefined,
   currentMotelId: string | undefined
@@ -23,7 +23,11 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
   const [motels, setMotels] = useState<Motel[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 4;
-
+  const navigate = useNavigate();
+  const handleMotelClick = (id: number) => {
+    console.log("Motel ID: cô mà nhỉ ", id);
+    navigate(`/detailmoteluser/${id}`);
+  };
   // Lấy dữ liệu từ API khi component được render
   useEffect(() => {
     if (typeof address === 'string' && address.trim() !== '') {
@@ -91,15 +95,15 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
           {motels.length > 0 ? (
             displayedMotels.map((motel, index) => (
               motel && motel.images && Array.isArray(motel.images) && motel.images.length > 0 ? (
-                <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3">
+                <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3" >
                   {/* Slider */}
-                  <div className="">
+                  <div className="" onClick={() => handleMotelClick(motel.id)}>
                     <div
                       id={`carouselExampleIndicators-2-${index}`}
                       className="carousel slide"
                       data-bs-ride="carousel"
                     >
-                      <div className="carousel-indicators mb-0">
+                      <div className="carousel-indicators mb-0" >
                         {motel.images && motel.images.length > 0 && motel.images.map((image, imgIndex) => (
                           <button
                             key={`${imgIndex}`}

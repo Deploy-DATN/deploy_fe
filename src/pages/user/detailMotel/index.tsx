@@ -25,17 +25,23 @@ export const DetailMotelUser = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 5; // Số ảnh nhỏ hiển thị tối đa mỗi lần
   const [motel, setMotel] = useState<Motel | null>(null);
+  const [isLoading, setIsLoading] = useState(false); // Thêm state isLoading
   useEffect(() => {
-    GetRoomTypeID(Number(id))
-      .then((res) => {
-        const fetchedMotel: Motel = res.data.data; // Assuming the API returns a list of motels, but we're interested in just the first one
-        setMotel(fetchedMotel);
-        console.log("Fetched motel:", fetchedMotel);
-      })
-      .catch((error) => {
-        console.error("Error fetching motel:", error);
-      });
-  }, []);
+    setIsLoading(true);
+    setMotel(null); // Reset dữ liệu cũ
+    if (id) {
+        GetRoomTypeID(Number(id))
+            .then((res) => {
+                const fetchedMotel: Motel = res.data.data;
+                setMotel(fetchedMotel);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching motel:", error);
+                setIsLoading(false);
+            });
+    }
+}, [id]);
   //log data
   console.log("Motel:", motel);
   console.log("Images:", motel?.images);
@@ -70,7 +76,13 @@ export const DetailMotelUser = () => {
     // Mở link Zalo trong một tab mới
     window.open(zaloLink, "_blank");
   };
+  if (isLoading) {
+    return <div className="loading-spinner">Đang tải dữ liệu...</div>;
+}
 
+if (!motel) {
+    return <div className="error-message">Không tìm thấy thông tin nhà trọ.</div>;
+}
   return (
     <div className="bgr-detail-motel-user pb-3">
       <div className="container pt-4">

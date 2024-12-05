@@ -215,6 +215,7 @@ export interface GetHistoryByRoomIdDTO {
     status: boolean;
   }
 }
+
 export interface RoomUserDTO {
   id: number;
   fullName: string;
@@ -230,31 +231,6 @@ export interface AddUserRoomDTO {
 
 // ------------------------------------------------------------------------------------------------
 
-export interface GetRoomTypeByAddElicWaterDTO {
-  id: number;
-  roomNumber: number;
-  consumption: {
-    id: number;
-    water: number;
-    electricity: number;
-  }
-}
-
-export interface SendElicWaterDTO {
-	roomId: number;
-	water: number;
-	electric: number;
-	other: number;
-}
-
-// ------------------------------------------------------------------------------------------------
-
-export interface GetPriceByRoomTypeDTO {
-  roomTypeId: number;
-  price: number; 
-  price_Electric: number;
-  price_Water: number;
-}
 // Interface cho thông tin dịch vụ trong hóa đơn
 interface ServiceBillDTO {
     id: number;
@@ -297,4 +273,46 @@ interface BillByIdDTO{
 
 export type { BillDTO, ServiceBillDTO, RoomBillDTO, BillByIdDTO };
 
+export interface GetHistoryByRoomIdDTO {
+  id: number;
+  createDate: string;
+  endDate: string | null;
+  status: number;
+  user: {
+    id: number;
+    fullName: string;
+    phone: string;
+    email: string;
+    avatar: string | null;
+    createDate: string;
+    status: boolean;
+  }
+}
 
+// ------------------------------------------------------------------------------------------------
+
+export interface GetRoomTypeByAddElicWaterDTO {
+  id: number;
+  roomNumber: number;
+  consumption: {
+    id: number;
+    water: number;
+    electricity: number;
+  }
+}
+
+export interface SendElicWaterDTO {
+	roomId: number;
+	water: number;
+	electric: number;
+	other: number;
+}
+
+// ------------------------------------------------------------------------------------------------
+
+export interface GetPriceByRoomTypeDTO {
+  roomTypeId: number;
+  price: number; 
+  price_Electric: number;
+  price_Water: number;
+}

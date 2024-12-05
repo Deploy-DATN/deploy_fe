@@ -1,9 +1,8 @@
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
-import { MotelRoomDTO } from '@/services/Dto/MotelDto';
 
-const CardRoom = (props: { room: MotelRoomDTO }) => {
+
+const CardRoom = (props: { room: any }) => {
 
     const CheckStatus = (status: number) => {
         if (status === 1) {
