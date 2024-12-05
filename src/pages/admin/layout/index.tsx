@@ -312,7 +312,7 @@ export const Layout = () => {
               className="navbar-collapse justify-content-end px-0 card rounded-0 mb-0"
               id="navbarNav"
             >
-              <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+              <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end header-noti-admin--1">
                 <li className="nav-item dropdown">
                   <a
                     className="nav-link nav-icon-hover dropdown-toggle no-arrow"

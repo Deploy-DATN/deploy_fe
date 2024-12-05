@@ -1,15 +1,14 @@
-
 import CreateNotification from "./component/CreateNotification";
 import EditNotification from "./component/EditNotification";
-import SendNotification from "./component/SendNotification"
+import SendNotification from "./component/SendNotification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { Noti } from '@/services/api/authApi';
+import { Noti } from "@/services/api/authApi";
 import { Data } from "@/services/Dto/NotificationDto";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { ParamsPage } from "@/services/Dto/NotificationDto";
 import { getNotis } from "@/services/api/notiApi";
 
@@ -17,9 +16,13 @@ export const Notification: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showSendPopup, setShowSendPopup] = useState(false);
-  const [currentNotification, setCurrentNotification] = useState<Noti | null>(null);
+  const [currentNotification, setCurrentNotification] = useState<Noti | null>(
+    null
+  );
   const [notifications, setNotifications] = useState<Data>();
-  const [activeStatus, setActiveStatus] = useState<boolean | undefined>(undefined);
+  const [activeStatus, setActiveStatus] = useState<boolean | undefined>(
+    undefined
+  );
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -53,18 +56,18 @@ export const Notification: React.FC = () => {
     fetchNotifications();
     setShowSendPopup(false);
     setCurrentNotification(null);
-  }
+  };
 
   const getNotificationTypeClass = (type: number) => {
     switch (type) {
       case 2:
-        return 'badge bg-warning'; // Cảnh báo (vàng)
+        return "bg-yellow-noti"; // Cảnh báo (vàng)
       case 3:
-        return 'badge bg-danger'; // Khẩn cấp (đỏ)
+        return "bg-red-noti"; // Khẩn cấp (đỏ)
       case 4:
-        return 'badge bg-primary'; // Hệ thống (xanh dương)
+        return "bg-blue-noti"; // Hệ thống (xanh dương)
       default:
-        return 'badge bg-success'; // Thông thường (xanh lá cây)
+        return "bg-green-noti"; // Thông thường (xanh lá cây)
     }
   };
 
@@ -76,18 +79,18 @@ export const Notification: React.FC = () => {
         setNotifications(response.data.data);
       } else {
         Swal.fire({
-          icon: 'error',
-          title: 'Lỗi!',
-          text: 'Không thể lấy danh sách thông báo',
+          icon: "error",
+          title: "Lỗi!",
+          text: "Không thể lấy danh sách thông báo",
         });
       }
     } catch (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Lỗi!',
-        text: 'Đã có lỗi xảy ra khi gọi API',
+        icon: "error",
+        title: "Lỗi!",
+        text: "Đã có lỗi xảy ra khi gọi API",
       });
-      console.error('Lỗi API:', error);
+      console.error("Lỗi API:", error);
     }
   };
 
@@ -97,17 +100,17 @@ export const Notification: React.FC = () => {
 
   const formatContent = (content: string) => {
     const maxLength = 80;
-    let formattedContent = '';
-    let currentLine = '';
+    let formattedContent = "";
+    let currentLine = "";
     // Tách nội dung thành các từ
-    const words = content.split(' ');
-    words.forEach(word => {
+    const words = content.split(" ");
+    words.forEach((word) => {
       if ((currentLine + word).length <= maxLength) {
         // Nếu thêm từ vào dòng hiện tại mà không vượt quá 100 ký tự, thêm từ đó vào
-        currentLine += (currentLine ? ' ' : '') + word;
+        currentLine += (currentLine ? " " : "") + word;
       } else {
         // Nếu thêm từ vào vượt quá 100 ký tự, kết thúc dòng hiện tại và bắt đầu dòng mới
-        formattedContent += currentLine + '<br />';
+        formattedContent += currentLine + "<br />";
         currentLine = word; // bắt đầu dòng mới với từ hiện tại
       }
     });
@@ -125,35 +128,53 @@ export const Notification: React.FC = () => {
           <div className="card-body p-4">
             <div className="d-flex justify-content-between mb-4">
               <div className="d-flex flex-wrap">
-
                 <button
-                  onClick={() => fetchNotifications({
-                  })}
-                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center  ${activeStatus === undefined ? 'block-filter__button--active' : ''}`}>
-
+                  onClick={() => fetchNotifications({})}
+                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center  ${
+                    activeStatus === undefined ? "active-filter-motel" : ""
+                  }`}
+                >
                   Tất cả
                 </button>
 
                 <button
-                  onClick={() => fetchNotifications({
-                    status: true
-                  })}
-                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${activeStatus === true ? 'block-filter__button--active' : ''}`}>
+                  onClick={() =>
+                    fetchNotifications({
+                      status: true,
+                    })
+                  }
+                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${
+                    activeStatus === true ? "active-filter-motel" : ""
+                  }`}
+                >
                   Đã gửi
                 </button>
 
                 <button
-                  onClick={() => fetchNotifications({
-                    status: false
-                  })}
-                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${activeStatus === false ? 'block-filter__button--active' : ''}`}>
-
+                  onClick={() =>
+                    fetchNotifications({
+                      status: false,
+                    })
+                  }
+                  className={`btn btn-filter btn-sm px-3 py-1 mx-2 mb-1 btn-transform-y2 d-flex align-items-center ${
+                    activeStatus === false ? "active-filter-motel" : ""
+                  }`}
+                >
                   Chưa gửi
                 </button>
               </div>
               <div className="">
-                <button className="btn btn-create-notification btn-transform-y2" onClick={handleOpenModal}>
-                  <FontAwesomeIcon icon={faPlus} size="lg" color="#fffffff" className="icon-table-motel me-3" />Thêm thông báo
+                <button
+                  className="btn btn-create-notification btn-transform-y2"
+                  onClick={handleOpenModal}
+                >
+                  <FontAwesomeIcon
+                    icon={faPlus}
+                    size="lg"
+                    color="#fffffff"
+                    className="icon-table-motel me-3"
+                  />
+                  Thêm thông báo
                 </button>
 
                 {showModal && <CreateNotification onClose={handleCloseModal} />}
@@ -193,46 +214,80 @@ export const Notification: React.FC = () => {
                           <p className="fs-3 fw-normal mb-0">{noti.title}</p>
                         </td>
                         <td>
-                          <p className="fs-3 fw-normal mb-0"><span dangerouslySetInnerHTML={{ __html: formatContent(noti.content) }} /></p>
+                          <p className="fs-3 fw-normal mb-0">
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: formatContent(noti.content),
+                              }}
+                            />
+                          </p>
                         </td>
                         <td>
-                          <span className={`badge rounded-pill px-3 py-2 fs-3 ${getNotificationTypeClass(noti.type)}`}>
-                            {noti.type === 1 ? 'Thông thường' :
-                              noti.type === 2 ? 'Cảnh báo' :
-                                noti.type === 3 ? 'Khẩn cấp' : 'Hệ thống'}
+                          <span
+                            className={`badge rounded-pill px-3 py-2 fs-3 ${getNotificationTypeClass(
+                              noti.type
+                            )}`}
+                          >
+                            {noti.type === 1
+                              ? "Thông thường"
+                              : noti.type === 2
+                              ? "Cảnh báo"
+                              : noti.type === 3
+                              ? "Khẩn cấp"
+                              : "Hệ thống"}
                           </span>
                         </td>
                         <td>
                           {noti.status === false ? (
-                            <span className={`tt-choduyet badge bg-warning rounded-pill px-3 py-2 fs-3 text-white`}>
+                            <span
+                              className={`tt-choduyet badge bg-warning rounded-pill px-3 py-2 fs-3 text-white`}
+                            >
                               Chưa gửi
                             </span>
                           ) : (
-                            <span className={`tt-choduyet badge bg-success rounded-pill px-3 py-2 fs-3 text-white`}>
+                            <span
+                              className={`tt-choduyet badge bg-success rounded-pill px-3 py-2 fs-3 text-white`}
+                            >
                               Đã gửi
                             </span>
                           )}
                         </td>
                         <td>
-                          <button
-                            className="btn text-white btn-sm btn-mokhoa px-3 py-2 mx-2" style={{ pointerEvents: noti.status ? 'none' : 'auto', opacity: noti.status ? 0.5 : 1 }}
+                          <a
+                            className="px-2 py-1 mx-1 btn-transform-y2"
+                            style={{
+                              pointerEvents: noti.status ? "none" : "auto",
+                              opacity: noti.status ? 0.5 : 1,
+                            }}
                             onClick={() => handleOpenEditModal(noti)}
                           >
-                            Sửa
-                          </button>
+                            <FontAwesomeIcon
+                              icon={faEllipsis}
+                              size="2xl"
+                              color="#298b90"
+                              className="icon-table-motel"
+                            />
+                          </a>
                           <a
-                            href="#"
-                            className="btn text-white btn-sm btn-chitiet px-3 py-2 mx-2" style={{ pointerEvents: noti.status ? 'none' : 'auto', opacity: noti.status ? 0.5 : 1 }}
+                            className="px-2 py-1 mx-1 btn-transform-y2"
+                            style={{
+                              pointerEvents: noti.status ? "none" : "auto",
+                              opacity: noti.status ? 0.5 : 1,
+                            }}
                             onClick={() => handleOpenSendPopup(noti)}
                           >
-                            Gửi
+                            <FontAwesomeIcon
+                              icon={faPenToSquare}
+                              size="2xl"
+                              color="#298b90"
+                              className="icon-table-motel"
+                            />
                           </a>
                         </td>
                       </tr>
                     ))
                   )}
                 </tbody>
-
               </table>
             </div>
             {notifications && notifications?.totalPages > 1 && (
@@ -246,53 +301,72 @@ export const Notification: React.FC = () => {
                             fetchNotifications({
                               // search: keySearch,
                               pageNumber: notifications.pageNumber - 1,
-                              status: activeStatus
-                            })
+                              status: activeStatus,
+                            });
                           }
                         }}
-                        className={`page-link btn-filter ${notifications.pageNumber === 1 ? 'block-page-item__block-page-link--disabled' : ''}`}>
+                        className={`page-link btn-filter ${
+                          notifications.pageNumber === 1
+                            ? "block-page-item__block-page-link--disabled"
+                            : ""
+                        }`}
+                      >
                         <span aria-hidden="true">&laquo;</span>
                       </button>
                     </li>
-                    {notifications && notifications.totalPages && Array.from({ length: notifications.totalPages }, (_, index) => (
-                      <li key={index} className="page-item block-page-item">
-                        <button
-                          onClick={() => {
-                            if (notifications.pageNumber !== index + 1) {
-                              fetchNotifications({
-                                // search: keySearch,
-                                pageNumber: index + 1,
-                                status: activeStatus
-                              })
-                            }
-                          }}
-                          className={`page-link btn-filter ${notifications.pageNumber == index + 1 ? 'block-page-item__block-page-link--active' : ''}`}>
-                          {index + 1}
-                        </button>
-                      </li>
-
-                    ))}
+                    {notifications &&
+                      notifications.totalPages &&
+                      Array.from(
+                        { length: notifications.totalPages },
+                        (_, index) => (
+                          <li key={index} className="page-item block-page-item">
+                            <button
+                              onClick={() => {
+                                if (notifications.pageNumber !== index + 1) {
+                                  fetchNotifications({
+                                    // search: keySearch,
+                                    pageNumber: index + 1,
+                                    status: activeStatus,
+                                  });
+                                }
+                              }}
+                              className={`page-link btn-filter ${
+                                notifications.pageNumber == index + 1
+                                  ? "block-page-item__block-page-link--active"
+                                  : ""
+                              }`}
+                            >
+                              {index + 1}
+                            </button>
+                          </li>
+                        )
+                      )}
                     <li className="page-item block-page-item">
                       <button
                         onClick={() => {
-                          if (notifications.pageNumber < notifications.totalPages) {
+                          if (
+                            notifications.pageNumber < notifications.totalPages
+                          ) {
                             fetchNotifications({
                               // search: keySearch,
                               pageNumber: notifications.pageNumber + 1,
-                              status: activeStatus
-                            })
+                              status: activeStatus,
+                            });
                           }
                         }}
-                        className={`page-link btn-filter ${notifications.pageNumber === notifications.totalPages ? 'block-page-item__block-page-link--disabled' : ''}`}>
+                        className={`page-link btn-filter ${
+                          notifications.pageNumber === notifications.totalPages
+                            ? "block-page-item__block-page-link--disabled"
+                            : ""
+                        }`}
+                      >
                         <span aria-hidden="true">&raquo;</span>
                       </button>
                     </li>
-
                   </ul>
                 </nav>
               </div>
             )}
-
 
             {/* EditNotification Popup */}
             {showEditModal && currentNotification && (
@@ -313,11 +387,9 @@ export const Notification: React.FC = () => {
                 onClose={handleCloseSendPopup}
               />
             )}
-
           </div>
         </div>
       </div>
     </div>
   );
 };
-
