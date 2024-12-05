@@ -11,7 +11,7 @@ interface Props {
     onSubmit: ((data: UserDetail) => void)
 }
 const MyAccount: React.FC<Props> = ({ onSubmit }) => {
-    const { data } = useSelector((state: RootState) => state.user);
+    const { user } = useSelector((state: RootState) => state.user);
     const schema = yup
         .object({
             fullName: yup
@@ -31,9 +31,9 @@ const MyAccount: React.FC<Props> = ({ onSubmit }) => {
         .required();
     const { control, handleSubmit, formState: { errors } } = useForm<UserDetail>({
         defaultValues: {
-            phone: data?.phone || '',
-            fullName: data?.fullName || '',
-            email: data?.email || ''
+            phone: user?.phone || '',
+            fullName: user?.fullName || '',
+            email: user?.email || ''
         },
         resolver: yupResolver(schema),
         mode: 'onBlur'

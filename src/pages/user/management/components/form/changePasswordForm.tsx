@@ -76,7 +76,7 @@ const ChangePasswordForm: React.FC<Props> = ({ onSubmit }) => {
         />
       </div>
       <button
-        type="submit"z
+        type="submit"
         className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2"
       >
         Đổi mật khẩu
