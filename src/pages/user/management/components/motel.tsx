@@ -32,19 +32,16 @@ const Motel = () => {
     const handleVnPayPayment = async (billId: number, amount: number) => {
         console.log('Inside handleVnPayPayment');
         try {
-            console.log('Payload:', { billId, amount });
             const vnpayPayload: VnPay = {
                 orderId: billId.toString(),
                 amount,
-                returnUrl: ``,
+                returnUrl: `https://localhost:7299/api/Main/vnpay-return`,
             };
             const response = await postVnpayApi(vnpayPayload);
-            console.log('API response:', response);
             if (response.status === 200) {
                 window.location.href = response.data;
 
             } else {
-                sessionStorage.setItem('paymentPending', 'false');
                 Swal.fire({
                     title: 'Chưa thanh toán',
                     text: 'Thanh toán thất bại',
