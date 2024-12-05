@@ -1,7 +1,7 @@
 // API motel
 import axios from 'axios';
 import axiosInstance, { API_URL } from '../apiConfig';
-import { AddServiceDTO, EditMotelDTO, EditServiceDTO, GetMotelEditDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, AddUserRoomDTO, BillDTO,RoomUserDTO } from '../Dto/MotelDto';
+import { GetHistoryByRoomIdDTO, GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, SendElicWaterDTO, AddServiceDTO, AddUserRoomDTO, BillDTO, EditMotelDTO, EditServiceDTO, GetMotelEditDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, RoomUserDTO } from '../Dto/MotelDto';
 import { ResponseDTO } from './RepositoryDto';
 import { FilterProps } from '@/pages/admin/motel';
 import { getAccountApi } from './authApi';
@@ -151,5 +151,25 @@ export const DeleteUserRoomApi = async (roomId: number, userId: number) => {
 
 export const GetBill = async (id: number) => {
 	const response = await axios.get<ResponseDTO<BillDTO[]>>(`${API_URL}/Room/get-bill-by-room-id/${id}`);
+	return response.data;
+};
+
+export const GetHistoryByRoomIdApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetHistoryByRoomIdDTO[]>>(`${API_URL}/Room/get-history-by-room-id/${id}`);
+	return response.data;
+};
+
+export const GetRoomTypeByAddElicWaterApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetRoomTypeByAddElicWaterDTO[]>>(`${API_URL}/Room/get-room-by-export-bill/${id}`);
+	return response.data;
+};
+
+export const SendElicWaterApi = async (data: SendElicWaterDTO) => {
+	const response = await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-electric-and-water-to-bill`, data);
+	return response.data;
+};
+
+export const GetPriceByRoomTypeApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetPriceByRoomTypeDTO>>(`${API_URL}/Room/get-price-by-room-type-id/${id}`);
 	return response.data;
 };
