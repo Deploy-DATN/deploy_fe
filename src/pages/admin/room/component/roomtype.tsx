@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { GetRoomTypeDTO } from "@/services/Dto/MotelDto";
 import RowRoom from "./rowRoom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faDroplet } from "@fortawesome/free-solid-svg-icons";
+import { GetRoomTypeByAddElicWaterApi } from "@/services/api/MotelApi";
 
 const Roomtype = (props: {
   roomType: GetRoomTypeDTO;
@@ -12,6 +13,16 @@ const Roomtype = (props: {
   const { roomType, motelStatus, toggleModal } = props;
 
   console.log(roomType);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      const result = await GetRoomTypeByAddElicWaterApi(roomType.id);
+      setIsDisabled(result.data.length > 0);
+    };
+    checkStatus();
+  }, [roomType.id]);
+
   const CheckStatus = (status: number) => {
     if (status === 1) {
       return (
@@ -45,6 +56,16 @@ const Roomtype = (props: {
       );
     }
   };
+
+  const CheckStatusElicWater = async (roomTypeId: number) => {
+    const res = await GetRoomTypeByAddElicWaterApi(roomTypeId);
+    if (res.data.length > 0) {
+      return true;
+    }
+    return false;
+  };
+
+
   return (
     <>
       <div className="room-type-owner mt-3">
@@ -90,7 +111,8 @@ const Roomtype = (props: {
                 <div className="">
                   <button
                     className="btn btn-create-notification btn-transform-y2"
-                    onClick={() => toggleModal("addElicWater", roomType.id)}
+                    onClick={() => CheckStatusElicWater(roomType.id)}
+                    disabled={isDisabled}
                   >
                     Xuất hoá đơn
                   </button>
