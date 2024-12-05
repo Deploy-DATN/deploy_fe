@@ -13,6 +13,16 @@ const Header = () => {
   const { user, myMotel, notification } = useSelector((state: RootState) => state.user);
   const [modalShow, setModalShow] = useState(false);
 
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const handleCloseDropdown = () => {
+    setIsDropdownOpen(false);
+  };
   useEffect(() => {
     dispatch(fetchAccount());
     dispatch(fetchMyMotel());
@@ -151,7 +161,6 @@ const Header = () => {
               </li>
               <li className="col-12 col-md-12 col-sm-12 col-lg-3 col-xl-3 col-xxl-3 px-0">
                 <ul className="navbar-nav px-0 mb-lg-0 d-flex align-items-lg-center align-items-xl-center align-items-xxl-center justify-content-lg-end justify-content-xl-end justify-content-xxl-end px-3-lg w-100">
-                  <i className="fa-light fa-sun-bright font-size-header text-dark px-3 py-2"></i>
                   <div
                     className="dropdown dropdown-noti--header-user"
                     onClick={(e) => e.stopPropagation()}
@@ -160,14 +169,21 @@ const Header = () => {
                       className="dropdown-toggle"
                       type="button"
                       data-bs-toggle="dropdown"
-                      aria-expanded="false"
+                      aria-expanded={isDropdownOpen}
+                      onClick={handleDropdownToggle}
                     >
-                      <i className="fa-light fa-bell-ring font-size-header text-dark px-3 py-2"></i>
+                      <i className="fa-light fa-bell-ring font-size-header text-dark px-3 py-2 z-3"></i>
+                      {notification && (
+                        <span className="badge bg-danger position-absolute top-0 end-0 notification-badge rounded-2">
+                          {notification.notificationCount}
+                        </span>
+                      )}
                     </a>
-                    <div className="dropdown-menu dropdown-menu-noti-header dropdown-menu-lg-end">
+                    <div className={`dropdown-menu dropdown-menu-noti-header dropdown-menu-lg-end ${isDropdownOpen ? 'show' : ''
+                      }`}>
                       <div className="dropdown-header">
                         <div className="header-noti-title">Thông báo</div>
-                        <Link to='/user/noti'>Tất cả thông báo</Link>
+                        <Link to='/user/noti' onClick={handleCloseDropdown}>Tất cả thông báo</Link>
                       </div>
                       <div className="dropdown-noti-item row g-2">
                         <div className="dropdown-noti-item row g-2">

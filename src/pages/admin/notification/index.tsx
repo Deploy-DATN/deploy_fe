@@ -5,9 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-
 import { useEffect, useState } from "react";
-
 import { Noti } from "@/services/api/authApi";
 import { Data } from "@/services/Dto/NotificationDto";
 import Swal from "sweetalert2";
@@ -170,7 +168,9 @@ export const Notification: React.FC = () => {
                   className="btn btn-create-notification btn-transform-y2"
                   onClick={handleOpenModal}
                 >
+
                       <i className="fa-regular fa-plus icon-table-motel fa-lg me-3"></i>  
+
 
                   Thêm thông báo
                 </button>
@@ -259,7 +259,9 @@ export const Notification: React.FC = () => {
                             }}
                             onClick={() => handleOpenEditModal(noti)}
                           >
+
                             <i className="fa-regular fa-pen-to-square  icon-table-motel fa-xl"></i>
+
                           </a>
                           <a
                             className="px-2 py-1 mx-1 btn-transform-y2"
@@ -270,6 +272,7 @@ export const Notification: React.FC = () => {
                             onClick={() => handleOpenSendPopup(noti)}
                           >
                             <i className="fa-regular fa-paper-plane icon-table-motel fa-xl"></i>
+
                           </a>
                         </td>
                       </tr>

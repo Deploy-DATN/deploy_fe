@@ -297,4 +297,26 @@ interface BillByIdDTO{
 
 export type { BillDTO, ServiceBillDTO, RoomBillDTO, BillByIdDTO };
 
+export interface GetHistoryByRoomIdDTO {
+  id: number;
+  createDate: string;
+  endDate: string | null;
+  status: number;
+  createdDate: string;
+  total: number;
+  roomId: number;
+  room: RoomBillDTO;
+  userId: number | null;
+  user: any | null;
+  serviceBills: ServiceBillDTO[];
+}
+
+
+export interface SendElicWaterDTO {
+	roomId: number;
+	water: string;
+	electric: string;
+	other: string;
+}
+
 

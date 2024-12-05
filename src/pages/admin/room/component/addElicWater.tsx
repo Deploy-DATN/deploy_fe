@@ -3,11 +3,11 @@ import { GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, GetRoomTypeDTO_Roo
 import { GetPriceByRoomTypeApi, GetRoomTypeByAddElicWaterApi, SendElicWaterApi } from '@/services/api/MotelApi';
 
 interface BillCalculation {
-	totalElectric: number;
-	totalWater: number;
-	totalOther: number;
-	totalRoom: number;
-	total: number;
+	totalElectric: string;
+	totalWater: string;
+	totalOther: string;
+	totalRoom: string;
+	total: string;
 }
 
 const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ roomTypeId, onClose }) => {
@@ -20,13 +20,15 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 	});
 
 	const [billDetails, setBillDetails] = useState<BillCalculation>({
-		totalElectric: 0,
-		totalWater: 0,
-		totalOther: 0,
-		totalRoom: 0,
-		total: 0,
+		totalElectric: '',
+		totalWater: '',
+		totalOther: '',
+		totalRoom: '',
+		total: '',
 	});
 
+
+	
 	const handSaveclick = async () => {
 		setErrors({});
 		let hasError = false;
@@ -44,8 +46,6 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 				hasError = true;
 			}
 		});
-		console.log(hasError);
-
 		if (hasError) {
 			return;
 		}
@@ -53,21 +53,27 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 		const repository = await GetPriceByRoomTypeApi(roomTypeId);
 		const priceData = repository.data;
 
-		const newTotalElectric = priceData.price_Electric * (sendElicWaterDTO.electric - electricity);
-		const newTotalWater = priceData.price_Water * (sendElicWaterDTO.water - water);
+		const newTotalElectric = priceData.price_Electric * (Number(sendElicWaterDTO.electric) - electricity);
+		const newTotalWater = priceData.price_Water * (Number(sendElicWaterDTO.water) - water);
 		const newTotalOther = sendElicWaterDTO.other;
 		const newTotalRoom = priceData.price;
 
 		const newBillDetails = {
-			totalElectric: newTotalElectric,
-			totalWater: newTotalWater,
-			totalOther: newTotalOther,
-			totalRoom: newTotalRoom,
-			total: newTotalElectric + newTotalWater + newTotalOther + newTotalRoom,
+			totalElectric: String(newTotalElectric),
+			totalWater: String(newTotalWater),
+			totalOther: String(newTotalOther),
+			totalRoom: String(newTotalRoom),
+			total: (
+				Number(newTotalElectric) +
+				Number(newTotalWater) +
+				Number(newTotalOther) +
+				Number(newTotalRoom)
+			).toString()
 		};
 
 		await setBillDetails(newBillDetails);
 		setTimeout(() => {
+			console.log(newBillDetails);
 			setIsConfirm(true);
 		}, 0);
 	};
@@ -78,9 +84,9 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 
 	const [sendElicWaterDTO, setSendElicWaterDTO] = useState<SendElicWaterDTO>({
 		roomId: 0,
-		water: 0,
-		electric: 0,
-		other: 0,
+		water: '',
+		electric: '',
+		other: '',
 	});
 
 	const [data, setData] = useState<GetRoomTypeByAddElicWaterDTO[]>([]);
@@ -89,6 +95,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 			const res = await GetRoomTypeByAddElicWaterApi(roomTypeId);
 			setData(res.data);
 			if (res.data && res.data.length > 0) {
+				setActiveRoom(res.data[0].id);
 				setRoomId(res.data[0].id);
 				setWater(res.data[0].consumption?.water || 0);
 				setElectricity(res.data[0].consumption?.electricity || 0);
@@ -104,7 +111,21 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 
 	const [roomNumber, setRoomNumber] = useState<number>(0);
 
+	const [activeRoom, setActiveRoom] = useState<number | null>(null);
+
+
 	const handleRoomNumber = async (roomId: number) => {
+		setActiveRoom(roomId);
+
+		setSendElicWaterDTO({
+			roomId: 0,
+			water: '',
+			electric: '',
+			other: '',
+		});
+
+		setIsConfirm(false);
+
 		setRoomId(roomId);
 		const res = data.find((item) => item.id === roomId);
 		setWater(res?.consumption?.water || 0);
@@ -199,7 +220,9 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 							{data.map((item) => (
 								<a
 									key={item.id}
-									className='btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2'
+									className={`btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2 ${
+										activeRoom === item.id ? 'active-filter-motel' : ''
+									}`}
 									onClick={() => handleRoomNumber(item.id)}>
 									Phòng {item.roomNumber}
 								</a>
@@ -234,6 +257,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 									placeholder='Số điện mới'
 									onChange={HandleChange}
 									name='electric'
+									value={sendElicWaterDTO?.electric}
 								/>
 								{errors.electric && <p className='text-danger'>{errors.electric}</p>}
 							</div>
@@ -267,6 +291,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 									placeholder='Số điện mới'
 									onChange={HandleChange}
 									name='water'
+									value={sendElicWaterDTO?.water}
 								/>
 								{errors.water && <p className='text-danger'>{errors.water}</p>}
 							</div>
@@ -283,6 +308,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 									placeholder='Chi phí khác'
 									onChange={HandleChange}
 									name='other'
+									value={sendElicWaterDTO?.other}
 								/>
 								{errors.other && <p className='text-danger'>{errors.other}</p>}
 							</div>
