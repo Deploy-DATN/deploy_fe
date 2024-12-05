@@ -1,10 +1,6 @@
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { MotelByIdDTO } from 'src/services/Dto/MotelDto';
 import CardRoom from './CardRoom';
-const MotelOwner = (props: { motel: MotelByIdDTO }) => {
+const MotelOwner = (props: { motel: any }) => {
 	return (
 		<>
 			<div className='table-motel-index row mt-3 px-0 mx-0'>

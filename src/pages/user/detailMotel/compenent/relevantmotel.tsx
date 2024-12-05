@@ -2,7 +2,6 @@ import { faLocationDot, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import { getRelatedApi } from '@/services/api/HomeApi';
-import React from "react";
 
 interface RelevantMotelProps {
   address: string | undefined;
