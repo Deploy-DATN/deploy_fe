@@ -146,7 +146,7 @@ export const SearchMotel = () => {
                   ) : (
                     <div className="row list-motel-filter-search">
                       {motels.map((motel) => (
-                        <div className="col-12 mt-3" key={motel.id}>
+                        <div className="col-12 mt-3" key={motel.id} onClick={() => handleMotelClick(motel.id)}>
                           <div className="item-list-motel row">
                             <div className="col-4 list-motel-img">
                               <a href="#">

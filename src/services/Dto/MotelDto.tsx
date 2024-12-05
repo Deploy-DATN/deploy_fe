@@ -200,6 +200,22 @@ export interface EditRoomTypeDTO {
 
 // ------------------------------------------------------------------------------------------------
 
+export interface GetHistoryByRoomIdDTO {
+  id: number;
+  createDate: string;
+  endDate: string | null;
+  status: number;
+  user: {
+    id: number;
+    fullName: string;
+    phone: string;
+    email: string;
+    avatar: string | null;
+    createDate: string;
+    status: boolean;
+  }
+}
+
 export interface RoomUserDTO {
   id: number;
   fullName: string;
@@ -243,7 +259,19 @@ interface BillDTO {
     serviceBills: ServiceBillDTO[];
 }
 
-export type { BillDTO, ServiceBillDTO, RoomBillDTO };
+interface BillByIdDTO{
+  priceRoom: number;
+  status: number;
+  createdDate: string;
+  total: number;
+  roomId: number;
+  room: RoomBillDTO;
+  userId: number | null;
+  user: any | null;
+  serviceBills: ServiceBillDTO[];
+}
+
+export type { BillDTO, ServiceBillDTO, RoomBillDTO, BillByIdDTO };
 
 export interface GetHistoryByRoomIdDTO {
   id: number;
