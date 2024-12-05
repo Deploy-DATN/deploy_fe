@@ -16,49 +16,6 @@ const Noti = () => {
   };
 
   const filteredNotifications = filterNotifications(selectedType);
-  const notifis = [
-    {
-      id: 1,
-      name: "Thông báo 1",
-      content:
-        "Thông báo về việc bảo trì hệ thống cccccc vvvvvvvvvvvvv cccccccccc xxxxxxxxxxxx zzzzzzzzzz ddddddd gggggggg fffffffffff ddddd ccccccc bbbbbbbbbbb nnnnnnnn mmmmmmmmm kkkkkkk uuuuuuuu iiiiiii .",
-      type: 1,
-      date: "2024-11-30",
-      sender: "Admin",
-    },
-    {
-      id: 2,
-      name: "Thông báo 2",
-      content: "Hệ thống sẽ ngừng hoạt động lúc 10h tối.",
-      type: 2,
-      date: "2024-11-29",
-      sender: "Quản lý kỹ thuật",
-    },
-    {
-      id: 3,
-      name: "Thông báo 3",
-      content: "Cập nhật chính sách nội bộ mới.",
-      type: 3,
-      date: "2024-11-28",
-      sender: "Phòng Nhân sự",
-    },
-    {
-      id: 4,
-      name: "Thông báo 4",
-      content: "Lịch nghỉ Tết Dương lịch đã được cập nhật.",
-      type: 4,
-      date: "2024-11-27",
-      sender: "Phòng Hành chính",
-    },
-    {
-      id: 5,
-      name: "Thông báo 5",
-      content: "Thông báo khẩn: Sự cố mạng đang được xử lý.",
-      type: 1,
-      date: "2024-11-26",
-      sender: "Admin",
-    },
-  ];
   return (
     <>
       <div className="menu-noti-header-user">
