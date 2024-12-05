@@ -9,7 +9,9 @@ import { useNavigate } from 'react-router-dom';
 const AdminProfile = () => {
     const navigate = useNavigate();
     const dispatch = userAppDispatch();
-    const {user} = useSelector((state: RootState) => state.user);
+
+    const { user } = useSelector((state: RootState) => state.user);
+
     const handleSubmit = async (data: UserDetail) => {
         const token = localStorage.getItem('token');
         if (!token) {

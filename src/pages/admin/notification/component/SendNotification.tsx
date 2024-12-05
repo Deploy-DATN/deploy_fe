@@ -24,14 +24,24 @@ const SendNotification: React.FC<SendNotificationProps> = ({
   const { handleSubmit } = useForm<SendNoti>();
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       const decoded: any = jwtDecode(token);
       const userRole = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"].toLowerCase();
       console.log("User Role:", userRole); // kiểm tra userRole
-      const filteredRoles = availableRoles.filter(
+
+      let filteredRoles = availableRoles.filter(
         (role) => role.toLowerCase() !== userRole
       );
+
+      if (userRole === "staff") {
+        filteredRoles = filteredRoles.filter((role) => role.toLowerCase() !== "admin");
+      }
+
+      if (userRole === "owner") {
+        filteredRoles = filteredRoles.filter((role) => role.toLowerCase() !== "admin" && role.toLowerCase() !== "staff");
+      }
+
       console.log("Available Roles after filtering:", filteredRoles); // kiểm tra các role sau khi lọc
       setAvailableRoles(filteredRoles);
     }
@@ -117,12 +127,12 @@ const SendNotification: React.FC<SendNotificationProps> = ({
                 onClick={onClose}
               >
                 Trở về
-              </button> 
+              </button>
               <button
                 type="submit"
                 className="btn-luu-all btn-style btn-transform-y2"
               >
-                Bảo trì
+                Gửi
               </button>
             </div>
           </form>

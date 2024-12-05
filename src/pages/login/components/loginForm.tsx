@@ -1,13 +1,10 @@
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-// import clsx from 'clsx'
-
 import InputField from '@/components/form_controls/input_field'
 import { Account } from '@/services/api/authApi'
 import { Link } from 'react-router-dom'
-
-// import style from '../styles/Login.module.scss'
+import { useState } from "react";
 
 interface loginProps {
     onSubmit: ((data: Account) => void)
@@ -39,6 +36,12 @@ const LoginForm: React.FC<loginProps> = ({ onSubmit }) => {
         resolver: yupResolver(schema),
         mode: 'onBlur'
     });
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setIsPasswordVisible(!isPasswordVisible);
+    };
+
     return (
         <form className='frm-login col-11 col-sm-8 col-md-8 col-lg-9 col-xxl-7 mx-auto mb-3' onSubmit={handleSubmit(onSubmit)}>
             <div className='mb-3 d-flex flex-column justify-content-center align-items-center'>
@@ -56,16 +59,21 @@ const LoginForm: React.FC<loginProps> = ({ onSubmit }) => {
                     placeholder='Vui lòng nhập số điện thoại'
                 />
             </div>
-            <div className="mb-3">
+            <div className="mb-3 position-relative">
                 <InputField
                     control={control}
                     label="Mật khẩu"
                     name="password"
-                    type="password"
+                    type={isPasswordVisible ? "text" : "password"}
                     errors={errors}
                     classname={`input form-control rounded-pill ${errors['password']?.message ? "is-invalid" : ""}`}
                     placeholder='Vui lòng nhập mật khẩu'
                 />
+                <i
+                    className={`fa-sharp fa-solid ${isPasswordVisible ? "fa-eye-slash" : "fa-eye"} 
+                        position-absolute top-50 end-0 translate-middle-y px-4 mt-3 fs-4 cursor-pointer`}
+                    onClick={togglePasswordVisibility}
+                ></i>
             </div>
             <div className='mb-3 d-flex justify-content-between'>
                 <div className="form-check">

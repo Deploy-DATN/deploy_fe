@@ -7,7 +7,7 @@ import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import { Autoplay } from 'swiper/modules';
 import InputField from "@/components/form_controls/input_field"
-import React from 'react'
+import React, { useState } from 'react'
 import { PasswordUser } from '@/services/api/HomeApi'
 
 interface Props {
@@ -38,40 +38,73 @@ const Changepassform: React.FC<Props> = ({ onSubmit }) => {
         resolver: yupResolver(schema),
         mode: 'onBlur'
     });
+
+    const [isCurrentPasswordVisible, setIsCurrentPasswordVisible] = useState(false);
+    const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
+    const [isConfirmNewPasswordVisible, setIsConfirmNewPasswordVisible] = useState(false);
+
+    // Toggle visibility functions
+    const toggleCurrentPasswordVisibility = () => {
+        setIsCurrentPasswordVisible(!isCurrentPasswordVisible);
+    };
+
+    const toggleNewPasswordVisibility = () => {
+        setIsNewPasswordVisible(!isNewPasswordVisible);
+    };
+
+    const toggleConfirmNewPasswordVisibility = () => {
+        setIsConfirmNewPasswordVisible(!isConfirmNewPasswordVisible);
+    };
+
     return (
         <div className="container-fluid d-flex justify-content-between align-items-center">
             {/* Form */}
             <div className="form-container col-4" style={{ width: '50%' }}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="form-group mb-3" style={{ width: '80%' }}>
+                    <div className="form-group mb-3 position-relative" style={{ width: '80%' }}>
                         <InputField
                             control={control}
                             label="Mật khẩu cũ"
                             name="currentPassword"
-                            type="password"
+                            type={isCurrentPasswordVisible ? "text" : "password"}
                             errors={errors}
                             classname={`form-control ${errors['currentPassword']?.message ? "is-invalid" : ""}`}
                         />
+                        <i
+                            className={`fa-sharp fa-solid ${isCurrentPasswordVisible ? "fa-eye-slash" : "fa-eye"} 
+                        position-absolute top-50 end-0 translate-middle-y px-4 mt-3 fs-4 cursor-pointer`}
+                            onClick={toggleCurrentPasswordVisibility}
+                        ></i>
                     </div>
-                    <div className="form-group mb-3" style={{ width: '80%' }}>
+                    <div className="form-group mb-3 position-relative" style={{ width: '80%' }}>
                         <InputField
                             control={control}
                             label="Mật khẩu mới"
                             name="newPassword"
-                            type="password"
+                            type={isNewPasswordVisible ? "text" : "password"}
                             errors={errors}
                             classname={`form-control ${errors['newPassword']?.message ? "is-invalid" : ""}`}
                         />
+                        <i
+                            className={`fa-sharp fa-solid ${isNewPasswordVisible ? "fa-eye-slash" : "fa-eye"} 
+                        position-absolute top-50 end-0 translate-middle-y px-4 mt-3 fs-4 cursor-pointer`}
+                            onClick={toggleNewPasswordVisibility}
+                        ></i>
                     </div>
-                    <div className="form-group mb-4" style={{ width: '80%' }}>
+                    <div className="form-group mb-4 position-relative" style={{ width: '80%' }}>
                         <InputField
                             control={control}
                             label="Xác nhận mật khẩu"
                             name="confirmNewPassword"
-                            type="password"
+                            type={isConfirmNewPasswordVisible ? "text" : "password"}
                             errors={errors}
                             classname={`form-control ${errors['confirmNewPassword']?.message ? "is-invalid" : ""}`}
                         />
+                        <i
+                            className={`fa-sharp fa-solid ${isConfirmNewPasswordVisible ? "fa-eye-slash" : "fa-eye"} 
+                        position-absolute top-50 end-0 translate-middle-y px-4 mt-3 fs-4 cursor-pointer`}
+                            onClick={toggleConfirmNewPasswordVisibility}
+                        ></i>
                     </div>
                     <button type="submit" className="btn btn-primary">Đổi mật khẩu</button>
                 </form>
