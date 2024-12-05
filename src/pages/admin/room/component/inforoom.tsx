@@ -100,13 +100,8 @@ const Inforoom = () => {
               {/* Nội dung hiển thị */}
               <div className="">
                 {activeTab === "detail" && <Detailroom room={room} />}
-
-                {activeTab === "bill" && <Billroom roomId={Number(id)} />}
-                {activeTab === "history" && <Historyroom />}
-
                 {activeTab === "bill" && <Billroom />}
                 {activeTab === "history" && <Historyroom roomId={Number(id)} />}
-        
               </div>
             </div>
           </div>
