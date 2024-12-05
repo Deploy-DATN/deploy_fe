@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { userAppDispatch, RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { fetchAccount } from "@/components/header/redux/action";
-
+import {checkPackage } from "@/services/api/package";
 export const Layout = () => {
   const dispatch = userAppDispatch();
   const { user } = useSelector((state: RootState) => state.user);
@@ -23,7 +23,22 @@ export const Layout = () => {
 
   const scrollableNodeRef = useRef<HTMLDivElement>(null);
   const [sentNotifications, setSentNotifications] = useState<any[]>([]);
-
+  const [packageInfo, setPackageInfo] = useState(null);
+  useEffect(() => {
+    const fetchPackageInfo = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const response = await checkPackage({token});
+          setPackageInfo(response?.data.data || null);
+        }
+      } catch (error) {
+        console.error("Error fetching package info:", error);
+        setPackageInfo(null);
+      }
+    };
+    fetchPackageInfo();
+  }, []);
   useEffect(() => {
     LoadNofi();
     if (scrollableNodeRef.current) {
@@ -376,7 +391,8 @@ export const Layout = () => {
                         height="35"
                         className="rounded-circle"
                       />
-                      <i className="fa-light fa-crown icon-vip-user-header-admin"></i>
+                      {packageInfo && (
+                      <i className="fa-light fa-crown icon-vip-user-header-admin"></i>)}
                     </div>
 
                     <div className="ps-2">
