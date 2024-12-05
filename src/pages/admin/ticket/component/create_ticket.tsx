@@ -7,7 +7,7 @@ import { CreateTicket } from '@/services/api/ticketApi';
 import TicketForm from '@/components/form/ticketForm';
 
 const createTicket = () => {
-    const handleSubmit = async (data: FormCreate) => {
+    const handleSubmit = async (data: FormCreate, reset: Function) => {
         try {
             const res = await CreateTicket(data);
             if (res.data.code === 200) {
@@ -16,6 +16,7 @@ const createTicket = () => {
                     title: 'Thành công',
                     text: 'Thành công',
                 });
+                reset();
             } else {
                 Swal.fire({
                     icon: 'error',
