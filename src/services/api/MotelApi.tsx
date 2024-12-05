@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 import axiosInstance, { API_URL } from '../apiConfig';
-import { AddServiceDTO, EditMotelDTO, EditRoomTypeDTO, EditServiceDTO, GetMotelEditDTO, GetMotelEditDTO_Service, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO } from '../Dto/MotelDto';
+import { AddServiceDTO, AddUserRoomDTO, BillDTO, EditMotelDTO, EditRoomTypeDTO, EditServiceDTO, GetMotelEditDTO, GetMotelEditDTO_Service, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, RoomUserDTO } from '../Dto/MotelDto';
 
 import { ResponseDTO } from './RepositoryDto';
 import { FilterProps } from '@/pages/admin/motel';
@@ -128,5 +128,31 @@ export const GetRoomTypeByEditApi = async (id: string | undefined) => {
 
 export const EditRoomTypeApi = async (data: FormData) => {
 	const response = await axios.put<ResponseDTO<null>>(`${API_URL}/Room/edit-room-type`, data);
+	return response.data;
+};
+
+export const FindUser = async (data: string) => {
+	const response = await axios.get<ResponseDTO<RoomUserDTO[]>>(`${API_URL}/Room/find-user`, {
+		params: {
+			search: data,
+		},
+	});
+	return response.data;
+};
+
+export const AddUserRoomApi = async (data: AddUserRoomDTO) => {
+	const response = await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-user-to-room`, data);
+	return response.data;
+};
+
+export const DeleteUserRoomApi = async (roomId: number, userId: number) => {
+	const response = await axios.delete<ResponseDTO<null>>(`${API_URL}/Room/delete-user-from-room`, {
+		data: { roomId, userId }
+	});
+	return response.data;
+};
+
+export const GetBill = async (id: number) => {
+	const response = await axios.get<ResponseDTO<BillDTO[]>>(`${API_URL}/Room/get-bill-by-room-id/${id}`);
 	return response.data;
 };

@@ -100,7 +100,7 @@ const Inforoom = () => {
               {/* Nội dung hiển thị */}
               <div className="">
                 {activeTab === "detail" && <Detailroom room={room} />}
-                {activeTab === "bill" && <Billroom />}
+                {activeTab === "bill" && <Billroom roomId={Number(id)} />}
                 {activeTab === "history" && <Historyroom />}
               </div>
             </div>

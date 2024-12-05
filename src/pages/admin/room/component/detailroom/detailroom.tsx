@@ -11,16 +11,19 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
     deleteuseroom: false,
   });
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
 
   const toggleModal = (
     modalName: keyof typeof modalState,
-    roomId: number | null = null
+    roomId: number | null = null,
+    userId: number | null = null
   ) => {
     setModalState((prevState) => ({
       ...prevState,
       [modalName]: !prevState[modalName],
     }));
     setSelectedRoomId(roomId);
+    setSelectedUserId(userId);
   };
 
   const motels = [
@@ -41,10 +44,6 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
       ],
     },
   ];
-
-  console.log('room', room?.roomType);
-
-
 
   
 
@@ -136,7 +135,7 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
               <div className="close-user-detai-room">
                 <button
                   className="close-btn-user btn-transform-y2"
-                  onClick={() => toggleModal("deleteuseroom", 1)}
+                  onClick={() => toggleModal("deleteuseroom", room?.id, user.id)}
                 >
                   <i className="fa-regular fa-xmark fa-xl"></i>
                 </button>
@@ -173,9 +172,10 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
           onClose={() => toggleModal("addUserRoom")}
         />
       )}
-      {modalState.deleteuseroom && selectedRoomId && (
+      {modalState.deleteuseroom && selectedRoomId && selectedUserId && (
         <Deleteuseroom
           roomId={selectedRoomId}
+          userId={selectedUserId}
           onClose={() => toggleModal("deleteuseroom")}
         />
       )}
