@@ -110,8 +110,8 @@ const Roomtype = (props: {
               <div className="g-2">
                 <div className="">
                   <button
-                    className="btn btn-create-notification btn-transform-y2"
-                    onClick={() => CheckStatusElicWater(roomType.id)}
+                    className='btn btn-create-notification btn-transform-y2'
+                    onClick={() => toggleModal('addElicWater', roomType.id)}
                     disabled={!isDisabled}
                   >
                     Xuất hoá đơn

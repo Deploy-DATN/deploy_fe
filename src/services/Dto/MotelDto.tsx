@@ -303,9 +303,9 @@ export interface GetRoomTypeByAddElicWaterDTO {
 
 export interface SendElicWaterDTO {
 	roomId: number;
-	water: number;
-	electric: number;
-	other: number;
+	water: string;
+	electric: string;
+	other: string;
 }
 
 // ------------------------------------------------------------------------------------------------
