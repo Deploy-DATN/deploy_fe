@@ -214,6 +214,7 @@ export interface GetHistoryByRoomIdDTO {
     createDate: string;
     status: boolean;
   }
+}
 export interface RoomUserDTO {
   id: number;
   fullName: string;
@@ -282,6 +283,18 @@ interface BillDTO {
     serviceBills: ServiceBillDTO[];
 }
 
-export type { BillDTO, ServiceBillDTO, RoomBillDTO };
+interface BillByIdDTO{
+  priceRoom: number;
+  status: number;
+  createdDate: string;
+  total: number;
+  roomId: number;
+  room: RoomBillDTO;
+  userId: number | null;
+  user: any | null;
+  serviceBills: ServiceBillDTO[];
+}
+
+export type { BillDTO, ServiceBillDTO, RoomBillDTO, BillByIdDTO };
 
 

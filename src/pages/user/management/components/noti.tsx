@@ -139,7 +139,7 @@ const Noti = () => {
           </div>
 
         </div>
-        <div className="dropdown-noti-item row g-2">
+        <div className="dropdown-noti-item row g-2 px-3">
           {filteredNotifications ? (
             filteredNotifications.map((noti) => (
               <div key={noti.id} className="col-12 dropdown-noti-item-row px-3 mb-2 border rounded bg-light mt-2 py-2">

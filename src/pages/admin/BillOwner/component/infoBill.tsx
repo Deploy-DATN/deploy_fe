@@ -1,6 +1,28 @@
 import logo from "@/assets/ThoStay.svg";
+import { GetBillById } from "@/services/api/MotelApi";
+import { BillByIdDTO } from "@/services/Dto/MotelDto";
+import { useEffect, useState } from "react";
 
-export const InfoBill: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+export const InfoBill: React.FC<{
+  onClose: () => void;
+  billId: number | null;
+}> = ({ onClose, billId }) => {
+  const [bill, setBill] = useState<BillByIdDTO | null>(null);
+
+  useEffect(() => {
+    const billById = async () => {
+      if (billId) {
+        try {
+          const response = await GetBillById(billId);
+          setBill(response.data);
+        } catch (err) {
+          console.error(err, "Lỗi khi lấy API");
+        }
+      }
+    };
+    billById();
+  }, [billId]);
+  console.log(bill);
   return (
     <>
       <div className="modal-overlay-admin">
@@ -18,37 +40,56 @@ export const InfoBill: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             <div className="form-group mt-3">
               <div className="text-info-bill">
                 <p>
-                  Địa chỉ: <span> 123 Phan chu trinh ,....</span>{" "}
+                  Phòng số: <span className="ms-1"> {bill?.room.roomNumber}</span>
                 </p>
                 <p>
-                  Phòng số: <span> 12</span>
+                  Ngày tạo: <span className="ms-1">
+                    {bill?.createdDate
+                      ? new Date(bill.createdDate).toLocaleDateString("vi-VN", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })
+                      : "N/A"}
+                  </span>
                 </p>
                 <p>
-                  Người thuê: <span> Tô Thanh</span>
+                  Người thuê: <span className="ms-1">{bill?.user?.fullName}</span>
+                </p>
+              </div>
+              <div className="border-bottom-info-bill mt-3"></div>
+              <div className="text-info-bill mt-2">
+                <div className="text-info-bill mt-2">
+                  {bill?.serviceBills?.map((service, index) => (
+                    <p className="d-flex justify-content-between" key={index}>
+                      {service.name}
+                      <span className="ms-1">
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(service.quantity * service.price_Service)}
+                      </span>
+                    </p>
+                  ))}
+                </div>
+                <p className="d-flex justify-content-between">
+                  Tiền thuê trọ:{" "}
+                  <span className="ms-1">
+                    {" "}
+                    {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(bill?.priceRoom || 0)}
+                  </span>
                 </p>
               </div>
               <div className="border-bottom-info-bill mt-3"></div>
               <div className="text-info-bill mt-2">
                 <p className="d-flex justify-content-between">
-                  Tiền điện: <span> 123</span>{" "}
-                </p>
-                <p className="d-flex justify-content-between">
-                  Tiền nước: <span> 123</span>
-                </p>
-                <p className="d-flex justify-content-between">
-                  Tiền thuê trọ: <span> 123</span>
-                </p>
-              </div>
-              <div className="border-bottom-info-bill mt-3"></div>
-              <div className="text-info-bill mt-2">
-              <p className="d-flex justify-content-between">
-              Chi phi khác: <span> 123</span>
-                </p>
-              </div>
-              <div className="border-bottom-info-bill mt-3"></div>
-              <div className="text-info-bill mt-2">
-              <p className="d-flex justify-content-between">
-              Thành tiền: <span> 123</span>{" "}
+                  Thành tiền: <span className="ms-1">                     {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(bill?.total || 0)}</span>{" "}
                 </p>
               </div>
             </div>

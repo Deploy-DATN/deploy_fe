@@ -209,7 +209,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -325,6 +324,22 @@
             }
         }
     }
+}
+.bg-green-noti{
+  background-color: #53d3a7;
+  color: #ffffff;
+}
+.bg-blue-noti{
+  background-color: #547ce7;
+  color: #ffffff;
+}
+.bg-red-noti{
+background-color: #ffa4a4;
+color: #ffffff;
+}
+.bg-yellow-noti{
+background-color: #ebe724;
+color: #ffffff;
 }
 }
 
