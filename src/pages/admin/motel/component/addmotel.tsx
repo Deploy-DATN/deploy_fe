@@ -730,7 +730,7 @@ export const AddMotelOwner = () => {
                       }}
                     />
                     {errors.totalRoom && (
-                      <div className="err-text">{errors.priceRoom}</div>
+                      <div className="err-text">{errors.totalRoom}</div>
                     )}
                   </div>
                   <div className="col-12 form-group mt-3 px-2">

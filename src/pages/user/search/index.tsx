@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, } from "react-router-dom";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import FilterSearch from "./compenent/filtersearch";
 import { getSearchMotelApi } from "@/services/api/HomeApi";
 import "../search/search.scss";
+import { useNavigate } from "react-router-dom";
 
 export const SearchMotel = () => {
   interface Motel {
@@ -31,7 +32,7 @@ export const SearchMotel = () => {
 
   const [filters, setFilters] = useState({
     minArea: 0,
-    maxArea:0,
+    maxArea: 0,
     minPrice: 0,
     maxPrice: 0,
     surrounding: [],
@@ -43,14 +44,14 @@ export const SearchMotel = () => {
       setLoading(true);
       //log ra xem có lấy được dữ liệu không
       console.log(province, district, ward, search, currentPage, sortOption, filters.surrounding);
-      
+
       try {
         const response = await getSearchMotelApi(province, district, ward, search, currentPage, sortOption,
           filters.minPrice,
           filters.maxPrice,
           filters.minArea,
           filters.maxArea,
-          filters.surrounding || [] 
+          filters.surrounding || []
         ); // Pass sortOption to API
         if (response.data && response.data.data) {
           setMotels(response.data.data.list);
@@ -58,7 +59,7 @@ export const SearchMotel = () => {
           console.log(response.data);
           console.log("Số trang", response.data.data.totalPage);
           console.log(response.data.data.list);
-          
+
         }
       } catch (error) {
         console.error("Error fetching motels:", error);
@@ -87,58 +88,63 @@ export const SearchMotel = () => {
     setFilters(newFilters);
     setCurrentPage(1);
   };
+
+  const navigate = useNavigate();
+
+  const handleMotelClick = (id: number) => {
+    navigate(`/detailmoteluser/${id}`); // Navigate to the motel detail page using its ID
+  };
+
+
   return (
-    <>
-      <Header />
-      <div className="Search-motel-user pt-3 pb-5">
-        <div className="container">
-          <section className="mt-3 link-search">
-            <div className="d-flex breadcrumbs-wrap">
-              <span className="span-link">
-                <a href="/" className="a-link">Trang chủ</a>
-              </span>
-              <span className="span-link"> /</span>
-              <span className="span-link">
-                <a href="/" className="a-link">Tìm kiếm</a>
-              </span>
-            </div>
-          </section>
-          <section className="mt-3">
-            <div className="box-header-search">
-              <h1 className="box-title">
-                CHO THUÊ PHÒNG TRỌ BUÔN MA THUỘC RẺ, MỚI NHẤT
-              </h1>
-            </div>
-          </section>
-          <section className="mt-3 main-motel-search">
-            <div className="row">
-              <section className="col-12 col-lg-9 pe-lg-3 pe-xl-4 row">
-                <div className="list-motel-search col-12">
-                  <div className="col-12 d-flex justify-content-between align-items-center flex-wrap">
-                    <div className="d-none d-sm-none d-md-none d-lg-block count">
-                      <strong>Tổng (Số) kết quả </strong>
-                    </div>
-                    <div className="arrange">
-                      <div className="arrange-label">Sắp xếp theo: </div>
-                      <div className="arrange-select">
-                        <select
-                          className="form-select px-2"
-                          id="floatingSelect"
-                          aria-label="Floating label select example"
-                          value={sortOption} // Bind value to state
-                          onChange={handleSortChange} // Handle sort change
-                        >
-                          <option value="new">Mới nhất</option>
-                          <option value="price_asc">Tăng dần</option>
-                          <option value="price_desc">Giảm dần</option>
-                        </select>
-                      </div>
+    <div className="Search-motel-user pt-3 pb-5">
+      <div className="container">
+        <section className="mt-3 link-search">
+          <div className="d-flex breadcrumbs-wrap">
+            <span className="span-link">
+              <a href="/" className="a-link">Trang chủ</a>
+            </span>
+            <span className="span-link"> /</span>
+            <span className="span-link">
+              <a href="/" className="a-link">Tìm kiếm</a>
+            </span>
+          </div>
+        </section>
+        <section className="mt-3">
+          <div className="box-header-search">
+            <h1 className="box-title">
+              CHO THUÊ PHÒNG TRỌ BUÔN MA THUỘC RẺ, MỚI NHẤT
+            </h1>
+          </div>
+        </section>
+        <section className="mt-3 main-motel-search">
+          <div className="row">
+            <section className="col-12 col-lg-9 pe-lg-3 pe-xl-4 row">
+              <div className="list-motel-search col-12">
+                <div className="col-12 d-flex justify-content-between align-items-center flex-wrap">
+                  <div className="d-none d-sm-none d-md-none d-lg-block count">
+                    <strong>Tổng (Số) kết quả </strong>
+                  </div>
+                  <div className="arrange">
+                    <div className="arrange-label">Sắp xếp theo: </div>
+                    <div className="arrange-select">
+                      <select
+                        className="form-select px-2"
+                        id="floatingSelect"
+                        aria-label="Floating label select example"
+                        value={sortOption} // Bind value to state
+                        onChange={handleSortChange} // Handle sort change
+                      >
+                        <option value="new">Mới nhất</option>
+                        <option value="price_asc">Tăng dần</option>
+                        <option value="price_desc">Giảm dần</option>
+                      </select>
                     </div>
                   </div>
                   {loading ? (
                     <p>Loading...</p>
                   ) : (
-                    <div className="row">
+                    <div className="row list-motel-filter-search">
                       {motels.map((motel) => (
                         <div className="col-12 mt-3" key={motel.id}>
                           <div className="item-list-motel row">
@@ -215,15 +221,14 @@ export const SearchMotel = () => {
                     </nav>
                   </div>
                 </div>
-              </section>
-              <section className="col-12 col-lg-3 ps-lg-3 ps-xl-4 d-none d-sm-none d-md-none d-lg-block">
-                <FilterSearch prefix="main" onFilterChange={handleFilterChange}/>
-              </section>
-            </div>
-          </section>
-        </div>
+              </div>
+            </section>
+            <section className="col-12 col-lg-3 ps-lg-3 ps-xl-4 d-none d-sm-none d-md-none d-lg-block">
+              <FilterSearch prefix="main" onFilterChange={handleFilterChange} />
+            </section>
+          </div>
+        </section>
       </div>
-      <Footer />
-    </>
+    </div>
   );
 };

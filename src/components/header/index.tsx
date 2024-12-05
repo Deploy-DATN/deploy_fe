@@ -3,17 +3,20 @@ import "./styles/header.scss";
 import { Link } from "react-router-dom";
 import { userAppDispatch, RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
-import { fetchAccount, fetchMyMotel } from "./redux/action";
+import { fetchAccount, fetchMyMotel, fetchMyNoti } from "./redux/action";
 import RegisterOwner from "./components/registerOwner";
-
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();
   const dispatch = userAppDispatch();
-  const { user, myMotel } = useSelector((state: RootState) => state.user);
+  const { user, myMotel, notification } = useSelector((state: RootState) => state.user);
   const [modalShow, setModalShow] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAccount());
     dispatch(fetchMyMotel());
+    dispatch(fetchMyNoti());
   }, [dispatch]);
 
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -22,49 +25,67 @@ const Header = () => {
   const toggleDropdown = () => {
     setDropdownVisible((prevState) => !prevState);
   };
-  const notifis = [
-    {
-      id: 1,
-      name: "Thông báo 1",
-      content:
-        "Thông báo về việc bảo trì hệ thống cccccc vvvvvvvvvvvvv cccccccccc xxxxxxxxxxxx zzzzzzzzzz ddddddd gggggggg fffffffffff ddddd ccccccc bbbbbbbbbbb nnnnnnnn mmmmmmmmm kkkkkkk uuuuuuuu iiiiiii .",
-      type: 1,
-      date: "2024-11-30",
-      sender: "Admin",
-    },
-    {
-      id: 2,
-      name: "Thông báo 2",
-      content: "Hệ thống sẽ ngừng hoạt động lúc 10h tối.",
-      type: 2,
-      date: "2024-11-29",
-      sender: "Quản lý kỹ thuật",
-    },
-    {
-      id: 3,
-      name: "Thông báo 3",
-      content: "Cập nhật chính sách nội bộ mới.",
-      type: 3,
-      date: "2024-11-28",
-      sender: "Phòng Nhân sự",
-    },
-    {
-      id: 4,
-      name: "Thông báo 4",
-      content: "Lịch nghỉ Tết Dương lịch đã được cập nhật.",
-      type: 4,
-      date: "2024-11-27",
-      sender: "Phòng Hành chính",
-    },
-    {
-      id: 5,
-      name: "Thông báo 5",
-      content: "Thông báo khẩn: Sự cố mạng đang được xử lý.",
-      type: 1,
-      date: "2024-11-26",
-      sender: "Admin",
-    },
-  ];
+
+  type LocationOption = {
+    name: string;
+    code: number | null;
+  };
+  const [provinces, setProvinces] = useState<LocationOption[]>([]);
+  const [districts, setDistricts] = useState<LocationOption[]>([]);
+  const [wards, setWards] = useState<LocationOption[]>([]);
+
+  const [selectedProvince, setSelectedProvince] = useState<LocationOption>({
+    name: "Tỉnh",
+    code: null,
+  });
+  const [selectedDistrict, setSelectedDistrict] = useState<LocationOption>({
+    name: "Thành phố",
+    code: null,
+  });
+  const [selectedWard, setSelectedWard] = useState<string>("Phường");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  useEffect(() => {
+    // Lấy danh sách tỉnh
+    axios
+      .get("https://provinces.open-api.vn/api/p/")
+      .then((response) => setProvinces(response.data))
+      .catch((error) => console.error("Error fetching provinces:", error));
+  }, []);
+
+  useEffect(() => {
+    if (selectedProvince.code) {
+      // Lấy danh sách quận/huyện khi tỉnh được chọn
+      axios
+        .get(
+          `https://provinces.open-api.vn/api/p/${selectedProvince.code}/?depth=2`
+        )
+        .then((response) => setDistricts(response.data.districts))
+        .catch((error) => console.error("Error fetching districts:", error));
+    }
+    setSelectedDistrict({ name: "Thành phố", code: null });
+    setWards([]);
+    setSelectedWard("Phường");
+  }, [selectedProvince]);
+
+
+
+  useEffect(() => {
+    if (selectedDistrict.code) {
+      // Lấy danh sách phường/xã khi quận/huyện được chọn
+      axios
+        .get(
+          `https://provinces.open-api.vn/api/d/${selectedDistrict.code}/?depth=2`
+        )
+        .then((response) => setWards(response.data.wards))
+        .catch((error) => console.error("Error fetching wards:", error));
+    }
+    setSelectedWard("Phường");
+  }, [selectedDistrict]);
+  const handleSearch = () => {
+    console.log("Giá trị bộ lọc hiện tại: ", selectedProvince.name, selectedDistrict.name, selectedWard);
+    const searchLink = `/search?Province=${encodeURIComponent(selectedProvince.name)}&District=${encodeURIComponent(selectedDistrict.name)}&Ward=${encodeURIComponent(selectedWard)}&search=${encodeURIComponent(searchQuery)}`;
+    navigate(searchLink);
+  };
   return (
     <div className="container-lg container-xl container-xxl header">
       <nav className="navbar navbar-expand-lg navbar-light ">
@@ -105,20 +126,25 @@ const Header = () => {
                       <a
                         className="nav-link color-text-header"
                         aria-current="page"
-                        href="#"
+                        href="/"
                       >
-                        Địa điểm
+                        Trang chủ
                       </a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link color-text-header" href="#">
-                        Trọ mới
+                      <a className="nav-link color-text-header" href="#" onClick={handleSearch}>
+                        Nhà trọ
                       </a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link color-text-header" href="#">
-                        Sắp trả
-                      </a>
+                      <Link to="/gioithieu" className="nav-link color-text-header">
+                        Giới thiệu
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link to="/contact" className="nav-link color-text-header">
+                        Liên hệ
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -141,89 +167,37 @@ const Header = () => {
                     <div className="dropdown-menu dropdown-menu-noti-header dropdown-menu-lg-end">
                       <div className="dropdown-header">
                         <div className="header-noti-title">Thông báo</div>
-                        <a href="#" className="header-noti-tatca">
-                          Tất cả thông báo
-                        </a>
+                        <Link to='/user/noti'>Tất cả thông báo</Link>
                       </div>
-                      {/* <div className="dropdown-nav-noti mb-2">
-                        <div className="tab">
-                          <input
-                            type="radio"
-                            name="tabs"
-                            id="all"
-                            className="tab__radio"
-                          ></input>
-                          <label htmlFor="all" className="tab__label">
-                            Tất cả
-                          </label>
-                        </div>
-                        <div id="notif_type_1" className="tab">
-                          <input
-                            type="radio"
-                            name="tabs"
-                            id="khan-cap"
-                            className="tab__radio"
-                            value="1"
-                          ></input>
-                          <label htmlFor="khan-cap" className="tab__label">
-                            Khẩn cấp{" "}
-                          </label>
-                        </div>
-                        <div id="notif_type_2" className="tab">
-                          <input
-                            type="radio"
-                            name="tabs"
-                            id="he-thong"
-                            className="tab__radio"
-                            value="2"
-                          ></input>
-                          <label htmlFor="he-thong" className="tab__label">
-                            Hệ thống{" "}
-                          </label>
-                        </div>
-                        <div id="notif_type_3" className="tab">
-                          <input
-                            type="radio"
-                            name="tabs"
-                            id="thong-thuong"
-                            className="tab__radio"
-                            value="3"
-                          ></input>
-                          <label htmlFor="thong-thuong" className="tab__label">
-                            Thông thường{" "}
-                          </label>
-                        </div>
-                      </div> */}
                       <div className="dropdown-noti-item row g-2">
-                        {notifis.map((noti) => (
-                          <div className="col-12 dropdown-noti-item-row px-3">
-                            <div className="d-flex justify-content-between align-items-center ">
-                              <div
-                                className={`dropdown-noti-item--type dropdown-noti-item-type-${noti.type}`}
-                              >
-                                {noti.type === 1
-                                  ? "Khẩn cấp"
-                                  : noti.type === 2
-                                    ? "Hệ thống"
-                                    : noti.type === 3
-                                      ? "Cảnh báo"
-                                      : "Thông thường"}
+                        <div className="dropdown-noti-item row g-2">
+
+                          {notification && notification.notifications.length ? (
+                            notification?.notifications?.map((noti) => (
+                              <div className="col-12 dropdown-noti-item-row px-3 mb-2 border rounded bg-light mt-2 py-2 " key={noti.id}>
+                                <div className="d-flex justify-content-between align-items-center mb-2">
+                                  <div
+                                    className={`dropdown-noti-item--type dropdown-noti-item-type-${noti.type}`}
+                                  >
+                                    {noti.type === 1
+                                      ? "Khẩn cấp"
+                                      : noti.type === 2
+                                        ? "Hệ thống"
+                                        : noti.type === 3
+                                          ? "Cảnh báo"
+                                          : "Thông thường"}
+                                  </div>
+                                  <div className="dropdown-noti-item--date">{(new Date(noti.createDate).toLocaleDateString('vi-VN'))}</div>
+                                </div>
+                                <div className="dropdown-noti-item--name">{noti.title}</div>
+                                <div className="dropdown-noti-item--content">{noti.content}</div>
+                                <div className="dropdown-noti-item--sender">{noti.sender}</div>
                               </div>
-                              <div className="dropdown-noti-item--date">
-                                {noti.date}
-                              </div>
-                            </div>
-                            <div className="dropdown-noti-item--name">
-                              {noti.name}
-                            </div>
-                            <div className="dropdown-noti-item--content">
-                              {noti.content}
-                            </div>
-                            <div className="dropdown-noti-item--sender">
-                              {noti.sender}
-                            </div>
-                          </div>
-                        ))}
+                            ))
+                          ) : (
+                            <div className="text-center">Không có thông báo nào</div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -74,7 +74,6 @@ export const Account: React.FC = () => {
     fetchUser(currentPage, searchQuery);
   }, [currentPage, searchQuery]);
   const pageNumbers = [];
-  console.log(totalPages);
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }

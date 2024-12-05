@@ -22,7 +22,8 @@ export enum API {
     AVAILABLEROOM = API_URL + '/api/statistical/motels-with-empty-rooms',
     REVENUESTATISTIC = API_URL + '/api/statistical/api/revenue/last-six-months',
     PERCENTAGE = API_URL + '/api/statistical/expense-percentage',
-
+    REVENUEADMIN = API_URL + '/api/statistical/revenue-admin',
+    COUNTACCOUNT = API_URL + '/api/statistical/count-account',
     //ticket
     TICKETS = API_URL + '/api/Ticket/Tickets',
     UPDATETICKET = API_URL + '/api/Ticket/Assignee',
@@ -104,6 +105,17 @@ export const getRouteFromToken = (token: string): string => {
     }
 };
 
+//get role 
+export const getRoleFromToken = (token: string): string => {
+    try {
+        const decoded = jwtDecode<TokenPayload>(token);
+        const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+        return role;
+    } catch (error) {
+        console.error('Lỗi khi decode token:', error);
+        return 'CUSTOMER';
+    }
+}
 
 // Interceptor để tự động gắn token vào header
 axiosInstance.interceptors.request.use(

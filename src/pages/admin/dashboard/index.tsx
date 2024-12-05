@@ -2,11 +2,19 @@ import { MyChart, ChartProps } from "./components/chart";
 import tk from '@/assets/images/backgrounds/img-login.png'
 import { Room, getAvailableRoomApi, Revenue, getRevenueStatisticApi, Percentage, getPercentageApi } from '@/services/api/authApi'
 import { useEffect, useState } from 'react';
+import { getRoleFromToken } from '@/services/apiConfig';
+import { GetRevenueAdmin, RevenueAdmin, CountAccount, GetCountAccount } from '@/services/api/revenueAdmin';
 
 
 export const Dashboard = () => {
-
     const [rooms, setRooms] = useState<Room[]>([]);
+    const [revenueData, setRevenueData] = useState<ChartProps | null>(null);
+    const [percentageData, setPercentageData] = useState<Percentage[]>([]);
+    //check role 
+    const token = localStorage.getItem('token');
+    //get role from token
+    const roleFromToken = getRoleFromToken(token || '');
+
 
     useEffect(() => {
         const fetchRooms = async (data: Room) => {
@@ -23,48 +31,85 @@ export const Dashboard = () => {
         fetchRooms({ motelName: "", address: "", emptyRoomsCount: 0, status: 0 });
     }, []);
 
-    const [revenueData, setRevenueData] = useState<ChartProps | null>(null);
+    //get revenue data of motel owner
+
 
     useEffect(() => {
-        const fetchRevenue = async (data: Revenue) => {
-            try {
-                const response = await getRevenueStatisticApi(data);
-
-                if (response.status === 200) {
-                    const formattedData = {
-                        data: {
-                            options: {
-                                chart: {
-                                    id: 'revenueChart',
-                                    toolbar: {
-                                        show: false,
+        if (roleFromToken.toUpperCase() === 'OWNER') {
+            const fetchRevenue = async (data: Revenue) => {
+                try {
+                    const response = await getRevenueStatisticApi(data);
+                    if (response.status === 200) {
+                        const formattedData = {
+                            data: {
+                                options: {
+                                    chart: {
+                                        id: 'revenueChart',
+                                        toolbar: {
+                                            show: false,
+                                        },
+                                    },
+                                    xaxis: {
+                                        categories: response.data.map((item: { month: string }) => `${item.month}`),
                                     },
                                 },
-                                xaxis: {
-                                    categories: response.data.map((item: { month: string }) => `${item.month}`),
-                                },
+                                series: [
+                                    {
+                                        name: 'Doanh thu',
+                                        data: response.data.map((item: { revenue: number }) => item.revenue),
+                                    },
+                                ],
+                                type: 'bar' as 'bar',
+                                id: 'revenue',
                             },
-                            series: [
-                                {
-                                    name: 'Doanh thu',
-                                    data: response.data.map((item: { revenue: number }) => item.revenue),
-                                },
-                            ],
-                            type: 'bar' as 'bar',
-                            id: 'revenue',
-                        },
-                    };
-                    setRevenueData(formattedData);
+                        };
+                        setRevenueData(formattedData);
+                    }
+                } catch (error) {
+                    console.error("Error fetching revenue data:", error);
                 }
-            } catch (error) {
-                console.error("Error fetching revenue data:", error);
-            }
-        };
-        fetchRevenue({ month: "", revenue: 0, year: 0 });
+            };
+            fetchRevenue({ month: "", revenue: 0, year: 0 });
+        }
+        if (roleFromToken?.toUpperCase() === 'ADMIN') {
+            const fetchRevenue = async (item: RevenueAdmin) => {
+                try {
+                    const response = await GetRevenueAdmin(item);  // Gọi API
 
+                    if (response.status === 200) {
+                        const formattedData: ChartProps = {
+                            data: {
+                                options: {
+                                    chart: {
+                                        id: "revenueChart",
+                                        toolbar: { show: false },
+                                    },
+                                    xaxis: {
+                                        categories: response.data.data.map((item: any) => `${item.month}/${item.year}`),  // Chuyển dữ liệu thành các tháng (nếu cần)
+                                    },
+                                },
+                                series: [
+                                    {
+                                        name: "Doanh thu",
+                                        data: response.data.data.map((item: any) => item.totalRevenue),  // Dữ liệu doanh thu
+                                    },
+                                ],
+                                type: "bar",
+                            },
+                        };
+                        setRevenueData(formattedData);  // Cập nhật dữ liệu biểu đồ
+                    }
+                } catch (error) {
+                    console.error("Error fetching revenue data:", error);
+                }
+            };
+
+            // Đảm bảo truyền đúng token
+            fetchRevenue({ token: token || "" });
+        }
     }, []);
 
-    const [percentageData, setPercentageData] = useState<Percentage[]>([]);
+
 
     useEffect(() => {
         const fetchPercentage = async (data: Percentage) => {
@@ -80,72 +125,112 @@ export const Dashboard = () => {
         fetchPercentage({ name: "", percentage: 0 });
     }, []);
 
-
-
-
-    const grade: ChartProps = {
-        data: {
-            options: {
-                chart: {
-                    id: 'donutChart',
-                    toolbar: {
-                        show: false,
+    //count account for admin
+    const [earningData, setEarningData] = useState<ChartProps | null>(null);
+    const [customerEarningData, setCustomerEarningData] = useState<ChartProps | null>(null);
+    useEffect(() => {
+        if (roleFromToken?.toUpperCase() === 'ADMIN') {
+            const fetchAccountCounts = async (item: CountAccount) => {
+                try {
+                    const response = await GetCountAccount(item);
+                    if (response.data.code === 200) {
+                        // Xử lý dữ liệu để cập nhật biểu đồ
+                        const formattedData: ChartProps = {
+                            data: {
+                                options: {
+                                    chart: {
+                                        id: 'accountChart',
+                                        toolbar: {
+                                            show: false,
+                                        },
+                                        background: 'transparent',
+                                    },
+                                    xaxis: {
+                                        categories: response.data.data.map((item: any) => `${item.month}/${item.year}`),
+                                        axisBorder: {
+                                            show: false,
+                                        },
+                                        axisTicks: {
+                                            show: false,
+                                        },
+                                    },
+                                    yaxis: {
+                                        labels: {
+                                            show: false,
+                                        },
+                                    },
+                                    stroke: {
+                                        curve: 'smooth',
+                                        width: 2,
+                                    },
+                                    grid: {
+                                        show: false,
+                                    },
+                                },
+                                series: [
+                                    {
+                                        name: 'Số tài khoản',
+                                        data: response.data.data.map((item: any) => item.totalAccount),
+                                    },
+                                ],
+                                type: 'area',
+                            },
+                        };
+                        setEarningData(formattedData); // Cập nhật dữ liệu biểu đồ
                     }
-                },
-                labels: percentageData.map(item => item.name),
-            },
-            series: percentageData.map(item => item.percentage),
-            type: "donut" as "donut",
-            id: "grade"
-        }
-    };
-
-    const earning: ChartProps = {
-        data: {
-            options: {
-                chart: {
-                    id: 'areaChart',
-                    toolbar: {
-                        show: false,
-                    },
-                    background: 'transparent',
-                },
-                grid: {
-                    show: false,
-                },
-                xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-                    axisBorder: {
-                        show: false
-                    },
-                    axisTicks: {
-                        show: false
-                    },
-                },
-                yaxis: {
-                    labels: {
-                        show: false
+                } catch (error) {
+                    console.error("Error fetching account counts:", error);
+                }
+            }; const fetchCustomerAccounts = async (item: CountAccount) => {
+                try {
+                    const response = await GetCountAccount({ token: token || "", role: "CUSTOMER" });
+                    if (response.data.code === 200) {
+                        // Xử lý dữ liệu để cập nhật biểu đồ
+                        const formattedData: ChartProps = {
+                            data: {
+                                options: {
+                                    chart: {
+                                        id: 'customerAccountChart',
+                                        toolbar: { show: false },
+                                        background: 'transparent',
+                                    },
+                                    xaxis: {
+                                        categories: response.data.data.map((item: any) => `${item.month}/${item.year}`),
+                                        axisBorder: { show: false },
+                                        axisTicks: { show: false },
+                                    },
+                                    yaxis: {
+                                        labels: { show: false },
+                                    },
+                                    stroke: {
+                                        curve: 'smooth',
+                                        width: 2,
+                                    },
+                                    grid: { show: false },
+                                },
+                                series: [
+                                    {
+                                        name: 'Số tài khoản',
+                                        data: response.data.data.map((item: any) => item.totalAccount),
+                                    },
+                                ],
+                                type: 'area',
+                            },
+                        };
+                        setCustomerEarningData(formattedData); // Cập nhật dữ liệu biểu đồ
                     }
-                },
-                stroke: {
-                    curve: 'smooth',
-                    width: 2,
-                },
-                fill: {
-                    type: "solid",
-                    opacity: 0,
-                },
-            },
-            series: [
-                {
-                    name: 'Sales',
-                    data: [30, 40, 35, 50, 49, 60, 70],
-                },
-            ],
-            type: 'area' as 'area',
-            id: 'earning'
+                } catch (error) {
+                    console.error("Error fetching customer account counts:", error);
+                }
+            };
+            fetchCustomerAccounts({ token: token || "", role: "CUSTOMER" });
+
+
+            fetchAccountCounts({ token: token || "", role: "OWNER" });
         }
-    };
+    }, []);
+
+
 
     return (
         <div className="container-fluid">
@@ -186,6 +271,7 @@ export const Dashboard = () => {
                         </div>
                     </div>
                 </div>
+                {roleFromToken?.toUpperCase() == 'ADMIN' &&(
                 <div className="col-lg-4">
                     <div className="row">
                         <div className="col-lg-12 col-sm-6">
@@ -207,24 +293,33 @@ export const Dashboard = () => {
                                 <div className="card-body">
                                     <div className="row alig n-items-start">
                                         <div className="col-12">
-                                            <h5 className="card-title mb-10 fw-semibold">Tài khoản</h5>
-                                            <div className="d-flex align-items-center pb-1">
-                                                <span
-                                                    className="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                                                    <i className="ti ti-arrow-down-right text-danger"></i>
-                                                </span>
-                                                <p className="text-dark me-1 fs-3 mb-0">+9%</p>
-                                                <p className="fs-3 mb-0">năm</p>
-                                            </div>
+                                            <h5 className="card-title mb-10 fw-semibold">Tổng tài khoản chủ trọ</h5>
+                                           
                                         </div>
-                                        <MyChart data={earning.data} />
+                                        {earningData && <MyChart data={earningData.data} />}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-lg-12 col-sm-6 mt-4">
+                            {/* <!-- Customer Accounts --> */}
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row align-items-start">
+                                        <div className="col-12">
+                                            <h5 className="card-title mb-10 fw-semibold">Tổng tài khoản khách hàng</h5>
+                                           
+                                        </div>
+                                        {customerEarningData && <MyChart data={customerEarningData.data} />}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                )}
             </div>
+           {roleFromToken?.toUpperCase() == 'OWNER' &&(
             <div className="row align-items-stretch">
                 <div className="card w-100">
                     <div className="card-body p-4">
@@ -321,6 +416,7 @@ export const Dashboard = () => {
                     </div>
                 </div>
             </div>
+            )}
         </div>
     )
 }

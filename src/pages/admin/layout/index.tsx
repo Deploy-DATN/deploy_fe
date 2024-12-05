@@ -185,6 +185,7 @@ export const Layout = () => {
                   selected: isPartialActive("account"),
                 })}
               >
+                 {user && user.role === "Admin" ? (
                 <Link
                   to="account"
                   className={clsx(
@@ -197,8 +198,10 @@ export const Layout = () => {
                     <i className="ti ti-article fs-7 text-warning"></i>
                   </span>
                   <span className="hide-menu ms-2 ps-1">Tài khoản</span>
-                </Link>
+                </Link>)
+                : ""}
               </li>
+              
               <li
                 className={clsx("sidebar-item", {
                   selected: isPartialActive("notification"),
@@ -365,13 +368,17 @@ export const Layout = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <img
-                      src={user?.avatar}
-                      alt=""
-                      width="35"
-                      height="35"
-                      className="rounded-circle"
-                    />
+                    <div className="icon-package-vip-user-header-admin">
+                      <img
+                        src={user?.avatar}
+                        alt=""
+                        width="35"
+                        height="35"
+                        className="rounded-circle"
+                      />
+                      <i className="fa-light fa-crown icon-vip-user-header-admin"></i>
+                    </div>
+
                     <div className="ps-2">
                       <h5 className="mb-0">{user?.fullName}</h5>
                       <h6>{user?.email}</h6>

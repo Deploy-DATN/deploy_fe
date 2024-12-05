@@ -99,8 +99,8 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
       <div className="container">
         <h5>Dịch vụ</h5>
         {fields.map((field, index) => (
-          <div key={field.id} className="mb-3 row">
-            <div className="col-3">
+          <div key={field.id} className="mb-4 row">
+            <div className="col-6 col-lg-3">
               <InputField
                 control={control}
                 label={`Tên dịch vụ ${index + 1}:`}
@@ -112,7 +112,7 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
                 }`}
               />
             </div>
-            <div className="col-3">
+            <div className="col-6 col-lg-3">
               <InputField
                 control={control}
                 label="Giá:"
@@ -124,7 +124,7 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
                 }`}
               />
             </div>
-            <div className="col-5">
+            <div className="col-9 col-lg-5">
               <InputField
                 control={control}
                 label="Mô tả:"
@@ -137,7 +137,7 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
               />
             </div>
             <div
-              className={`col-1 d-flex  ${
+              className={`col-3 col-lg-1 d-flex  ${
                 errors.services?.[index]
                   ? "align-items-center"
                   : "align-items-end"
@@ -145,7 +145,7 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
             >
               <button
                 type="button"
-                className="border border-danger py-2 w-100 rounded-2 bg-danger"
+                className="border border-danger py-2 w-100 rounded-2 bg-danger text-white"
                 onClick={() => remove(index)}
               >
                 Xóa
@@ -155,14 +155,14 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
         ))}
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2"
           onClick={() => append({ name: "", price: 0, description: "" })}
         >
           Thêm dịch vụ
         </button>
       </div>
       <div className="d-flex justify-content-end">
-        <button className="btn btn-danger" type="submit">
+        <button className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2" type="submit">
           Tiếp tục
         </button>
       </div>

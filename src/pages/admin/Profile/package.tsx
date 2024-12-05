@@ -152,7 +152,7 @@ const Package = () => {
       <div className="row align-items-stretch">
         <div className="w-100 p-4">
           <div className="package-header">
-            <h3 className="h3-package-user-owner">Tài khoản Vip</h3>
+            <h2 className="h2-package-user-owner">Tài khoản Vip</h2>
             <p className="p-package-user-owner">
               Tài khoản Vip dành riêng cho các chủ trọ muốn tối ưu hóa hiệu quả
               quản lý bất động sản. Với tài khoản Vip, bạn sẽ được tăng giới hạn
