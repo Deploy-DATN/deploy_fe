@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 import axiosInstance, { API_URL } from '../apiConfig';
-import { AddServiceDTO, EditMotelDTO, EditRoomTypeDTO, EditServiceDTO, GetHistoryByRoomIdDTO, GetMotelEditDTO, GetMotelEditDTO_Service, GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, SendElicWaterDTO } from '../Dto/MotelDto';
+import { AddServiceDTO, EditMotelDTO, EditRoomTypeDTO, EditServiceDTO, GetHistoryByRoomIdDTO, GetMotelEditDTO, GetMotelEditDTO_Service, GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, SendElicWaterDTO, AddUserRoomDTO, BillDTO,RoomUserDTO } from '../Dto/MotelDto';
 
 import { ResponseDTO } from './RepositoryDto';
 import { FilterProps } from '@/pages/admin/motel';
@@ -148,5 +148,30 @@ export const SendElicWaterApi = async (data: SendElicWaterDTO) => {
 
 export const GetPriceByRoomTypeApi = async (id: number) => {
 	const response = await axios.get<ResponseDTO<GetPriceByRoomTypeDTO>>(`${API_URL}/Room/get-price-by-room-type-id/${id}`);
+	return response.data;
+};
+export const FindUser = async (data: string) => {
+	const response = await axios.get<ResponseDTO<RoomUserDTO[]>>(`${API_URL}/Room/find-user`, {
+		params: {
+			search: data,
+		},
+	});
+	return response.data;
+};
+
+export const AddUserRoomApi = async (data: AddUserRoomDTO) => {
+	const response = await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-user-to-room`, data);
+	return response.data;
+};
+
+export const DeleteUserRoomApi = async (roomId: number, userId: number) => {
+	const response = await axios.delete<ResponseDTO<null>>(`${API_URL}/Room/delete-user-from-room`, {
+		data: { roomId, userId }
+	});
+	return response.data;
+};
+
+export const GetBill = async (id: number) => {
+	const response = await axios.get<ResponseDTO<BillDTO[]>>(`${API_URL}/Room/get-bill-by-room-id/${id}`);
 	return response.data;
 };
