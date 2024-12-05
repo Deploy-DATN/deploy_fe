@@ -3,7 +3,7 @@ import "./styles/ForgotPW.scss";
 import { NewPassword, postNewPWApi } from '@/services/api/authApi';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
-
+import avaimg from '@/assets/images/imgforgotPW/Forgotpw_3_1.png'
 const NewPW = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
@@ -12,7 +12,7 @@ const NewPW = () => {
   const [error, setError] = useState('');
   const [errorcf, setErrorcf] = useState('');
 
-  const handlePasswordChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
 
@@ -26,7 +26,7 @@ const NewPW = () => {
     }
   };
 
-  const handleSubmit = async (e : React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!password) {
@@ -78,6 +78,12 @@ const NewPW = () => {
     }
   };
 
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
   return (
     <div className="formverifyfw container-fluid">
       <div className="row align-items-center w-100 align-items-center h-forgotpw">
@@ -127,7 +133,7 @@ const NewPW = () => {
 
         <div className="col-lg-6 col-12 d-flex justify-content-center align-items-center">
           <img
-            src="src/assets/images/imgforgotPW/Forgotpw_3_1.png"
+            src={avaimg}
             alt="Responsive"
             className="img-fluid image-verify"
           />

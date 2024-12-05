@@ -9,8 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const AdminProfile = () => {
     const navigate = useNavigate();
     const dispatch = userAppDispatch();
-    const userData = useSelector((state: RootState) => state.user.data);
-    console.log(userData)
+    const { user } = useSelector((state: RootState) => state.user);
     const handleSubmit = async (data: UserDetail) => {
         const token = localStorage.getItem('token');
         if (!token) {
@@ -114,7 +113,7 @@ const AdminProfile = () => {
                             {/* Avatar Section */}
                             <div className="col-md-5 d-flex flex-column align-items-center">
                                 <img
-                                    src={userData?.avatar}
+                                    src={user?.avatar}
                                     className="avatar rounded-circle mb-2"
                                     alt="avatar"
                                     onError={(e) => {
