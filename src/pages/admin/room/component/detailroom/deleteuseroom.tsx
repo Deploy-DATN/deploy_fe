@@ -1,11 +1,23 @@
+import { DeleteUserRoomApi } from '@/services/api/MotelApi';
 import React from 'react'
 
 interface DeleteuseroomProps {
   onClose: () => void;
   roomId: number;
+  userId: number;
 }
 
-const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId }) => {
+const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId, userId }) => {
+
+  const handleDeleteUserRoom = async () => {
+    const response = await DeleteUserRoomApi(roomId, userId);
+    if (response.code === 200) {
+      alert('Xóa người thuê thành công');
+      onClose();
+      location.reload();
+    }
+  };
+
     return (
 <>
       <div className="modal-overlay-admin">
@@ -27,6 +39,7 @@ const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId }) => {
                 <button
                   type="button"
                   className="btn-luu-all btn-style btn-transform-y2"
+                  onClick={() => handleDeleteUserRoom()}
                 >
                   Lưu
                 </button>
