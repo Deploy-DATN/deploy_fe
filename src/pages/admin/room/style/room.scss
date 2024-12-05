@@ -255,15 +255,34 @@
     left: 0; /* Căn trái theo cha */
     right: 0; /* Căn phải theo cha */
     width: 100%; /* Đảm bảo full width */
+
     .list-add-user-room {
       position: fixed;
       background-color: #fff;
       box-shadow: var(--bs-box-shadow-sm) !important;
       max-width: 660px;
       width: 90%;
+      max-height: calc(3 * 60px); /* Giới hạn chiều cao cho khoảng 5 user (mỗi user ~60px) */
+      overflow-y: auto; /* Hiện thanh cuộn khi nội dung vượt quá */
+      &::-webkit-scrollbar {
+        width: 6px; /* Kích thước chiều rộng của thanh cuộn */
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #298b90; /* Màu của phần thanh cuộn */
+        border-radius: 10px; /* Bo góc thanh cuộn */
+      }
+      &::-webkit-scrollbar-track {
+        background-color: #f1f1f1; /* Màu nền của khu vực thanh cuộn */
+        border-radius: 10px;
+      }
       .item-add-user-room {
         padding: 8px 12px;
         border-bottom: 1px solid #535353;
+      }
+      .btn-add-user-room{
+        background: none;
+        border: none;
+        color: #298b90;
       }
     }
   }

@@ -231,7 +231,7 @@ const Header = () => {
                           />
                         </a>
                         {dropdownVisible && (
-                          <div className="dropdown-menu-custom">
+                          <div className="dropdown-menu-custom mt-0">
                             <Link to='/user' className="dropdown-item link-dropdown-header-user">Thông tin cá nhân</Link>
                             <Link to='/user/noti' className="dropdown-item link-dropdown-header-user">Thông báo</Link>
                             <Link to="/user/change-password" className="dropdown-item link-dropdown-header-user">Thay đổi mật khẩu</Link>

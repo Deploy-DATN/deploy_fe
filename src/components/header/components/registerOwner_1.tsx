@@ -89,7 +89,7 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
             control={control}
             label="Giới thiệu trọ:"
             name="description"
-            type="textarea"
+            type="editor" // Thay đổi để xác định type là editor
             errors={errors}
             rows={4}
             classname={`form-control ${errors.description ? "is-invalid" : ""}`}
@@ -162,7 +162,10 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
         </button>
       </div>
       <div className="d-flex justify-content-end">
-        <button className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2" type="submit">
+        <button
+          className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2"
+          type="submit"
+        >
           Tiếp tục
         </button>
       </div>

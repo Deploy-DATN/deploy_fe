@@ -167,7 +167,7 @@ export const TicketPage: React.FC = () => {
                         </td>
                         <td>
                           <Link to={`/admin/ticket/${item.id}`}>
-                            <FontAwesomeIcon icon={faEllipsis} size="2xl" color="#298b90" className="icon-table-motel" />
+                          <i className="fa-solid fa-ellipsis icon-table-motel fa-xl"></i>
                           </Link>
                         </td>
                       </tr>
