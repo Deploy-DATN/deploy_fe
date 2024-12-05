@@ -112,7 +112,7 @@ const Roomtype = (props: {
                   <button
                     className="btn btn-create-notification btn-transform-y2"
                     onClick={() => CheckStatusElicWater(roomType.id)}
-                    disabled={isDisabled}
+                    disabled={!isDisabled}
                   >
                     Xuất hoá đơn
                   </button>
