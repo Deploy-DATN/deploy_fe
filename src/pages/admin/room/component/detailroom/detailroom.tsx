@@ -45,8 +45,6 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
     },
   ];
 
-  
-
   const CheckStatus = (status: number) => {
     if (status === 1) {
       return (
@@ -76,7 +74,10 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
             <div className="row">
               <div className=" col-12 col-lg-5 row  align-content-start flex-wrap">
                 {motels[0].images.map((image, index) => (
-                  <div key={index} className="col-6 col-md-4 col-lg-4 mb-2 px-1">
+                  <div
+                    key={index}
+                    className="col-6 col-md-4 col-lg-4 mb-2 px-1"
+                  >
                     <img
                       src={image}
                       alt={`Hình ${index + 1}`}
@@ -91,7 +92,7 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
                   {/* Code phần dưới img ở đây là dc */}
                   <div className="d-flex mt-3 align-items-center">
                     <h5 className="me-3 mb-0 price-detail-motel-user">
-                    {room?.roomType?.price?.toLocaleString('vi-VN')} / tháng
+                      {room?.roomType?.price?.toLocaleString("vi-VN")} / tháng
                     </h5>
                     <FontAwesomeIcon
                       icon={faCircle}
@@ -129,35 +130,40 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
         </div>
         <div className="col-12 col-md-12 col-lg-3">
           {/* Người thuê */}
-          {
-            room?.users.map((user) => (
-              <div className="bgr-detail-room-info p-4 mt-3 position-relative" key={user.id}>
+          {room?.users.map((user) => (
+            <div
+              className="bgr-detail-room-info p-4 mt-3 position-relative"
+              key={user.id}
+            >
               <div className="close-user-detai-room">
                 <button
                   className="close-btn-user btn-transform-y2"
-                  onClick={() => toggleModal("deleteuseroom", room?.id, user.id)}
+                  onClick={() =>
+                    toggleModal("deleteuseroom", room?.id, user.id)
+                  }
                 >
                   <i className="fa-regular fa-xmark fa-xl"></i>
                 </button>
               </div>
               <div className="row">
-                <div className="col-3 width-height">
-                    <img
-                      src={user?.avatar || ''}
+                <div className="col-3 px-1">
+                  <div className="width-height-1-1">
+                  <img
+                    src={user?.avatar || "https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media"}
                     alt="user-avatar"
-                    className="img-fluid rounded-circle"
+                    className="img-fluid rounded-circle "
                   />
+                  </div>
                 </div>
                 <div className="col-9 text-nowrap overflow-hidden">
                   <h5>{user?.fullName}</h5>
                   <h6 className="color-xam">{user?.email}</h6>
                   <h6 className="color-xam">{user?.phone}</h6>
                 </div>
-                </div>
               </div>
-            ))
-            }
-         
+            </div>
+          ))}
+
           <button
             className={`btn btn-create-notification btn-sm px-3 py-2 mb-3 btn-transform-y2 mt-3`}
             onClick={() => toggleModal("addUserRoom", 1)}

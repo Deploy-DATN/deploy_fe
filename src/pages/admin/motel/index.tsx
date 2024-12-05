@@ -1,14 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./styles/stylemotel.scss";
-import {
-  faEllipsis,
-  faLock,
-  faRectangleXmark,
-  faSearch,
-  faSquareCheck,
-  faUnlock,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ModalThaotac from "./component/ModalThaotac";
 import { useEffect, useState } from "react";
@@ -52,6 +41,7 @@ export const Motel: React.FC = () => {
   });
 
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
+  const [pageactive, setPageactive] = useState<number>(query.pageNumber);
 
   useEffect(() => {
     LoadData(query);
@@ -74,6 +64,7 @@ export const Motel: React.FC = () => {
       pageNumber: pageNumber,
     };
     setQuery(newQuery);
+    setPageactive(pageNumber)
     await LoadData(newQuery);
   };
 
@@ -171,23 +162,17 @@ export const Motel: React.FC = () => {
         <>
           <a className=" px-2 py-1 mx-1 btn-transform-y2">
             {/* onClick={() => handleOpenModal('khoa')}> */}
-            <FontAwesomeIcon
-              icon={faSquareCheck}
-              color="#298b90"
-              size="2xl"
-              className="icon-table-motel"
+            <i
+              className="fa-regular fa-square-check icon-table-motel fa-xl"
               onClick={() => HandleApprove(id)}
-            />
+            ></i>
           </a>
           <a className=" px-2 py-1 mx-1 btn-transform-y2">
             {/* onClick={() => handleOpenModal('khoa')}> */}
-            <FontAwesomeIcon
-              icon={faRectangleXmark}
-              color="#298b90"
-              size="2xl"
-              className="icon-table-motel"
+            <i
+              className="fa-regular fa-rectangle-xmark icon-table-motel fa-xl"
               onClick={() => HandleReject(id)}
-            />
+            ></i>
           </a>
         </>
       );
@@ -195,13 +180,10 @@ export const Motel: React.FC = () => {
       return (
         <>
           <a className=" px-2 py-1 mx-1 btn-transform-y2">
-            <FontAwesomeIcon
-              icon={faLock}
-              color="#298b90"
-              size="2xl"
-              className="icon-table-motel"
+            <i
+              className="fa-solid fa-lock icon-table-motel fa-xl"
               onClick={() => HandleLock(id)}
-            />{" "}
+            ></i>
           </a>
         </>
       );
@@ -209,13 +191,10 @@ export const Motel: React.FC = () => {
       return (
         <>
           <a className=" px-2 py-1 mx-1 btn-transform-y2">
-            <FontAwesomeIcon
-              icon={faUnlock}
-              color="#298b90"
-              size="2xl"
-              className="icon-table-motel"
+            <i
+              className="fa-regular fa-unlock icon-table-motel fa-xl"
               onClick={() => HandleUnLock(id)}
-            />
+            ></i>
           </a>
         </>
       );
@@ -236,6 +215,7 @@ export const Motel: React.FC = () => {
       ...query,
       status: status,
     };
+    setActiveFilter(status);
     setQuery(newQuery);
   };
 
@@ -350,20 +330,20 @@ export const Motel: React.FC = () => {
                       <td>{motel.rating.toFixed(1)}</td>
                       <td>{motel.totalRoom}</td>
                       <td>{formatDate(motel.createDate)}</td>
-                      <td className="motel-diachi" dangerouslySetInnerHTML={{ __html: motel?.description || "" }}></td>                    
+                      <td
+                        className="motel-diachi"
+                        dangerouslySetInnerHTML={{
+                          __html: motel?.description || "",
+                        }}
+                      ></td>
                       <td>{CheckStatus(motel.status)}</td>
                       <td>
-                        <Link
+                        {/* <Link
                           to={`infomotel/${motel.id}`}
                           className=" px-2 py-1 mx-1 btn-transform-y2"
                         >
-                          <FontAwesomeIcon
-                            icon={faEllipsis}
-                            size="2xl"
-                            color="#298b90"
-                            className="icon-table-motel"
-                          />
-                        </Link>
+                          <i className="fa-solid fa-ellipsis icon-table-motel fa-xl"></i>
+                        </Link> */}
                         {CheckStatus_ThaoTac(motel.status, motel.id)}
                       </td>
                     </tr>
@@ -491,11 +471,7 @@ export const Motel: React.FC = () => {
               <nav aria-label="Page navigation example">
                 <ul className="pagination">
                   <li className="page-item">
-                    <a
-                      className="page-link  btn-filter"
-                      href="#"
-                      aria-label="Previous"
-                    >
+                    <a className="page-link  btn-filter" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
@@ -506,17 +482,17 @@ export const Motel: React.FC = () => {
                       key={index}
                       onClick={() => HandlePage(index + 1)}
                     >
-                      <a className="page-link  btn-filter" href="#">
+                      <a
+                        className={`page-link  btn-filter  ${
+                          pageactive === index + 1 ? "active-filter-motel" : ""
+                        }`}
+                      >
                         {index + 1}
                       </a>
                     </li>
                   ))}
                   <li className="page-item">
-                    <a
-                      className="page-link  btn-filter"
-                      href="#"
-                      aria-label="Next"
-                    >
+                    <a className="page-link  btn-filter" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>

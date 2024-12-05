@@ -177,8 +177,8 @@ const Infoticket = () => {
                                     />
                                 </div>
                                 <div className='action d-flex justify-content-between'>
-                                    <Link className="btn btn-primary" to={'/admin/ticket'} role="button">Trở về</Link>
-                                    <button className="btn btn-primary" onClick={handleSubmit(onSubmit)} role="button">Lưu</button>
+                                    <Link className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2" to={'/admin/ticket'} role="button">Trở về</Link>
+                                    <button className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2" onClick={handleSubmit(onSubmit)} role="button">Lưu</button>
                                 </div>
                             </div>
                             <div className='col-6 block-image row align-items-center'>

@@ -197,7 +197,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
       <div className="modal-overlay-admin">
         <div className="modal-content-admin position-relative">
           <div className="">
-            <h2 className="h2-modal-admin pt-3 pb-5">Thêm tài khoản</h2>
+            <h2 className="h2-modal-admin pt-3 pb-5">Sửa tài khoản</h2>
             {/* <button
               className="btn-close-modal position-absolute"
               onClick={onClose}

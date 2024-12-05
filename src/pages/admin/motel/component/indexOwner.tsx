@@ -1,14 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/stylemotel.scss";
-import {
-  faEllipsis,
-  faPenToSquare,
-  faPlus,
-  faSearch,
-  faLock,
-  faLockOpen,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { MotelDTO } from "@/services/Dto/MotelDto";
@@ -141,12 +131,7 @@ export const indexOwner = () => {
             onClick={() => HandleRemove(id)}
             className=" px-2 py-1 mx-1 btn-transform-y2"
           >
-            <FontAwesomeIcon
-              icon={faTrashCan}
-              size="2xl"
-              color="#298b90"
-              className="icon-table-motel"
-            />
+            <i className="fa-regular fa-trash-can icon-table-motel fa-xl"></i>
           </a>
         </>
       );
@@ -157,12 +142,7 @@ export const indexOwner = () => {
             onClick={() => HandleLock(id)}
             className=" px-2 py-1 mx-1 btn-transform-y2"
           >
-            <FontAwesomeIcon
-              size="2xl"
-              color="#298b90"
-              className="icon-table-motel"
-              icon={faLock}
-            />
+            <i className="fa-solid fa-lock icon-table-motel fa-xl"></i>
           </a>
         </>
       );
@@ -173,23 +153,13 @@ export const indexOwner = () => {
             onClick={() => HandleUnLock(id)}
             className=" px-2 py-1 mx-1 btn-transform-y2"
           >
-            <FontAwesomeIcon
-              icon={faLockOpen}
-              size="2xl"
-              color="#298b90"
-              className="icon-table-motel"
-            />
+            <i className="fa-regular fa-unlock icon-table-motel fa-xl"></i>
           </a>
           <a
             onClick={() => HandleRemove(id)}
             className=" px-2 py-1 mx-1 btn-transform-y2"
           >
-            <FontAwesomeIcon
-              icon={faTrashCan}
-              size="2xl"
-              color="#298b90"
-              className="icon-table-motel"
-            />
+            <i className="fa-regular fa-trash-can icon-table-motel fa-xl"></i>
           </a>
         </>
       );
@@ -241,12 +211,7 @@ export const indexOwner = () => {
                       to="addModelOwner"
                       className="btn btn-create-notification btn-transform-y2"
                     >
-                      <FontAwesomeIcon
-                        icon={faPlus}
-                        size="lg"
-                        color="#fffffff"
-                        className="icon-table-motel me-3"
-                      />
+                      <i className="fa-regular fa-plus icon-table-motel fa-lg me-3"></i>  
                       Thêm dãy trọ
                     </Link>
                   </div>
@@ -345,8 +310,12 @@ export const indexOwner = () => {
                           <td>{motel?.rating.toFixed(1)}</td>
                           <td>{motel?.totalRoom}</td>
                           <td>{formatDate(motel.createDate)}</td>
-                          <td className="motel-diachi" dangerouslySetInnerHTML={{ __html: motel?.description || "" }}>                            
-                          </td>
+                          <td
+                            className="motel-diachi"
+                            dangerouslySetInnerHTML={{
+                              __html: motel?.description || "",
+                            }}
+                          ></td>
                           <td>{CheckStatus(motel?.status)}</td>
                           <td>
                             <Link
@@ -357,23 +326,13 @@ export const indexOwner = () => {
                               }}
                               className=" px-2 py-1 mx-1 btn-transform-y2"
                             >
-                              <FontAwesomeIcon
-                                icon={faEllipsis}
-                                size="2xl"
-                                color="#298b90"
-                                className="icon-table-motel"
-                              />
+                              <i className="fa-solid fa-ellipsis icon-table-motel fa-xl"></i>
                             </Link>
                             <Link
                               to={`/admin/indexOwner/EditModelOwner/${motel.id}`}
                               className=" px-2 py-1 mx-1 btn-transform-y2"
                             >
-                              <FontAwesomeIcon
-                                icon={faPenToSquare}
-                                size="2xl"
-                                color="#298b90"
-                                className="icon-table-motel"
-                              />
+                              <i className="fa-regular fa-pen-to-square  icon-table-motel fa-xl"></i>
                             </Link>
                             {IconThaoTac(motel.status, motel.id)}
                           </td>

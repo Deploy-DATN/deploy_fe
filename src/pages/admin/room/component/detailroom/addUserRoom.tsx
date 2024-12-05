@@ -82,7 +82,7 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 														className='item-add-user-room d-flex justify-content-between align-items-center'>
 														<div className='nav-link nav-icon-hover d-flex'>
 															<img
-																src={user?.avatar || '/default-avatar.png'} // Thêm ảnh mặc định
+																src={user?.avatar || 'https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media'} // Thêm ảnh mặc định
 																alt={user?.fullName}
 																width='35'
 																height='35'
@@ -94,11 +94,11 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 															</div>
 														</div>
 														<div>
-															<button type='button'
+															<button type='button' className='btn-add-user-room'
 																onClick={() => handleAddUserRoom(user.id)}>
 																{' '}
 																{/* Thêm type="button" */}
-																<i className='fa-regular fa-user-plus fa-lg'></i>
+																<i className='fa-regular fa-user-plus fa-xl'></i>
 															</button>
 														</div>
 													</div>
@@ -106,7 +106,8 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 											</div>
 									</div>
 								) : (
-									<div className='text-center p-2'>Không tìm thấy người dùng</div>
+									// <div className='text-center p-2'>Không tìm thấy người dùng</div>
+									<div></div>
 								)}
 							</div>
 						</div>

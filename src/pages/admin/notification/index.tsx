@@ -2,7 +2,9 @@ import CreateNotification from "./component/CreateNotification";
 import EditNotification from "./component/EditNotification";
 import SendNotification from "./component/SendNotification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsis, faPenToSquare, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { useEffect, useState } from "react";
 
@@ -168,12 +170,8 @@ export const Notification: React.FC = () => {
                   className="btn btn-create-notification btn-transform-y2"
                   onClick={handleOpenModal}
                 >
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    size="lg"
-                    color="#fffffff"
-                    className="icon-table-motel me-3"
-                  />
+                      <i className="fa-regular fa-plus icon-table-motel fa-lg me-3"></i>  
+
                   Thêm thông báo
                 </button>
 
@@ -261,12 +259,7 @@ export const Notification: React.FC = () => {
                             }}
                             onClick={() => handleOpenEditModal(noti)}
                           >
-                            <FontAwesomeIcon
-                              icon={faEllipsis}
-                              size="2xl"
-                              color="#298b90"
-                              className="icon-table-motel"
-                            />
+                            <i className="fa-regular fa-pen-to-square  icon-table-motel fa-xl"></i>
                           </a>
                           <a
                             className="px-2 py-1 mx-1 btn-transform-y2"
@@ -276,12 +269,7 @@ export const Notification: React.FC = () => {
                             }}
                             onClick={() => handleOpenSendPopup(noti)}
                           >
-                            <FontAwesomeIcon
-                              icon={faPenToSquare}
-                              size="2xl"
-                              color="#298b90"
-                              className="icon-table-motel"
-                            />
+                            <i className="fa-regular fa-paper-plane icon-table-motel fa-xl"></i>
                           </a>
                         </td>
                       </tr>

@@ -85,6 +85,7 @@ table {
     tr {
       border: 1px solid #ebebeb;
       .icon-table-motel {
+        color: #00939b;
         transition: background-color 0.3s ease, transform 0.3s ease;
         &:hover {
           transform: translateY(-2px); // Nổi lên khi hover
@@ -389,11 +390,11 @@ table {
   height: 100%;
 }
 .active-filter-motel {
-  background-color: #00b075 !important;
+  background-color: #298B90 !important;
   color: #ffffff !important;
 }
 .active-filter-motel:hover {
-  background-color: #00b075 !important;
+  background-color: #298B90 !important;
   color: #ffffff !important;
 }
 

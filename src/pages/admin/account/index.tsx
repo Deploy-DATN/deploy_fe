@@ -117,12 +117,7 @@ export const Account: React.FC = () => {
                     className="btn btn-create-notification btn-transform-y2"
                     onClick={handleOpenModal}
                   >
-                    <FontAwesomeIcon
-                      icon={faPlus}
-                      size="lg"
-                      color="#fffffff"
-                      className="icon-table-motel me-3"
-                    />
+                    <i className="fa-regular fa-plus icon-table-motel fa-lg me-3"></i>
                     Thêm tài khoản
                   </button>
                 </div>
