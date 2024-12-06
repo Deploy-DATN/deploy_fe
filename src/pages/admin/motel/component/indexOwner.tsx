@@ -1,13 +1,3 @@
-
-import {
-  DeleteMotel,
-  getMotelByOwnerApi,
-  LockMotelApi,
-  UnLockMotelApi,
-} from "@/services/api/MotelApi";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import '../styles/stylemotel.scss';
-import { faEllipsis, faPenToSquare, faPlus, faSearch, faLock, faLockOpen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MotelDTO } from '@/services/Dto/MotelDto';

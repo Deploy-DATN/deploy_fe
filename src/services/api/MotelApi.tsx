@@ -227,32 +227,22 @@ export const GetBillById = async (id: number) => {
 	return response.data;
 };
 
-export const AddUserRoomApi = async (data: AddUserRoomDTO) => {
-  const response = await axios.post<ResponseDTO<null>>(
-    `${API_URL}/Room/add-user-to-room`,
-    data
-  );
-  return response.data;
+export const GetHistoryByRoomIdApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetHistoryByRoomIdDTO[]>>(`${API_URL}/Room/get-history-by-room-id/${id}`);
+	return response.data;
 };
 
-export const DeleteUserRoomApi = async (roomId: number, userId: number) => {
-  const response = await axios.delete<ResponseDTO<null>>(
-    `${API_URL}/Room/delete-user-from-room`,
-    {
-      data: { roomId, userId },
-    }
-  );
-  return response.data;
+export const GetRoomTypeByAddElicWaterApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetRoomTypeByAddElicWaterDTO[]>>(`${API_URL}/Room/get-room-by-export-bill/${id}`);
+	return response.data;
 };
 
-export const GetBill = async (id: number) => {
-  const response = await axios.get<ResponseDTO<BillDTO[]>>(
-    `${API_URL}/Room/get-bill-by-room-id/${id}`
-  );
-  return response.data;
+export const SendElicWaterApi = async (data: SendElicWaterDTO) => {
+	const response = await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-electric-and-water-to-bill`, data);
+	return response.data;
 };
 
-export const GetBillById = async (id: number) => {
-  const response = await axios.get<ResponseDTO<BillByIdDTO>>(`${API_URL}/Room/get-bill-by-id/${id}`);
-  return response.data;
+export const GetPriceByRoomTypeApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<GetPriceByRoomTypeDTO>>(`${API_URL}/Room/get-price-by-room-type-id/${id}`);
+	return response.data;
 };

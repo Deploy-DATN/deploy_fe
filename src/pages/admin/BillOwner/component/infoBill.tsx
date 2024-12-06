@@ -3,10 +3,12 @@ import { GetBillById } from "@/services/api/MotelApi";
 import { BillByIdDTO } from "@/services/Dto/MotelDto";
 import { useEffect, useState } from "react";
 
-export const InfoBill: React.FC<{
+interface Props {
   onClose: () => void;
   billId: number | null;
-}> = ({ onClose, billId }) => {
+}
+
+export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
   const [bill, setBill] = useState<BillByIdDTO | null>(null);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export const InfoBill: React.FC<{
     };
     billById();
   }, [billId]);
-  console.log(bill);
+
   return (
     <>
       <div className="modal-overlay-admin">
@@ -46,10 +48,10 @@ export const InfoBill: React.FC<{
                   Ngày tạo: <span className="ms-1">
                     {bill?.createdDate
                       ? new Date(bill.createdDate).toLocaleDateString("vi-VN", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })
                       : "N/A"}
                   </span>
                 </p>
@@ -87,9 +89,9 @@ export const InfoBill: React.FC<{
               <div className="text-info-bill mt-2">
                 <p className="d-flex justify-content-between">
                   Thành tiền: <span className="ms-1">                     {new Intl.NumberFormat("vi-VN", {
-                      style: "currency",
-                      currency: "VND",
-                    }).format(bill?.total || 0)}</span>{" "}
+                    style: "currency",
+                    currency: "VND",
+                  }).format(bill?.total || 0)}</span>{" "}
                 </p>
               </div>
             </div>
