@@ -242,9 +242,9 @@ export interface GetRoomTypeByAddElicWaterDTO {
 
 export interface SendElicWaterDTO {
 	roomId: number;
-	water: number;
-	electric: number;
-	other: number;
+	water: string;
+	electric: string;
+	other: string;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -293,14 +293,6 @@ export interface BillByIdDTO{
   userId: number | null;
   user: any | null;
   serviceBills: ServiceBillDTO[];
-}
-
-
-export interface SendElicWaterDTO {
-	roomId: number;
-	water: number;
-	electric: number;
-	other: number;
 }
 
 
