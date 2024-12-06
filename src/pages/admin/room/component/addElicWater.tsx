@@ -84,9 +84,9 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 
 	const [sendElicWaterDTO, setSendElicWaterDTO] = useState<SendElicWaterDTO>({
 		roomId: 0,
-		water: 0,
-		electric: 0,
-		other: 0,
+		water: '',
+		electric: '',
+		other: '',
 	});
 
 	const [data, setData] = useState<GetRoomTypeByAddElicWaterDTO[]>([]);
@@ -119,9 +119,9 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 
 		setSendElicWaterDTO({
 			roomId: 0,
-			water: 0,
-			electric: 0,
-			other: 0,
+			water: '',
+			electric: '',
+			other: '',
 		});
 
 		setIsConfirm(false);
@@ -198,6 +198,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 				return;
 			}
 			sendElicWaterDTO.roomId = roomId;
+			
 			const res = await SendElicWaterApi(sendElicWaterDTO);
 			if (res.code === 200) {
 				alert('Thêm số điện, nước thành công!');

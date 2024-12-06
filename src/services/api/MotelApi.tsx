@@ -238,7 +238,13 @@ export const GetRoomTypeByAddElicWaterApi = async (id: number) => {
 };
 
 export const SendElicWaterApi = async (data: SendElicWaterDTO) => {
-	const response = await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-electric-and-water-to-bill`, data);
+	const dataSend = {
+		roomId: data.roomId,
+		water: Number(data.water),
+		electric: Number(data.electric),
+		other: Number(data.other),
+	};
+	const response = await axios.post<ResponseDTO<null>>(`${API_URL}/Room/add-electric-and-water-to-bill`, dataSend);
 	return response.data;
 };
 
