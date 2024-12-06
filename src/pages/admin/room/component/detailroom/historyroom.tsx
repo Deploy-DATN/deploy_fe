@@ -28,7 +28,7 @@ const Historyroom = ({ roomId }: { roomId: number }) => {
     } else if (status === 2) {
       return (
         <span className="tt-choduyet badge bg-light-warning rounded-pill p-2 fs-2">
-          Nhừng thuê
+          Ngừng thuê
         </span>
       );
     } else if (status === 3) {
