@@ -1,8 +1,8 @@
 import logo from "@/assets/ThoStay.svg";
-import { GetBillById } from "@/services/api/MotelApi";
+import { GetBillById,SentBillToEmail } from "@/services/api/MotelApi";
 import { BillByIdDTO } from "@/services/Dto/MotelDto";
 import { useEffect, useState } from "react";
-
+import Swal from "sweetalert2";
 interface Props {
   onClose: () => void;
   billId: number | null;
@@ -23,7 +23,49 @@ export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
       }
     };
     billById();
+    console.log("BillID trước",billId);
   }, [billId]);
+
+  const [isLoading, setIsLoading] = useState(false); // Loading state
+  const [message, setMessage] = useState(""); // Message state for feedback
+  const handleSendEmail = async () => {
+    
+    if (!billId) return;
+    setIsLoading(true);
+    setMessage("");
+
+    try {
+      const sentBill= await SentBillToEmail(billId);
+      console.log("sentBill",sentBill.data);
+      if(sentBill.data == true ){
+        Swal.fire({
+          icon: "success",
+          title : "Thành công",
+          text: "Đã gửi hóa đơn về email của khách hàng.",
+        });
+        onClose();
+      
+      }
+      else{
+        Swal.fire({
+          icon: "error",
+          title : "Lỗi",
+          text: "Lỗi khi gửi hóa đơn, vui lòng thử lại.",
+        }
+        );
+      }
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title : "Lỗi",
+        text: "Lỗi khi gửi hóa đơn, vui lòng thử lại.",
+      });
+      
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -106,8 +148,10 @@ export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
               <button
                 type="button"
                 className="btn-luu-all btn-style btn-transform-y2"
+                onClick={handleSendEmail}
+                disabled={isLoading}
               >
-                Xuất hóa đơn
+                 {isLoading ? "Đang gửi..." : "Gửi Hóa Đơn về Email"}
               </button>
             </div>
           </form>
