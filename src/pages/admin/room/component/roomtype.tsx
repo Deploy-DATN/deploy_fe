@@ -12,7 +12,6 @@ const Roomtype = (props: {
 }) => {
   const { roomType, motelStatus, toggleModal } = props;
 
-  console.log(roomType);
   const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
