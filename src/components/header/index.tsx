@@ -166,7 +166,7 @@ const Header = () => {
                     onClick={(e) => e.stopPropagation()}
                   >
                     <a
-                      className="dropdown-toggle"
+                      className="dropdown-toggle d-md-none d-lg-block"
                       type="button"
                       data-bs-toggle="dropdown"
                       aria-expanded={isDropdownOpen}
@@ -179,6 +179,16 @@ const Header = () => {
                         </span>
                       )}
                     </a>
+                    <Link to='/user/noti' className="d-lg-none d-block d-flex justify-content-start">
+                    <div className="position-relative">
+                    <i className="fa-light fa-bell-ring font-size-header text-dark px-3 py-2 z-3"></i>
+                      {notification && (
+                        <span className="badge bg-danger position-absolute top-0 end-0 notification-badge rounded-2">
+                          {notification.notificationCount}
+                        </span>
+                      )}
+                    </div>
+                    </Link>
                     <div className={`dropdown-menu dropdown-menu-noti-header dropdown-menu-lg-end ${isDropdownOpen ? 'show' : ''
                       }`}>
                       <div className="dropdown-header">
@@ -228,6 +238,9 @@ const Header = () => {
                             width="30"
                             height="30"
                             className="rounded-circle"
+                            onError={(e) => {
+                              e.currentTarget.src = 'https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media';
+                          }}
                           />
                         </a>
                         {dropdownVisible && (

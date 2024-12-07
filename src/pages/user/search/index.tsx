@@ -14,6 +14,7 @@ export const SearchMotel = () => {
     name: string;
     price: string;
     address: string;
+    area: string;
   }
 
   const location = useLocation();
@@ -146,10 +147,10 @@ export const SearchMotel = () => {
                   ) : (
                     <div className="row list-motel-filter-search">
                       {motels.map((motel) => (
-                        <div className="col-12 mt-3" key={motel.id} onClick={() => handleMotelClick(motel.id)}>
+                        <div className="col-12 mt-3" key={motel.id} >
                           <div className="item-list-motel row">
                             <div className="col-4 list-motel-img">
-                              <a href="#">
+                              <a onClick={() => handleMotelClick(motel.id)}>
                                 <img
                                   src={motel.images[0]?.link || "#"}
                                   alt="Hình ảnh không khả dụng"
@@ -159,13 +160,17 @@ export const SearchMotel = () => {
                             </div>
                             <div className="col-8 list-motel-body">
                               <div className="motel-item-name">
-                                <a href="#" className="motel-item-link">
-                                  <h3>{motel.name}</h3>
+                                <a className="motel-item-link" onClick={() => handleMotelClick(motel.id)}>
+                                  <h3 className="mb-0">{motel.name}</h3>
                                 </a>
                               </div>
                               <div className="motel-item-price">
-                                <small className="me-2">Từ</small>
+                                <small className="me-2">Giá: </small>
                                 <span>{motel.price} triệu/tháng</span>
+                              </div>
+                              <div className="motel-item-area">
+                                <small className="me-2">Diện tích: </small>
+                                <span>{motel?.area} M<sup>2</sup></span>
                               </div>
                               <div className="motel-item-address">
                                 <i className="fa-thin fa-location-dot fa-lg me-2"></i>
@@ -177,7 +182,7 @@ export const SearchMotel = () => {
                       ))}
                     </div>
                   )}
-                  <div className="d-flex justify-content-center align-items-center mt-3">
+                  <div className="d-flex justify-content-center align-items-center mt-3 w-100">
                     <nav aria-label="Page navigation example">
                       <ul className="pagination">
                         <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
@@ -192,11 +197,11 @@ export const SearchMotel = () => {
                         {totalPages > 0 ? (
                           pageNumbers.map((number) => (
                             <li
-                              className={`page-item ${number === currentPage ? "active" : ""}`}
+                              className={`page-item `}
                               key={number}
                             >
                               <button
-                                className="page-link btn-filter"
+                                className={`page-link btn-filter ${number === currentPage ? "active-filter-motel" : ""}`}
                                 onClick={() => handlePageChange(number)}
                               >
                                 {number}
@@ -205,7 +210,7 @@ export const SearchMotel = () => {
                           ))
                         ) : (
                           <li className="page-item disabled">
-                            <span className="page-link">No pages</span>
+                            <span className="page-link">Không có trang</span>
                           </li>
                         )}
                         <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>

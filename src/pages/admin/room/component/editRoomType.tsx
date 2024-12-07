@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Editor } from "@tinymce/tinymce-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 interface EditRoomProps {
   onClose: () => void;
@@ -186,11 +186,19 @@ const EditRoomType: React.FC<EditRoomProps> = ({ onClose, roomTypeId }) => {
 
       const response = await EditRoomTypeApi(submitFormData);
       if (response.code === 200) {
-		toast.success("Sửa loại phòng thành công");
+        Swal.fire({
+          icon: "success",
+          title: "Thành công",
+          text: "Sửa loại phòng thành công",
+        });
 		navigate(0);
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Có lỗi xảy ra");
+      Swal.fire({
+        icon: "error",
+        title: "Thất bại!",
+        text: "Sửa loại phòng thất bại",
+      });
     }
   };
 

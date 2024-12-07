@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Editor } from "@tinymce/tinymce-react";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Addroom: React.FC<{
   motelId: string | undefined;
@@ -172,12 +172,20 @@ const Addroom: React.FC<{
 
       const response = await AddRoomTypeApi(submitFormData);
       if (response.code === 200) {
-        toast.success("Thêm phòng trọ thành công");
+        Swal.fire({
+          icon: "success",
+          title: "Thành công!",
+          text: "Thêm phòng trọ thành công",
+        });
         window.location.reload();
         onClose();
       }
     } catch (error: any) {
-      toast.error("Thêm phòng trọ thất bại");
+      Swal.fire({
+        icon: "error",
+        title: "Thất bại!",
+        text: "Thêm phòng trọ thất bại",
+      });
       console.error(error);
     }
   };

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Gioithieu = () => {
   return (
     <div className="container Introduce">
@@ -119,9 +121,10 @@ const Gioithieu = () => {
             <div className="gach-ngang"></div>
             <div className="ps-3 menu-link-Introduce mt-2">
               <ul>
-                <li><a href="/" className="link-menu">Trang chủ</a></li>
-                <li><a className="link-menu">Tìm kiếm trọ</a></li>
-                <li><a className="link-menu">Danh sách trọ</a></li>
+                <li><a href="/" className="link-menu a-hover-Introduce">Trang chủ</a></li>
+                <li><Link to="/search?Province=Tỉnh&District=Thành%20phố&Ward=Phường&search=#" className="link-menu">Danh sách trọ</Link></li> 
+                <li><Link to="/contact" className="link-menu">Liên hệ</Link></li>
+
               </ul>
             </div>
           </div>

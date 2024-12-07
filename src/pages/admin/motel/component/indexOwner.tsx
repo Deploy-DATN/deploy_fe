@@ -1,101 +1,138 @@
-import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { MotelDTO } from '@/services/Dto/MotelDto';
-import { DeleteMotel, getMotelByOwnerApi, LockMotelApi, UnLockMotelApi } from '@/services/api/MotelApi';
-import '../styles/stylemotel.scss';
-import { FilterProps, PageDTO } from '..';
-import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { MotelDTO } from "@/services/Dto/MotelDto";
+import {
+  DeleteMotel,
+  getMotelByOwnerApi,
+  LockMotelApi,
+  UnLockMotelApi,
+} from "@/services/api/MotelApi";
+import "../styles/stylemotel.scss";
+import { FilterProps, PageDTO } from "..";
+import Swal from "sweetalert2";
 
 export const indexOwner = () => {
-	const [motel, setMotel] = useState<MotelDTO[]>();
-	const [activeFilter, setActiveFilter] = useState<number | null>(null);
-	const [query, setQuery] = useState<FilterProps>({
-		status: null,
-		pageNumber: 1,
-		pageSize: 10,
-		search: null,
-	});
-	const [page, setPage] = useState<PageDTO>({
-		totalPages: 0,
-		pageNumber: 0,
-		pageSize: 0,
-	});
+  const [motel, setMotel] = useState<MotelDTO[]>();
+  const [activeFilter, setActiveFilter] = useState<number | null>(null);
+  const [query, setQuery] = useState<FilterProps>({
+    status: null,
+    pageNumber: 1,
+    pageSize: 10,
+    search: null,
+  });
+  const [page, setPage] = useState<PageDTO>({
+    totalPages: 0,
+    pageNumber: 0,
+    pageSize: 0,
+  });
 
-	// ... existing code ...
-	const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
-	const [searchTerm, setSearchTerm] = useState<string>('');
-	// ... existing code ...
+  // ... existing code ...
+  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  // ... existing code ...
 
-	useEffect(() => {
-		LoadData(query);
-	}, [query]);
+  useEffect(() => {
+    LoadData(query);
+  }, [query]);
 
-	const LoadData = async (query: FilterProps) => {
-		const response = await getMotelByOwnerApi(query);
-		setMotel(await response.items);
-		setPage({
-			totalPages: await response.totalPages,
-			pageNumber: await response.pageNumber,
-			pageSize: await response.pageSize,
-		});
-	};
+  const LoadData = async (query: FilterProps) => {
+    const response = await getMotelByOwnerApi(query);
+    setMotel(await response.items);
+    setPage({
+      totalPages: await response.totalPages,
+      pageNumber: await response.pageNumber,
+      pageSize: await response.pageSize,
+    });
+  };
 
-	const HandlePage = async (pageNumber: number) => {
-		const newQuery = {
-			...query,
-			pageNumber: pageNumber,
-		};
-		setQuery(newQuery);
-		await LoadData(newQuery);
-	};
+  const HandlePage = async (pageNumber: number) => {
+    const newQuery = {
+      ...query,
+      pageNumber: pageNumber,
+    };
+    setQuery(newQuery);
+    await LoadData(newQuery);
+  };
 
-	const HandleFilter = async (status: number | null) => {
-		setActiveFilter(status);
-		const newQuery = {
-			...query,
-			status: status,
-		};
-		setQuery(newQuery);
-		await LoadData(newQuery);
-	};
+  const HandleFilter = async (status: number | null) => {
+    setActiveFilter(status);
+    const newQuery = {
+      ...query,
+      status: status,
+    };
+    setQuery(newQuery);
+    await LoadData(newQuery);
+  };
 
-	const CheckStatus = (status: number) => {
-		if (status === 1) {
-			return <span className='tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3'>Chờ duyệt</span>;
-		} else if (status === 2) {
-			return <span className='tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3'>Đang hoạt động</span>;
-		} else if (status === 3) {
-			return <span className='tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3'>Ngừng hoạt động</span>;
-		} else if (status === 4) {
-			return <span className='tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3'>Từ chối</span>;
-		} else if (status === 5) {
-			return <span className='tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3'>Đã xoá</span>;
-		}
-	};
+  const CheckStatus = (status: number) => {
+    if (status === 1) {
+      return (
+        <span className="tt-choduyet badge bg-light-warning rounded-pill px-3 py-2 fs-3">
+          Chờ duyệt
+        </span>
+      );
+    } else if (status === 2) {
+      return (
+        <span className="tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3">
+          Đang hoạt động
+        </span>
+      );
+    } else if (status === 3) {
+      return (
+        <span className="tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3">
+          Ngừng hoạt động
+        </span>
+      );
+    } else if (status === 4) {
+      return (
+        <span className="tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3">
+          Từ chối
+        </span>
+      );
+    } else if (status === 5) {
+      return (
+        <span className="tt-khoa badge bg-light-danger rounded-pill px-3 py-2 fs-3">
+          Đã xoá
+        </span>
+      );
+    }
+  };
 
-	const HandleLock = async (id: number) => {
-		const response = await LockMotelApi(id);
-		if (response.code === 200) {
-			toast.warning('Khóa dãy trọ thành công');
-			await LoadData(query);
-		}
-	};
+  const HandleLock = async (id: number) => {
+    const response = await LockMotelApi(id);
+    if (response.code === 200) {
+      Swal.fire({
+        icon: "warning",
+        title: "Khóa!",
+        text: "Khóa dãy trọ thành công",
+      });
+      await LoadData(query);
+    }
+  };
 
-	const HandleUnLock = async (id: number) => {
-		const response = await UnLockMotelApi(id);
-		if (response.code === 200) {
-			toast.info('Mở khóa dãy trọ thành công');
-			await LoadData(query);
-		}
-	};
+  const HandleUnLock = async (id: number) => {
+    const response = await UnLockMotelApi(id);
+    if (response.code === 200) {
+      Swal.fire({
+        icon: "info",
+        title: "Mở khóa!",
+        text: "Mở khóa dãy trọ thành công",
+      });
+      await LoadData(query);
+    }
+  };
 
-	const HandleRemove = async (id: number) => {
-		const response = await DeleteMotel(id);
-		if (response.code === 200) {
-			toast.error('Xoá dãy trọ thành công');
-			await LoadData(query);
-		}
-	};
+  const HandleRemove = async (id: number) => {
+    const response = await DeleteMotel(id);
+    if (response.code === 200) {
+      Swal.fire({
+        icon: "error",
+        title: "Xoá!",
+        text: "Xoá dãy trọ thành công",
+      });
+      await LoadData(query);
+    }
+  };
 
   const IconThaoTac = (status: number, id: number) => {
     if (status === 1) {
@@ -140,35 +177,34 @@ export const indexOwner = () => {
     }
   };
 
+  const HandleSearch = async (search: string) => {
+    setSearchTerm(search);
 
-	const HandleSearch = async (search: string) => {
-		setSearchTerm(search);
+    // Clear timeout cũ nếu có
+    if (timeoutId) clearTimeout(timeoutId);
 
-		// Clear timeout cũ nếu có
-		if (timeoutId) clearTimeout(timeoutId);
+    // Tạo timeout mới
+    const newTimeoutId = setTimeout(async () => {
+      const newQuery = {
+        ...query,
+        search: search,
+        pageNumber: 1, // Reset về trang 1 khi tìm kiếm
+      };
+      await setQuery(newQuery);
+      await LoadData(newQuery);
+    }, 500);
 
-		// Tạo timeout mới
-		const newTimeoutId = setTimeout(async () => {
-			const newQuery = {
-				...query,
-				search: search,
-				pageNumber: 1, // Reset về trang 1 khi tìm kiếm
-			};
-			await setQuery(newQuery);
-			await LoadData(newQuery);
-		}, 500);
+    setTimeoutId(newTimeoutId);
+  };
 
-		setTimeoutId(newTimeoutId);
-	};
-
-	//đinh dạng ngày tháng
-	const formatDate = (date: string) => {
-		return new Date(date).toLocaleDateString('vi-VN', {
-			day: '2-digit',
-			month: '2-digit',
-			year: 'numeric',
-		});
-	};
+  //đinh dạng ngày tháng
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
 
   return (
     <>
@@ -186,7 +222,7 @@ export const indexOwner = () => {
                       to="addModelOwner"
                       className="btn btn-create-notification btn-transform-y2"
                     >
-                      <i className="fa-regular fa-plus icon-table-motel fa-lg me-3"></i>  
+                      <i className="fa-regular fa-plus icon-table-motel fa-lg me-3"></i>
                       Thêm dãy trọ
                     </Link>
                   </div>
@@ -333,7 +369,15 @@ export const indexOwner = () => {
                         key={index}
                         onClick={() => HandlePage(index + 1)}
                       >
-                        <a className="page-link  btn-filter">{index + 1}</a>
+                        <a
+                          className={`page-link btn-filter ${
+                            page.pageNumber === index + 1
+                              ? "active-filter-motel"
+                              : ""
+                          }`}
+                        >
+                          {index + 1}
+                        </a>
                       </li>
                     ))}
                     <li className="page-item">

@@ -36,28 +36,23 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
       ...prevState,
       [modalName]: !prevState[modalName],
     }));
+    console.log("Room", room);
     setSelectedRoomId(roomId);
     setSelectedUserId(userId);
   };
 
-  const motels = [
-    {
-      status: 2,
-      name: "Tên dãy trọ 1",
-      address: "123 Hà Huy Tập, Tân Lợi, TP. Buôn Ma Thuột, Đắk Lắk, Việt Nam",
-      price: "10,000,000 đ/tháng",
-      images: [
-        "https://i-connect.com.vn/data/news/7046/anh-14-mau-phong-tro-thiet-ke-hien-dai.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjQ72yYhxptSLkHEEk6c1IfMZHorRmNlVsrw&s",
-        "https://xaydungthuanphuoc.com/wp-content/uploads/2022/09/mau-phong-tro-co-gac-lung-dep2028-4.jpg",
-        "https://plus.unsplash.com/premium_photo-1661407582641-9ce38a3c8402?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://cdn.pixabay.com/photo/2024/06/02/16/56/minimalism-8804667_1280.png",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzj64rr7VM1h6_Aln1LMnUvFLq9ZQ_1dpIlg&s",
-        "https://img.pikbest.com/wp/202345/pretty-very-room_9587397.jpg!w700wp",
-        "https://cdn.pixabay.com/video/2024/03/21/205001-926015670_tiny.jpg",
-      ],
-    },
-  ];
+  const motels =
+    room && room.images
+      ? [
+          {
+            id: room.id,
+            status: room.status || 1,
+            name: `Phòng số ${room.id}`,
+            price: room.roomType?.price || 0,
+            images: room.images.map((img) => img.link),
+          },
+        ]
+      : [];
 
   const CheckStatus = (status: number) => {
     if (status === 1) {
@@ -88,6 +83,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
             <div className="row">
               <div className=" col-12 col-lg-5 row  align-content-start flex-wrap">
                 {room?.images?.map((image, index) => (
+
                   <div
                     key={index}
                     className="col-6 col-md-4 col-lg-4 mb-2 px-1"
@@ -103,6 +99,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
               <div className=" col-12 col-lg-7">
                 <div className=" bgr-detail-motel-text-user">
                   <h2 className="name-detail-motel-user">Số phòng {room?.roomNumber}</h2>
+
                   {/* Code phần dưới img ở đây là dc */}
                   <div className="d-flex mt-3 align-items-center">
                     <h5 className="me-3 mb-0 price-detail-motel-user">
@@ -137,6 +134,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
                     trước
                   </h5>
                   <div className="mt-3">{CheckStatus(room?.status || 0)}</div>
+
                 </div>
               </div>
             </div>
@@ -188,7 +186,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
       </div>
       {modalState.addUserRoom && selectedRoomId && (
         <AddUserRoom
-          roomId={selectedRoomId}
+          roomId={motels[0].id}
           onClose={() => toggleModal("addUserRoom")}
         />
       )}
