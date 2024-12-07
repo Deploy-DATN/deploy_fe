@@ -9,8 +9,7 @@ import {
   RejectMotelApi,
   UnLockMotelApi,
 } from "@/services/api/MotelApi";
-import { toast } from "react-toastify";
-
+import Swal from "sweetalert2";
 export interface FilterProps {
   status: number | null;
   pageNumber: number;
@@ -127,7 +126,11 @@ export const Motel: React.FC = () => {
   const HandleApprove = async (id: number) => {
     const response = await ApproveMotelApi(id);
     if (response.code === 200) {
-      toast.success("Duyệt dãy trọ thành công");
+      Swal.fire({
+        icon: "success",
+        title: "Thành công",
+        text: "Duyệt dãy trọ thành công",
+      });
       await LoadData(query);
     }
   };
@@ -135,7 +138,11 @@ export const Motel: React.FC = () => {
   const HandleReject = async (id: number) => {
     const response = await RejectMotelApi(id);
     if (response.code === 200) {
-      toast.warning("Từ chối dãy trọ thành công");
+      Swal.fire({
+        icon: "warning",
+        title: "Từ chối!",
+        text: "Từ chối dãy trọ thành công",
+      });
       await LoadData(query);
     }
   };
@@ -143,7 +150,11 @@ export const Motel: React.FC = () => {
   const HandleLock = async (id: number) => {
     const response = await LockMotelApi(id);
     if (response.code === 200) {
-      toast.error("Khóa dãy trọ thành công");
+      Swal.fire({
+        icon: "error",
+        title: "Khóa!",
+        text: "Khóa dãy trọ thành công",
+      });
       await LoadData(query);
     }
   };
@@ -151,7 +162,11 @@ export const Motel: React.FC = () => {
   const HandleUnLock = async (id: number) => {
     const response = await UnLockMotelApi(id);
     if (response.code === 200) {
-      toast.info("Mở khóa dãy trọ thành công");
+      Swal.fire({
+        icon: "success",
+        title: "Mở khóa!",
+        text: "Mở khóa dãy trọ thành công",
+      });
       await LoadData(query);
     }
   };

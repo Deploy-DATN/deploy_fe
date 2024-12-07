@@ -166,7 +166,7 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
 
           <button
             className={`btn btn-create-notification btn-sm px-3 py-2 mb-3 btn-transform-y2 mt-3`}
-            onClick={() => toggleModal("addUserRoom", 1)}
+            onClick={() => toggleModal("addUserRoom", room?.id)}
           >
             Thêm người thuê
           </button>
