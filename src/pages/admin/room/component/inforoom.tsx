@@ -31,18 +31,6 @@ const Inforoom = () => {
 
   const { id } = useParams();
 
-  const [room, setRoom] = useState<RoomDTO | null>(null);
-
-  useEffect(() => {
-    const LoadData = async () => {
-      const response = await GetRoomByIdApi(id);
-      if (response && response.data) {
-        console.log('response', response.data);
-        setRoom(response.data);
-      }
-    }
-    LoadData();
-  }, []);
   
 
   return (
@@ -99,7 +87,7 @@ const Inforoom = () => {
 
               {/* Nội dung hiển thị */}
               <div className="">
-                {activeTab === "detail" && <Detailroom room={room} />}
+                {activeTab === "detail" && <Detailroom roomId={Number(id)} />}
                 {activeTab === "history" && <Historyroom roomId={Number(id)} />}
                 {activeTab === "bill" && <Billroom roomId={Number(id)} />}
               </div>

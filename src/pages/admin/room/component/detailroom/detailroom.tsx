@@ -1,17 +1,31 @@
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddUserRoom from "./addUserRoom";
 import Deleteuseroom from "./deleteuseroom";
 import { RoomDTO } from "@/services/Dto/MotelDto";
+import { GetRoomByIdApi } from "@/services/api/MotelApi";
 
-const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
+const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
+  const [room, setRoom] = useState<RoomDTO | null>(null);
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
     addUserRoom: false,
     deleteuseroom: false,
   });
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+
+
+  useEffect(() => {
+    const LoadData = async () => {
+      const response = await GetRoomByIdApi(roomId?.toString() || ""  );
+      if (response && response.data) {
+        setRoom(response.data);
+        console.log('response', response.data);
+      }
+    }
+    LoadData();
+  }, []);
 
   const toggleModal = (
     modalName: keyof typeof modalState,
@@ -73,13 +87,13 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
           <div className="bgr-detail-room-info p-4">
             <div className="row">
               <div className=" col-12 col-lg-5 row  align-content-start flex-wrap">
-                {motels[0].images.map((image, index) => (
+                {room?.images?.map((image, index) => (
                   <div
                     key={index}
                     className="col-6 col-md-4 col-lg-4 mb-2 px-1"
                   >
                     <img
-                      src={image}
+                      src={image.link}
                       alt={`Hình ${index + 1}`}
                       className="img-fluid img-info-room-detail"
                     />
@@ -88,7 +102,7 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
               </div>
               <div className=" col-12 col-lg-7">
                 <div className=" bgr-detail-motel-text-user">
-                  <h2 className="name-detail-motel-user">Số phòng 1</h2>
+                  <h2 className="name-detail-motel-user">Số phòng {room?.roomNumber}</h2>
                   {/* Code phần dưới img ở đây là dc */}
                   <div className="d-flex mt-3 align-items-center">
                     <h5 className="me-3 mb-0 price-detail-motel-user">
@@ -122,7 +136,7 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
                     <i className="fa-light fa-clock me-1"></i>Cập nhật 1 tuần
                     trước
                   </h5>
-                  <div className="mt-3">{CheckStatus(motels[0].status)}</div>
+                  <div className="mt-3">{CheckStatus(room?.status || 0)}</div>
                 </div>
               </div>
             </div>
@@ -166,7 +180,7 @@ const Detailroom: React.FC<{ room: RoomDTO | null }> = ({ room }) => {
 
           <button
             className={`btn btn-create-notification btn-sm px-3 py-2 mb-3 btn-transform-y2 mt-3`}
-            onClick={() => toggleModal("addUserRoom", 1)}
+            onClick={() => toggleModal("addUserRoom", room?.id)}
           >
             Thêm người thuê
           </button>

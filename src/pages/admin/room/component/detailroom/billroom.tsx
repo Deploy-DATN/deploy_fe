@@ -5,6 +5,14 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 
+
+export const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(amount);
+};
+
 export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedBillId, setSelectedBillId] = useState<number | null>(null);
@@ -35,13 +43,7 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
     return serviceItem ? serviceItem.price_Service * serviceItem.quantity : 0;
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(amount);
-  };
-  console.log(bill);
+  
 
   return (
     <>
