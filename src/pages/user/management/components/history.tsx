@@ -124,10 +124,10 @@ const History = () => {
                         {Array.from({ length: totalPages }, (_, index) => (
                             <li
                                 key={index + 1}
-                                className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
+                                className={`page-item`}
                             >
                                 <button
-                                    className="page-link"
+                                    className={`page-link ${currentPage === index + 1 ? 'active-filter-motel' : ''}`}
                                     onClick={() => handlePageChange(index + 1)}
                                 >
                                     {index + 1}

@@ -224,7 +224,7 @@ export const Account: React.FC = () => {
                         <a
                           style={{ caretColor: "transparent" }}
                           className={`page-link btn-filter ${
-                            number === currentPage ? "active" : ""
+                            number === currentPage ? "active-filter-motel" : ""
                           }`}
                           onClick={() => handlePageChange(number)}
                         >

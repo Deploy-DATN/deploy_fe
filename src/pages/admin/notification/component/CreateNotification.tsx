@@ -49,6 +49,7 @@ const CreateNotification: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           title: "Thành công",
           text: "Thêm mới thông báo thành công",
         });
+        onClose();
       } else {
         Swal.fire({
           icon: "error",

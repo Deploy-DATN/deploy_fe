@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, GetRoomTypeDTO_Room, SendElicWaterDTO } from '@/services/Dto/MotelDto';
 import { GetPriceByRoomTypeApi, GetRoomTypeByAddElicWaterApi, SendElicWaterApi } from '@/services/api/MotelApi';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 interface BillCalculation {
 	totalElectric: string;
@@ -101,7 +103,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 				setElectricity(res.data[0].consumption?.electricity || 0);
 				setRoomNumber(res.data[0].roomNumber || 0);
 			} else {
-				alert('không có phòng trọ nào cần xuất hoá đơn!');
+				toast.warning("Không có phòng trọ nào cần xuất hóa đơn!")
 			}
 		};
 		LoadData();
@@ -201,10 +203,19 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 			
 			const res = await SendElicWaterApi(sendElicWaterDTO);
 			if (res.code === 200) {
-				alert('Thêm số điện, nước thành công!');
+				Swal.fire({
+					icon: "success",
+					title: "Thành công",
+					text: "thêm số điện, nước thành công!",
+				  });
 				onClose();
 			}
 		} catch (error) {
+			Swal.fire({
+				icon: "error",
+				title: "Thành công",
+				text: "thêm số điện, nước thất bại!",
+			  });
 			console.log(error);
 		}
 	};

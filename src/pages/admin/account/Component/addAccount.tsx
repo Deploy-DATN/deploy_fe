@@ -5,7 +5,6 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { addUser } from "@/services/api/userApi";
 import { getRole } from "@/services/api/userApi";
 import Swal from 'sweetalert2';
-import { toast } from "react-toastify";
 interface AddAccountProps {
   onClose: () => void;
   onSubmit: () => void;
@@ -150,12 +149,19 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
         if (response.data.code === 200) {
           onClose();
           
-          toast.success("Thêm tài khoản thành công");
+          Swal.fire({
+            icon: "success",
+            title: "Thành công",
+            text: "Thêm tài khoản thành công",
+          });
           onSubmit(); 
         }
         if (response.data.code === 404) {
-          toast.error("Thêm tài khoản thất bại");
-
+          Swal.fire({
+            icon: "error",
+            title: "Lỗi!",
+            text: "Thêm tài khoản thất bại",
+          });
           console.log(response.data.message);
         }
         // Optionally, handle success (like resetting the form, showing a success message, etc.)
@@ -164,7 +170,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
         console.error('Error adding user:', error);
         Swal.fire({
           icon: 'error',
-          title: 'Thành công!',
+          title: 'Lỗi!',
           text: 'Thêm tài khoản thất bại' + error,
           timer: 1500
         });

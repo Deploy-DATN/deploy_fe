@@ -14,8 +14,8 @@ import {
   GetMotelEditDTO,
   GetMotelEditDTO_Service,
 } from "@/services/Dto/MotelDto";
-import { toast } from "react-toastify";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export const EditMotelOwner = () => {
   const { id } = useParams();
@@ -363,12 +363,20 @@ export const EditMotelOwner = () => {
       }
       const response = await EditMotel(values);
       if (response.code === 200) {
-        toast.success("Sửa dãy trọ thành công");
+        Swal.fire({
+          icon: "success",
+          title: "Thành công",
+          text: "Sửa dãy trọ thành công",
+        });
         navigate(-1);
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Sửa dãy trọ thất bại");
-      console.log("lỗi r");
+      Swal.fire({
+        icon: "error",
+        title: "Khóa!",
+        text: "Sửa dãy trọ thất bại",
+      });
+      console.log("lỗi r" + error.message);
     }
   };
 

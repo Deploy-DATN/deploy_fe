@@ -7,9 +7,9 @@ import { getAccountApi } from "@/services/api/authApi";
 import { AddMotel } from "@/services/api/MotelApi";
 import { useUser } from "@/services/api/UserContext";
 import { AddMotelDTO } from "@/services/Dto/MotelDto";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
+import Swal from "sweetalert2";
 
 export const AddMotelOwner = () => {
   const { user } = useUser();
@@ -344,11 +344,20 @@ export const AddMotelOwner = () => {
 
       const response = await AddMotel(submitFormData);
       if (response.code === 200) {
-        toast.success("Thêm dãy trọ thành công");
+        Swal.fire({
+          icon: "success",
+          title: "Thành công",
+          text: "Thêm dãy trọ thành công",
+        });
         navigate(-1);
       }
     } catch (error: any) {
-      toast.error("Thêm dãy trọ thất bại");
+      Swal.fire({
+        icon: "error",
+        title: "Thất bại!",
+        text: "Thêm dãy trọ thất bại",
+      });
+      console.log(error);
     }
   };
 

@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { userAppDispatch, RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import { fetchAccount } from "@/components/header/redux/action";
-import {checkPackage } from "@/services/api/package";
+import { checkPackage } from "@/services/api/package";
 export const Layout = () => {
   const dispatch = userAppDispatch();
   const { user } = useSelector((state: RootState) => state.user);
@@ -29,7 +29,7 @@ export const Layout = () => {
       try {
         const token = localStorage.getItem("token");
         if (token) {
-          const response = await checkPackage({token});
+          const response = await checkPackage({ token });
           setPackageInfo(response?.data.data || null);
         }
       } catch (error) {
@@ -200,23 +200,25 @@ export const Layout = () => {
                   selected: isPartialActive("account"),
                 })}
               >
-                 {user && user.role === "Admin" ? (
-                <Link
-                  to="account"
-                  className={clsx(
-                    "sidebar-link sidebar-link warning-hover-bg",
-                    { active: isPartialActive("account") }
-                  )}
-                  aria-expanded="false"
-                >
-                  <span className="aside-icon p-2 bg-light-warning rounded-3">
-                    <i className="ti ti-article fs-7 text-warning"></i>
-                  </span>
-                  <span className="hide-menu ms-2 ps-1">Tài khoản</span>
-                </Link>)
-                : ""}
+                {user && user.role === "Admin" ? (
+                  <Link
+                    to="account"
+                    className={clsx(
+                      "sidebar-link sidebar-link warning-hover-bg",
+                      { active: isPartialActive("account") }
+                    )}
+                    aria-expanded="false"
+                  >
+                    <span className="aside-icon p-2 bg-light-warning rounded-3">
+                      <i className="ti ti-article fs-7 text-warning"></i>
+                    </span>
+                    <span className="hide-menu ms-2 ps-1">Tài khoản</span>
+                  </Link>
+                ) : (
+                  ""
+                )}
               </li>
-              
+
               <li
                 className={clsx("sidebar-item", {
                   selected: isPartialActive("notification"),
@@ -237,14 +239,16 @@ export const Layout = () => {
               </li>
               <li
                 className={clsx("sidebar-item", {
-                  selected: isPartialActive("motel"),
+                  selected: isPartialActive("motel") || isPartialActive("indexOwner"),
                 })}
               >
                 <Link
                   to={user?.role === "Owner" ? "indexOwner" : "motel"}
                   className={clsx(
                     "sidebar-link sidebar-link success-hover-bg",
-                    { active: isPartialActive("motel") }
+                    {
+                      active:isPartialActive("indexOwner") || isPartialActive("motel"),
+                    }
                   )}
                   aria-expanded="false"
                 >
@@ -392,7 +396,8 @@ export const Layout = () => {
                         className="rounded-circle"
                       />
                       {packageInfo && (
-                      <i className="fa-light fa-crown icon-vip-user-header-admin"></i>)}
+                        <i className="fa-light fa-crown icon-vip-user-header-admin"></i>
+                      )}
                     </div>
 
                     <div className="ps-2">

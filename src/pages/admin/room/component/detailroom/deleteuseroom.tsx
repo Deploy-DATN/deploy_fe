@@ -1,5 +1,6 @@
 import { DeleteUserRoomApi } from '@/services/api/MotelApi';
 import React from 'react'
+import Swal from 'sweetalert2';
 
 interface DeleteuseroomProps {
   onClose: () => void;
@@ -12,9 +13,14 @@ const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId, userId }
   const handleDeleteUserRoom = async () => {
     const response = await DeleteUserRoomApi(roomId, userId);
     if (response.code === 200) {
-      alert('Xóa người thuê thành công');
+
       onClose();
       location.reload();
+      Swal.fire({
+				icon: "warning",
+				title: "Thành công",
+				text: "Xóa người thuê thành công!",
+			  });
     }
   };
 
@@ -41,7 +47,7 @@ const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId, userId }
                   className="btn-luu-all btn-style btn-transform-y2"
                   onClick={() => handleDeleteUserRoom()}
                 >
-                  Lưu
+                  Xóa
                 </button>
               </div>
             </form>
