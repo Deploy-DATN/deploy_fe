@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, GetRoomTypeDTO_Room, SendElicWaterDTO } from '@/services/Dto/MotelDto';
 import { GetPriceByRoomTypeApi, GetRoomTypeByAddElicWaterApi, SendElicWaterApi } from '@/services/api/MotelApi';
+import { formatCurrency } from './detailroom/billroom';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
@@ -29,8 +30,6 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 		total: '',
 	});
 
-
-	
 	const handSaveclick = async () => {
 		setErrors({});
 		let hasError = false;
@@ -65,17 +64,11 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 			totalWater: String(newTotalWater),
 			totalOther: String(newTotalOther),
 			totalRoom: String(newTotalRoom),
-			total: (
-				Number(newTotalElectric) +
-				Number(newTotalWater) +
-				Number(newTotalOther) +
-				Number(newTotalRoom)
-			).toString()
+			total: (Number(newTotalElectric) + Number(newTotalWater) + Number(newTotalOther) + Number(newTotalRoom)).toString(),
 		};
 
 		await setBillDetails(newBillDetails);
 		setTimeout(() => {
-			console.log(newBillDetails);
 			setIsConfirm(true);
 		}, 0);
 	};
@@ -115,7 +108,6 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 
 	const [activeRoom, setActiveRoom] = useState<number | null>(null);
 
-
 	const handleRoomNumber = async (roomId: number) => {
 		setActiveRoom(roomId);
 
@@ -140,6 +132,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 
 	const HandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
+		setIsConfirm(false);
 		setSendElicWaterDTO({ ...sendElicWaterDTO, [name]: value });
 		validateField(name, value);
 	};
@@ -173,6 +166,18 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 			}
 		}
 
+		if (name === 'other') {
+			// Chỉ kiểm tra khi có giá trị nhập vào
+			if (value && value.trim() !== '') {
+				if (Number(value) <= 1000 || isNaN(Number(value))) {
+					setErrors((prev) => ({ ...prev, [name]: 'Giá trị phải lớn hơn 1.000 VNĐ' }));
+					return false;
+				}
+			}
+			// Xóa lỗi nếu trường input trống
+			setErrors((prev) => ({ ...prev, [name]: '' }));
+		}
+
 		setErrors((prev) => ({ ...prev, [name]: '' }));
 		return true;
 	};
@@ -200,7 +205,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 				return;
 			}
 			sendElicWaterDTO.roomId = roomId;
-			
+
 			const res = await SendElicWaterApi(sendElicWaterDTO);
 			if (res.code === 200) {
 				Swal.fire({
@@ -209,6 +214,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 					text: "thêm số điện, nước thành công!",
 				  });
 				onClose();
+				location.reload();
 			}
 		} catch (error) {
 			Swal.fire({
@@ -232,9 +238,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 							{data.map((item) => (
 								<a
 									key={item.id}
-									className={`btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2 ${
-										activeRoom === item.id ? 'active-filter-motel' : ''
-									}`}
+									className={`btn btn-filter btn-sm px-3 py-2 mx-3 mb-3 btn-transform-y2 ${activeRoom === item.id ? 'active-filter-motel' : ''}`}
 									onClick={() => handleRoomNumber(item.id)}>
 									Phòng {item.roomNumber}
 								</a>
@@ -311,7 +315,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 								<label
 									htmlFor='description'
 									className=''>
-									Chi phí khác
+									Chi phí khác (VND)
 								</label>
 								<input
 									type='text'
@@ -336,25 +340,25 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 								<div className='border-bottom-info-bill mt-3'></div>
 								<div className='text-info-bill mt-2'>
 									<p className='d-flex justify-content-between'>
-										Tiền điện: <span> {billDetails.totalElectric}</span>{' '}
+										Tiền điện: <span> {formatCurrency(Number(billDetails.totalElectric))}</span>{' '}
 									</p>
 									<p className='d-flex justify-content-between'>
-										Tiền nước: <span> {billDetails.totalWater}</span>
+										Tiền nước: <span> {formatCurrency(Number(billDetails.totalWater))}</span>
 									</p>
 									<p className='d-flex justify-content-between'>
-										Tiền thuê trọ: <span> {billDetails.totalRoom}</span>
-									</p>
-								</div>
-								<div className='border-bottom-info-bill mt-3'></div>
-								<div className='text-info-bill mt-2'>
-									<p className='d-flex justify-content-between'>
-										Chi phi khác: <span> {billDetails.totalOther}</span>
+										Tiền thuê trọ: <span> {formatCurrency(Number(billDetails.totalRoom))}</span>
 									</p>
 								</div>
 								<div className='border-bottom-info-bill mt-3'></div>
 								<div className='text-info-bill mt-2'>
 									<p className='d-flex justify-content-between'>
-										Thành tiền: <span> {billDetails.total}</span>{' '}
+										Chi phi khác: <span> {formatCurrency(Number(billDetails.totalOther))}</span>
+									</p>
+								</div>
+								<div className='border-bottom-info-bill mt-3'></div>
+								<div className='text-info-bill mt-2'>
+									<p className='d-flex justify-content-between'>
+										Thành tiền: <span> {formatCurrency(Number(billDetails.total))}</span>{' '}
 									</p>
 								</div>
 							</div>
