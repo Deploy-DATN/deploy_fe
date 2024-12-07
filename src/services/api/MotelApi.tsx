@@ -252,3 +252,10 @@ export const GetPriceByRoomTypeApi = async (id: number) => {
 	const response = await axios.get<ResponseDTO<GetPriceByRoomTypeDTO>>(`${API_URL}/Room/get-price-by-room-type-id/${id}`);
 	return response.data;
 };
+
+export const SentBillToEmail = async (billId: number) => {
+	const response = await axios.get(`${API_URL}/send-bill-email`, {
+		params: { billId }, // Gửi `billId` như query string
+	  });
+	return response.data;
+};
