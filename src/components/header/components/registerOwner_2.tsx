@@ -9,6 +9,7 @@ import { useState, useRef } from "react";
 import Swal from "sweetalert2";
 
 import '../styles/registerOwner_2.scss'
+import { Editor } from "@tinymce/tinymce-react";
 
 interface Props {
     onNext: (data: Result) => void;
@@ -133,7 +134,7 @@ const RegisterOwner_2 = ({ onNext }: Props) => {
                     </div>
                 </div>
                 <div className="mb-3">
-                    <InputField
+                    {/* <InputField
                         control={control}
                         label="Giới thiệu phòng:"
                         name="descriptionRoomType"
@@ -141,6 +142,31 @@ const RegisterOwner_2 = ({ onNext }: Props) => {
                         errors={errors}
                         rows={4}
                         classname={`form-control ${errors.descriptionRoomType ? "is-invalid" : ""}`}
+                    /> */}
+                    <Controller
+                        name="descriptionRoomType"
+                        control={control}
+                        render={({ field }) => (
+                            <div>
+                                <Editor
+                                    apiKey="5xbwcmrb59xx0v3s64b62ge0xvr0on8enfdafu51357g0d1a"
+                                    value={field.value}
+                                    onEditorChange={field.onChange}
+                                    init={{
+                                        height: 150, // Tương đương rows=4
+                                        menubar: false,
+                                        placeholder: "Giới thiệu phòng:",
+                                        content_css: false,
+                                        body_class: `form-control mt-2 input-motel-info`, // Thêm class
+                                    }}
+                                />
+                                {errors.descriptionRoomType && (
+                            <div className="error-description">
+                                        {errors.descriptionRoomType.message}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     />
                 </div>
             </div>

@@ -373,7 +373,7 @@ export const EditMotelOwner = () => {
     } catch (error: any) {
       Swal.fire({
         icon: "error",
-        title: "Khóa!",
+        title: "Thất bại!",
         text: "Sửa dãy trọ thất bại",
       });
       console.log("lỗi r" + error.message);

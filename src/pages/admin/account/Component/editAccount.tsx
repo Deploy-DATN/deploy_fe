@@ -138,7 +138,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
         if (response.data.code === 404) {
           Swal.fire({
             icon: "error",
-            title: "Lỗi!",
+            title: "Thất bại!",
             text: "Sửa tài khoản thất bại" + response.data.message,
           });
           console.log(response.data.message);

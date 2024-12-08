@@ -35,63 +35,50 @@ export const Admin = () => {
           <Route path="adminprofile" element={<Profile />} />
           <Route path="changepassword" element={<ChangePassword />} />
           <Route index element={<Dashboard />} />
-          {/* nào test xong xóa sau */}
-          <Route path="roomtest" element={<Roomtesst />} />
-          <Route path="inforoom" element={<Inforoom />} />
-          <Route path="testcode/:id" element={<Testcode />} />
-          <Route path="indexOwner">
-            <Route index element={<IndexOwner />} />
-            <Route path="addModelOwner" element={<AddMotelOwner />} />
-            <Route path="EditModelOwner/:id" element={<EditMotelOwner />} />
+          <Route path="testcode" element={<Testcode />} />
+          {/* cả 3 */}
+          <Route element={<ProtectedRoute allowedRoles={["Admin" , "Owner" , "Staff"]} />}>
+            <Route path="ticket">
+              <Route index element={<TicketPage />} />
+              <Route path=":id" element={<Infoticket />} />
+            </Route>
+            <Route path="notification" element={<Notification />} />
           </Route>
-          <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
-          <Route path="bill" element={<Bill />} />
-          <Route path="support" element={<CreateTicket />} />
-          <Route path="ticket">
-            <Route index element={<TicketPage />} />
-            <Route path=":id" element={<Infoticket />} />
+          {/* Admin - Owner */}
+          <Route element={<ProtectedRoute allowedRoles={["Admin", "Owner"]} />}>
+          <Route path="roomtest/:motelId" element={<Roomtesst />} />
+          <Route path="inforoom/:id" element={<Inforoom />} />
           </Route>
-          <Route path="account" element={<Account />}></Route>
-          <Route path="notification" element={<Notification />} />
-          <Route path="package" element={<Package />} />
-          {/* xóa tới đây */}
-          {/* Routes chỉ dành cho Admin */}
-          <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
+          {/* Admin - Staff */}
+          <Route element={<ProtectedRoute allowedRoles={["Admin", "Staff"]} />}>
             <Route path="motel">
               <Route index element={<Motel />} />
             </Route>
           </Route>
-
-          {/* Routes chỉ dành cho Admin và Owner */}
+          {/* Admin - Owner */}
           <Route element={<ProtectedRoute allowedRoles={["Admin", "Owner"]} />}>
-            <Route path="roomtest/:motelId" element={<Roomtesst />} />
-            <Route path="inforoom/:id" element={<Inforoom />} />
-          </Route>
 
-          {/* Routes chỉ dành cho Owner */}
-          <Route element={<ProtectedRoute allowedRoles={["Owner"]} />}>
-            <Route path="indexOwner">
-              <Route index element={<IndexOwner />} />
-              <Route path="addModelOwner" element={<AddMotelOwner />} />
-              <Route path="EditModelOwner/:id" element={<EditMotelOwner />} />
+          </Route>
+          {/* Admin */}
+          <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
+            <Route path="motel">
+              <Route index element={<Motel />} />
             </Route>
-            <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
-            <Route path="bill" element={<Bill />} />
-            <Route path="support" element={<CreateTicket />} />
-            <Route path="package" element={<Package />} />
+            <Route path="account" element={<Account />}></Route>
+          </Route>
+          {/* Owner */}
+          <Route element={<ProtectedRoute allowedRoles={["Owner"]} />}>
+              <Route path="indexOwner">
+                <Route index element={<IndexOwner />} />
+                <Route path="addModelOwner" element={<AddMotelOwner />} />
+                <Route path="EditModelOwner/:id" element={<EditMotelOwner />} />
+              </Route>
+              <Route path="OwnerIndexNoti" element={<OwnerIndexNoti />} />
+              <Route path="bill" element={<Bill />} />
+              <Route path="support" element={<CreateTicket />} />
+              <Route path="package" element={<Package />} />
           </Route>
 
-          <Route element={<ProtectedRoute allowedRoles={["Admin", "Staff"]} />}>
-            <Route path="notification" element={<Notification />} />
-          </Route>
-
-          {/* Routes chung cho tất cả roles admin */}
-
-          <Route path="ticket">
-            <Route index element={<TicketPage />} />
-            <Route path=":id" element={<Infoticket />} />
-          </Route>
-          <Route path="account" element={<Account />}></Route>
         </Route>
         <Route path="*" element={<Err />} />
       </Routes>

@@ -159,7 +159,7 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
         if (response.data.code === 404) {
           Swal.fire({
             icon: "error",
-            title: "Lỗi!",
+            title: "Thất bại!",
             text: "Thêm tài khoản thất bại",
           });
           console.log(response.data.message);

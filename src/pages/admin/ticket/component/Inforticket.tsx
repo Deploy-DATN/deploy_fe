@@ -88,7 +88,7 @@ const Infoticket = () => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Thành công',
-                    text: 'Thành công',
+                    text: 'Sửa ticket thành công',
                 });
                 navigate('/admin/ticket');
 
@@ -96,7 +96,7 @@ const Infoticket = () => {
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi!',
-                    text: 'Thất bại',
+                    text: 'Sửa ticket thất bại',
                 });
             }
 

@@ -219,7 +219,7 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 		} catch (error) {
 			Swal.fire({
 				icon: "error",
-				title: "Thành công",
+				title: "Thất bại!",
 				text: "thêm số điện, nước thất bại!",
 			  });
 			console.log(error);
