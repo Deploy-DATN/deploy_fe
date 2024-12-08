@@ -44,7 +44,7 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 		} else{
 			Swal.fire({
                 icon: "error",
-                title: "Lỗi",
+                title: "Thất bại!",
                 text: "Thêm người thuê thất bại!",
               });
 		}
@@ -54,7 +54,7 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 		const response = await DeleteUserRoomApi(roomId, userId);
 		if (response.code === 200) {
 			Swal.fire({
-				icon: "warning",
+				icon: "success",
 				title: "Thành công",
 				text: "Xóa người thuê thành công!",
 			  });

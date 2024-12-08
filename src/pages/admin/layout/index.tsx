@@ -168,29 +168,36 @@ export const Layout = () => {
           {/* <!-- Sidebar navigation--> */}
           <nav className="sidebar-nav">
             <ul id="sidebarnav" className="mb-4 pb-2 in">
-              <li className="nav-small-cap">
-                <i className="ti ti-dots nav-small-cap-icon fs-5"></i>
-                <span className="hide-menu">Trang chủ</span>
-              </li>
-              <li
-                className={clsx("sidebar-item", {
-                  selected: isExactActive("/admin"),
-                })}
-              >
-                <Link
-                  to="/admin"
-                  className={clsx(
-                    "sidebar-link sidebar-link primary-hover-bg",
-                    { active: isExactActive("/admin") }
-                  )}
-                  aria-expanded="false"
-                >
-                  <span className="aside-icon p-2 bg-light-primary rounded-3">
-                    <i className="ti ti-layout-dashboard fs-7 text-primary"></i>
-                  </span>
-                  <span className="hide-menu ms-2 ps-1">Bảng điều khiển</span>
-                </Link>
-              </li>
+            {user && ( user.role === "Admin" || user.role === "Owner"  )? (
+                <>
+                  <li className="nav-small-cap">
+                    <i className="ti ti-dots nav-small-cap-icon fs-5"></i>
+                    <span className="hide-menu">Trang chủ</span>
+                  </li>
+                  <li
+                    className={clsx("sidebar-item", {
+                      selected: isExactActive("/admin"),
+                    })}
+                  >
+                    <Link
+                      to="/admin"
+                      className={clsx(
+                        "sidebar-link sidebar-link primary-hover-bg",
+                        { active: isExactActive("/admin") }
+                      )}
+                      aria-expanded="false"
+                    >
+                      <span className="aside-icon p-2 bg-light-primary rounded-3">
+                        <i className="ti ti-layout-dashboard fs-7 text-primary"></i>
+                      </span>
+                      <span className="hide-menu ms-2 ps-1">Bảng điều khiển</span>
+                    </Link>
+                  </li>
+                </>
+                ) : (
+                  ""
+                )}
+
               <li className="nav-small-cap">
                 <i className="ti ti-dots nav-small-cap-icon fs-5"></i>
                 <span className="hide-menu">Quản lý</span>

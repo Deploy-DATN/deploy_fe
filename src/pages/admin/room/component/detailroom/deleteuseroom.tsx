@@ -17,7 +17,7 @@ const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId, userId }
       onClose();
       location.reload();
       Swal.fire({
-				icon: "warning",
+				icon: "success",
 				title: "Thành công",
 				text: "Xóa người thuê thành công!",
 			  });

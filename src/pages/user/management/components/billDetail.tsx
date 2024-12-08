@@ -41,7 +41,7 @@ const BillDetail = () => {
         const formattedDate = new Date(date);
         return formattedDate.toLocaleDateString('vi-VN'); // Định dạng ngày theo kiểu Việt Nam (Ngày/Tháng/Năm)
     };
-
+    console.log(billData);
     return (
         <div className="bill-detail py-4 px-5">
             <div className="title text-dark mb-3 ">
@@ -55,10 +55,10 @@ const BillDetail = () => {
                                 Tên dãy trọ: {billData?.motelName}
                             </div>
                             <div className="text-dark motel-description__address">
-                                Phòng: {billData?.address}
+                                Phòng: {billData?.roomNumber}
                             </div>
                             <div className="text-dark motel-description__room-name">
-                                {billData?.roomNumber}
+                                {billData?.address}
                             </div>
                         </div>
                         <div className="user-name text-dark">

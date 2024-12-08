@@ -14,14 +14,14 @@ const createTicket = () => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Thành công',
-                    text: 'Thành công',
+                    text: 'Thêm tichket thành công',
                 });
                 reset();
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi!',
-                    text: 'Thất bại',
+                    text: 'Thêm tichket thất bại',
                 });
             }
 

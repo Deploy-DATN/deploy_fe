@@ -250,7 +250,8 @@ export const EditMotelOwner = () => {
         icon: "error",
         title: "Lỗi!",
         text: "Sửa dãy trọ thất bại",
-      });      console.log("lỗi r");
+      }); 
+           console.log("lỗi r");
     }
   };
 

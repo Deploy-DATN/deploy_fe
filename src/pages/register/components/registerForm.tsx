@@ -81,7 +81,7 @@ const RegisterForm: React.FC<RegisterProps> = ({ onSubmit }) => {
             <div className={clsx(style.text, "form-group")} style={{ minHeight: '80px' }}>
                 <InputField
                     control={control}
-                    label="số điện thoại"
+                    label="Số điện thoại"
                     name="phone"
                     type="text"
                     errors={errors}

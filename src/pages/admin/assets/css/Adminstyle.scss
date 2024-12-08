@@ -24,13 +24,14 @@
 //địa chỉ motel
 .motel-diachi {
   display: flex;
-  align-items: center;
+  // align-items: center;
   display: block; /* Đảm bảo khối không bị ảnh hưởng bởi các phần tử khác */
   white-space: nowrap; /* Ngăn xuống dòng */
   overflow: hidden; /* Ẩn nội dung vượt ra ngoài */
   text-overflow: ellipsis; /* Hiển thị dấu "..." */
-  max-width: 200px; /* Giới hạn chiều dài tối đa */
-  p {
+  width: 100%;
+  max-width: 220px; /* Giới hạn chiều dài tối đa */
+      p {
     display: inline; /* Đảm bảo nội dung trong thẻ <p> được gộp lại thành một dòng */
     margin: 0; /* Xóa margin mặc định */
   }

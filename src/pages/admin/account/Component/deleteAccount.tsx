@@ -31,7 +31,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
     } catch (error) {
       Swal.fire({
         icon: "error",
-        title: "Lỗi!",
+        title: "Thất bại!",
         text: "Xóa tài khoản thất bại" + error,
       });
       console.log(error);

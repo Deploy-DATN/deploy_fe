@@ -176,9 +176,12 @@ const Addroom: React.FC<{
           icon: "success",
           title: "Thành công!",
           text: "Thêm phòng trọ thành công",
+        }).then(() => {
+          // Lưu trạng thái thông báo vào localStorage
+          localStorage.setItem("showNotification", "true");
+          localStorage.setItem("notificationMessage", "Thêm phòng trọ thành công");
+          window.location.reload();
         });
-        window.location.reload();
-        onClose();
       }
     } catch (error: any) {
       Swal.fire({

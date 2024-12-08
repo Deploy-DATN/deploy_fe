@@ -94,7 +94,7 @@ const MyMotel = () => {
                                         <h4>Trọ: {item.name} {item.status === 1 && "(Đang chờ duyệt)"}</h4>
                                         <div>Địa chỉ: {item.address}</div>
                                         <div>Tổng phòng: {item.roomType.reduce((sum, room) => sum + room.totalRoom, 0)}</div>
-                                        <div>Mô tả: {item.description}</div>
+                                        <div className='d-flex'>Mô tả: <div className="motel-diachi ps-2" dangerouslySetInnerHTML={{ __html: item?.description || "",}}></div></div>
                                         <div>Ngày tạo: {format(item?.createDate ? new Date(item.createDate) : new Date(), 'dd/MM/yyyy')}</div>
                                     </div>
                                     <div className='mb-3'>
@@ -108,7 +108,7 @@ const MyMotel = () => {
                                         {item.roomType.length > 0 && item.roomType.map((item, index) => (
                                             <Fragment key={item.id}>
                                                 <div>Phòng: {item.name}</div>
-                                                <div>Mô tả: {item.description}</div>
+                                                <div className='d-flex'>Mô tả: <div className="motel-diachi ps-2" dangerouslySetInnerHTML={{ __html: item?.description || "",}}></div></div>
                                                 <div>Giá: {`${item.price} vnd`}</div>
                                                 <div>Diện tích: {`${item.area} ${`m${"\u00B2"}`}`}</div>
                                                 <div>Số lượng phòng: {item.totalRoom}</div>
