@@ -13,6 +13,10 @@ export const Bill: React.FC = () => {
         setShowModal(false);
       };
 
+  function handleUpdate(): void {
+    // gọi lại danh sách
+  }
+
   return (
     <div className="container-fluid noti-container">
       <div className="row align-items-stretch  mt-3">
@@ -110,7 +114,7 @@ export const Bill: React.FC = () => {
               </nav>
             </div>
           </div>
-          {showModal && <InfoBill onClose={handleCloseModal} />}
+          {showModal && <InfoBill onClose={handleCloseModal} onUpdate={handleUpdate} billId={1}/>}
         </div>
       </div>
     </div>
