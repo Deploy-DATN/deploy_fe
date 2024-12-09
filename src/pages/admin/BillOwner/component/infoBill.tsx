@@ -23,7 +23,7 @@ export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
       }
     };
     billById();
-    console.log("BillID trước",billId);
+   
   }, [billId]);
 
   const [isLoading, setIsLoading] = useState(false); // Loading state
@@ -36,7 +36,7 @@ export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
 
     try {
       const sentBill= await SentBillToEmail(billId);
-      console.log("sentBill",sentBill.data);
+    
       if(sentBill.data == true ){
         Swal.fire({
           icon: "success",

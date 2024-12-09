@@ -92,7 +92,6 @@ const Header = () => {
     setSelectedWard("Phường");
   }, [selectedDistrict]);
   const handleSearch = () => {
-    console.log("Giá trị bộ lọc hiện tại: ", selectedProvince.name, selectedDistrict.name, selectedWard);
     const searchLink = `/search?Province=${encodeURIComponent(selectedProvince.name)}&District=${encodeURIComponent(selectedDistrict.name)}&Ward=${encodeURIComponent(selectedWard)}&search=${encodeURIComponent(searchQuery)}`;
     navigate(searchLink);
   };

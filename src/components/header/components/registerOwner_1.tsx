@@ -68,12 +68,6 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
   }, [selectedDistrict]);
 
   useEffect(() => {
-    console.log(
-      "Giá trị bộ lọc hiện tại: ",
-      selectedProvince.name,
-      selectedDistrict.name,
-      selectedWard
-    );
   }, [selectedProvince, selectedDistrict, selectedWard]);
   const validateAddress = () => {
     if (!selectedProvince.name || selectedProvince.code === null) {
@@ -138,7 +132,6 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
   const onSubmit = (data: Motel) => {
     if (!validateAddress()) {
       return; // Ngừng xử lý nếu địa chỉ không hợp lệ
-      console.log("errrrrrrrrrr")
     }
     const fullAddress = ` ${selectedWard}, ${selectedDistrict.name}, ${selectedProvince.name}`;
 
