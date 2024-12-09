@@ -15,7 +15,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
   const onDelete = async () => {
     try {
       const response = await deleteUser(userId);
-      console.log(response);
+    
       if (response.status !== 200) {
         throw new Error(response.statusText);
       }
@@ -34,7 +34,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
         title: "Thất bại!",
         text: "Xóa tài khoản thất bại" + error,
       });
-      console.log(error);
+    
     }
   };
   return (

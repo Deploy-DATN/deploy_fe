@@ -32,7 +32,6 @@ export const getUserById = (id: number) => {
     return axios.get(API.GETUSERBYID + id);
 }
 export const updateUser = (id: number, data: User) => {
-    console.log(id, data);
     return axios.put(API.UPDATEUSER + id, data, {
         validateStatus: status => (status >= 200 && status < 300) || status === 400
     });

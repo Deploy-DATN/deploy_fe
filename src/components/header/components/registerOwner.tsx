@@ -116,7 +116,6 @@ const RegisterOwner = ({ show, onHide }: Props) => {
                 } catch (error) {
                     onHide();
                     setStep(1);
-                    console.log(`Lỗi lấy user ${error}`);
                     Swal.fire({
                         icon: 'error',
                         title: 'Lỗi!',

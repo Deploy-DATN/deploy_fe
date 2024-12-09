@@ -74,12 +74,6 @@ export const EditMotelOwner = () => {
   }, [selectedDistrict]);
 
   useEffect(() => {
-    console.log(
-      "Giá trị bộ lọc hiện tại: ",
-      selectedProvince.name,
-      selectedDistrict.name,
-      selectedWard
-    );
   }, [selectedProvince, selectedDistrict, selectedWard]);
 
   useEffect(() => {
@@ -166,9 +160,7 @@ export const EditMotelOwner = () => {
   // Thêm hàm validate
   const validateField = (name: string, value: string) => {
     if (name === "province") {
-      console.log("Province: ", selectedProvince);
-      console.log("District: ", selectedDistrict);
-      console.log("Ward: ", selectedWard);
+    
       if (!selectedProvince.name) {
         setErrors((prev) => ({
           ...prev,
@@ -251,7 +243,7 @@ export const EditMotelOwner = () => {
         title: "Lỗi!",
         text: "Sửa dãy trọ thất bại",
       }); 
-           console.log("lỗi r");
+    
     }
   };
 
