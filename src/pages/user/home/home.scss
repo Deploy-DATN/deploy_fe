@@ -21,6 +21,17 @@
     }
   }
 }
+.price-home-1{
+  font-size: 16px;
+  color: #ff5c00;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  margin: 0;
+}
 //button vị trí and tiền?
 .search-box {
   padding: 0.5rem 1rem;
@@ -170,14 +181,16 @@
   object-fit: cover;
 }
 .name-motel-home-1 {
-  color: #111827;
+  font-size: 20px;
+  color: #111111;
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .dia-chi-motel-home-1 {
-  color: #6b7280;
+  color: #111111;
+  font-weight: 500;
   display: -webkit-box;
   -webkit-line-clamp: 2; // Giới hạn tối đa 2 dòng
   -webkit-box-orient: vertical;
@@ -186,14 +199,14 @@
 }
 //trọ 2
 .home-show-motel-2 {
-  background-color: #00b0741a;
+  // background-color: #00b0741a;
   padding-left: 2.5rem;
   padding-right: 2.5rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
 
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
   @media (max-width: 991px) {
     padding: 1rem;
   }
@@ -201,8 +214,16 @@
   }
 }
 
+.border-motel-info-home{
+  // border: 1px solid #616161;
+  border-radius: 10px;
+  box-shadow: var(--bs-box-shadow-sm) !important;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
 .btn-home-motel-slide-new {
-  border: 1px solid #e5e7eb;
+  border: 1px solid #c7c7c7;
   background-color: #ffffff;
   width: 40px;
   height: 40px;

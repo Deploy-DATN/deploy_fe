@@ -287,7 +287,7 @@ export const indexOwner = () => {
                         onChange={(e) => HandleSearch(e.target.value)}
                         type="search"
                         className="form-control border-0"
-                        placeholder="Tìm kiếm tiêu đề"
+                        placeholder="Tìm kiếm trọ"
                       />
                     </form>
                   </div>

@@ -45,9 +45,13 @@ const Addroomintype: React.FC<Addroomintype> = ({ onClose, roomTypeId }) => {
         icon: "success",
         title: "Thành công!",
         text: "Thêm phòng thành công",
-      });
-	  onClose();
-      window.location.reload();
+      }).then(() => {
+        // Lưu trạng thái thông báo vào localStorage
+        localStorage.setItem("showNotification", "true");
+        onClose();
+        window.location.reload();
+        });
+
     } else {
       Swal.fire({
         icon: "error",

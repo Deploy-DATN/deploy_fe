@@ -112,9 +112,10 @@ function HomeMotelNew() {
         <div className="row">
           {roomtypes && roomtypes.length > 0 ? (
             roomtypes.map((roomtype, index) => (
-              <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3" onClick={() => handleMotelClick(roomtype.id)}>
+              <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3 " onClick={() => handleMotelClick(roomtype.id)}>
                 {/* Slider */}
-                <div>
+                <div className="border-motel-info-home">
+                <div className="">
                   <div
                     id={`carouselExampleIndicators-1-${roomtype.id}`}
                     className="carousel slide"
@@ -172,22 +173,24 @@ function HomeMotelNew() {
                     <FontAwesomeIcon
                       icon={faLocationDot}
                       size="lg"
-                      color="#6B7280"
+                      color="#ff522a"
                       className="icon-table-motel me-2"
                     />
                     {roomtype.address || "Address not available"}
                   </p>
                   {/* Hiển thị giá từ roomType */}
-                  <span key={index}>
+                  <span key={index} className="price-home-1">
                     <FontAwesomeIcon
                       icon={faMoneyBill}
                       size="lg"
-                      color="#6B7280"
+                      color="#298B90"
                       className="icon-table-motel me-2"
                     />
-                    {formatPrice(roomtype.price)}
+                    {formatPrice(roomtype.price)}đ
                   </span>
                 </div>
+                </div>
+
               </div>
             ))
           ) : (

@@ -96,6 +96,8 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
             displayedMotels.map((motel, index) => (
               motel && motel.images && Array.isArray(motel.images) && motel.images.length > 0 ? (
                 <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3" >
+                  <div className="border-motel-info-home">
+
                   {/* Slider */}
                   <div className="" onClick={() => handleMotelClick(motel.id)}>
                     <div
@@ -144,20 +146,21 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
                       <FontAwesomeIcon
                         icon={faLocationDot}
                         size="lg"
-                        color="#6B7280"
+                        color="#ff522a"
                         className="icon-table-motel me-2"
                       />
                       {motel.address}
                     </p>
-                    <span>
+                    <span className="price-home-1">
                       <FontAwesomeIcon
                         icon={faMoneyBill}
                         size="lg"
-                        color="#6B7280"
+                        color="#298B90"
                         className="icon-table-motel me-2"
                       />
-                      {motel.price}
+                      {Number(motel?.price)?.toLocaleString('vi-VN')}đ
                     </span>
+                  </div>
                   </div>
                 </div>
               ) : (

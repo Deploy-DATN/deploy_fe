@@ -15,7 +15,7 @@ interface EditRoomProps {
 const EditRoomType: React.FC<EditRoomProps> = ({ onClose, roomTypeId }) => {
   // Thêm state errors ở đầu component
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // Thêm hàm validate
   const validateField = (name: string, value: string) => {
     if (
@@ -190,8 +190,12 @@ const EditRoomType: React.FC<EditRoomProps> = ({ onClose, roomTypeId }) => {
           icon: "success",
           title: "Thành công",
           text: "Sửa loại phòng thành công",
+        }).then(() => {
+          // Lưu trạng thái thông báo vào localStorage
+          localStorage.setItem("showNotification", "true");
+          navigate(0);
+
         });
-		navigate(0);
       }
     } catch (error: any) {
       Swal.fire({

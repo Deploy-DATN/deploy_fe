@@ -13,15 +13,16 @@ const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId, userId }
   const handleDeleteUserRoom = async () => {
     const response = await DeleteUserRoomApi(roomId, userId);
     if (response.code === 200) {
-
-      onClose();
-      location.reload();
       Swal.fire({
 				icon: "success",
 				title: "Thành công",
 				text: "Xóa người thuê thành công!",
-			  });
-    }
+      }).then(() => {
+				// Lưu trạng thái thông báo vào localStorage
+				localStorage.setItem("showNotification", "true");
+				onClose();
+				location.reload();
+				});    }
   };
 
     return (

@@ -38,9 +38,12 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 				icon: "success",
 				title: "Thành công",
 				text: "Thêm người thuê thành công",
-			  });
-			onClose();
-			location.reload();
+			  }).then(() => {
+				// Lưu trạng thái thông báo vào localStorage
+				localStorage.setItem("showNotification", "true");
+				onClose();
+				location.reload();
+			});
 		} else{
 			Swal.fire({
                 icon: "error",
@@ -57,9 +60,13 @@ const AddUserRoom: React.FC<AddUserRoomProps> = ({ onClose, roomId }) => {
 				icon: "success",
 				title: "Thành công",
 				text: "Xóa người thuê thành công!",
-			  });
-			onClose();
-			location.reload();
+			  }).then(() => {
+				// Lưu trạng thái thông báo vào localStorage
+				localStorage.setItem("showNotification", "true");
+				onClose();
+				location.reload();
+				});
+
 		}
 	};
 
