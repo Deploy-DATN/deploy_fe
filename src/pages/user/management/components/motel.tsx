@@ -148,14 +148,14 @@ const Motel = () => {
                             </div>
                         </div>
                         <div className="row">
-                            <div className={`col-6 ${rentalDetail.status === 2 ? 'd-none' : ''}`}>
+                            {/* <div className={`col-6 ${rentalDetail.status === 2 ? 'd-none' : ''}`}>
                                 <button
                                     className="btn col-10 btn-motel"
                                     onClick={() => handleVnPayPayment(rentalDetail.billId, rentalDetail.totalMoney)}
                                 >
                                     Thanh toán
                                 </button>
-                            </div>
+                            </div> */}
                             <Feedback motelId={rentalDetail.id} />
                         </div>
                     </div>

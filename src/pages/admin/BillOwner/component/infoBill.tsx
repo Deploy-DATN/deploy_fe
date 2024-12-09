@@ -23,7 +23,7 @@ export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
       }
     };
     billById();
-    console.log("BillID trước",billId);
+   
   }, [billId]);
 
   const [isLoading, setIsLoading] = useState(false); // Loading state
@@ -36,7 +36,7 @@ export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
 
     try {
       const sentBill= await SentBillToEmail(billId);
-      console.log("sentBill",sentBill.data);
+    
       if(sentBill.data == true ){
         Swal.fire({
           icon: "success",
@@ -145,14 +145,28 @@ export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
               >
                 Trở về
               </button>
-              <button
+              {
+                bill?.status == 1 ? (
+                  <button
                 type="button"
                 className="btn-luu-all btn-style btn-transform-y2"
                 onClick={handleSendEmail}
                 disabled={isLoading}
+
               >
-                 {isLoading ? "Đang gửi..." : "Gửi Hóa Đơn về Email"}
+                 {isLoading ? "Đang xử lý..." : "Xác nhận đã thanh toán"}
               </button>
+                ) : (
+                  <button
+                type="button"
+                className="btn-luu-all btn-style btn-transform-y2"
+                disabled={true}
+
+              >
+                Đã thanh toán
+              </button>
+                )
+              }
             </div>
           </form>
         </div>

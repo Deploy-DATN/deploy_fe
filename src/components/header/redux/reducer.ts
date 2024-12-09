@@ -85,7 +85,6 @@ export const getNoti = async () => {
     const res = await axios.get(API.USEDETAIL, { params: { token: token } })
     const emailuser: SentNoti = { email: res.data.email }
     const getNoti1 = await getSentNotiApi(emailuser);
-    console.log('api noti', getNoti1)
     return getNoti1.data;
   }
   return null

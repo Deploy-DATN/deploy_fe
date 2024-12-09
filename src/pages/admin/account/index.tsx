@@ -83,7 +83,7 @@ export const Account: React.FC = () => {
     // gọi ở đây
     try {
       const res = await getAllUser({ token, pageNumber: pageNumber });
-      console.log(res);
+     
       // đặt lại ng dùng
       if (res.data.code === 200) {
         setUsers(res.data.data.list);
