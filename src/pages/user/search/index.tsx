@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, } from "react-router-dom";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import FilterSearch from "./compenent/filtersearch";
 import { getSearchMotelApi } from "@/services/api/HomeApi";
 import "../search/search.scss";
@@ -43,8 +41,7 @@ export const SearchMotel = () => {
   useEffect(() => {
     const fetchMotels = async () => {
       setLoading(true);
-      //log ra xem có lấy được dữ liệu không
-      console.log(province, district, ward, search, currentPage, sortOption, filters.surrounding);
+    
 
       try {
         const response = await getSearchMotelApi(province, district, ward, search, currentPage, sortOption,
@@ -57,13 +54,12 @@ export const SearchMotel = () => {
         if (response.data && response.data.data) {
           setMotels(response.data.data.list);
           setTotalPages(response.data.data.totalPage || 1);
-          console.log(response.data);
-          console.log("Số trang", response.data.data.totalPage);
-          console.log(response.data.data.list);
-
+        }
+        else{
+          setMotels([]);
+          setTotalPages(0);
         }
       } catch (error) {
-        console.error("Error fetching motels:", error);
       } finally {
         setLoading(false);
       }
@@ -75,7 +71,7 @@ export const SearchMotel = () => {
 
   const handlePageChange = async (pageNumber: number) => {
     if (pageNumber < 1 || pageNumber > totalPages) return;
-    console.log("Tổng trang", totalPages);
+   
     setCurrentPage(pageNumber);
   };
 

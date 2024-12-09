@@ -26,11 +26,11 @@ const FilterSearch = ({
       surrounding: [],
     });
     onFilterChange({
-      minArea: 0,
-      maxArea: Infinity,
-      minPrice: 0,
-      maxPrice: Infinity,
-      surrounding: [],
+      minArea: 0, // Đặt lại giá trị minArea về 0
+      maxArea: 0, // Đặt lại giá trị maxArea về 0
+      minPrice: 0, // Đặt lại giá trị minPrice về 0
+      maxPrice: 0, // Đặt lại giá trị maxPrice về 0
+      surrounding: [], // Đặt lại các tùy chọn xung quanh
     });
   };
   
@@ -76,21 +76,21 @@ const FilterSearch = ({
           ? 0
           : filters.price === "3"
           ? 0
-          : 3000
+          : 3000000
         : null,
       maxPrice: filters.price
         ? filters.price === "1"
-          ? 1000
+          ? 1000000
           : filters.price === "2"
-          ? 2000
+          ? 2000000
           : filters.price === "3"
-          ? 3000
+          ? 3000000
           : Infinity
         : null,
       surrounding: filters.surrounding.length ? filters.surrounding : null,
     };
     onFilterChange(mappedFilters);
-    console.log("Bộ lọc đã ánh xạ: ", mappedFilters);
+  
   };
   return (
     <div className="filter-motel-search">
