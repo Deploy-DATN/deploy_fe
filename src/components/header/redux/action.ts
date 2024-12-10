@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
-import { getAccount, getMyMotel, getNoti, MyMotel, User, Notification } from './reducer'
+import { getAccount, getMyMotel, getNoti, MyMotel, User, Notification, getPackage, MyPackage } from './reducer'
 
 interface AccountState {
     user: User | null;
     myMotel: MyMotel[] | null;
     notification: Notification | null;
+    myPackage: MyPackage | null;
     isLoading: boolean;
     isErr: boolean;
 }
@@ -30,10 +31,18 @@ export const fetchMyNoti = createAsyncThunk(
     }
 )
 
+export const fetchPackage = createAsyncThunk(
+    'user/fetch_package',
+    async () => {
+        return await getPackage();
+    }
+)
+
 const initialState: AccountState = {
     user: null,
     myMotel: null,
     notification: null,
+    myPackage: null,
     isLoading: false,
     isErr: false
 }
@@ -88,6 +97,21 @@ export const action = createSlice({
                 state.isErr = false;
             })
             .addCase(fetchMyNoti.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isErr = true;
+            });
+
+        builder
+            .addCase(fetchPackage.fulfilled, (state, action) => {
+                state.myPackage = action.payload;
+                state.isLoading = false;
+                state.isErr = false;
+            })
+            .addCase(fetchPackage.pending, (state, action) => {
+                state.isLoading = true;
+                state.isErr = false;
+            })
+            .addCase(fetchPackage.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isErr = true;
             });

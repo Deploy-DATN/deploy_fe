@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState, } from "react";
 import { MotelDTO } from "@/services/Dto/MotelDto";
 import {
   DeleteMotel,
@@ -10,10 +10,71 @@ import {
 import "../styles/stylemotel.scss";
 import { FilterProps, PageDTO } from "..";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { RootState, userAppDispatch } from "@/redux/store";
+import { fetchPackage } from "@/components/header/redux/action";
 
 export const indexOwner = () => {
+
+  const { myPackage } = useSelector((state: RootState) => state.user);
+  const dispatch = userAppDispatch();
+  useEffect(() => {
+    dispatch(fetchPackage());
+  }, [dispatch]);
+
+
+  const [addLimit, setAddLimit] = useState<number>(0);
   const [motel, setMotel] = useState<MotelDTO[]>();
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (myPackage) {
+      switch (myPackage.name) {
+        case "VIP 1":
+          setAddLimit(1);
+          break;
+        case "VIP 2":
+          setAddLimit(2);
+          break;
+        case "VIP 3":
+          setAddLimit(3);
+          break;
+        case "VIP 4":
+          setAddLimit(4);
+          break;
+        case "VIP 5":
+          setAddLimit(5);
+          break;
+        default:
+          setAddLimit(0);
+          break;
+      }
+    } else {
+      setAddLimit(0); // Không có gói thì không được thêm
+    }
+  }, [myPackage]);
+  const handleAddMotel = () => {
+    if (addLimit > 0) {
+
+      Swal.fire({
+        icon: "success",
+        title: "Thêm thành công!",
+        text: "Chuyển đến trang thêm dãy trọ.",
+      }).then(() => {
+        setAddLimit((prevLimit) => prevLimit - 1);
+        navigate("addModelOwner");
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Không thể thêm!",
+        text: "Bạn đã đạt giới hạn số lần thêm dãy trọ.",
+      });
+    }
+  };
+
+
   const [query, setQuery] = useState<FilterProps>({
     status: null,
     pageNumber: 1,
@@ -30,6 +91,7 @@ export const indexOwner = () => {
   const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
   const [searchTerm, setSearchTerm] = useState<string>("");
   // ... existing code ...
+
 
   useEffect(() => {
     LoadData(query);
@@ -218,13 +280,15 @@ export const indexOwner = () => {
                 </div>
                 <div>
                   <div className="">
-                    <Link
-                      to="addModelOwner"
+
+                    <button
+                      onClick={handleAddMotel}
+                      disabled={!myPackage || addLimit <= 0}
                       className="btn btn-create-notification btn-transform-y2"
                     >
                       <i className="fa-regular fa-plus icon-table-motel fa-lg me-3"></i>
                       Thêm dãy trọ
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -232,49 +296,43 @@ export const indexOwner = () => {
                 <div className="d-flex  flex-wrap">
                   <a
                     onClick={() => HandleFilter(null)}
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                      activeFilter === null ? "active-filter-motel" : ""
-                    }`}
+                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeFilter === null ? "active-filter-motel" : ""
+                      }`}
                   >
                     Tất cả
                   </a>
                   <a
                     onClick={() => HandleFilter(1)}
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                      activeFilter === 1 ? "active-filter-motel" : ""
-                    }`}
+                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeFilter === 1 ? "active-filter-motel" : ""
+                      }`}
                   >
                     Chờ duyệt
                   </a>
                   <a
                     onClick={() => HandleFilter(2)}
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                      activeFilter === 2 ? "active-filter-motel" : ""
-                    }`}
+                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeFilter === 2 ? "active-filter-motel" : ""
+                      }`}
                   >
                     Đang hoạt động
                   </a>
                   <a
                     onClick={() => HandleFilter(3)}
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                      activeFilter === 3 ? "active-filter-motel" : ""
-                    }`}
+                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeFilter === 3 ? "active-filter-motel" : ""
+                      }`}
                   >
                     Ngừng hoạt động
                   </a>
                   <a
                     onClick={() => HandleFilter(4)}
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                      activeFilter === 4 ? "active-filter-motel" : ""
-                    }`}
+                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeFilter === 4 ? "active-filter-motel" : ""
+                      }`}
                   >
                     Từ chối
                   </a>
                   <a
                     onClick={() => HandleFilter(5)}
-                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
-                      activeFilter === 5 ? "active-filter-motel" : ""
-                    }`}
+                    className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${activeFilter === 5 ? "active-filter-motel" : ""
+                      }`}
                   >
                     Đã xoá
                   </a>
@@ -370,11 +428,10 @@ export const indexOwner = () => {
                         onClick={() => HandlePage(index + 1)}
                       >
                         <a
-                          className={`page-link btn-filter ${
-                            page.pageNumber === index + 1
-                              ? "active-filter-motel"
-                              : ""
-                          }`}
+                          className={`page-link btn-filter ${page.pageNumber === index + 1
+                            ? "active-filter-motel"
+                            : ""
+                            }`}
                         >
                           {index + 1}
                         </a>

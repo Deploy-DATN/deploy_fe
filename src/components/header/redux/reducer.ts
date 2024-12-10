@@ -60,6 +60,17 @@ export interface Notification {
   }[];
 }
 
+export interface MyPackage {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  createDate: Date;
+  limitMotel: number;
+  limitRoom: number;
+  status: boolean;
+}
+
 
 export const getAccount = async () => {
   const token = localStorage.getItem("token");
@@ -90,3 +101,13 @@ export const getNoti = async () => {
   return null
 
 }
+
+export const getPackage = async () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const res = await axios.get(API.CHECKPACKAGE, { params: { token: token } })
+    return res.data.data;
+  }
+  return null
+}
+

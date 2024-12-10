@@ -20,7 +20,7 @@ export const Layout = () => {
   useEffect(() => {
     dispatch(fetchAccount());
   }, [dispatch]);
-
+  console.log(user)
   const scrollableNodeRef = useRef<HTMLDivElement>(null);
   const [sentNotifications, setSentNotifications] = useState<any[]>([]);
   const [packageInfo, setPackageInfo] = useState(null);
@@ -131,9 +131,8 @@ export const Layout = () => {
   return (
     // < !--Body Wrapper-- >
     <div
-      className={`page-wrapper ${isMiniSidebar ? "mini-sidebar" : ""} ${
-        isShowSidebar ? "show-sidebar" : ""
-      }`}
+      className={`page-wrapper ${isMiniSidebar ? "mini-sidebar" : ""} ${isShowSidebar ? "show-sidebar" : ""
+        }`}
       id="main-wrapper"
       data-layout="vertical"
       data-navbarbg="skin6"
@@ -168,7 +167,7 @@ export const Layout = () => {
           {/* <!-- Sidebar navigation--> */}
           <nav className="sidebar-nav">
             <ul id="sidebarnav" className="mb-4 pb-2 in">
-            {user && ( user.role === "Admin" || user.role === "Owner"  )? (
+              {user && (user.role === "Admin" || user.role === "Owner") ? (
                 <>
                   <li className="nav-small-cap">
                     <i className="ti ti-dots nav-small-cap-icon fs-5"></i>
@@ -194,9 +193,9 @@ export const Layout = () => {
                     </Link>
                   </li>
                 </>
-                ) : (
-                  ""
-                )}
+              ) : (
+                ""
+              )}
 
               <li className="nav-small-cap">
                 <i className="ti ti-dots nav-small-cap-icon fs-5"></i>
@@ -254,7 +253,7 @@ export const Layout = () => {
                   className={clsx(
                     "sidebar-link sidebar-link success-hover-bg",
                     {
-                      active:isPartialActive("indexOwner") || isPartialActive("motel"),
+                      active: isPartialActive("indexOwner") || isPartialActive("motel"),
                     }
                   )}
                   aria-expanded="false"
@@ -372,10 +371,10 @@ export const Layout = () => {
                               {notification.type === 1
                                 ? "Thông thường"
                                 : notification.type === 2
-                                ? "Cảnh báo"
-                                : notification.type === 3
-                                ? "Khẩn cấp"
-                                : "Hệ thống"}
+                                  ? "Cảnh báo"
+                                  : notification.type === 3
+                                    ? "Khẩn cấp"
+                                    : "Hệ thống"}
                             </span>
                           </strong>
                         </a>
