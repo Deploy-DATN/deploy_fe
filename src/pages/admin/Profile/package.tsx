@@ -4,6 +4,7 @@ import { postVnpayApi, VnPay } from "@/services/api/HomeApi";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
+
 const Package = () => {
   interface PackageType {
     id: number;
@@ -33,7 +34,7 @@ const Package = () => {
     const response = await postVnpayApi(vnpayPayload);
     if (response?.status === 200 && response?.data) {
       window.location.href = response.data;
-     
+
     } else {
       Swal.fire(
         "Lỗi",
@@ -42,7 +43,7 @@ const Package = () => {
       );
     }
   }
-  const registerPackageFunction = async() => {
+  const registerPackageFunction = async () => {
     const registerResponse = await registerPackage({
       token,
       IdPackage: selectedPackageId,
@@ -66,7 +67,7 @@ const Package = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const responseCode = urlParams.get("vnp_ResponseCode");
     const transactionStatus = urlParams.get("vnp_TransactionStatus");
-    if (responseCode === "00" && transactionStatus === "00" ) {
+    if (responseCode === "00" && transactionStatus === "00") {
       try {
         registerPackageFunction();
         console.log("Thanh toán thành công");
@@ -100,10 +101,10 @@ const Package = () => {
         setError("Không thể tải dữ liệu gói cước. Vui lòng thử lại sau.");
         setLoading(false);
       }
-    
+
     };
     fetchPackages();
-    
+
   }, [isPaymentStatusHandled]); // Only call when navigate, token or selectedPackageId changes
 
   const handleBuyPackage = async (id: number, price: number) => {
@@ -139,7 +140,7 @@ const Package = () => {
     }
   };
   if (loading) {
-    
+
     return <p>Đang tải dữ liệu...</p>;
   }
 

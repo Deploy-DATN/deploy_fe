@@ -287,8 +287,8 @@ export const AddMotelOwner = () => {
           hasError = true;
         }
         const duplicateIndex = services.findIndex(
-          (s, i) => 
-            i !== index && 
+          (s, i) =>
+            i !== index &&
             s.name.trim().toLowerCase() === service.name.trim().toLowerCase()
         );
         if (duplicateIndex !== -1) {
@@ -444,9 +444,8 @@ export const AddMotelOwner = () => {
                             Tỉnh/Thành phố
                           </button>
                           <ul
-                            className={`dropdown-menu ${
-                              selectedProvince.code == null ? "show" : ""
-                            }`}
+                            className={`dropdown-menu ${selectedProvince.code == null ? "show" : ""
+                              }`}
                             aria-labelledby="dropdownMenuButton1"
                           >
                             {provinces.map((province) => (
@@ -482,12 +481,11 @@ export const AddMotelOwner = () => {
                             Quận/ Huyện
                           </button>
                           <ul
-                            className={`dropdown-menu ${
-                              selectedDistrict.code == null &&
-                              selectedProvince.code != null
+                            className={`dropdown-menu ${selectedDistrict.code == null &&
+                                selectedProvince.code != null
                                 ? "show"
                                 : ""
-                            }`}
+                              }`}
                             aria-labelledby="dropdownMenuButton2"
                           >
                             {districts.map((district) => (
@@ -519,13 +517,12 @@ export const AddMotelOwner = () => {
                             Phường/ Xã
                           </button>
                           <ul
-                            className={`dropdown-menu ${
-                              selectedDistrict.code != null &&
-                              selectedProvince.code != null &&
-                              selectedWard == ""
+                            className={`dropdown-menu ${selectedDistrict.code != null &&
+                                selectedProvince.code != null &&
+                                selectedWard == ""
                                 ? "show"
                                 : ""
-                            }`}
+                              }`}
                             aria-labelledby="dropdownMenuButton3"
                           >
                             {wards.map((ward) => (
@@ -667,16 +664,6 @@ export const AddMotelOwner = () => {
                     </button>
                   </div>
                 </div>
-                {/* <div className="col-12 form-group mt-3 px-2">
-                  <label htmlFor="title" className="label-motel-info">
-                    Mô tả
-                  </label>
-                  <textarea
-                    className="form-control mt-2 input-motel-info"
-                    placeholder="Mô tả dãy trọ"
-                  />
-                  <div className="err-text">errer</div>
-                </div> */}
                 <div className="mt-4">
                   <h4 className="h4-add-motel">Phòng trọ</h4>
                 </div>
