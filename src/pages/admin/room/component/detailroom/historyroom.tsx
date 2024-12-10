@@ -43,24 +43,16 @@ const Historyroom = ({ roomId }: { roomId: number }) => {
   return (
     <div>
       <div className="d-flex justify-content-start mt-3">
-        <div>
-          <div className="input-group">
-            <div className="input-group-text">
-              <FontAwesomeIcon
-                icon={faSearch}
-                size="lg"
-                color="#0B1A46"
-                className="form-check-input mt-0 border border-0"
-              />
-            </div>
-            <input
-              type="text"
-              className="form-control"
-              aria-label="Text input with radio button"
-              placeholder="Tìm kiếm"
-            ></input>
-          </div>
-        </div>
+			<form
+                  className="d-flex align-items-center border border-secondary-subtle ps-3 rounded"
+                >
+                  <span className="fa fa-search form-control-feedback"></span>
+                  <input
+                    type="search"
+                    className="form-control border-0"
+                    placeholder="Tìm kiếm hóa đơn"
+                  />
+                </form>
       </div>
       <div className="table-responsive mt-3" data-simplebar>
         <table className="test-table table table-borderless align-middle text-nowrap">

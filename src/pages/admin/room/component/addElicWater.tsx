@@ -212,9 +212,12 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 					icon: "success",
 					title: "Thành công",
 					text: "thêm số điện, nước thành công!",
+				  }).then(() => {
+					// Lưu trạng thái thông báo vào localStorage
+					localStorage.setItem("showNotification", "true");
+					onClose();
+					location.reload();
 				  });
-				onClose();
-				location.reload();
 			}
 		} catch (error) {
 			Swal.fire({

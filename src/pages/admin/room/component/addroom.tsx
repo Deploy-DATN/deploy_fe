@@ -179,7 +179,6 @@ const Addroom: React.FC<{
         }).then(() => {
           // Lưu trạng thái thông báo vào localStorage
           localStorage.setItem("showNotification", "true");
-          localStorage.setItem("notificationMessage", "Thêm phòng trọ thành công");
           window.location.reload();
         });
       }

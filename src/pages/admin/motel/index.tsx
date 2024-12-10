@@ -310,7 +310,7 @@ export const Motel: React.FC = () => {
                         <input
                           type="search"
                           className="form-control border-0"
-                          placeholder="Tìm kiếm tiêu đề"
+                          placeholder="Tìm kiếm trọ"
                         />
                       </form>
                     </div>

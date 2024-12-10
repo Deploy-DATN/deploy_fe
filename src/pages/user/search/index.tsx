@@ -162,7 +162,7 @@ export const SearchMotel = () => {
                               </div>
                               <div className="motel-item-price">
                                 <small className="me-2">Giá: </small>
-                                <span>{motel.price} triệu/tháng</span>
+                                <span>{Number(motel?.price)?.toLocaleString('vi-VN')}đ triệu/tháng</span>
                               </div>
                               <div className="motel-item-area">
                                 <small className="me-2">Diện tích: </small>

@@ -113,7 +113,7 @@ export const Roomtesst = () => {
                           <input
                             type="search"
                             className="form-control border-0"
-                            placeholder="Tìm kiếm tiêu đề"
+                            placeholder="Tìm kiếm loại phòng"
                           />
                         </form>
                       </div>

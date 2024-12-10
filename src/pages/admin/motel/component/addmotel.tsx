@@ -286,6 +286,18 @@ export const AddMotelOwner = () => {
           }));
           hasError = true;
         }
+        const duplicateIndex = services.findIndex(
+          (s, i) => 
+            i !== index && 
+            s.name.trim().toLowerCase() === service.name.trim().toLowerCase()
+        );
+        if (duplicateIndex !== -1) {
+          setErrors((prev) => ({
+            ...prev,
+            [`service_name_${index}`]: "Tên dịch vụ đã tồn tại",
+          }));
+          hasError = true;
+        }
       });
 
       // Kiểm tra hình ảnh
@@ -348,8 +360,11 @@ export const AddMotelOwner = () => {
           icon: "success",
           title: "Thành công",
           text: "Thêm dãy trọ thành công",
+        }).then(() => {
+          // Lưu trạng thái thông báo vào localStorage
+          navigate(-1);
+          localStorage.setItem("showNotification", "true");
         });
-        navigate(-1);
       }
     } catch (error: any) {
       Swal.fire({
@@ -573,6 +588,7 @@ export const AddMotelOwner = () => {
                               )
                             )
                           }
+                          disabled={service.id === 1 || service.id === 2}
                         />
                         {errors[`service_name_${index}`] && (
                           <div className="err-text">
@@ -629,13 +645,15 @@ export const AddMotelOwner = () => {
                         </div>
                       )}
                       <div className="col-12 col-sm-12 col-lg-2 d-flex justify-content-lg-around align-items-lg-end">
-                        <button
-                          type="button"
-                          className="btn btn-transform-y2 btn-xoa-add-motel mt-3"
-                          onClick={() => removeService(service.id)}
-                        >
-                          Xóa
-                        </button>
+                        {service.id !== 1 && service.id !== 2 && (
+                          <button
+                            type="button"
+                            className="btn btn-transform-y2 btn-xoa-add-motel mt-3"
+                            onClick={() => removeService(service.id)}
+                          >
+                            Xóa
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}

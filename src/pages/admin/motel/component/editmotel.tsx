@@ -16,6 +16,7 @@ import {
 } from "@/services/Dto/MotelDto";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Motel } from "..";
 
 export const EditMotelOwner = () => {
   const { id } = useParams();
@@ -43,6 +44,7 @@ export const EditMotelOwner = () => {
     name: string;
     code: number | null;
   };
+  const [disabledServiceIds, setDisabledServiceIds] = useState<number[]>([]);
   const [provinces, setProvinces] = useState<LocationOption[]>([]);
   const [districts, setDistricts] = useState<LocationOption[]>([]);
   const [wards, setWards] = useState<LocationOption[]>([]);
@@ -182,6 +184,15 @@ export const EditMotelOwner = () => {
       setValues(response.data);
       setServices(response.data.services || []);
       setOriginalServices(response.data.services || []); // Lưu trữ danh sách services ban đầu
+      const services = response.data.services || [];
+      const disabledIds = services
+        .filter(
+          (service: GetMotelEditDTO_Service) =>
+            service.name === "Điện" || service.name === "Nước"
+        )
+        .map((service: GetMotelEditDTO_Service) => service.id);
+      
+      setDisabledServiceIds(disabledIds);
       const addressParts = splitAddress(response.data.address || "");
       setValues({ ...response.data, address: addressParts.detailAddress });
       setSelectedProvince({ name: addressParts.province, code: null });
@@ -296,6 +307,18 @@ export const EditMotelOwner = () => {
           }));
           hasError = true;
         }
+        const duplicateIndex = services.findIndex(
+          (s, i) => 
+            i !== index && 
+            s.name.trim().toLowerCase() === service.name.trim().toLowerCase()
+        );
+        if (duplicateIndex !== -1) {
+          setErrors((prev) => ({
+            ...prev,
+            [`service_name_${index}`]: "Tên dịch vụ đã tồn tại",
+          }));
+          hasError = true;
+        }
       });
 
       if (hasError) {
@@ -367,8 +390,11 @@ export const EditMotelOwner = () => {
           icon: "success",
           title: "Thành công",
           text: "Sửa dãy trọ thành công",
+        }).then(() => {
+          // Lưu trạng thái thông báo vào localStorage
+          navigate(-1);
+          localStorage.setItem("showNotification", "true");
         });
-        navigate(-1);
       }
     } catch (error: any) {
       Swal.fire({
@@ -380,6 +406,7 @@ export const EditMotelOwner = () => {
     }
   };
 
+  console.log(values);
   return (
     <div className="container-fluid-add-motel">
       <div className="row align-items-stretch px-0">
@@ -589,6 +616,7 @@ export const EditMotelOwner = () => {
                               )
                             )
                           }
+                          disabled={disabledServiceIds.includes(service.id)}
                         />
                         {errors[`service_name_${index}`] && (
                           <div className="err-text">
@@ -647,8 +675,9 @@ export const EditMotelOwner = () => {
                       <div className="col-12 col-sm-12 col-lg-2 d-flex justify-content-lg-around align-items-lg-end">
                         <button
                           type="button"
-                          className="btn btn-transform-y2 btn-xoa-add-motel mt-3"
-                          onClick={() => removeService(service.id)}
+                          className={`btn btn-transform-y2 btn-xoa-add-motel mt-3 ${
+                            disabledServiceIds.includes(service.id) ? "d-none" : ""
+                          }`}                          onClick={() => removeService(service.id)}
                         >
                           Xóa
                         </button>

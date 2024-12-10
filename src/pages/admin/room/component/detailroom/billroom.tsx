@@ -55,77 +55,72 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
 		return serviceItem ? serviceItem.price_Service * serviceItem.quantity : 0;
 	};
 
-	const [isLoading, setIsLoading] = useState(false); // Loading state
+	// const [isLoading, setIsLoading] = useState(false); // Loading state
 
-	const handleConfirm = async (billId: number) => {
-		try {
-			const sentBill = await SentBillToEmail(billId);
-			if (sentBill.data == true) {
-				Swal.fire({
-					icon: 'success',
-					title: 'Thành công',
-					text: 'Đã gửi hóa đơn về email của khách hàng.',
-				});
-			} else {
-				Swal.fire({
-					icon: 'error',
-					title: 'Lỗi',
-					text: 'Lỗi khi gửi hóa đơn, vui lòng thử lại.',
-				});
-			}
-		} catch (error) {
-			Swal.fire({
-				icon: 'error',
-				title: 'Lỗi',
-				text: 'Lỗi khi gửi hóa đơn, vui lòng thử lại.',
-			});
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	// const handleConfirm = async (billId: number) => {
+	// 	try {
+	// 		const sentBill = await SentBillToEmail(billId);
+	// 		if (sentBill.data == true) {
+	// 			Swal.fire({
+	// 				icon: 'success',
+	// 				title: 'Thành công',
+	// 				text: 'Đã gửi hóa đơn về email của khách hàng.',
+	// 			});
+	// 		} else {
+	// 			Swal.fire({
+	// 				icon: 'error',
+	// 				title: 'Lỗi',
+	// 				text: 'Lỗi khi gửi hóa đơn, vui lòng thử lại.',
+	// 			});
+	// 		}
+	// 	} catch (error) {
+	// 		Swal.fire({
+	// 			icon: 'error',
+	// 			title: 'Lỗi',
+	// 			text: 'Lỗi khi gửi hóa đơn, vui lòng thử lại.',
+	// 		});
+	// 	} finally {
+	// 		setIsLoading(false);
+	// 	}
+	// };
 
 	const buttonConfirm = (status: number, billId: number) => {
 		return (
 			<>
 				{status == 1 ? (
-					<button
-						type='button'
-						className=''
-						onClick={() => handleConfirm(billId)}>
-						Xác nhận đã thanh toán
-					</button>
+					<span className="tt-khoa badge bg-light-danger rounded-pill p-2 fs-2">
+					Chưa thanh toán
+					</span>
 				) : (
-					<button
-						type='button'
-						className=''
-						disabled={true}>
-						Đã thanh toán
-					</button>
+					<span className="tt-dangthue bg-light-success rounded-pill p-2 fs-2">
+					Đã thanh toán
+					</span>
 				)}
 			</>
 		);
 	};
+	const handleUpdate = () => {
+		const fetchBill = async () => {
+			const response = await GetBill(roomId);
+			setBill(response.data);
+			console.log(response.data);
+		};
+		fetchBill();
+	  };
 
 	return (
 		<>
 			<div className='d-flex justify-content-start mt-3'>
-				<div>
-					<div className='input-group'>
-						<div className='input-group-text'>
-							<FontAwesomeIcon
-								icon={faSearch}
-								size='lg'
-								color='#0B1A46'
-								className='form-check-input mt-0 border border-0'
-							/>
-						</div>
-						<input
-							type='text'
-							className='form-control'
-							aria-label='Text input with radio button'
-							placeholder='Tìm kiếm'></input>
-					</div>
-				</div>
+			<form
+                  className="d-flex align-items-center border border-secondary-subtle ps-3 rounded"
+                >
+                  <span className="fa fa-search form-control-feedback"></span>
+                  <input
+                    type="search"
+                    className="form-control border-0"
+                    placeholder="Tìm kiếm hóa đơn"
+                  />
+                </form>
 			</div>
 
 			<div
@@ -236,6 +231,7 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
 			{showModal && (
 				<InfoBill
 					onClose={handleCloseModal}
+					onUpdate={handleUpdate}
 					billId={selectedBillId}
 				/>
 			)}

@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 interface Props {
   onClose: () => void;
+  onUpdate: () => void;
   billId: number | null;
 }
 
-export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
+export const InfoBill: React.FC<Props> = ({ onClose,onUpdate, billId }) => {
   const [bill, setBill] = useState<BillByIdDTO | null>(null);
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export const InfoBill: React.FC<Props> = ({ onClose, billId }) => {
           text: "Đã gửi hóa đơn về email của khách hàng.",
         });
         onClose();
-      
+        onUpdate();
       }
       else{
         Swal.fire({

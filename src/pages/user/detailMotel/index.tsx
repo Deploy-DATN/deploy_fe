@@ -144,7 +144,7 @@ if (!motel) {
               <div className="mt-4 bgr-detail-motel-text-user p-4 ">
                 <h2 className="name-detail-motel-user">{motel?.name}</h2>
                   <div className="d-flex mt-3 align-items-center">
-                    <h3 className="me-3 mb-0 price-detail-motel-user">Giá: {motel?.price} / tháng</h3>
+                    <h3 className="me-3 mb-0 price-detail-motel-user">Giá: {Number(motel?.price)?.toLocaleString('vi-VN')}đ  / tháng</h3>
                     <FontAwesomeIcon icon={faCircle} size="sm" color="#0B1A46" className="me-3" />
                     <h3 className="mb-0 area-detail-motel-user">Diện tích: {motel?.area}M<sup>2</sup></h3>
                   </div>

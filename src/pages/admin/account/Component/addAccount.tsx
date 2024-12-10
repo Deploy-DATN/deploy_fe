@@ -153,6 +153,9 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
             icon: "success",
             title: "Thành công",
             text: "Thêm tài khoản thành công",
+          }).then(() => {
+            // Lưu trạng thái thông báo vào localStorage
+            localStorage.setItem("showNotification", "true");
           });
           onSubmit(); 
         }
