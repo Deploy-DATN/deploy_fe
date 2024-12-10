@@ -1,6 +1,6 @@
 import InfoBill from '@/pages/admin/BillOwner/component/infoBill';
 import { GetBill, SentBillToEmail } from '@/services/api/MotelApi';
-import { BillDTO } from '@/services/Dto/MotelDto';
+import { BillDTO, BillPaginationResponse } from '@/services/Dto/MotelDto';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
@@ -27,6 +27,12 @@ export const formatDateTime = (dateString: string): string => {
 		.replace(',', '');
 };
 
+export interface BillQueryDto {
+	search: string;
+	pageNumber: number;
+	pageSize: number;
+}
+
 export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
 	const [showModal, setShowModal] = useState(false);
 	const [selectedBillId, setSelectedBillId] = useState<number | null>(null);
@@ -39,20 +45,70 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
 		setShowModal(false);
 	};
 
-	const [bill, setBill] = useState<BillDTO[]>();
+	const [bill, setBill] = useState<BillPaginationResponse>();
+	const [query, setQuery] = useState<BillQueryDto>({
+		search: '',
+		pageNumber: 1,
+		pageSize: 5,
+	});
+
+	const [pageactive, setPageactive] = useState<number>(query.pageNumber);
 
 	useEffect(() => {
-		const fetchBill = async () => {
-			const response = await GetBill(roomId);
-			setBill(response.data);
-			console.log(response.data);
-		};
-		fetchBill();
-	}, []);
+		fetchBill(query);
+	}, [query]);
+
+	const fetchBill = async (query: BillQueryDto) => {
+		const response = await GetBill(roomId, query);
+		setBill(response.data);
+	};
 
 	const calculateServiceCost = (service: BillDTO, serviceName: string) => {
 		const serviceItem = service.serviceBills.find((s) => s.name === serviceName);
 		return serviceItem ? serviceItem.price_Service * serviceItem.quantity : 0;
+	};
+
+	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setQuery({ ...query, search: e.target.value });
+	};
+
+	const highlightText = (text: string, query: string): JSX.Element => {
+		if (!query || !text) return <>{text}</>;
+
+		// Chuyển đổi text về dạng không có dấu chấm để tìm vị trí
+		const normalizedText = text.toString().replace(/\./g, '');
+		const normalizedQuery = query.replace(/\./g, '');
+
+		// Nếu text đã chuẩn hóa không chứa query đã chuẩn hóa thì trả về text gốc
+		if (!normalizedText.toLowerCase().includes(normalizedQuery.toLowerCase())) {
+			return <>{text}</>;
+		}
+
+		// Tìm vị trí của query trong text đã chuẩn hóa
+		const startIndex = normalizedText.toLowerCase().indexOf(normalizedQuery.toLowerCase());
+
+		// Đếm số dấu chấm từ đầu đến vị trí startIndex trong text gốc
+		const dotsBeforeStart = (text.slice(0, startIndex + query.length).match(/\./g) || []).length;
+
+		// Điều chỉnh độ dài highlight để bao gồm cả dấu chấm
+		const highlightLength = query.length + dotsBeforeStart;
+
+		// Cắt text gốc thành các phần
+		const originalStart = text.slice(0, startIndex);
+		const originalHighlight = text.slice(startIndex, startIndex + highlightLength);
+		const originalEnd = text.slice(startIndex + highlightLength);
+
+		return (
+			<>
+				{originalStart}
+				<span
+					className='highlight-text'
+					style={{ backgroundColor: '#fff3cd' }}>
+					{originalHighlight}
+				</span>
+				{originalEnd}
+			</>
+		);
 	};
 
 	// const [isLoading, setIsLoading] = useState(false); // Loading state
@@ -85,42 +141,38 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
 	// };
 
 	const buttonConfirm = (status: number, billId: number) => {
-		return (
-			<>
-				{status == 1 ? (
-					<span className="tt-khoa badge bg-light-danger rounded-pill p-2 fs-2">
-					Chưa thanh toán
-					</span>
-				) : (
-					<span className="tt-dangthue bg-light-success rounded-pill p-2 fs-2">
-					Đã thanh toán
-					</span>
-				)}
-			</>
-		);
+		return <>{status == 1 ? <span className='tt-khoa badge bg-light-danger rounded-pill p-2 fs-2'>Chưa thanh toán</span> : <span className='tt-dangthue bg-light-success rounded-pill p-2 fs-2'>Đã thanh toán</span>}</>;
 	};
 	const handleUpdate = () => {
 		const fetchBill = async () => {
-			const response = await GetBill(roomId);
+			const response = await GetBill(roomId, query);
 			setBill(response.data);
-			console.log(response.data);
 		};
 		fetchBill();
-	  };
+	};
+
+	const HandlePage = async (pageNumber: number) => {
+		const newQuery = {
+			...query,
+			pageNumber: pageNumber,
+		};
+		setQuery(newQuery);
+		setPageactive(pageNumber);
+		await fetchBill(newQuery);
+	};
 
 	return (
 		<>
 			<div className='d-flex justify-content-start mt-3'>
-			<form
-                  className="d-flex align-items-center border border-secondary-subtle ps-3 rounded"
-                >
-                  <span className="fa fa-search form-control-feedback"></span>
-                  <input
-                    type="search"
-                    className="form-control border-0"
-                    placeholder="Tìm kiếm hóa đơn"
-                  />
-                </form>
+				<form className='d-flex align-items-center border border-secondary-subtle ps-3 rounded'>
+					<span className='fa fa-search form-control-feedback'></span>
+					<input
+						type='search'
+						className='form-control border-0'
+						placeholder='Tìm kiếm hóa đơn'
+						onChange={handleSearch}
+					/>
+				</form>
 			</div>
 
 			<div
@@ -142,7 +194,7 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
 						</tr>
 					</thead>
 					<tbody>
-						{bill?.map((service) => (
+						{bill?.items?.map((service) => (
 							<tr
 								onClick={() => handleOpenModal(service.id)}
 								key={service.id}>
@@ -154,32 +206,30 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
                   <input type="checkbox" name="" id="" />
                 </td> */}
 								<td>
-									<p className='fs-3 fw-normal mb-0'>{service?.room.roomNumber}</p>
+									<p className='fs-3 fw-normal mb-0'>{highlightText(service?.room.roomNumber.toString(), query.search)}</p>
 								</td>
 								<td>
-									<p className='fs-3 fw-normal mb-0'>{formatDateTime(service?.createdDate)}</p>
+									<p className='fs-3 fw-normal mb-0'>{highlightText(formatDateTime(service?.createdDate), query.search)}</p>
 								</td>
 								<td>
-									<p className='fs-3 fw-normal mb-0'>{formatDateTime(service?.createdDate)}</p>
+									<p className='fs-3 fw-normal mb-0'>{highlightText(formatDateTime(service?.paymentDate), query.search)}</p>
 								</td>
 								<td>
-									<p className='fs-3 fw-normal mb-0'>{formatCurrency(calculateServiceCost(service, 'Điện'))}</p>
+									<p className='fs-3 fw-normal mb-0'>{highlightText(formatCurrency(calculateServiceCost(service, 'Điện')).toString(), query.search)}</p>
 								</td>
 								<td>
-									<p className='fs-3 fw-normal mb-0'>{formatCurrency(calculateServiceCost(service, 'Nước'))}</p>
+									<p className='fs-3 fw-normal mb-0'>{highlightText(formatCurrency(calculateServiceCost(service, 'Nước')).toString(), query.search)}</p>
 								</td>
 								<td>
-									<p className='fs-3 fw-normal mb-0'>{formatCurrency(calculateServiceCost(service, 'Khác'))}</p>
+									<p className='fs-3 fw-normal mb-0'>{highlightText(formatCurrency(calculateServiceCost(service, 'Khác')).toString(), query.search)}</p>
 								</td>
 								<td>
-									<p className='fs-3 fw-normal mb-0'>{formatCurrency(service?.priceRoom)}</p>
+									<p className='fs-3 fw-normal mb-0'>{highlightText(formatCurrency(service?.priceRoom).toString(), query.search)}</p>
 								</td>
 								<td>
-									<p className='fs-3 fw-normal mb-0'>{formatCurrency(service?.total)}</p>
+									<p className='fs-3 fw-normal mb-0'>{highlightText(formatCurrency(service?.total).toString(), query.search)}</p>
 								</td>
-								<td>
-									{buttonConfirm(service?.status, service?.id)}
-								</td>
+								<td>{buttonConfirm(service?.status, service?.id)}</td>
 							</tr>
 						))}
 					</tbody>
@@ -191,36 +241,21 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
 						<li className='page-item'>
 							<a
 								className='page-link  btn-filter'
-								href='#'
 								aria-label='Previous'>
 								<span aria-hidden='true'>&laquo;</span>
 							</a>
 						</li>
+						{Array.from({ length: bill?.totalPages ?? 0 }, (_, index) => (
+							<li
+								className='page-item'
+								key={index}
+								onClick={() => HandlePage(index + 1)}>
+								<a className={`page-link  btn-filter  ${pageactive === index + 1 ? 'active-filter-motel' : ''}`}>{index + 1}</a>
+							</li>
+						))}
 						<li className='page-item'>
 							<a
 								className='page-link  btn-filter'
-								href='#'>
-								1
-							</a>
-						</li>
-						<li className='page-item'>
-							<a
-								className='page-link  btn-filter'
-								href='#'>
-								2
-							</a>
-						</li>
-						<li className='page-item'>
-							<a
-								className='page-link  btn-filter'
-								href='#'>
-								3
-							</a>
-						</li>
-						<li className='page-item'>
-							<a
-								className='page-link  btn-filter'
-								href='#'
 								aria-label='Next'>
 								<span aria-hidden='true'>&raquo;</span>
 							</a>

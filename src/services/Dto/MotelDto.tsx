@@ -39,6 +39,13 @@ export interface MotelPaginationResponse {
   totalPages: number;
 }
 
+export interface BillPaginationResponse {
+  items: BillDTO[];
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+}
+
 // ------------------------------------------------------------------------------------------------
 
 
@@ -275,6 +282,7 @@ export interface BillDTO {
     priceRoom: number;
     status: number;
     createdDate: string;
+    paymentDate: string;
     total: number;
     roomId: number;
     room: RoomBillDTO;
