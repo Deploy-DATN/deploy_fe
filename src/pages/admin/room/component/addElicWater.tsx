@@ -54,6 +54,8 @@ const AddElicWater: React.FC<{ roomTypeId: number; onClose: () => void }> = ({ r
 		const repository = await GetPriceByRoomTypeApi(roomTypeId);
 		const priceData = repository.data;
 
+		console.log(priceData);
+
 		const newTotalElectric = priceData.price_Electric * (Number(sendElicWaterDTO.electric) - electricity);
 		const newTotalWater = priceData.price_Water * (Number(sendElicWaterDTO.water) - water);
 		const newTotalOther = sendElicWaterDTO.other;
