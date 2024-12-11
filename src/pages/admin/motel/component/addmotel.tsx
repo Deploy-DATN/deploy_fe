@@ -106,12 +106,6 @@ export const AddMotelOwner = () => {
   }, [selectedDistrict]);
 
   useEffect(() => {
-    console.log(
-      "Giá trị bộ lọc hiện tại: ",
-      selectedProvince.name,
-      selectedDistrict.name,
-      selectedWard
-    );
   }, [selectedProvince, selectedDistrict, selectedWard]);
 
   useEffect(() => {
@@ -228,7 +222,6 @@ export const AddMotelOwner = () => {
     const value = e.target.value;
     setValues({ ...values, [field]: value });
     validateField(field, value);
-    console.log(values);
   };
   const handleChangeDescription = (value: string, field: string) => {
     setValues((prevValues) => ({
@@ -236,7 +229,6 @@ export const AddMotelOwner = () => {
       [field]: value,
     }));
     validateField(field, value);
-    console.log("Updated description:", value);
   };
 
   const handleSubmit = async () => {
@@ -244,8 +236,6 @@ export const AddMotelOwner = () => {
       setErrors({});
       let hasError = false;
       const addressall: string = `${values.address}, ${selectedWard}, ${selectedDistrict.name}, ${selectedProvince.name}`;
-      console.log(addressall);
-      console.log(values.description);
       // Kiểm tra các trường cơ bản
       const fieldsToValidate = {
         nameMotel: values.nameMotel,
@@ -357,6 +347,8 @@ export const AddMotelOwner = () => {
 
       const response = await AddMotel(submitFormData);
       if (response.code === 200) {
+        const updatedAddLimit = addLimit - 1;
+        localStorage.setItem("addLimit", updatedAddLimit.toString());
         Swal.fire({
           icon: "success",
           title: "Thành công",
@@ -375,6 +367,7 @@ export const AddMotelOwner = () => {
       });
       console.log(error);
     }
+
   };
 
   return (

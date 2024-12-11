@@ -7,6 +7,8 @@ import {
   LockMotelApi,
   UnLockMotelApi,
 } from "@/services/api/MotelApi";
+
+import { getCountMotelApi } from "@/services/api/HomeApi";
 import "../styles/stylemotel.scss";
 import { FilterProps, PageDTO } from "..";
 import Swal from "sweetalert2";
@@ -26,36 +28,55 @@ export const indexOwner = () => {
   const [addLimit, setAddLimit] = useState<number>(0);
   const [motel, setMotel] = useState<MotelDTO[]>();
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
+  const [count, setCount] = useState<number>(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (myPackage) {
-      switch (myPackage.name) {
-        case "VIP 1":
-          setAddLimit(1);
-          break;
-        case "VIP 2":
-          setAddLimit(2);
-          break;
-        case "VIP 3":
-          setAddLimit(3);
-          break;
-        case "VIP 4":
-          setAddLimit(4);
-          break;
-        case "VIP 5":
-          setAddLimit(5);
-          break;
-        default:
-          setAddLimit(0);
-          break;
+    const fetchCountMotel = async () => {
+      const response = await getCountMotelApi();
+      console.log("API Response:", response);
+      if (response) {
+        setCount(response.count);
       }
+    };
+    fetchCountMotel();
+  }, []);
+
+  console.log(count, 'số motel')
+
+  useEffect(() => {
+    const savedAddLimit = localStorage.getItem("addLimit");
+    if (savedAddLimit) {
+      setAddLimit(parseInt(savedAddLimit, 10));
     } else {
-      setAddLimit(0); // Không có gói thì không được thêm
+      if (myPackage) {
+        switch (myPackage.name) {
+          case "VIP 1":
+            setAddLimit(1);
+            break;
+          case "VIP 2":
+            setAddLimit(2);
+            break;
+          case "VIP 3":
+            setAddLimit(3);
+            break;
+          case "VIP 4":
+            setAddLimit(4);
+            break;
+          case "VIP 5":
+            setAddLimit(5);
+            break;
+          default:
+            setAddLimit(0);
+            break;
+        }
+      } else {
+        setAddLimit(0);
+      }
     }
   }, [myPackage]);
   const handleAddMotel = () => {
-    if (addLimit > 0) {
+    if (addLimit > 0 && count < addLimit) {
 
       Swal.fire({
         icon: "success",
@@ -65,6 +86,12 @@ export const indexOwner = () => {
         setAddLimit((prevLimit) => prevLimit - 1);
         navigate("addModelOwner", { state: { addLimit } });
       });
+    } else if (count >= addLimit) {
+      Swal.fire({
+        icon: "error",
+        title: "Không thể thêm!",
+        text: "Bạn đã đạt giới hạn số lượng dãy trọ cho phép.",
+      });
     } else {
       Swal.fire({
         icon: "error",
@@ -73,8 +100,6 @@ export const indexOwner = () => {
       });
     }
   };
-  console.log('my package', myPackage?.name)
-  console.log('add count', addLimit)
 
   const [query, setQuery] = useState<FilterProps>({
     status: null,

@@ -34,6 +34,7 @@ export enum API {
     //Room
     GETALLMOTEL = API_URL + '/Room/get-all-room-by-admin',
     GETMOTELBYID = API_URL + '/Room/get-motel-by-id',
+    GETCOUNTMOTEL = API_URL + '/api/Main/get-count-motel',
 
     //RoomType
     GETROOMTYPEBYID = API_URL + '/api/Main/',
