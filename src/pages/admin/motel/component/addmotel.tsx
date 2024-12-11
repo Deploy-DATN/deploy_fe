@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/stylemotel.scss";
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getAccountApi } from "@/services/api/authApi";
 import { AddMotel } from "@/services/api/MotelApi";
 import { useUser } from "@/services/api/UserContext";
@@ -13,9 +13,10 @@ import Swal from "sweetalert2";
 
 export const AddMotelOwner = () => {
   const { user } = useUser();
+  const location = useLocation();
   //rút gọn giao diện
   const [isMotelInfoVisible, setIsMotelInfoVisible] = useState(true);
-
+  const { addLimit } = location.state || { addLimit: 0 };
   const showMotelInfo = () => setIsMotelInfoVisible(true);
   const showPriceInfo = () => setIsMotelInfoVisible(false);
   //trở lại trang trước đó
@@ -362,7 +363,7 @@ export const AddMotelOwner = () => {
           text: "Thêm dãy trọ thành công",
         }).then(() => {
           // Lưu trạng thái thông báo vào localStorage
-          navigate(-1);
+          navigate('/admin/indexOwner');
           localStorage.setItem("showNotification", "true");
         });
       }
@@ -482,9 +483,9 @@ export const AddMotelOwner = () => {
                           </button>
                           <ul
                             className={`dropdown-menu ${selectedDistrict.code == null &&
-                                selectedProvince.code != null
-                                ? "show"
-                                : ""
+                              selectedProvince.code != null
+                              ? "show"
+                              : ""
                               }`}
                             aria-labelledby="dropdownMenuButton2"
                           >
@@ -518,10 +519,10 @@ export const AddMotelOwner = () => {
                           </button>
                           <ul
                             className={`dropdown-menu ${selectedDistrict.code != null &&
-                                selectedProvince.code != null &&
-                                selectedWard == ""
-                                ? "show"
-                                : ""
+                              selectedProvince.code != null &&
+                              selectedWard == ""
+                              ? "show"
+                              : ""
                               }`}
                             aria-labelledby="dropdownMenuButton3"
                           >

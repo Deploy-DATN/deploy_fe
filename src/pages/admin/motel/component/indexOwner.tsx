@@ -63,7 +63,7 @@ export const indexOwner = () => {
         text: "Chuyển đến trang thêm dãy trọ.",
       }).then(() => {
         setAddLimit((prevLimit) => prevLimit - 1);
-        navigate("addModelOwner");
+        navigate("addModelOwner", { state: { addLimit } });
       });
     } else {
       Swal.fire({
@@ -73,7 +73,8 @@ export const indexOwner = () => {
       });
     }
   };
-
+  console.log('my package', myPackage?.name)
+  console.log('add count', addLimit)
 
   const [query, setQuery] = useState<FilterProps>({
     status: null,
