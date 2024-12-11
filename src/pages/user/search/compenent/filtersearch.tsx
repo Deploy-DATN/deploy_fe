@@ -67,7 +67,7 @@ const FilterSearch = ({
           ? 20
           : filters.area === "3"
           ? 25
-          : Infinity
+          : 0
         : null,
       minPrice: filters.price
         ? filters.price === "1"
@@ -85,7 +85,7 @@ const FilterSearch = ({
           ? 2000000
           : filters.price === "3"
           ? 3000000
-          : Infinity
+          : 0
         : null,
       surrounding: filters.surrounding.length ? filters.surrounding : null,
     };
