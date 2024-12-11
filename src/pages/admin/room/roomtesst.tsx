@@ -1,19 +1,12 @@
 import { useLocation, useParams } from "react-router-dom";
 import "./style/room.scss";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddElicWater from "./component/addElicWater";
 import Addroom from "./component/addroom";
-import Inforoom from "./component/inforoom";
-import Editroom from "./component/detailroom/editroom";
-import AddUserRoom from "./component/detailroom/addUserRoom";
-import Baotriroom from "./component/detailroom/baotriroom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBolt,
-  faDroplet,
-  faPlus,
-  faSearch,
+  faPlus
 } from "@fortawesome/free-solid-svg-icons";
 import { GetRoomTypeDTO, MotelDTO } from "@/services/Dto/MotelDto";
 import Roomtype from "./component/roomtype";
@@ -21,7 +14,10 @@ import Addroomintype from "./component/addroomintype";
 import EditRoomType from "./component/editRoomType";
 import { GetRoomTypeByMotelId } from "@/services/api/MotelApi";
 
+
 export const Roomtesst = () => {
+
+
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
     addRoom: false,
     AddElicWater: false,
@@ -36,7 +32,7 @@ export const Roomtesst = () => {
     modalName: keyof typeof modalState,
     param: number | any[] = []
   ) => {
-    setModalState(prev => ({...prev, [modalName]: !prev[modalName]}));
+    setModalState(prev => ({ ...prev, [modalName]: !prev[modalName] }));
     if (Array.isArray(param)) {
       // Xử lý khi param là mảng rooms
       setSelectedRooms(param);
@@ -50,6 +46,7 @@ export const Roomtesst = () => {
   const [roomType, setRoomType] = useState<GetRoomTypeDTO[]>();
   const [motel, setMotel] = useState<MotelDTO>();
 
+
   //lấy motelId từ params
   const { motelId } = useParams();
 
@@ -58,9 +55,13 @@ export const Roomtesst = () => {
   const { name, address } = location.state || {};
   console.log(name, address);
 
+
+
   useEffect(() => {
     LoadData();
   }, [motelId]);
+
+
 
   const LoadData = async () => {
     try {
