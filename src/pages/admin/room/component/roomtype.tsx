@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { GetRoomTypeDTO } from "@/services/Dto/MotelDto";
 import RowRoom from "./rowRoom";
 import { GetRoomTypeByAddElicWaterApi } from "@/services/api/MotelApi";
@@ -128,7 +128,7 @@ const Roomtype = (props: {
                 <div className="motel-item-price">
                   <small className="me-2">Giá</small>
                   <span>
-                    {(roomType.price / 1000000).toFixed(1)} triệu/tháng
+                    {(roomType.price.toLocaleString())} vnđ/tháng
                   </span>
                 </div>
                 <div className="motel-item-price">
@@ -155,12 +155,12 @@ const Roomtype = (props: {
                       </button>
                     </div>
                     <div className="d-flex justify-content-lg-between col-12 mt-3 px-0">
-                       <button
-                    className="btn btn-create-notification btn-transform-y2 p-2 me-2 me-lg-0 "
-                    onClick={handleAddRoom}
-                  >
-                    Thêm phòng
-                  </button>
+                      <button
+                        className="btn btn-create-notification btn-transform-y2 p-2 me-2 me-lg-0 "
+                        onClick={handleAddRoom}
+                      >
+                        Thêm phòng
+                      </button>
                       <button
                         onClick={() => toggleModal("editRoomType", roomType.id)}
                         className="btn btn-create-notification btn-transform-y2 p-2 col-lg-4"
