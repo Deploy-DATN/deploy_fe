@@ -146,7 +146,7 @@ export const SearchMotel = () => {
                         <div className="col-12 mt-3" key={motel.id} >
                           <div className="item-list-motel row">
                             <div className="col-4 list-motel-img">
-                              <a onClick={() => handleMotelClick(motel.id)}>
+                              <a className="ngontay-hover" onClick={() => handleMotelClick(motel.id)}>
                                 <img
                                   src={motel.images[0]?.link || "#"}
                                   alt="Hình ảnh không khả dụng"
@@ -156,7 +156,7 @@ export const SearchMotel = () => {
                             </div>
                             <div className="col-8 list-motel-body">
                               <div className="motel-item-name">
-                                <a className="motel-item-link" onClick={() => handleMotelClick(motel.id)}>
+                                <a className="motel-item-link ngontay-hover" onClick={() => handleMotelClick(motel.id)}>
                                   <h3 className="mb-0">{motel.name}</h3>
                                 </a>
                               </div>

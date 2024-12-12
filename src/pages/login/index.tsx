@@ -72,15 +72,15 @@ const Login = () => {
 				<div className='login-left col d-flex flex-column justify-content-center align-items-center'>
 					<LoginForm onSubmit={handleLogin} />
 					<div className='divider-wrapper col-10 col-sm-8 col-md-8 col-xxl-6 mb-3 px-5'>
-						<span className='divider'>Đăng nhập bằng</span>
+						<span className='divider'><a href='/' className='login-header-name'>Trang chủ</a></span>
 					</div>
-					<div className='scan d-flex justify-content-center align-items-center mb-4'>
+					{/* <div className='scan d-flex justify-content-center align-items-center mb-4'>
 						<img
 							src={QR}
 							className='img-fluid'
 							alt='qr'
 						/>
-					</div>
+					</div> */}
 					<p>
 						Bạn không có tài khoản?{' '}
 						<a

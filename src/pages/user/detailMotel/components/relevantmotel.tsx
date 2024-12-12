@@ -1,11 +1,11 @@
 import { faLocationDot, faMoneyBill } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
-import { getRelatedApi } from '@/services/api/HomeApi';
+import { getRelatedApi } from "@/services/api/HomeApi";
 import { useNavigate } from "react-router-dom";
 interface RelevantMotelProps {
-  address: string | undefined,
-  currentMotelId: string | undefined
+  address: string | undefined;
+  currentMotelId: string | undefined;
 }
 
 interface Motel {
@@ -13,11 +13,8 @@ interface Motel {
   name: string;
   address: string;
   price: string;
-  images: [{ id: string; link: string; type: string; }];
+  images: [{ id: string; link: string; type: string }];
 }
-
-
-
 
 function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
   const [motels, setMotels] = useState<Motel[]>([]);
@@ -30,11 +27,13 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
   };
   // Lấy dữ liệu từ API khi component được render
   useEffect(() => {
-    if (typeof address === 'string' && address.trim() !== '') {
+    if (typeof address === "string" && address.trim() !== "") {
       getRelatedApi(address)
         .then((response) => {
-          const motels = response.data.data.value
-          const filteredMotels = motels.filter((motel: Motel) => motel.id !== Number(currentMotelId));
+          const motels = response.data.data.value;
+          const filteredMotels = motels.filter(
+            (motel: Motel) => motel.id !== Number(currentMotelId)
+          );
           setMotels(filteredMotels);
         })
 
@@ -45,8 +44,8 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
       console.error("Địa chỉ không hợp lệ:", address);
     }
   }, [address, currentMotelId]);
-  console.log(motels)
-  console.log(address)
+  console.log(motels);
+  console.log(address);
   // Xác định dãy trọ hiển thị theo kiểu tuần hoàn
   const displayedMotels = Array.from(
     { length: itemsPerPage },
@@ -60,7 +59,9 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
 
   // Hàm xử lý nút lùi (tuần hoàn)
   const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + motels.length) % motels.length);
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + motels.length) % motels.length
+    );
   };
 
   return (
@@ -93,93 +94,99 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
 
         <div className="row motol-new-index">
           {motels.length > 0 ? (
-            displayedMotels.map((motel, index) => (
-              motel && motel.images && Array.isArray(motel.images) && motel.images.length > 0 ? (
-                <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3" >
+            displayedMotels.map((motel, index) =>
+              motel &&
+              motel.images &&
+              Array.isArray(motel.images) &&
+              motel.images.length > 0 ? (
+                <div
+                  key={index}
+                  className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3"
+                >
                   <div className="border-motel-info-home">
-
-                  {/* Slider */}
-                  <div className="" onClick={() => handleMotelClick(motel.id)}>
+                    {/* Slider */}
                     <div
-                      id={`carouselExampleIndicators-2-${index}`}
-                      className="carousel slide"
-                      data-bs-ride="carousel"
+                      className="ngontay-hover"
+                      onClick={() => handleMotelClick(motel.id)}
                     >
-                      <div className="carousel-indicators mb-0" >
-                        {motel.images && motel.images.length > 0 && motel.images.map((image, imgIndex) => (
-                          <button
-                            key={`${imgIndex}`}
-                            type="button"
-                            data-bs-target={`#carouselExampleIndicators-2-${index}`}
-                            data-bs-slide-to={imgIndex}
-                            className={imgIndex === 0 ? "active" : ""}
-                            aria-label={`Slide ${imgIndex + 1}`}
-                            onClick={(e) => e.stopPropagation()}
-
-                          ></button>
-                        ))}
-                      </div>
-                      <div className="carousel-inner position-relative">
-                        {motel.images && motel.images.length > 0 && motel.images.map((image, imgIndex) => (
-                          <div key={imgIndex} className={`carousel-item ${imgIndex === 0 ? "active" : ""} position-relative`}>
-                            <img src={image.link} className="img-slider-home-motel rounded-3" alt={`Motel Image ${imgIndex + 1}`} />
+                      <div
+                        id={`carouselExampleIndicators-2-${index}`}
+                        className="carousel slide"
+                        data-bs-ride="carousel"
+                      >
+                        <div className="carousel-indicators mb-0">
+                          {motel.images &&
+                            motel.images.length > 0 &&
+                            motel.images.map((image, imgIndex) => (
+                              <button
+                                key={`${imgIndex}`}
+                                type="button"
+                                data-bs-target={`#carouselExampleIndicators-2-${index}`}
+                                data-bs-slide-to={imgIndex}
+                                className={imgIndex === 0 ? "active" : ""}
+                                aria-label={`Slide ${imgIndex + 1}`}
+                                onClick={(e) => e.stopPropagation()}
+                              ></button>
+                            ))}
+                        </div>
+                        <div className="carousel-inner position-relative">
+                          {motel.images &&
+                            motel.images.length > 0 &&
+                            motel.images.map((image, imgIndex) => (
+                              <div
+                                key={imgIndex}
+                                className={`carousel-item ${
+                                  imgIndex === 0 ? "active" : ""
+                                } position-relative`}
+                              >
+                                <img
+                                  src={image.link}
+                                  className="img-slider-home-motel rounded-3"
+                                  alt={`Motel Image ${imgIndex + 1}`}
+                                />
+                              </div>
+                            ))}
+                          <div className="Icon-Vip-user-home">
+                            {/* <i className="fa-solid fa-crown"></i> */}
                           </div>
-                        ))}
-                                          <div className="Icon-Vip-user-home">
-
-                  {/* <i className="fa-solid fa-crown"></i> */}
-                  </div>
+                        </div>
                       </div>
-                      <button
-                        className="carousel-control-prev"
-                        type="button"
-                        data-bs-target={`#carouselExampleIndicators-2-${index}`}
-                        data-bs-slide="prev"
-                        onClick={(e) => e.stopPropagation()}
-
-                      ></button>
-                      <button
-                        className="carousel-control-next"
-                        type="button"
-                        data-bs-target={`#carouselExampleIndicators-2-${index}`}
-                        data-bs-slide="next"
-                        onClick={(e) => e.stopPropagation()}
-
-                      ></button>
                     </div>
-                  </div>
 
-                  {/* Phần chữ */}
-                  <div className="mt-3">
-                    <h5 className="name-motel-home-1">{motel.name}</h5>
-                    <p className="dia-chi-motel-home-1">
-                      <FontAwesomeIcon
-                        icon={faLocationDot}
-                        size="lg"
-                        color="#ff522a"
-                        className="icon-table-motel me-2"
-                      />
-                      {motel.address}
-                    </p>
-                    <span className="price-home-1">
-                      <FontAwesomeIcon
-                        icon={faMoneyBill}
-                        size="lg"
-                        color="#298B90"
-                        className="icon-table-motel me-2"
-                      />
-                      {Number(motel?.price)?.toLocaleString('vi-VN')}đ
-                    </span>
-                  </div>
+                    {/* Phần chữ */}
+                    <div className="mt-3">
+                      <h5 className="name-motel-home-1">{motel.name}</h5>
+                      <p className="dia-chi-motel-home-1">
+                        <FontAwesomeIcon
+                          icon={faLocationDot}
+                          size="lg"
+                          color="#ff522a"
+                          className="icon-table-motel me-2"
+                        />
+                        {motel.address}
+                      </p>
+                      <span className="price-home-1">
+                        <FontAwesomeIcon
+                          icon={faMoneyBill}
+                          size="lg"
+                          color="#298B90"
+                          className="icon-table-motel me-2"
+                        />
+                        {Number(motel?.price)?.toLocaleString("vi-VN")}đ
+                      </span>
+                    </div>
                   </div>
                 </div>
               ) : (
                 // Nếu không có ảnh, không render gì
-                <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3">
+                <div
+                  key={index}
+                  className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3"
+                >
                   <p>Không có hình ảnh</p>
                 </div>
               )
-            ))
+            )
           ) : (
             <p>Không có dữ liệu dãy trọ.</p>
           )}
@@ -188,6 +195,5 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
     </>
   );
 }
-
 
 export default RelevantMotel;

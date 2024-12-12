@@ -20,7 +20,7 @@ export const Layout = () => {
   useEffect(() => {
     dispatch(fetchAccount());
   }, [dispatch]);
-  console.log(user)
+  console.log(user);
   const scrollableNodeRef = useRef<HTMLDivElement>(null);
   const [sentNotifications, setSentNotifications] = useState<any[]>([]);
   const [packageInfo, setPackageInfo] = useState(null);
@@ -131,8 +131,9 @@ export const Layout = () => {
   return (
     // < !--Body Wrapper-- >
     <div
-      className={`page-wrapper ${isMiniSidebar ? "mini-sidebar" : ""} ${isShowSidebar ? "show-sidebar" : ""
-        }`}
+      className={`page-wrapper ${isMiniSidebar ? "mini-sidebar" : ""} ${
+        isShowSidebar ? "show-sidebar" : ""
+      }`}
       id="main-wrapper"
       data-layout="vertical"
       data-navbarbg="skin6"
@@ -147,7 +148,7 @@ export const Layout = () => {
         <div className="scroll-sidebar" data-simplebar>
           <div className="d-flex mb-4 align-items-center justify-content-between">
             <a
-              href="index.html"
+              href="/admin"
               className="text-nowrap logo-img ms-0 ms-md-1 d-flex"
             >
               <img src={logo} height="40" alt="" />
@@ -189,7 +190,9 @@ export const Layout = () => {
                       <span className="aside-icon p-2 bg-light-primary rounded-3">
                         <i className="ti ti-layout-dashboard fs-7 text-primary"></i>
                       </span>
-                      <span className="hide-menu ms-2 ps-1">Bảng điều khiển</span>
+                      <span className="hide-menu ms-2 ps-1">
+                        Bảng điều khiển
+                      </span>
                     </Link>
                   </li>
                 </>
@@ -245,7 +248,8 @@ export const Layout = () => {
               </li>
               <li
                 className={clsx("sidebar-item", {
-                  selected: isPartialActive("motel") || isPartialActive("indexOwner"),
+                  selected:
+                    isPartialActive("motel") || isPartialActive("indexOwner"),
                 })}
               >
                 <Link
@@ -253,7 +257,9 @@ export const Layout = () => {
                   className={clsx(
                     "sidebar-link sidebar-link success-hover-bg",
                     {
-                      active: isPartialActive("indexOwner") || isPartialActive("motel"),
+                      active:
+                        isPartialActive("indexOwner") ||
+                        isPartialActive("motel"),
                     }
                   )}
                   aria-expanded="false"
@@ -371,10 +377,10 @@ export const Layout = () => {
                               {notification.type === 1
                                 ? "Thông thường"
                                 : notification.type === 2
-                                  ? "Cảnh báo"
-                                  : notification.type === 3
-                                    ? "Khẩn cấp"
-                                    : "Hệ thống"}
+                                ? "Cảnh báo"
+                                : notification.type === 3
+                                ? "Khẩn cấp"
+                                : "Hệ thống"}
                             </span>
                           </strong>
                         </a>
@@ -424,13 +430,18 @@ export const Layout = () => {
                         <i className="ti ti-user fs-6"></i>
                         <p className="mb-0 fs-3">Tài khoản của tôi</p>
                       </Link>
-                      <Link
-                        to="/admin/package"
-                        className="d-flex align-items-center gap-2 dropdown-item"
-                      >
-                        <i className="fa-light fa-crown fs-3"></i>
-                        <p className="mb-0 fs-3">Tài khoản vip</p>
-                      </Link>
+                      {user && user.role === "Owner" ? (
+                        <Link
+                          to="/admin/package"
+                          className="d-flex align-items-center gap-2 dropdown-item"
+                        >
+                          <i className="fa-light fa-crown fs-3"></i>
+                          <p className="mb-0 fs-3">Tài khoản vip</p>
+                        </Link>
+                      ) : (
+                        ""
+                      )}
+
                       <Link
                         to="/admin/changepassword"
                         className="d-flex align-items-center gap-2 dropdown-item"
