@@ -17,7 +17,7 @@ interface User {
   fullName: string;
   phone: string;
   email: string;
-  avatar: string | null;
+  avatar: string ;
   timeCreated: string;
   status: boolean;
   role: string;
@@ -33,19 +33,24 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
     phone: "",
     email: "",
     role: "", // Set default role as "Nhân viên"
+    avatar: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({}); // State lưu lỗi từng ô input
   const [options, setOptions] = useState<{ label: string; value: string }[]>([]);
   const validateField = (name: string, value: string) => {
     let errorMessage = "";
 
-    if (name === "fullName" && (!value || !/^[a-zA-ZÀ-ỹ\s]+$/.test(value))) {
-      errorMessage = "Họ và tên chỉ chứa ký tự chữ, không bao gồm số hoặc ký tự đặc biệt.";
+    if (name === "fullName") {
+      if (!value.trim()) {
+        errorMessage = "Họ và tên không được để trống hoặc chỉ chứa khoảng trắng.";
+      } else if (!/^[a-zA-ZÀ-ỹ\s']+$/.test(value.trim())) {
+        errorMessage = "Họ và tên chỉ chứa ký tự chữ, không bao gồm số hoặc ký tự đặc biệt.";
+      }
     } else if (name === "phone" && (!value || !/^0\d{9}$/.test(value))) {
-      errorMessage = "Số điện thoại chỉ chứa 10 ký tự số.";
-    } else if (name === "email" && (!value || !/\S+@\S+\.\S+/.test(value))) {
-      errorMessage = "Vui lòng nhập email hợp lệ.";
-    } 
+      errorMessage = "Số điện thoại phải bắt đầu bằng số 0 và có 10 chữ số.";
+    } else if (name === "email" && (!value || !/\S+@\S+\.\S+/.test(value) || (value.match(/@/g) || []).length !== 1)) {
+      errorMessage = "Vui lòng nhập email hợp lệ, chỉ chứa 1 dấu '@'.";
+    }
 
     return errorMessage;
   };
@@ -70,7 +75,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
         //fecth role data
         const role = await getRole();
         //set role data
-        
+
         const roleOptions = role.data.data.map((item: any) => ({
           value: item.name,
           label: item.name,
@@ -104,29 +109,43 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
     e.preventDefault();
     let formErrors: { [key: string]: string } = {};
     let hasError = false;
-
-    for (const [key, value] of Object.entries(formData)) {
-      const errorMessage = validateField(key, value as string);
-      if (errorMessage) {
-        formErrors[key] = errorMessage;
-        hasError = true;
-      }
+  
+    // Kiểm tra xem các trường dữ liệu có bị xóa hoặc để trống không
+    if (!formData.fullName.trim()) {
+      formErrors.fullName = "Họ và tên không được để trống.";
+      hasError = true;
     }
-
+  
+    if (!formData.phone.trim()) {
+      formErrors.phone = "Số điện thoại không được để trống.";
+      hasError = true;
+    }
+  
+    if (!formData.email.trim()) {
+      formErrors.email = "Email không được để trống.";
+      hasError = true;
+    }
+  
+    // Kiểm tra ảnh đại diện
+    if (selectedImage === null && !userData?.avatar) {
+      formErrors.avatar = "Ảnh đại diện không được để trống.";
+      hasError = true;
+    }
+  
     setErrors(formErrors);
+  
     if (!hasError) {
       const data: any = {
         fullName: formData.fullName,
-        phone: formData.phone, // Match the property name
+        phone: formData.phone,
         email: formData.email,
-        avatar: selectedImage || '', // Use empty string if no image is selected
+        avatar: selectedImage || userData?.avatar || '', // Nếu không có ảnh mới, dùng ảnh cũ hoặc để trống
         role: formData.role,
       };
-
+  
       try {
         const response = await updateUser(userId, data);
-
-        console.log('User added successfully:', response.data);
+  
         if (response.data.code === 200) {
           onClose();
           Swal.fire({
@@ -134,19 +153,23 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
             title: "Thành công",
             text: "Sửa tài khoản thành công",
           });
-        }
-        if (response.data.code === 404) {
+        } else {
+          let errorMessage = "Đã xảy ra lỗi không xác định.";
+          if (response.data.errors) {
+            const errors = Object.values(response.data.errors)
+              .flat()
+              .join(", ");
+            errorMessage = errors || errorMessage;
+          }
+  
           Swal.fire({
             icon: "error",
             title: "Thất bại!",
-            text: "Sửa tài khoản thất bại" + response.data.message,
+            text: errorMessage,
           });
-          console.log(response.data.message);
         }
-        // Optionally, handle success (like resetting the form, showing a success message, etc.)
         onSubmit();
       } catch (error) {
-        //shoe error
         Swal.fire({
           icon: "error",
           title: "Lỗi!",
@@ -155,9 +178,7 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
         console.log(error);
       }
     }
-
   };
-
 
   const handleRoleChange = (selectedOption: { value: string; label: string }) => {
     setFormData((prev) => ({
@@ -172,20 +193,19 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
 
 
 
-
   const handleTextChange = (key: any, value: any) => {
-    const errorMessage = validateField(key, value); // Validate input
+    const trimmedValue = value.trim().replace(/\s+/g, " "); // Loại bỏ khoảng trắng dư thừa
+    const errorMessage = validateField(key, trimmedValue);
     if (errorMessage) {
-      setErrors((prev) => ({ ...prev, [key]: errorMessage })); // Lưu lỗi vào state
+      setErrors((prev) => ({ ...prev, [key]: errorMessage }));
     } else {
       setErrors((prev) => {
-        const { [key]: _, ...rest } = prev; // Xóa lỗi nếu không còn lỗi
+        const { [key]: _, ...rest } = prev;
         return rest;
       });
     }
-    setFormData({ ...formData, [key]: value });
+    setFormData((prev) => ({ ...prev, [key]: trimmedValue }));
   };
-
 
   const customStyles: StylesConfig<{ value: string; label: string }> = {
     control: (provided) => ({
@@ -217,9 +237,9 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
           </div>
           <form className="form-admin-modal position-relative" onSubmit={handleSubmit}>
             <div className="icon-Camera-AddAccount rounded-circle position-absolute">
-              {selectedImage ? (
+              {selectedImage || userData?.avatar ?   (
                 <img
-                  src={selectedImage}
+                  src={selectedImage|| userData?.avatar} 
                   alt="Selected"
                   className="icon-table-motel"
                   style={{ width: '80px', height: '80px', borderRadius: '50%' }}
