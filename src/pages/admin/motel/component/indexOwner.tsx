@@ -24,8 +24,6 @@ export const indexOwner = () => {
     dispatch(fetchPackage());
   }, [dispatch]);
 
-
-  const [addLimit, setAddLimit] = useState<number>(0);
   const [motel, setMotel] = useState<MotelDTO[]>();
   const [activeFilter, setActiveFilter] = useState<number | null>(null);
   const [count, setCount] = useState<number>(0);
@@ -34,7 +32,6 @@ export const indexOwner = () => {
   useEffect(() => {
     const fetchCountMotel = async () => {
       const response = await getCountMotelApi();
-      console.log("API Response:", response);
       if (response) {
         setCount(response.count);
       }
@@ -42,56 +39,12 @@ export const indexOwner = () => {
     fetchCountMotel();
   }, []);
 
-  console.log(count, 'số motel')
 
-  useEffect(() => {
-    const savedAddLimit = localStorage.getItem("addLimit");
-    if (savedAddLimit) {
-      setAddLimit(parseInt(savedAddLimit, 10));
-    } else {
-      if (myPackage) {
-        switch (myPackage.name) {
-          case "VIP 1":
-            setAddLimit(1);
-            break;
-          case "VIP 2":
-            setAddLimit(2);
-            break;
-          case "VIP 3":
-            setAddLimit(3);
-            break;
-          case "VIP 4":
-            setAddLimit(4);
-            break;
-          case "VIP 5":
-            setAddLimit(5);
-            break;
-          default:
-            setAddLimit(0);
-            break;
-        }
-      } else {
-        setAddLimit(0);
-      }
-    }
-  }, [myPackage]);
+
+
   const handleAddMotel = () => {
-    if (addLimit > 0 && count < addLimit) {
-
-      Swal.fire({
-        icon: "success",
-        title: "Thêm thành công!",
-        text: "Chuyển đến trang thêm dãy trọ.",
-      }).then(() => {
-        setAddLimit((prevLimit) => prevLimit - 1);
-        navigate("addModelOwner", { state: { addLimit } });
-      });
-    } else if (count >= addLimit) {
-      Swal.fire({
-        icon: "error",
-        title: "Không thể thêm!",
-        text: "Bạn đã đạt giới hạn số lượng dãy trọ cho phép.",
-      });
+    if (myPackage && myPackage.limitMotel && count < myPackage?.limitMotel) {
+      navigate("addModelOwner");
     } else {
       Swal.fire({
         icon: "error",
@@ -100,6 +53,8 @@ export const indexOwner = () => {
       });
     }
   };
+
+  console.log(myPackage?.name, 'tên Vip')
 
   const [query, setQuery] = useState<FilterProps>({
     status: null,
@@ -219,6 +174,13 @@ export const indexOwner = () => {
         text: "Xoá dãy trọ thành công",
       });
       await LoadData(query);
+      const fetchCountMotel = async () => {
+        const response = await getCountMotelApi();
+        if (response) {
+          setCount(response.count);
+        }
+      };
+      fetchCountMotel();
     }
   };
 
@@ -309,7 +271,6 @@ export const indexOwner = () => {
 
                     <button
                       onClick={handleAddMotel}
-                      disabled={!myPackage || addLimit <= 0}
                       className="btn btn-create-notification btn-transform-y2"
                     >
                       <i className="fa-regular fa-plus icon-table-motel fa-lg me-3"></i>

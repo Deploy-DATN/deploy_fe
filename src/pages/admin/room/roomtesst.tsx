@@ -1,7 +1,6 @@
 import { useLocation, useParams } from "react-router-dom";
 import "./style/room.scss";
-
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AddElicWater from "./component/addElicWater";
 import Addroom from "./component/addroom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,7 +20,10 @@ import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
+
 export const Roomtesst = () => {
+
+
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
     addRoom: false,
     AddElicWater: false,
@@ -38,6 +40,7 @@ export const Roomtesst = () => {
     param: number | any[] = []
   ) => {
     setModalState((prev) => ({ ...prev, [modalName]: !prev[modalName] }));
+
     if (Array.isArray(param)) {
       // Xử lý khi param là mảng rooms
       setSelectedRooms(param);
@@ -51,6 +54,7 @@ export const Roomtesst = () => {
   const [roomType, setRoomType] = useState<GetRoomTypeDTO[]>();
   const [motel, setMotel] = useState<MotelDTO>();
 
+
   //lấy motelId từ params
   const { motelId } = useParams();
 
@@ -58,9 +62,13 @@ export const Roomtesst = () => {
   const location = useLocation();
   const { name, address } = location.state || {};
 
+
+
   useEffect(() => {
     LoadData();
   }, [motelId]);
+
+
 
   const LoadData = async () => {
     try {
