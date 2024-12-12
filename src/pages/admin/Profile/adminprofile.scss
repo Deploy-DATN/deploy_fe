@@ -37,6 +37,7 @@
       color: #298b90;
       margin-bottom: 5px;
     }
+
     .p-package-user-owner {
       margin-bottom: 24px;
       max-width: 695px;
@@ -46,6 +47,7 @@
       color: rgb(80, 80, 80);
     }
   }
+
   .package-body {
     .package-body-item {
       width: 250px;
@@ -54,18 +56,21 @@
       box-shadow: rgba(44, 44, 44, 0.04) 0px 4px 6px;
       border-radius: 10px;
       background-color: rgb(255, 255, 255);
+
       .package-body-header {
         display: flex;
         flex-direction: column;
         text-align: center;
         -webkit-box-align: center;
         align-items: center;
+
         .package-body-name {
           display: flex;
           -webkit-box-align: center;
           align-items: center;
           margin-bottom: 8px;
           color: #298b90;
+
           .package-body-name-h3 {
             font-size: 24px;
             line-height: 32px;
@@ -75,11 +80,13 @@
             margin-bottom: 0;
           }
         }
+
         .package-body-room {
           display: flex;
           -webkit-box-align: center;
           align-items: center;
           margin-bottom: 8px;
+
           p {
             font-size: 14px;
             line-height: 20px;
@@ -99,6 +106,7 @@
             color: rgb(44, 44, 44);
           }
         }
+
         .package-body-time {
           font-size: 12px;
           line-height: 16px;
@@ -106,11 +114,13 @@
           color: rgb(80, 80, 80);
         }
       }
+
       .package-gach {
         height: 1px;
         background-color: rgb(242, 242, 242);
         margin: 15px -22px;
       }
+
       .package-body-footer {
         p {
           font-size: 15px;
@@ -128,4 +138,9 @@
       }
     }
   }
+}
+
+.package-name {
+  background-color: #298b90;
+  color: #fff;
 }
