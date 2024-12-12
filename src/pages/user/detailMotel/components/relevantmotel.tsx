@@ -114,27 +114,37 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
                             data-bs-slide-to={imgIndex}
                             className={imgIndex === 0 ? "active" : ""}
                             aria-label={`Slide ${imgIndex + 1}`}
+                            onClick={(e) => e.stopPropagation()}
+
                           ></button>
                         ))}
                       </div>
-                      <div className="carousel-inner">
+                      <div className="carousel-inner position-relative">
                         {motel.images && motel.images.length > 0 && motel.images.map((image, imgIndex) => (
-                          <div key={imgIndex} className={`carousel-item ${imgIndex === 0 ? "active" : ""}`}>
+                          <div key={imgIndex} className={`carousel-item ${imgIndex === 0 ? "active" : ""} position-relative`}>
                             <img src={image.link} className="img-slider-home-motel rounded-3" alt={`Motel Image ${imgIndex + 1}`} />
                           </div>
                         ))}
+                                          <div className="Icon-Vip-user-home">
+
+                  {/* <i className="fa-solid fa-crown"></i> */}
+                  </div>
                       </div>
                       <button
                         className="carousel-control-prev"
                         type="button"
                         data-bs-target={`#carouselExampleIndicators-2-${index}`}
                         data-bs-slide="prev"
+                        onClick={(e) => e.stopPropagation()}
+
                       ></button>
                       <button
                         className="carousel-control-next"
                         type="button"
                         data-bs-target={`#carouselExampleIndicators-2-${index}`}
                         data-bs-slide="next"
+                        onClick={(e) => e.stopPropagation()}
+
                       ></button>
                     </div>
                   </div>

@@ -4,22 +4,22 @@ import "./style/room.scss";
 import React, { useEffect, useState } from "react";
 import AddElicWater from "./component/addElicWater";
 import Addroom from "./component/addroom";
-import Inforoom from "./component/inforoom";
-import Editroom from "./component/detailroom/editroom";
-import AddUserRoom from "./component/detailroom/addUserRoom";
-import Baotriroom from "./component/detailroom/baotriroom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBolt,
-  faDroplet,
-  faPlus,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { GetRoomTypeDTO, MotelDTO } from "@/services/Dto/MotelDto";
 import Roomtype from "./component/roomtype";
 import Addroomintype from "./component/addroomintype";
 import EditRoomType from "./component/editRoomType";
-import { GetRoomTypeByMotelId } from "@/services/api/MotelApi";
+import {
+  ApproveMotelApi,
+  GetRoomTypeByMotelId,
+  LockMotelApi,
+  RejectMotelApi,
+  UnLockMotelApi,
+} from "@/services/api/MotelApi";
+import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export const Roomtesst = () => {
   const [modalState, setModalState] = useState<{ [key: string]: boolean }>({
@@ -28,6 +28,7 @@ export const Roomtesst = () => {
     AddRoomInType: false,
     editRoomType: false,
   });
+  const { user } = useSelector((state: RootState) => state.user);
 
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
   const { id } = useParams();
@@ -36,7 +37,7 @@ export const Roomtesst = () => {
     modalName: keyof typeof modalState,
     param: number | any[] = []
   ) => {
-    setModalState(prev => ({...prev, [modalName]: !prev[modalName]}));
+    setModalState((prev) => ({ ...prev, [modalName]: !prev[modalName] }));
     if (Array.isArray(param)) {
       // Xử lý khi param là mảng rooms
       setSelectedRooms(param);
@@ -56,7 +57,6 @@ export const Roomtesst = () => {
   //lấy name và address từ location
   const location = useLocation();
   const { name, address } = location.state || {};
-  console.log(name, address);
 
   useEffect(() => {
     LoadData();
@@ -71,8 +71,123 @@ export const Roomtesst = () => {
       console.log(error);
     }
   };
-
   const [selectedRooms, setSelectedRooms] = useState<any[]>([]);
+  //thao tác motel (admin)
+
+  const HandleApprove = async (id: number) => {
+    const response = await ApproveMotelApi(id);
+    if (response.code === 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Thành công",
+        text: "Duyệt dãy trọ thành công",
+      });
+      await LoadData();
+    }
+  };
+
+  const HandleReject = async (id: number) => {
+    const response = await RejectMotelApi(id);
+    if (response.code === 200) {
+      Swal.fire({
+        icon: "warning",
+        title: "Từ chối!",
+        text: "Từ chối dãy trọ thành công",
+      });
+      await LoadData();
+    }
+  };
+
+  const HandleLock = async (id: number) => {
+    const response = await LockMotelApi(id);
+    if (response.code === 200) {
+      Swal.fire({
+        icon: "error",
+        title: "Khóa!",
+        text: "Khóa dãy trọ thành công",
+      });
+      await LoadData();
+    }
+  };
+
+  const HandleUnLock = async (id: number) => {
+    const response = await UnLockMotelApi(id);
+    if (response.code === 200) {
+      Swal.fire({
+        icon: "success",
+        title: "Mở khóa!",
+        text: "Mở khóa dãy trọ thành công",
+      });
+      await LoadData();
+    }
+  };
+
+  const CheckStatus_ThaoTac = (status: number, id: number) => {
+    if (status === 1) {
+      return (
+        <>
+          <button
+            className="btn btn-create-notification btn-transform-y2"
+            onClick={() => HandleApprove(id)}
+          >
+            <FontAwesomeIcon
+              icon={faPlus}
+              size="lg"
+              color="#fffffff"
+              className="icon-table-motel me-3"
+            />
+            Duyệt
+          </button>
+          <button
+            className="btn btn-create-notification btn-transform-y2"
+            onClick={() => HandleReject(id)}
+          >
+            <FontAwesomeIcon
+              icon={faPlus}
+              size="lg"
+              color="#fffffff"
+              className="icon-table-motel me-3"
+            />
+            Từ chối
+          </button>
+        </>
+      );
+    } else if (status === 2) {
+      return (
+        <>
+          <button
+            className="btn btn-create-notification btn-transform-y2"
+            onClick={() => HandleLock(id)}
+          >
+            <FontAwesomeIcon
+              icon={faPlus}
+              size="lg"
+              color="#fffffff"
+              className="icon-table-motel me-3"
+            />
+            Khóa
+          </button>
+        </>
+      );
+    } else if (status === 3) {
+      return (
+        <>
+          <button
+            className="btn btn-create-notification btn-transform-y2"
+            onClick={() => HandleUnLock(id)}
+          >
+            <FontAwesomeIcon
+              icon={faPlus}
+              size="lg"
+              color="#fffffff"
+              className="icon-table-motel me-3"
+            />
+            Mở khóa
+          </button>
+        </>
+      );
+    }
+  };
 
   return (
     <>
@@ -88,7 +203,7 @@ export const Roomtesst = () => {
                 <div className="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
                   <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end flex-wrap gap-3 mt-3">
                     <div className="">
-                      <button
+                      {/* <button
                         className="btn btn-create-notification btn-transform-y2"
                         onClick={() => toggleModal("addRoom")}
                       >
@@ -99,16 +214,31 @@ export const Roomtesst = () => {
                           className="icon-table-motel me-3"
                         />
                         Thêm loại phòng
-                      </button>
+                      </button> */}
+                      {user?.role === "Owner" ? (
+                        <button
+                          className="btn btn-create-notification btn-transform-y2"
+                          onClick={() => toggleModal("addRoom")}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPlus}
+                            size="lg"
+                            color="#ffffff"
+                            className="icon-table-motel me-3"
+                          />
+                          Thêm loại phòng
+                        </button>
+                      ) : (
+                        (user?.role === "Admin" || user?.role === "Staff") &&
+                        <></>
+                        )}
                     </div>
                   </div>
 
                   <div className="d-flex justify-content-start mt-3 justify-content-lg-end justify-content-xl-end justify-content-xxl-end">
                     <div>
                       <div className="form-group has-search position-relative">
-                        <form
-                          className="d-flex align-items-center border border-secondary-subtle ps-3 rounded"
-                        >
+                        <form className="d-flex align-items-center border border-secondary-subtle ps-3 rounded">
                           <span className="fa fa-search form-control-feedback"></span>
                           <input
                             type="search"
@@ -137,7 +267,10 @@ export const Roomtesst = () => {
                 />
               )}
               {modalState.addElicWater && selectedRoomId && (
-                <AddElicWater roomTypeId={selectedRoomId} onClose={() => toggleModal("addElicWater")} />
+                <AddElicWater
+                  roomTypeId={selectedRoomId}
+                  onClose={() => toggleModal("addElicWater")}
+                />
               )}
               {modalState.editRoomType && selectedRoomId && (
                 <EditRoomType

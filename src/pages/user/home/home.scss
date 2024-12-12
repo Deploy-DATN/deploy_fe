@@ -21,6 +21,23 @@
     }
   }
 }
+//icon vip
+.Icon-Vip-user-home{
+  background-image: url("https://staticfile.batdongsan.com.vn/images/label/Label_VIPGold-compact.svg");
+  position: absolute;
+  top: 10px;
+  left: -22px;
+  width: 70px;
+  height: 27px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: yellow;
+}
+
 .price-home-1{
   font-size: 16px;
   color: #ff5c00;
