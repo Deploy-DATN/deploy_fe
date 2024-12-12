@@ -121,9 +121,9 @@ const BillDetail = () => {
                         <tr>
                             <th scope="row">3</th>
                             <td>Giá phòng</td>
-                            <td>{billData?.roomPrice} vnđ</td>
+                            <td>{billData?.roomPrice.toLocaleString()} vnđ</td>
                             <td>Không có</td>
-                            <td>{billData?.roomPrice} vnđ</td>
+                            <td>{billData?.roomPrice.toLocaleString()} vnđ</td>
                         </tr>
                         <tr className='fs-5'>
                             <th colSpan={4}>Thành tiền</th>
