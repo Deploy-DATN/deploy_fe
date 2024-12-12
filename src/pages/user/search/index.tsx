@@ -22,7 +22,7 @@ export const SearchMotel = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [sortOption, setSortOption] = useState<string>("new"); // Default sort
+  const [sortOption, setSortOption] = useState<string>(""); // Default sort
 
   const province = queryParams.get("Province") || "";
   const district = queryParams.get("District") || "";
@@ -132,6 +132,7 @@ export const SearchMotel = () => {
                         value={sortOption} // Bind value to state
                         onChange={handleSortChange} // Handle sort change
                       >
+                        <option value="">Mặc định</option>
                         <option value="new">Mới nhất</option>
                         <option value="price_asc">Tăng dần</option>
                         <option value="price_desc">Giảm dần</option>
@@ -162,7 +163,7 @@ export const SearchMotel = () => {
                               </div>
                               <div className="motel-item-price">
                                 <small className="me-2">Giá: </small>
-                                <span>{Number(motel?.price)?.toLocaleString('vi-VN')}đ triệu/tháng</span>
+                                <span>{Number(motel?.price)?.toLocaleString('vi-VN')}đ/tháng</span>
                               </div>
                               <div className="motel-item-area">
                                 <small className="me-2">Diện tích: </small>
