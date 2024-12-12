@@ -82,7 +82,8 @@ const Roomtype = (props: {
   };
 
   const handleAddRoom = () => {
-    if (myPackage && countRoom < myPackage.limitRoom) {
+    const limitRoom = myPackage?.limitRoom ?? 8;
+    if (countRoom < limitRoom) {
       toggleModal("AddRoomInType", roomType.id);
     } else {
       Swal.fire({
@@ -92,6 +93,8 @@ const Roomtype = (props: {
       });
     }
   };
+
+  console.log(myPackage?.limitRoom, '1')
 
   const CheckStatusElicWater = async (roomTypeId: number) => {
     const res = await GetRoomTypeByAddElicWaterApi(roomTypeId);
