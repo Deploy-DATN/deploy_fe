@@ -86,6 +86,11 @@ const Motel = () => {
             window.history.replaceState({}, document.title, '/user/motel');
         }
     }, [location.search]);
+
+    const formatDate = (date: string) => {
+        const formattedDate = new Date(date);
+        return formattedDate.toLocaleDateString('vi-VN'); // Định dạng ngày theo kiểu Việt Nam (Ngày/Tháng/Năm)
+    };
     return (
         <div className="container user-motel p-4">
             {rentalDetail ? (
@@ -120,11 +125,11 @@ const Motel = () => {
                             </div>
                             <div className="col-6">
                                 <div className="service-title text-dark">Dịch vụ tiện ích</div>
-                                <div className="service text-dark">Điện: {rentalDetail.electricPrice} vnd</div>
-                                <div className="service text-dark">Nước: {rentalDetail.waterPrice} vnd</div>
+                                <div className="service text-dark">Điện: {rentalDetail.electricPrice.toLocaleString()} vnđ</div>
+                                <div className="service text-dark">Nước: {rentalDetail.waterPrice.toLocaleString()} vnđ</div>
                                 {rentalDetail.otherService.map((service: any, index: number) => (
                                     <div key={index} className="service text-dark">
-                                        {service.name}: {service.price} vnđ
+                                        {service.name}: {service.price.toLocaleString()} vnđ
                                     </div>
                                 ))}
                             </div>
@@ -134,7 +139,7 @@ const Motel = () => {
                                 <div className="infomation-title text-dark">Người thuê</div>
                                 <div className="infomation text-dark">Tên người thuê: {rentalDetail.fullName}</div>
                                 <div className="infomation text-dark">
-                                    Ngày thuê: {new Date(rentalDetail.createDate).toLocaleDateString()}
+                                    Ngày thuê: {formatDate(rentalDetail.createDate)}
                                 </div>
                                 <div className="infomation text-dark">
                                     Tháng {new Date(rentalDetail.createDate).getMonth() + 1}:
