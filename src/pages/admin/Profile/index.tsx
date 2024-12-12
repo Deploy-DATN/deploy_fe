@@ -157,7 +157,7 @@ const AdminProfile = () => {
                                 </div>
                                 <button
                                     type="button"
-                                    className="btn btn-primary"
+                                    className="btn btn-create-notification btn-transform-y2"
                                     onClick={handleButtonClick}
                                 >
                                     Cập nhật avatar

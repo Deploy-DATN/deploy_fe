@@ -106,7 +106,7 @@ const Changepassform: React.FC<Props> = ({ onSubmit }) => {
                             onClick={toggleConfirmNewPasswordVisibility}
                         ></i>
                     </div>
-                    <button type="submit" className="btn btn-primary">Đổi mật khẩu</button>
+                    <button type="submit" className="btn btn-create-notification btn-transform-y2">Đổi mật khẩu</button>
                 </form>
             </div>
 

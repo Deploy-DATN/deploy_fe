@@ -125,7 +125,7 @@ function HomeMotelHot() {
       </div>
       <div className="row">
         {motels && motels.length > 0 && motels.map((roomtype, index) => (
-          <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3" onClick={() => handleMotelClick(roomtype.id)}>
+          <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3 ngontay-hover" onClick={() => handleMotelClick(roomtype.id)}>
             <div className="border-motel-info-home">
             <div className="">
               <div
