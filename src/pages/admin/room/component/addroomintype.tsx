@@ -64,8 +64,8 @@ const Addroomintype: React.FC<Addroomintype> = ({ onClose, roomTypeId }) => {
       setError(errorMsg);
       return;
     }
-
-    if (myPackage && countRoom1 + data.quantityRoom > myPackage?.limitRoom) {
+    const limitRoom = myPackage?.limitRoom ?? 8;
+    if (countRoom1 + data.quantityRoom > limitRoom) {
       Swal.fire({
         icon: "error",
         title: "Lỗi!",
