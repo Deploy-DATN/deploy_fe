@@ -143,16 +143,16 @@ function HomeMotelHot() {
                       data-bs-slide-to={imgIndex}
                       className={imgIndex === 0 ? "active" : ""}
                       aria-label={`Slide ${imgIndex + 1}`}
-
+                      onClick={(e) => e.stopPropagation()}
                     > </button>
 
                   ))}
                 </div>
-                <div className="carousel-inner rounded-4">
+                <div className="carousel-inner rounded-4 position-relative">
                   {roomtype.images && roomtype.images.length > 0 && roomtype.images.map((img, imgIndex) => (
                     <div
                       key={`${imgIndex}`}
-                      className={`carousel-item ${imgIndex === 0 ? "active" : ""}`}
+                      className={`carousel-item ${imgIndex === 0 ? "active" : ""} position-relative`}
                     >
                       <img
                         src={img.link || "#"}
@@ -161,6 +161,9 @@ function HomeMotelHot() {
                       />
                     </div>
                   ))}
+                  <div className="Icon-Vip-user-home">
+                  {/* <i className="fa-solid fa-crown"></i> */}
+                  </div>
                 </div>
               </div>
             </div>

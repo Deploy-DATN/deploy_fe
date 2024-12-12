@@ -203,7 +203,7 @@ export const indexOwner = () => {
             onClick={() => HandleLock(id)}
             className=" px-2 py-1 mx-1 btn-transform-y2"
           >
-            <i className="fa-solid fa-lock icon-table-motel fa-xl"></i>
+            <i className="fa-regular fa-lock icon-table-motel fa-xl"></i>
           </a>
         </>
       );

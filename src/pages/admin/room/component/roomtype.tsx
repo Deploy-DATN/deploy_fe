@@ -4,6 +4,7 @@ import { GetRoomTypeDTO } from "@/services/Dto/MotelDto";
 import RowRoom from "./rowRoom";
 import { GetRoomTypeByAddElicWaterApi } from "@/services/api/MotelApi";
 import { useSelector } from "react-redux";
+
 import { RootState, userAppDispatch } from "@/redux/store";
 import { fetchPackage } from "@/components/header/redux/action";
 import { getCountRoomApi } from "@/services/api/HomeApi";
@@ -15,8 +16,10 @@ const Roomtype = (props: {
   toggleModal: (modalName: string, param: number | any[]) => void;
 }) => {
   const { roomType, motelStatus, toggleModal } = props;
+  const { user } = useSelector((state: RootState) => state.user);
 
   const [isDisabled, setIsDisabled] = useState(false);
+
   const { myPackage } = useSelector((state: RootState) => state.user);
   const dispatch = userAppDispatch();
   useEffect(() => {
@@ -25,7 +28,6 @@ const Roomtype = (props: {
   const [countRoom, setCountRoom] = useState<number>(0);
   const { id } = useParams();
   const { motelId } = useParams();
-
   useEffect(() => {
     const checkStatus = async () => {
       const result = await GetRoomTypeByAddElicWaterApi(roomType.id);
@@ -99,7 +101,6 @@ const Roomtype = (props: {
     return false;
   };
 
-
   return (
     <>
       <div className="room-type-owner mt-3">
@@ -142,29 +143,36 @@ const Roomtype = (props: {
                 </div>
               </div>
               <div className="g-2">
-                <div className="">
-                  <button
-                    className='btn btn-create-notification btn-transform-y2'
-                    onClick={() => toggleModal('addElicWater', roomType.id)}
-                    disabled={!isDisabled}
-                  >
-                    Xuất hoá đơn
-                  </button>
-                </div>
-                <div className="d-flex justify-content-lg-between col-12 mt-3 px-0">
-                  <button
+                {user?.role === "Owner" ? (
+                  <>
+                    <div className="">
+                      <button
+                        className="btn btn-create-notification btn-transform-y2"
+                        onClick={() => toggleModal("addElicWater", roomType.id)}
+                        disabled={!isDisabled}
+                      >
+                        Xuất hoá đơn
+                      </button>
+                    </div>
+                    <div className="d-flex justify-content-lg-between col-12 mt-3 px-0">
+                       <button
                     className="btn btn-create-notification btn-transform-y2 p-2 me-2 me-lg-0 "
                     onClick={handleAddRoom}
                   >
                     Thêm phòng
                   </button>
-                  <button
-                    onClick={() => toggleModal("editRoomType", roomType.id)}
-                    className="btn btn-create-notification btn-transform-y2 p-2 col-lg-4"
-                  >
-                    Sửa
-                  </button>
-                </div>
+                      <button
+                        onClick={() => toggleModal("editRoomType", roomType.id)}
+                        className="btn btn-create-notification btn-transform-y2 p-2 col-lg-4"
+                      >
+                        Sửa
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  (user?.role === "Admin" || user?.role === "Staff") && <></>
+                )}
+
               </div>
             </div>
           </div>

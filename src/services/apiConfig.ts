@@ -91,7 +91,7 @@ const roleRoutes: Record<string, string> = {
     'ADMIN': '/admin/',
     'CUSTOMER': '/',
     'OWNER': '/admin/',
-    'STAFF': '/admin/'
+    'STAFF': '/admin/notification'
 };
 
 export const getRouteFromToken = (token: string): string => {
