@@ -48,8 +48,8 @@ const EditAccount: React.FC<EditAccountProps> = ({ userId, onClose, onSubmit }) 
       }
     } else if (name === "phone" && (!value || !/^0\d{9}$/.test(value))) {
       errorMessage = "Số điện thoại phải bắt đầu bằng số 0 và có 10 chữ số.";
-    } else if (name === "email" && (!value || !/\S+@\S+\.\S+/.test(value))) {
-      errorMessage = "Vui lòng nhập email hợp lệ.";
+    } else if (name === "email" && (!value || !/\S+@\S+\.\S+/.test(value) || (value.match(/@/g) || []).length !== 1)) {
+      errorMessage = "Vui lòng nhập email hợp lệ, chỉ chứa 1 dấu '@'.";
     }
 
     return errorMessage;
