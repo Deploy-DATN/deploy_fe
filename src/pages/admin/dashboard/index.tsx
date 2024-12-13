@@ -236,7 +236,7 @@ export const Dashboard = () => {
         <div className="container-fluid">
             {/* <!--  Row 1 --> */}
             <div className="row  mt-3">
-                <div className="col-lg-8 d-flex align-items-strech">
+                <div className={`${roleFromToken?.toUpperCase() == 'ADMIN' ? 'col-lg-8 ' : 'col-lg-12 '} d-flex align-items-strech`}>
                     <div className="card w-100">
                         <div className="card-body">
                             <div className="d-flex align-items-center justify-content-between mb-10">
@@ -271,12 +271,12 @@ export const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                {roleFromToken?.toUpperCase() == 'ADMIN' &&(
-                <div className="col-lg-4">
-                    <div className="row">
-                        <div className="col-lg-12 col-sm-6">
-                            {/* <!-- Yearly Breakup --> */}
-                            {/* <div className="card overflow-hidden">
+                {roleFromToken?.toUpperCase() == 'ADMIN' && (
+                    <div className="col-lg-4">
+                        <div className="row">
+                            <div className="col-lg-12 col-sm-6">
+                                {/* <!-- Yearly Breakup --> */}
+                                {/* <div className="card overflow-hidden">
                                 <div className="card-body p-4">
                                     <h5 className="card-title mb-10 fw-semibold">Dịch vụ</h5>
                                     <div className="row">
@@ -286,136 +286,136 @@ export const Dashboard = () => {
                                     </div>
                                 </div>
                             </div> */}
-                        </div>
-                        <div className="col-lg-12 col-sm-6">
-                            {/* <!-- Monthly Earnings --> */}
-                            <div className="card">
-                                <div className="card-body">
-                                    <div className="row alig n-items-start">
-                                        <div className="col-12">
-                                            <h5 className="card-title mb-10 fw-semibold">Tổng tài khoản chủ trọ</h5>
-                                           
+                            </div>
+                            <div className="col-lg-12 col-sm-6">
+                                {/* <!-- Monthly Earnings --> */}
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="row alig n-items-start">
+                                            <div className="col-12">
+                                                <h5 className="card-title mb-10 fw-semibold">Tổng tài khoản chủ trọ</h5>
+
+                                            </div>
+                                            {earningData && <MyChart data={earningData.data} />}
                                         </div>
-                                        {earningData && <MyChart data={earningData.data} />}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-lg-12 col-sm-6 mt-4">
-                            {/* <!-- Customer Accounts --> */}
-                            <div className="card">
-                                <div className="card-body">
-                                    <div className="row align-items-start">
-                                        <div className="col-12">
-                                            <h5 className="card-title mb-10 fw-semibold">Tổng tài khoản khách hàng</h5>
-                                           
+                            <div className="col-lg-12 col-sm-6 mt-4">
+                                {/* <!-- Customer Accounts --> */}
+                                <div className="card">
+                                    <div className="card-body">
+                                        <div className="row align-items-start">
+                                            <div className="col-12">
+                                                <h5 className="card-title mb-10 fw-semibold">Tổng tài khoản khách hàng</h5>
+
+                                            </div>
+                                            {customerEarningData && <MyChart data={customerEarningData.data} />}
                                         </div>
-                                        {customerEarningData && <MyChart data={customerEarningData.data} />}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 )}
             </div>
-           {roleFromToken?.toUpperCase() == 'OWNER' &&(
-            <div className="row align-items-stretch">
-                <div className="card w-100">
-                    <div className="card-body p-4">
-                        <div
-                            className="d-flex mb-4 justify-content-between align-items-center"
-                        >
-                            <h5 className="mb-0 fw-bold">Các trọ còn trống</h5>
-
-                            <div className="dropdown">
-                                <button
-                                    id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                    className="rounded-circle btn-transparent rounded-circle btn-sm px-1 btn shadow-none"
-                                >
-                                    <i className="ti ti-dots-vertical fs-7 d-block"></i>
-                                </button>
-                                <ul
-                                    className="dropdown-menu dropdown-menu-end"
-                                    aria-labelledby="dropdownMenuButton1"
-                                >
-                                    <li><a className="dropdown-item" href="#">Action</a></li>
-                                    <li>
-                                        <a className="dropdown-item" href="#">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a className="dropdown-item" href="#"
-                                        >Something else here</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div className="table-responsive" data-simplebar>
-                            <table
-                                className="table table-borderless align-middle text-nowrap"
+            {roleFromToken?.toUpperCase() == 'OWNER' && (
+                <div className="row align-items-stretch">
+                    <div className="card w-100">
+                        <div className="card-body p-4">
+                            <div
+                                className="d-flex mb-4 justify-content-between align-items-center"
                             >
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Trọ</th>
-                                        <th scope="col">Địa chỉ</th>
-                                        <th scope="col">Phòng trống</th>
-                                        <th scope="col">Trạng thái</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {rooms.map((rooms, index) => (
-                                        <tr key={index}>
-                                            <td>
-                                                <div className="d-flex align-items-center">
-                                                    <div className="me-4">
-                                                        <img
-                                                            src={tk}
-                                                            width="50"
-                                                            className="rounded-circle"
-                                                            alt=""
-                                                        />
-                                                    </div>
+                                <h5 className="mb-0 fw-bold">Các trọ còn trống</h5>
 
-                                                    <div>
-                                                        <h6 className="mb-1 fw-bolder">ID12345</h6>
-                                                        <p className="fs-3 mb-0">{rooms.motelName}</p>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p className="fs-3 fw-normal mb-0">{rooms.address}</p>
-                                            </td>
-                                            <td>
-                                                <p className="fs-3 fw-normal mb-0 text-success">
-                                                    {rooms.emptyRoomsCount}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                {rooms.status === 1 && (
-                                                    <span className="badge bg-light-success rounded-pill text-success px-3 py-2 fs-3">Hoạt động</span>
-                                                )}
-                                                {rooms.status === 2 && (
-                                                    <span className="badge bg-light-primary rounded-pill text-primary px-3 py-2 fs-3">Chưa biết ghi gì</span>
-                                                )}
-                                                {rooms.status === 3 && (
-                                                    <span className="badge bg-light-danger rounded-pill text-danger px-3 py-2 fs-3">Khóa</span>
-                                                )}
-                                                {rooms.status === 4 && (
-                                                    <span className="badge bg-light-warning rounded-pill text-warning px-3 py-2 fs-3">Đang sửa</span>
-                                                )}
-                                            </td>
+                                <div className="dropdown">
+                                    <button
+                                        id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        className="rounded-circle btn-transparent rounded-circle btn-sm px-1 btn shadow-none"
+                                    >
+                                        <i className="ti ti-dots-vertical fs-7 d-block"></i>
+                                    </button>
+                                    <ul
+                                        className="dropdown-menu dropdown-menu-end"
+                                        aria-labelledby="dropdownMenuButton1"
+                                    >
+                                        <li><a className="dropdown-item" href="#">Action</a></li>
+                                        <li>
+                                            <a className="dropdown-item" href="#">Another action</a>
+                                        </li>
+                                        <li>
+                                            <a className="dropdown-item" href="#"
+                                            >Something else here</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div className="table-responsive" data-simplebar>
+                                <table
+                                    className="table table-borderless align-middle text-nowrap"
+                                >
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Trọ</th>
+                                            <th scope="col">Địa chỉ</th>
+                                            <th scope="col">Phòng trống</th>
+                                            <th scope="col">Trạng thái</th>
                                         </tr>
-                                    ))}
+                                    </thead>
+                                    <tbody>
+                                        {rooms.map((rooms, index) => (
+                                            <tr key={index}>
+                                                <td>
+                                                    <div className="d-flex align-items-center">
+                                                        <div className="me-4">
+                                                            <img
+                                                                src={tk}
+                                                                width="50"
+                                                                className="rounded-circle"
+                                                                alt=""
+                                                            />
+                                                        </div>
 
-                                </tbody>
-                            </table>
+                                                        <div>
+                                                            <h6 className="mb-1 fw-bolder">ID12345</h6>
+                                                            <p className="fs-3 mb-0">{rooms.motelName}</p>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <p className="fs-3 fw-normal mb-0">{rooms.address}</p>
+                                                </td>
+                                                <td>
+                                                    <p className="fs-3 fw-normal mb-0 text-success">
+                                                        {rooms.emptyRoomsCount}
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    {rooms.status === 1 && (
+                                                        <span className="badge bg-light-success rounded-pill text-success px-3 py-2 fs-3">Hoạt động</span>
+                                                    )}
+                                                    {rooms.status === 2 && (
+                                                        <span className="badge bg-light-primary rounded-pill text-primary px-3 py-2 fs-3">Chưa biết ghi gì</span>
+                                                    )}
+                                                    {rooms.status === 3 && (
+                                                        <span className="badge bg-light-danger rounded-pill text-danger px-3 py-2 fs-3">Khóa</span>
+                                                    )}
+                                                    {rooms.status === 4 && (
+                                                        <span className="badge bg-light-warning rounded-pill text-warning px-3 py-2 fs-3">Đang sửa</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
             )}
         </div>
     )
