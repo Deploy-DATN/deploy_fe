@@ -11,18 +11,36 @@ interface DeleteuseroomProps {
 const Deleteuseroom: React.FC<DeleteuseroomProps> = ({ onClose, roomId, userId }) => {
 
   const handleDeleteUserRoom = async () => {
-    const response = await DeleteUserRoomApi(roomId, userId);
-    if (response.code === 200) {
+    try{
+      const response = await DeleteUserRoomApi(roomId, userId);
+      if (response.code === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Thành công",
+          text: "Xóa người thuê thành công!",
+        }).then(() => {
+          // Lưu trạng thái thông báo vào localStorage
+          localStorage.setItem("showNotification", "true");
+          onClose();
+          location.reload();
+          });    }
+      else{
+        Swal.fire({
+          icon: "error",
+          title: "Thất bại!",
+          text: "Xóa người thuê thất bại!",
+        });
+      }
+    }
+    catch(err){
       Swal.fire({
-				icon: "success",
-				title: "Thành công",
-				text: "Xóa người thuê thành công!",
-      }).then(() => {
-				// Lưu trạng thái thông báo vào localStorage
-				localStorage.setItem("showNotification", "true");
-				onClose();
-				location.reload();
-				});    }
+        icon: "error",
+        title: "Thất bại!",
+        text: "Xóa người thuê thất bại!",
+      }); 
+    }
+   
+
   };
 
     return (

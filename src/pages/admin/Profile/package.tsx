@@ -55,6 +55,10 @@ const Package = () => {
         "Thanh toán và đăng ký gói thành công!",
         "success"
       ).then(() => navigate("/admin/package"));
+      //reload
+      window.location.reload();
+      
+
     } else {
       Swal.fire(
         "Cảnh báo",
