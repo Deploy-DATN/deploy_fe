@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
 import { RootState, userAppDispatch } from '@/redux/store';
 import { fetchPackage } from '@/components/header/redux/action';
+import { getCountMotelApi } from "@/services/api/HomeApi";
 
 export const indexOwner = () => {
 	const { myPackage } = useSelector((state: RootState) => state.user);
@@ -65,8 +66,6 @@ export const indexOwner = () => {
 			});
 		}
 	};
-	console.log('my package', myPackage?.name);
-	console.log('add count', addLimit);
 
 	const [query, setQuery] = useState<FilterProps>({
 		status: null,
@@ -88,6 +87,30 @@ export const indexOwner = () => {
 	useEffect(() => {
 		LoadData(query);
 	}, [query]);
+      
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    const fetchCountMotel = async () => {
+      const response = await getCountMotelApi();
+      if (response) {
+        setCount(response.count);
+      }
+    };
+    fetchCountMotel();
+  }, []);
+      
+  const handleAddMotel = () => {
+    if (myPackage && myPackage.limitMotel && count < myPackage?.limitMotel) {
+      navigate("addModelOwner");
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Không thể thêm!",
+        text: "Bạn đã đạt giới hạn số lần thêm dãy trọ.",
+      });
+    }
+  };
 
 	const LoadData = async (query: FilterProps) => {
 		const response = await getMotelByOwnerApi(query);
@@ -232,6 +255,68 @@ export const indexOwner = () => {
 		setTimeoutId(newTimeoutId);
 	};
 
+  const HandleRemove = async (id: number) => {
+    const response = await DeleteMotel(id);
+    if (response.code === 200) {
+      Swal.fire({
+        icon: "error",
+        title: "Xoá!",
+        text: "Xoá dãy trọ thành công",
+      });
+      await LoadData(query);
+      const fetchCountMotel = async () => {
+        const response = await getCountMotelApi();
+        if (response) {
+          setCount(response.count);
+        }
+      };
+      fetchCountMotel();
+    }
+  };
+
+  const IconThaoTac = (status: number, id: number) => {
+    if (status === 1) {
+      return (
+        <>
+          <a
+            onClick={() => HandleRemove(id)}
+            className=" px-2 py-1 mx-1 btn-transform-y2"
+          >
+            <i className="fa-regular fa-trash-can icon-table-motel fa-xl"></i>
+          </a>
+        </>
+      );
+    } else if (status === 2) {
+      return (
+        <>
+          <a
+            onClick={() => HandleLock(id)}
+            className=" px-2 py-1 mx-1 btn-transform-y2"
+          >
+            <i className="fa-regular fa-lock icon-table-motel fa-xl"></i>
+          </a>
+        </>
+      );
+    } else if (status === 3) {
+      return (
+        <>
+          <a
+            onClick={() => HandleUnLock(id)}
+            className=" px-2 py-1 mx-1 btn-transform-y2"
+          >
+            <i className="fa-regular fa-unlock icon-table-motel fa-xl"></i>
+          </a>
+          <a
+            onClick={() => HandleRemove(id)}
+            className=" px-2 py-1 mx-1 btn-transform-y2"
+          >
+            <i className="fa-regular fa-trash-can icon-table-motel fa-xl"></i>
+          </a>
+        </>
+      );
+    }
+  };
+
 	//đinh dạng ngày tháng
 	const formatDate = (date: string) => {
 		return new Date(date).toLocaleDateString('vi-VN', {
@@ -353,7 +438,6 @@ export const indexOwner = () => {
 															className=' px-2 py-1 mx-1 btn-transform-y2'>
 															<i className='fa-solid fa-ellipsis icon-table-motel fa-xl'></i>
 														</Link>
-
 														{IconThaoTac(motel.status, motel.id)}
 													</td>
 												</tr>

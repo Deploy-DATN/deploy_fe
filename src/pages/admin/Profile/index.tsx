@@ -6,11 +6,18 @@ import Swal from 'sweetalert2';
 import { fetchAccount } from '@/components/header/redux/action';
 import './adminprofile.scss'
 import { useNavigate } from 'react-router-dom';
+import { fetchPackage } from "@/components/header/redux/action";
+import { useEffect, useState, } from "react";
+
 const AdminProfile = () => {
     const navigate = useNavigate();
     const dispatch = userAppDispatch();
 
     const { user } = useSelector((state: RootState) => state.user);
+    const { myPackage } = useSelector((state: RootState) => state.user);
+    useEffect(() => {
+        dispatch(fetchPackage());
+    }, [dispatch]);
 
     const handleSubmit = async (data: UserDetail) => {
         const token = localStorage.getItem('token');
@@ -145,12 +152,12 @@ const AdminProfile = () => {
                                                 marginRight: '10px',
                                             }}
                                         ></span>
-                                        <label htmlFor="" className="mb-0">Đang hoạt động</label>
+                                        <label htmlFor="" className="mb-0 d-flex">Đang hoạt động | <div className="package-name rounded-2 px-2"><p className="mb-0">{myPackage ? myPackage?.name : 'VIP 0'}</p></div></label>
                                     </div>
                                 </div>
                                 <button
                                     type="button"
-                                    className="btn btn-primary"
+                                    className="btn btn-create-notification btn-transform-y2"
                                     onClick={handleButtonClick}
                                 >
                                     Cập nhật avatar

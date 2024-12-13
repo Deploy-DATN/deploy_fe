@@ -27,12 +27,19 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
      let errorMessage = "";
 
     // Kiểm tra tên đầy đủ chỉ chứa ký tự chữ (bao gồm tiếng Việt và khoảng trắng)
-    if (name === "fullName" && (!value || !/^[a-zA-ZÀ-ỹ\s]+$/.test(value))) {
+    if (name === "fullName") {
+      const trimmedValue = value.trim().replace(/\s+/g, " "); // Loại bỏ khoảng trắng dư thừa
+      if (!trimmedValue) {
+        errorMessage = "Họ và tên không được để trống hoặc chỉ chứa khoảng trắng.";
+      } else if (!/^[a-zA-ZÀ-ỹ\s']+$/.test(trimmedValue)) {
         errorMessage = "Họ và tên chỉ chứa ký tự chữ, không bao gồm số hoặc ký tự đặc biệt.";
-    } 
+      } else if (trimmedValue.length !== value.trim().length) {
+        errorMessage = "Họ và tên không được chứa khoảng trắng thừa.";
+      }
+    }
     // Kiểm tra số điện thoại
     else if (name === "phoneNumber" && (!value || !value || !/^0\d{9}$/.test(value))) {
-        errorMessage = "Số điện thoại chỉ chứa 10 ký tự số.";
+        errorMessage = "Số điện thoại phải bắt đầu bằng số 0 và có 10 chữ số.";
     } 
     // Kiểm tra email hợp lệ
     else if (name === "email" && (!value || !/\S+@\S+\.\S+/.test(value))) {
@@ -147,26 +154,53 @@ const AddAccount: React.FC<AddAccountProps> = ({ onClose, onSubmit }) => {
         const response = await addUser(data);
 
         if (response.data.code === 200) {
+          // Close modal or dialog
           onClose();
-          
+  
+          // Show success notification
           Swal.fire({
-            icon: "success",
-            title: "Thành công",
-            text: "Thêm tài khoản thành công",
+              icon: "success",
+              title: "Thành công",
+              text: "Thêm tài khoản thành công",
           }).then(() => {
-            // Lưu trạng thái thông báo vào localStorage
-            localStorage.setItem("showNotification", "true");
+              // Save notification state to localStorage
+              localStorage.setItem("showNotification", "true");
           });
-          onSubmit(); 
-        }
-        if (response.data.code === 404) {
+  
+          // Call submit callback function
+          onSubmit();
+      } else if (response.data.code === 404) {
+          // Show error notification for a 404 error
           Swal.fire({
-            icon: "error",
-            title: "Thất bại!",
-            text: "Thêm tài khoản thất bại",
+              icon: "error",
+              title: "Thất bại!",
+              text: response.data.message,
           });
-          console.log(response.data.message);
-        }
+  
+          console.error(response.data.message);
+      } else {
+          // Handle validation or other error scenarios
+          let errorMessage = "Đã xảy ra lỗi không xác định."; // Default error message
+  
+          // Check if there are validation errors
+          if (response.data.errors) {
+              // Extract error messages from the response
+              const errors = Object.values(response.data.errors)
+                  .flat() // Flatten nested arrays
+                  .join(", "); // Combine into a single string
+              errorMessage = errors || errorMessage; // Use extracted errors if available
+          }
+  
+          // Display the error message in Swal.fire
+          Swal.fire({
+              icon: "error",
+              title: "Thất bại!",
+              text: errorMessage,
+          });
+  
+          console.error(response.data.errors);
+      }
+       
         // Optionally, handle success (like resetting the form, showing a success message, etc.)
 
       } catch (error) {

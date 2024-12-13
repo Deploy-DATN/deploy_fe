@@ -75,7 +75,7 @@ const MyAccount: React.FC<Props> = ({ onSubmit }) => {
             </div>
 
 
-            <button type="submit" className="btn btn-primary">Cập nhật</button>
+            <button type="submit" className="btn btn-create-notification btn-transform-y2">Cập nhật</button>
         </form>
     )
 

@@ -196,7 +196,7 @@ export const Motel: React.FC = () => {
         <>
           <a className=" px-2 py-1 mx-1 btn-transform-y2">
             <i
-              className="fa-solid fa-lock icon-table-motel fa-xl"
+              className="fa-regular fa-lock icon-table-motel fa-xl"
               onClick={() => HandleLock(id)}
             ></i>
           </a>
@@ -245,8 +245,8 @@ export const Motel: React.FC = () => {
               </div>
               <div></div>
             </div>
-            <div className="row justify-content-lg-between justify-content-xl-between  justify-content-xxl-between  mt-4">
-              <div className="d-flex mb-4 flex-wrap col-12 col-sm-12 col-md-12 col-lg-6 -col-xl-6 col-xxl-6">
+            <div className="d-flex justify-content-lg-between justify-content-xl-between  justify-content-xxl-between  mt-4">
+              <div className="d-flex mb-4 flex-wrap ">
                 <a
                   className={`btn btn-filter btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 ${
                     activeFilter === null ? "active-filter-motel" : ""
@@ -301,7 +301,7 @@ export const Motel: React.FC = () => {
                   Đã xoá
                 </a>
               </div>
-              <div className="col-12 col-sm-12 col-md-12 col-lg-6 -col-xl-6 col-xxl-6">
+              <div className="">
                 <div className="d-flex justify-content-start justify-content-lg-end justify-content-xl-end justify-content-xxl-end">
                   <div>
                     <div className="form-group has-search position-relative">
@@ -353,17 +353,16 @@ export const Motel: React.FC = () => {
                       ></td>
                       <td>{CheckStatus(motel.status)}</td>
                       <td>
-                        {/* <Link
-                          to={`infomotel/${motel.id}`}
+                        <Link
+                          to={`/admin/roomtest/${motel.id}`}
                           className=" px-2 py-1 mx-1 btn-transform-y2"
                         >
                           <i className="fa-solid fa-ellipsis icon-table-motel fa-xl"></i>
-                        </Link> */}
+                        </Link>
                         {CheckStatus_ThaoTac(motel.status, motel.id)}
                       </td>
                     </tr>
                   ))}
-                  
                 </tbody>
               </table>
             </div>

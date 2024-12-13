@@ -1,6 +1,11 @@
 import { AddRoomApi } from "@/services/api/MotelApi";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { useSelector } from "react-redux";
+import { RootState, userAppDispatch } from "@/redux/store";
+import { fetchPackage } from "@/components/header/redux/action";
+import { useLocation, useParams } from "react-router-dom";
+import { getCountRoomApi } from "@/services/api/HomeApi";
 
 interface Addroomintype {
   onClose: () => void;
@@ -17,6 +22,26 @@ const Addroomintype: React.FC<Addroomintype> = ({ onClose, roomTypeId }) => {
     roomTypeId: roomTypeId,
     quantityRoom: 1,
   });
+
+  const { myPackage } = useSelector((state: RootState) => state.user);
+  const dispatch = userAppDispatch();
+  useEffect(() => {
+    dispatch(fetchPackage());
+  }, [dispatch]);
+
+  const [countRoom1, setCountRoom1] = useState<number>(0);
+  const { id } = useParams();
+  const { motelId } = useParams();
+
+  useEffect(() => {
+    const fetchCountRoom = async () => {
+      const response = await getCountRoomApi(Number(motelId));
+      if (response) {
+        setCountRoom1(response.count);
+      }
+    };
+    fetchCountRoom();
+  }, [motelId]);
 
   const [error, setError] = useState("");
 
@@ -39,6 +64,15 @@ const Addroomintype: React.FC<Addroomintype> = ({ onClose, roomTypeId }) => {
       setError(errorMsg);
       return;
     }
+    const limitRoom = myPackage?.limitRoom ?? 8;
+    if (countRoom1 + data.quantityRoom > limitRoom) {
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi!",
+        text: "Bạn đã thêm quá giới hạn số lượng phòng được thêm",
+      });
+      return;
+    }
     var response = await AddRoomApi(data);
     if (response) {
       Swal.fire({
@@ -46,11 +80,10 @@ const Addroomintype: React.FC<Addroomintype> = ({ onClose, roomTypeId }) => {
         title: "Thành công!",
         text: "Thêm phòng thành công",
       }).then(() => {
-        // Lưu trạng thái thông báo vào localStorage
         localStorage.setItem("showNotification", "true");
         onClose();
         window.location.reload();
-        });
+      });
 
     } else {
       Swal.fire({

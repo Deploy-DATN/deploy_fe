@@ -130,8 +130,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
                     </table>
                   </h5>
                   <h5 className="mt-3 mb-0 text-deltail-motel-user">
-                    <i className="fa-light fa-clock me-1"></i>Cập nhật 1 tuần
-                    trước
+                    <i className="fa-light fa-clock me-1"></i>  Cập nhật:
                   </h5>
                   <div className="mt-3">{CheckStatus(room?.status || 0)}</div>
 

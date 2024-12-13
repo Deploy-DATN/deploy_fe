@@ -1,19 +1,33 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { GetRoomTypeDTO } from "@/services/Dto/MotelDto";
 import RowRoom from "./rowRoom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBolt, faDroplet } from "@fortawesome/free-solid-svg-icons";
 import { GetRoomTypeByAddElicWaterApi } from "@/services/api/MotelApi";
+import { useSelector } from "react-redux";
 
+import { RootState, userAppDispatch } from "@/redux/store";
+import { fetchPackage } from "@/components/header/redux/action";
+import { getCountRoomApi } from "@/services/api/HomeApi";
+import Swal from "sweetalert2";
 const Roomtype = (props: {
+
   roomType: GetRoomTypeDTO;
   motelStatus: number;
   toggleModal: (modalName: string, param: number | any[]) => void;
 }) => {
   const { roomType, motelStatus, toggleModal } = props;
+  const { user } = useSelector((state: RootState) => state.user);
 
   const [isDisabled, setIsDisabled] = useState(false);
 
+  const { myPackage } = useSelector((state: RootState) => state.user);
+  const dispatch = userAppDispatch();
+  useEffect(() => {
+    dispatch(fetchPackage());
+  }, [dispatch]);
+  const [countRoom, setCountRoom] = useState<number>(0);
+  const { id } = useParams();
+  const { motelId } = useParams();
   useEffect(() => {
     const checkStatus = async () => {
       const result = await GetRoomTypeByAddElicWaterApi(roomType.id);
@@ -21,6 +35,17 @@ const Roomtype = (props: {
     };
     checkStatus();
   }, [roomType.id]);
+
+  useEffect(() => {
+    const fetchCountRoom = async () => {
+      const response = await getCountRoomApi(Number(motelId));
+      if (response) {
+        setCountRoom(response.count);
+      }
+    };
+    fetchCountRoom();
+  }, [motelId]);
+
 
   const CheckStatus = (status: number) => {
     if (status === 1) {
@@ -56,6 +81,21 @@ const Roomtype = (props: {
     }
   };
 
+  const handleAddRoom = () => {
+    const limitRoom = myPackage?.limitRoom ?? 8;
+    if (countRoom < limitRoom) {
+      toggleModal("AddRoomInType", roomType.id);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Không thể thêm!",
+        text: "Bạn đã đạt giới hạn số lần thêm dãy trọ.",
+      });
+    }
+  };
+
+  console.log(myPackage?.limitRoom, '1')
+
   const CheckStatusElicWater = async (roomTypeId: number) => {
     const res = await GetRoomTypeByAddElicWaterApi(roomTypeId);
     if (res.data.length > 0) {
@@ -63,7 +103,6 @@ const Roomtype = (props: {
     }
     return false;
   };
-
 
   return (
     <>
@@ -92,7 +131,7 @@ const Roomtype = (props: {
                 <div className="motel-item-price">
                   <small className="me-2">Giá</small>
                   <span>
-                    {(roomType.price / 1000000).toFixed(1)} triệu/tháng
+                    {(roomType.price.toLocaleString())} vnđ/tháng
                   </span>
                 </div>
                 <div className="motel-item-price">
@@ -107,29 +146,36 @@ const Roomtype = (props: {
                 </div>
               </div>
               <div className="g-2">
-                <div className="">
-                  <button
-                    className='btn btn-create-notification btn-transform-y2'
-                    onClick={() => toggleModal('addElicWater', roomType.id)}
-                    disabled={!isDisabled}
-                  >
-                    Xuất hoá đơn
-                  </button>
-                </div>
-                <div className="d-flex justify-content-lg-between col-12 mt-3 px-0">
-                  <button
-                    className="btn btn-create-notification btn-transform-y2 p-2 me-2 me-lg-0 "
-                    onClick={() => toggleModal("AddRoomInType", roomType.id)}
-                  >
-                    Thêm phòng
-                  </button>
-                  <button
-                    onClick={() => toggleModal("editRoomType", roomType.id)}
-                    className="btn btn-create-notification btn-transform-y2 p-2 col-lg-4"
-                  >
-                    Sửa
-                  </button>
-                </div>
+                {user?.role === "Owner" ? (
+                  <>
+                    <div className="">
+                      <button
+                        className="btn btn-create-notification btn-transform-y2"
+                        onClick={() => toggleModal("addElicWater", roomType.id)}
+                        disabled={!isDisabled}
+                      >
+                        Xuất hoá đơn
+                      </button>
+                    </div>
+                    <div className="d-flex justify-content-lg-between col-12 mt-3 px-0">
+                      <button
+                        className="btn btn-create-notification btn-transform-y2 p-2 me-2 me-lg-0 "
+                        onClick={handleAddRoom}
+                      >
+                        Thêm phòng
+                      </button>
+                      <button
+                        onClick={() => toggleModal("editRoomType", roomType.id)}
+                        className="btn btn-create-notification btn-transform-y2 p-2 col-lg-4"
+                      >
+                        Sửa
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  (user?.role === "Admin" || user?.role === "Staff") && <></>
+                )}
+
               </div>
             </div>
           </div>

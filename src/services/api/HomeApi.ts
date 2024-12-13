@@ -108,3 +108,18 @@ export const deleteMyMotel = async (id: number) => {
 export const getRelatedApi = async (address: string) => {
     return axios.get(`${API.RELATED}?adress=${address}`)
 }
+
+export const getCountMotelApi = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        const res = await axios.get(API.GETCOUNTMOTEL, { params: { token: token } });
+        return res.data.data;
+    }
+    return null;
+};
+
+export const getCountRoomApi = async (motelId: number) => {
+    const res = await axios.get(API.GETCOUNTROOM, { params: { motelId } });
+    return res.data.data;
+};
+

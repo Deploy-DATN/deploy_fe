@@ -112,7 +112,7 @@ function HomeMotelNew() {
         <div className="row">
           {roomtypes && roomtypes.length > 0 ? (
             roomtypes.map((roomtype, index) => (
-              <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3 " onClick={() => handleMotelClick(roomtype.id)}>
+              <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3 ngontay-hover" onClick={() => handleMotelClick(roomtype.id)}>
                 {/* Slider */}
                 <div className="border-motel-info-home">
                 <div className="">
@@ -132,16 +132,17 @@ function HomeMotelNew() {
                             data-bs-slide-to={imgIndex}
                             className={imgIndex === 0 ? "active" : ""}
                             aria-label={`Slide ${imgIndex + 1}`}
+                            onClick={(e) => e.stopPropagation()}
                           ></button>
                         ))}
                     </div>
-                    <div className="carousel-inner rounded-4">
+                    <div className="carousel-inner rounded-4 position-relative">
                       {roomtype.images &&
                         roomtype.images.length > 0 &&
                         roomtype.images.map((img, imgIndex) => (
                           <div
                             key={`${imgIndex}`}
-                            className={`carousel-item ${imgIndex === 0 ? "active" : ""
+                            className={`position-relative carousel-item ${imgIndex === 0 ? "active" : ""
                               }`}
                           >
                             <img
@@ -151,18 +152,23 @@ function HomeMotelNew() {
                             />
                           </div>
                         ))}
+                      <div className="Icon-Vip-user-home">
+                        {/* <i className="fa-solid fa-crown"></i> */}
+                      </div>
                     </div>
                     <button
                       className="carousel-control-prev"
                       type="button"
                       data-bs-target={`#carouselExampleIndicators-1-${index}`}
                       data-bs-slide="prev"
+                      onClick={(e) => e.stopPropagation()}
                     ></button>
                     <button
                       className="carousel-control-next"
                       type="button"
                       data-bs-target={`#carouselExampleIndicators-1-${index}`}
                       data-bs-slide="next"
+                      onClick={(e) => e.stopPropagation()}
                     ></button>
                   </div>
                 </div>
