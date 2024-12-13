@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import tk from "@/assets/images/backgrounds/img-login.png";
 import {
   faPenToSquare,
-  faPlus,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddAccount from "./Component/addAccount";
 import EditAccount from "./Component/editAccount";
 import DeleteAccount from "./Component/deleteAccount";
-
 import { getAllUser } from "@/services/api/userApi";
-import { set } from "date-fns";
+import '../account/account.scss'
+
+
 
 interface User {
   id: number;
@@ -22,6 +22,7 @@ interface User {
   timeCreated: string;
   status: boolean;
   role: string;
+  vip: string;
 }
 
 export const Account: React.FC = () => {
@@ -32,6 +33,7 @@ export const Account: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [userId, setUserId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+
   const handleOpenModal = () => {
     setShowModal(true);
   };
@@ -83,7 +85,7 @@ export const Account: React.FC = () => {
     // gọi ở đây
     try {
       const res = await getAllUser({ token, pageNumber: pageNumber });
-     
+
       // đặt lại ng dùng
       if (res.data.code === 200) {
         setUsers(res.data.data.list);
@@ -147,7 +149,6 @@ export const Account: React.FC = () => {
                       <th scope="col">Số điện thoại</th>
                       <th scope="col">Email</th>
                       <th scope="col">Vip</th>
-                      {/* <th scope="col">Địa chỉ</th> */}
                       <th scope="col">Quyền</th>
                       <th scope="col">Thao tác</th>
                     </tr>
@@ -158,7 +159,7 @@ export const Account: React.FC = () => {
                         <td>{user.id}</td>
                         <td>
                           <div className="me-4">
-                            <img
+                            <img style={{ width: "50px", height: "50px", objectFit: "cover" }}
                               src={user.avatar || tk} // Use a placeholder if avatar is null
                               width="50"
                               className="rounded-circle"
@@ -169,7 +170,7 @@ export const Account: React.FC = () => {
                         <td>{user.fullName}</td>
                         <td>{user.phone}</td>
                         <td>{user.email}</td>
-                        <td>Vip</td>
+                        <td><p className="package-name2 rounded-2 px-0 mb-0 text-center">{user.vip}</p></td>
                         {/* <td className="text-overflow-motel">Address Placeholder</td> */}
                         <td>
                           <span className="tt-dangthue badge bg-light-success rounded-pill px-3 py-2 fs-3">
@@ -227,9 +228,8 @@ export const Account: React.FC = () => {
                       <li className="page-item" key={number}>
                         <a
                           style={{ caretColor: "transparent" }}
-                          className={`page-link btn-filter ${
-                            number === currentPage ? "active-filter-motel" : ""
-                          }`}
+                          className={`page-link btn-filter ${number === currentPage ? "active-filter-motel" : ""
+                            }`}
                           onClick={() => handlePageChange(number)}
                         >
                           {number}
