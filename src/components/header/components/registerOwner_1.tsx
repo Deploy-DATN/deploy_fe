@@ -396,13 +396,13 @@ const RegisterOwner_1 = ({ onNext }: Props) => {
             </div>
           </div>
         ))}
-        <button
+        {/* <button
           type="button"
           className="btn btn-create-notification btn-sm px-3 py-2 btn-transform-y2"
           onClick={() => append({ name: "", price: 0, description: "" })}
         >
           Thêm dịch vụ
-        </button>
+        </button> */}
       </div>
       <div className="d-flex justify-content-end">
         <button

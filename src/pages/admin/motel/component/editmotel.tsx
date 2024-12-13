@@ -684,13 +684,13 @@ export const EditMotelOwner = () => {
                       </div>
                     </div>
                   ))}
-                  <button
+                  {/* <button
                     className="btn btn-transform-y2 btn-luu-all mt-3"
                     onClick={addService}
                     type="button"
                   >
                     Thêm dịch vụ
-                  </button>
+                  </button> */}
                 </div>
                 {/* <div className="col-12 form-group mt-3 px-2">
                   <label htmlFor="title" className="label-motel-info">

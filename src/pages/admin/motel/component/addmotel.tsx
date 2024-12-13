@@ -648,7 +648,7 @@ export const AddMotelOwner = () => {
                       </div>
                     </div>
                   ))}
-                  <div className="px-2">
+                  {/* <div className="px-2">
                     <button
                       className="btn btn-transform-y2 btn-luu-all mt-3"
                       onClick={addService}
@@ -656,7 +656,7 @@ export const AddMotelOwner = () => {
                     >
                       Thêm dịch vụ
                     </button>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="mt-4">
                   <h4 className="h4-add-motel">Phòng trọ</h4>

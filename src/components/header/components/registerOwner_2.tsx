@@ -32,12 +32,14 @@ const RegisterOwner_2 = ({ onNext }: Props) => {
         quantityRoom: yup
             .number()
             .required("Vui lòng nhập số lượng phòng")
-            .min(1, "Phải có ít nhất 1 phòng"),
+            .min(1, "Phải có ít nhất 1 phòng")
+            .max(4 ,"Tối đa 4 phòng"),
         images: yup
             .array()
             .of(yup.mixed<File>().required("Vui lòng chọn ảnh"))
             .min(1, "Phải có ít nhất một ảnh")
             .required(),
+        
     });
 
     const { control, handleSubmit, formState: { errors } } = useForm<RoomType>({

@@ -48,24 +48,7 @@ export const indexOwner = () => {
 			setAddLimit(0); // Không có gói thì không được thêm
 		}
 	}, [myPackage]);
-	const handleAddMotel = () => {
-		if (addLimit > 0) {
-			Swal.fire({
-				icon: 'success',
-				title: 'Thêm thành công!',
-				text: 'Chuyển đến trang thêm dãy trọ.',
-			}).then(() => {
-				setAddLimit((prevLimit) => prevLimit - 1);
-				navigate('addModelOwner', { state: { addLimit } });
-			});
-		} else {
-			Swal.fire({
-				icon: 'error',
-				title: 'Không thể thêm!',
-				text: 'Bạn đã đạt giới hạn số lần thêm dãy trọ.',
-			});
-		}
-	};
+	
 
 	const [query, setQuery] = useState<FilterProps>({
 		status: null,
@@ -179,18 +162,6 @@ export const indexOwner = () => {
 		}
 	};
 
-	const HandleRemove = async (id: number) => {
-		const response = await DeleteMotel(id);
-		if (response.code === 200) {
-			Swal.fire({
-				icon: 'error',
-				title: 'Xoá!',
-				text: 'Xoá dãy trọ thành công',
-			});
-			await LoadData(query);
-		}
-	};
-
 	const IconThaoTac = (status: number, id: number) => {
 		if (status === 1) {
 			return (
@@ -271,49 +242,6 @@ export const indexOwner = () => {
         }
       };
       fetchCountMotel();
-    }
-  };
-
-  const IconThaoTac = (status: number, id: number) => {
-    if (status === 1) {
-      return (
-        <>
-          <a
-            onClick={() => HandleRemove(id)}
-            className=" px-2 py-1 mx-1 btn-transform-y2"
-          >
-            <i className="fa-regular fa-trash-can icon-table-motel fa-xl"></i>
-          </a>
-        </>
-      );
-    } else if (status === 2) {
-      return (
-        <>
-          <a
-            onClick={() => HandleLock(id)}
-            className=" px-2 py-1 mx-1 btn-transform-y2"
-          >
-            <i className="fa-regular fa-lock icon-table-motel fa-xl"></i>
-          </a>
-        </>
-      );
-    } else if (status === 3) {
-      return (
-        <>
-          <a
-            onClick={() => HandleUnLock(id)}
-            className=" px-2 py-1 mx-1 btn-transform-y2"
-          >
-            <i className="fa-regular fa-unlock icon-table-motel fa-xl"></i>
-          </a>
-          <a
-            onClick={() => HandleRemove(id)}
-            className=" px-2 py-1 mx-1 btn-transform-y2"
-          >
-            <i className="fa-regular fa-trash-can icon-table-motel fa-xl"></i>
-          </a>
-        </>
-      );
     }
   };
 
