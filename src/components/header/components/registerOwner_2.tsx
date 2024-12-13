@@ -33,7 +33,7 @@ const RegisterOwner_2 = ({ onNext }: Props) => {
             .number()
             .required("Vui lòng nhập số lượng phòng")
             .min(1, "Phải có ít nhất 1 phòng")
-            .max(4 ,"Tối đa 4 phòng"),
+            .max(8 ,"Tối đa 8 phòng"),
         images: yup
             .array()
             .of(yup.mixed<File>().required("Vui lòng chọn ảnh"))

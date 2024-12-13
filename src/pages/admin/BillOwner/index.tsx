@@ -4,14 +4,14 @@ import { useState } from "react";
 import InfoBill from "./component/infoBill";
 
 export const Bill: React.FC = () => {
-    const [showModal, setShowModal] = useState(false);
-    const handleOpenModal = () => {
-        setShowModal(true);
-      };
-    
-      const handleCloseModal = () => {
-        setShowModal(false);
-      };
+  const [showModal, setShowModal] = useState(false);
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   function handleUpdate(): void {
     // gọi lại danh sách
@@ -24,9 +24,14 @@ export const Bill: React.FC = () => {
           <div className="card-body p-4">
             <div className="d-flex justify-content-end mb-4">
               <div className="">
-              <button className="btn btn-create-notification btn-transform-y2">
-                  <FontAwesomeIcon icon={faFileArrowUp} size="lg" color="#fffffff" className="icon-table-motel me-3" />Xuất hóa đơn
-                </button>
+              <form className="d-flex align-items-center border border-secondary-subtle ps-3 rounded">
+                  <span className="fa fa-search form-control-feedback"></span>
+                  <input
+                    type="search"
+                    className="form-control border-0"
+                    placeholder="Tìm kiếm hóa đơn"
+                  />
+                </form>
               </div>
             </div>
 
@@ -46,8 +51,11 @@ export const Bill: React.FC = () => {
                 </thead>
                 <tbody>
                   <tr onClick={handleOpenModal}>
-                    <td className="cangiua checkbox-bill" onClick={(e) => e.stopPropagation()}>
-                        <input type="checkbox" name="" id=""/>
+                    <td
+                      className="cangiua checkbox-bill"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <input type="checkbox" name="" id="" />
                     </td>
                     <td>
                       <p className="fs-3 fw-normal mb-0">12</p>
@@ -114,7 +122,13 @@ export const Bill: React.FC = () => {
               </nav>
             </div>
           </div>
-          {showModal && <InfoBill onClose={handleCloseModal} onUpdate={handleUpdate} billId={1}/>}
+          {showModal && (
+            <InfoBill
+              onClose={handleCloseModal}
+              onUpdate={handleUpdate}
+              billId={1}
+            />
+          )}
         </div>
       </div>
     </div>
