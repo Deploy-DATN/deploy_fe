@@ -111,35 +111,6 @@ export const Billroom: React.FC<{ roomId: number }> = ({ roomId }) => {
 		);
 	};
 
-	// const [isLoading, setIsLoading] = useState(false); // Loading state
-
-	// const handleConfirm = async (billId: number) => {
-	// 	try {
-	// 		const sentBill = await SentBillToEmail(billId);
-	// 		if (sentBill.data == true) {
-	// 			Swal.fire({
-	// 				icon: 'success',
-	// 				title: 'Thành công',
-	// 				text: 'Đã gửi hóa đơn về email của khách hàng.',
-	// 			});
-	// 		} else {
-	// 			Swal.fire({
-	// 				icon: 'error',
-	// 				title: 'Lỗi',
-	// 				text: 'Lỗi khi gửi hóa đơn, vui lòng thử lại.',
-	// 			});
-	// 		}
-	// 	} catch (error) {
-	// 		Swal.fire({
-	// 			icon: 'error',
-	// 			title: 'Lỗi',
-	// 			text: 'Lỗi khi gửi hóa đơn, vui lòng thử lại.',
-	// 		});
-	// 	} finally {
-	// 		setIsLoading(false);
-	// 	}
-	// };
-
 	const buttonConfirm = (status: number, billId: number) => {
 		return <>{status == 1 ? <span className='tt-khoa badge bg-light-danger rounded-pill p-2 fs-2'>Chưa thanh toán</span> : <span className='tt-dangthue bg-light-success rounded-pill p-2 fs-2'>Đã thanh toán</span>}</>;
 	};

@@ -46,6 +46,13 @@ export interface BillPaginationResponse {
   totalPages: number;
 }
 
+export interface HistoryPaginationResponse {
+  items: GetHistoryByRoomIdDTO[];
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+}
+
 // ------------------------------------------------------------------------------------------------
 
 

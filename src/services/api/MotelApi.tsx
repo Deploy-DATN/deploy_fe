@@ -1,11 +1,12 @@
 // API motel
 import axios from 'axios';
 import axiosInstance, { API_URL } from '../apiConfig';
-import { GetHistoryByRoomIdDTO, BillByIdDTO, GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, SendElicWaterDTO, AddServiceDTO, AddUserRoomDTO, BillDTO, EditMotelDTO, EditServiceDTO, GetMotelEditDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, RoomUserDTO, BillPaginationResponse } from '../Dto/MotelDto';
+import { GetHistoryByRoomIdDTO, BillByIdDTO, GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, SendElicWaterDTO, AddServiceDTO, AddUserRoomDTO, BillDTO, EditMotelDTO, EditServiceDTO, GetMotelEditDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, RoomUserDTO, BillPaginationResponse, HistoryPaginationResponse } from '../Dto/MotelDto';
 import { ResponseDTO } from './RepositoryDto';
 import { FilterProps } from '@/pages/admin/motel';
 import { getAccountApi } from './authApi';
 import { BillQueryDto } from '@/pages/admin/room/component/detailroom/billroom';
+import { HistoryQueryDto } from '@/pages/admin/room/component/detailroom/historyroom';
 
 export const getMotelByOwnerApi = async (
 	query: FilterProps
@@ -232,8 +233,10 @@ export const GetBillById = async (id: number) => {
 	return response.data;
 };
 
-export const GetHistoryByRoomIdApi = async (id: number) => {
-	const response = await axios.get<ResponseDTO<GetHistoryByRoomIdDTO[]>>(`${API_URL}/Room/get-history-by-room-id/${id}`);
+export const GetHistoryByRoomIdApi = async (id: number, query: HistoryQueryDto) => {
+	const response = await axios.get<ResponseDTO<HistoryPaginationResponse>>(`${API_URL}/Room/get-history-by-room-id/${id}`, {
+		params: query,
+	});
 	return response.data;
 };
 
