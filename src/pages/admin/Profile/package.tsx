@@ -57,7 +57,7 @@ const Package = () => {
       ).then(() => navigate("/admin/package"));
       //reload
       window.location.reload();
-      
+
 
     } else {
       Swal.fire(
@@ -186,7 +186,7 @@ const Package = () => {
                     <div className="package-body-price">
                       <h3>{Number(packagemap.price).toLocaleString("vi-VN")} đ</h3>
                     </div>
-                    <div className="package-body-time">Vĩnh viễn</div>
+                    <div className="package-body-time">30 ngày</div>
                     <div>
                       <button
                         className="btn btn-create-notification btn-transform-y2 mt-3"
