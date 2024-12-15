@@ -16,10 +16,11 @@ import {
 } from "@/services/Dto/MotelDto";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { Motel } from "..";
+
 
 export const EditMotelOwner = () => {
   const { id } = useParams();
+
 
   const navigate = useNavigate();
 
@@ -121,17 +122,17 @@ export const EditMotelOwner = () => {
     const match = address.match(regex);
     return match
       ? {
-          detailAddress: match[1].trim(),
-          ward: match[3].trim(),
-          district: match[5].trim(),
-          province: match[7].trim(),
-        }
+        detailAddress: match[1].trim(),
+        ward: match[3].trim(),
+        district: match[5].trim(),
+        province: match[7].trim(),
+      }
       : {
-          detailAddress: "",
-          ward: "",
-          district: "",
-          province: "",
-        };
+        detailAddress: "",
+        ward: "",
+        district: "",
+        province: "",
+      };
   };
 
   useEffect(() => {
@@ -191,7 +192,7 @@ export const EditMotelOwner = () => {
             service.name === "Điện" || service.name === "Nước"
         )
         .map((service: GetMotelEditDTO_Service) => service.id);
-      
+
       setDisabledServiceIds(disabledIds);
       const addressParts = splitAddress(response.data.address || "");
       setValues({ ...response.data, address: addressParts.detailAddress });
@@ -267,6 +268,8 @@ export const EditMotelOwner = () => {
 
   const handleSubmit = async () => {
     try {
+
+
       setErrors({});
       let hasError = false;
 
@@ -308,8 +311,8 @@ export const EditMotelOwner = () => {
           hasError = true;
         }
         const duplicateIndex = services.findIndex(
-          (s, i) => 
-            i !== index && 
+          (s, i) =>
+            i !== index &&
             s.name.trim().toLowerCase() === service.name.trim().toLowerCase()
         );
         if (duplicateIndex !== -1) {
@@ -472,9 +475,8 @@ export const EditMotelOwner = () => {
                             Tỉnh/Thành phố
                           </button>
                           <ul
-                            className={`dropdown-menu ${
-                              selectedProvince.code == null ? "show" : ""
-                            }`}
+                            className={`dropdown-menu ${selectedProvince.code == null ? "show" : ""
+                              }`}
                             aria-labelledby="dropdownMenuButton1"
                           >
                             {provinces.map((province) => (
@@ -510,12 +512,11 @@ export const EditMotelOwner = () => {
                             Quận/ Huyện
                           </button>
                           <ul
-                            className={`dropdown-menu ${
-                              selectedDistrict.code == null &&
-                              selectedProvince.code != null
+                            className={`dropdown-menu ${selectedDistrict.code == null &&
+                                selectedProvince.code != null
                                 ? "show"
                                 : ""
-                            }`}
+                              }`}
                             aria-labelledby="dropdownMenuButton2"
                           >
                             {districts.map((district) => (
@@ -547,13 +548,12 @@ export const EditMotelOwner = () => {
                             Phường/ Xã
                           </button>
                           <ul
-                            className={`dropdown-menu ${
-                              selectedDistrict.code != null &&
-                              selectedProvince.code != null &&
-                              selectedWard == ""
+                            className={`dropdown-menu ${selectedDistrict.code != null &&
+                                selectedProvince.code != null &&
+                                selectedWard == ""
                                 ? "show"
                                 : ""
-                            }`}
+                              }`}
                             aria-labelledby="dropdownMenuButton3"
                           >
                             {wards.map((ward) => (
@@ -675,9 +675,8 @@ export const EditMotelOwner = () => {
                       <div className="col-12 col-sm-12 col-lg-2 d-flex justify-content-lg-around align-items-lg-end">
                         <button
                           type="button"
-                          className={`btn btn-transform-y2 btn-xoa-add-motel mt-3 ${
-                            disabledServiceIds.includes(service.id) ? "d-none" : ""
-                          }`}                          onClick={() => removeService(service.id)}
+                          className={`btn btn-transform-y2 btn-xoa-add-motel mt-3 ${disabledServiceIds.includes(service.id) ? "d-none" : ""
+                            }`} onClick={() => removeService(service.id)}
                         >
                           Xóa
                         </button>

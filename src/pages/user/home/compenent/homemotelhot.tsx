@@ -18,9 +18,9 @@ function HomeMotelHot() {
       try {
         let response;
         if (selectedType === 'outstanding') {
-          response = await getOutstandingMotelApi({ id: 0, price: 0, name: "", address: "", images: [] });
+          response = await getOutstandingMotelApi({ id: 0, price: 0, name: "", address: "", images: [], packageName: "" });
         } else if (selectedType === 'new') {
-          response = await getNewMotelApi({ id: 0, price: 0, name: "", address: "", images: [] });
+          response = await getNewMotelApi({ id: 0, price: 0, name: "", address: "", images: [], packageName: "" });
         }
         if (response && response.data) {
           setMotels(response.data);
@@ -32,7 +32,6 @@ function HomeMotelHot() {
     fetchMotels();
   }, [selectedType]);
 
-  console.log(motels);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN').format(price);
@@ -97,7 +96,6 @@ function HomeMotelHot() {
     setSelectedWard("Phường");
   }, [selectedDistrict]);
   const handleSearch = () => {
-    console.log("Giá trị bộ lọc hiện tại: ", selectedProvince.name, selectedDistrict.name, selectedWard);
     const searchLink = `/search?Province=${encodeURIComponent(selectedProvince.name)}&District=${encodeURIComponent(selectedDistrict.name)}&Ward=${encodeURIComponent(selectedWard)}&search=${encodeURIComponent(searchQuery)}`;
     navigate(searchLink);
   };
@@ -163,9 +161,9 @@ function HomeMotelHot() {
                         />
                       </div>
                     ))}
-                    <div className="Icon-Vip-user-home">
-                      {/* <i className="fa-solid fa-crown"></i> */}
-                    </div>
+                    {roomtype && roomtype.packageName ? (
+                      <div className="Icon-Vip-user-home"></div>
+                    ) : <div></div>}
                   </div>
                 </div>
               </div>

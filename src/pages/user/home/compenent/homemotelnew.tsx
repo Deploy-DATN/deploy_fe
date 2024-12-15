@@ -16,8 +16,7 @@ function HomeMotelNew() {
     const fetchOutstandingMotels = async (data: RoomType) => {
       try {
         const response = await getSaleRoomTypeApi(data);
-        console.log(response)
-        setroomtypes(response.data); // Gán dữ liệu vào state
+        setroomtypes(response.data);
 
 
       } catch (error) {
@@ -26,7 +25,7 @@ function HomeMotelNew() {
     };
 
 
-    fetchOutstandingMotels({ id: 0, price: 0, name: "", address: "", images: [] });
+    fetchOutstandingMotels({ id: 0, price: 0, name: "", address: "", images: [], packageName: "" });
   }, []);
   console.log(roomtypes);
 
@@ -95,7 +94,6 @@ function HomeMotelNew() {
     setSelectedWard("Phường");
   }, [selectedDistrict]);
   const handleSearch = () => {
-    console.log("Giá trị bộ lọc hiện tại: ", selectedProvince.name, selectedDistrict.name, selectedWard);
     const searchLink = `/search?Province=${encodeURIComponent(selectedProvince.name)}&District=${encodeURIComponent(selectedDistrict.name)}&Ward=${encodeURIComponent(selectedWard)}&search=${encodeURIComponent(searchQuery)}`;
     navigate(searchLink);
   };
@@ -115,86 +113,86 @@ function HomeMotelNew() {
               <div key={index} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3 ngontay-hover" onClick={() => handleMotelClick(roomtype.id)}>
                 {/* Slider */}
                 <div className="border-motel-info-home">
-                <div className="">
-                  <div
-                    id={`carouselExampleIndicators-1-${roomtype.id}`}
-                    className="carousel slide"
-                    data-bs-ride="carousel"
-                  >
-                    <div className="carousel-indicators mb-0">
-                      {roomtype.images &&
-                        roomtype.images.length > 0 &&
-                        roomtype.images.map((_, imgIndex) => (
-                          <button
-                            key={`${imgIndex}`}
-                            type="button"
-                            data-bs-target={`#carouselExampleIndicators-1-${roomtype.id}`}
-                            data-bs-slide-to={imgIndex}
-                            className={imgIndex === 0 ? "active" : ""}
-                            aria-label={`Slide ${imgIndex + 1}`}
-                            onClick={(e) => e.stopPropagation()}
-                          ></button>
-                        ))}
-                    </div>
-                    <div className="carousel-inner rounded-4 position-relative">
-                      {roomtype.images &&
-                        roomtype.images.length > 0 &&
-                        roomtype.images.map((img, imgIndex) => (
-                          <div
-                            key={`${imgIndex}`}
-                            className={`position-relative carousel-item ${imgIndex === 0 ? "active" : ""
-                              }`}
-                          >
-                            <img
-                              src={img.link || "#"}
-                              className="img-slider-home-motel"
-                              alt={`RoomType ${imgIndex + 1} Image ${imgIndex + 1}`}
-                            />
-                          </div>
-                        ))}
-                      <div className="Icon-Vip-user-home">
-                        {/* <i className="fa-solid fa-crown"></i> */}
+                  <div className="">
+                    <div
+                      id={`carouselExampleIndicators-1-${roomtype.id}`}
+                      className="carousel slide"
+                      data-bs-ride="carousel"
+                    >
+                      <div className="carousel-indicators mb-0">
+                        {roomtype.images &&
+                          roomtype.images.length > 0 &&
+                          roomtype.images.map((_, imgIndex) => (
+                            <button
+                              key={`${imgIndex}`}
+                              type="button"
+                              data-bs-target={`#carouselExampleIndicators-1-${roomtype.id}`}
+                              data-bs-slide-to={imgIndex}
+                              className={imgIndex === 0 ? "active" : ""}
+                              aria-label={`Slide ${imgIndex + 1}`}
+                              onClick={(e) => e.stopPropagation()}
+                            ></button>
+                          ))}
                       </div>
+                      <div className="carousel-inner rounded-4 position-relative">
+                        {roomtype.images &&
+                          roomtype.images.length > 0 &&
+                          roomtype.images.map((img, imgIndex) => (
+                            <div
+                              key={`${imgIndex}`}
+                              className={`position-relative carousel-item ${imgIndex === 0 ? "active" : ""
+                                }`}
+                            >
+                              <img
+                                src={img.link || "#"}
+                                className="img-slider-home-motel"
+                                alt={`RoomType ${imgIndex + 1} Image ${imgIndex + 1}`}
+                              />
+                            </div>
+                          ))}
+                        <div className="Icon-Vip-user-home">
+                          {/* <i className="fa-solid fa-crown"></i> */}
+                        </div>
+                      </div>
+                      <button
+                        className="carousel-control-prev"
+                        type="button"
+                        data-bs-target={`#carouselExampleIndicators-1-${index}`}
+                        data-bs-slide="prev"
+                        onClick={(e) => e.stopPropagation()}
+                      ></button>
+                      <button
+                        className="carousel-control-next"
+                        type="button"
+                        data-bs-target={`#carouselExampleIndicators-1-${index}`}
+                        data-bs-slide="next"
+                        onClick={(e) => e.stopPropagation()}
+                      ></button>
                     </div>
-                    <button
-                      className="carousel-control-prev"
-                      type="button"
-                      data-bs-target={`#carouselExampleIndicators-1-${index}`}
-                      data-bs-slide="prev"
-                      onClick={(e) => e.stopPropagation()}
-                    ></button>
-                    <button
-                      className="carousel-control-next"
-                      type="button"
-                      data-bs-target={`#carouselExampleIndicators-1-${index}`}
-                      data-bs-slide="next"
-                      onClick={(e) => e.stopPropagation()}
-                    ></button>
                   </div>
-                </div>
-                {/* Phần chữ */}
-                <div className="mt-3">
-                  <h5 className="name-motel-home-1">{roomtype.name || "N/A"}</h5>
-                  <p className="dia-chi-motel-home-1">
-                    <FontAwesomeIcon
-                      icon={faLocationDot}
-                      size="lg"
-                      color="#ff522a"
-                      className="icon-table-motel me-2"
-                    />
-                    {roomtype.address || "Address not available"}
-                  </p>
-                  {/* Hiển thị giá từ roomType */}
-                  <span key={index} className="price-home-1">
-                    <FontAwesomeIcon
-                      icon={faMoneyBill}
-                      size="lg"
-                      color="#298B90"
-                      className="icon-table-motel me-2"
-                    />
-                    {formatPrice(roomtype.price)}đ
-                  </span>
-                </div>
+                  {/* Phần chữ */}
+                  <div className="mt-3">
+                    <h5 className="name-motel-home-1">{roomtype.name || "N/A"}</h5>
+                    <p className="dia-chi-motel-home-1">
+                      <FontAwesomeIcon
+                        icon={faLocationDot}
+                        size="lg"
+                        color="#ff522a"
+                        className="icon-table-motel me-2"
+                      />
+                      {roomtype.address || "Address not available"}
+                    </p>
+                    {/* Hiển thị giá từ roomType */}
+                    <span key={index} className="price-home-1">
+                      <FontAwesomeIcon
+                        icon={faMoneyBill}
+                        size="lg"
+                        color="#298B90"
+                        className="icon-table-motel me-2"
+                      />
+                      {formatPrice(roomtype.price)}đ
+                    </span>
+                  </div>
                 </div>
 
               </div>

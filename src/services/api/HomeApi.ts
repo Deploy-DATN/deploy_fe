@@ -13,6 +13,7 @@ export interface RoomType {
     name: string;
     address: string;
     images: Image[];
+    packageName: string;
 }
 
 export interface UserDetail {
