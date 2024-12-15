@@ -2,9 +2,11 @@ import { AddRoomTypeApi } from "@/services/api/MotelApi";
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Editor } from "@tinymce/tinymce-react";
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { useSelector } from 'react-redux';
+import { RootState, userAppDispatch } from '@/redux/store';
+import { fetchPackage } from '@/components/header/redux/action';
 
 const Addroom: React.FC<{
   motelId: string | undefined;
@@ -21,6 +23,11 @@ const Addroom: React.FC<{
   });
 
   const [images, setImages] = useState<string[]>([]);
+  const { myPackage } = useSelector((state: RootState) => state.user);
+  const dispatch = userAppDispatch();
+  useEffect(() => {
+    dispatch(fetchPackage());
+  }, [dispatch]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -120,6 +127,17 @@ const Addroom: React.FC<{
   };
   const handleSubmit = async () => {
     try {
+      const limitRoom = myPackage?.limitRoom ?? 8;
+      const totalRoom = values.quantityRoom;
+      if (totalRoom > limitRoom) {
+        Swal.fire({
+          icon: "error",
+          title: "Không thể thêm!",
+          text: `Số lượng phòng vượt quá giới hạn VIP. Giới hạn tối đa là ${limitRoom} phòng.`,
+        });
+        return;
+      }
+
       setErrors({});
       let hasError = false;
 

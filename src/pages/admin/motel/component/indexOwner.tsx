@@ -58,7 +58,10 @@ export const indexOwner = () => {
   }, []);
 
   const handleAddMotel = () => {
-    if (myPackage && myPackage.limitMotel && count < myPackage?.limitMotel) {
+    if (
+      (myPackage && myPackage.limitMotel && count < myPackage.limitMotel) ||
+      (count === 0 && myPackage?.limitMotel === undefined)
+    ) {
       navigate("addModelOwner");
     } else {
       Swal.fire({

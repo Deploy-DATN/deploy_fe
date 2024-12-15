@@ -10,13 +10,36 @@ import { AddMotelDTO } from "@/services/Dto/MotelDto";
 import axios from "axios";
 import { Editor } from "@tinymce/tinymce-react";
 import Swal from "sweetalert2";
+import { useSelector } from 'react-redux';
+import { RootState, userAppDispatch } from '@/redux/store';
+import { fetchPackage } from '@/components/header/redux/action';
+import { getCountRoomApi } from "@/services/api/HomeApi";
+import { useParams } from "react-router-dom";
 
 export const AddMotelOwner = () => {
   const { user } = useUser();
   const location = useLocation();
+  const { myPackage } = useSelector((state: RootState) => state.user);
+  const dispatch = userAppDispatch();
+  useEffect(() => {
+    dispatch(fetchPackage());
+  }, [dispatch]);
+
+  const [countRoom1, setCountRoom1] = useState<number>(0);
+  const { id } = useParams();
+  const { motelId } = useParams();
+
+  useEffect(() => {
+    const fetchCountRoom = async () => {
+      const response = await getCountRoomApi(Number(motelId));
+      if (response) {
+        setCountRoom1(response.count);
+      }
+    };
+    fetchCountRoom();
+  }, [motelId]);
   //rút gọn giao diện
   const [isMotelInfoVisible, setIsMotelInfoVisible] = useState(true);
-  const { addLimit } = location.state || { addLimit: 0 };
   const showMotelInfo = () => setIsMotelInfoVisible(true);
   const showPriceInfo = () => setIsMotelInfoVisible(false);
   //trở lại trang trước đó
@@ -233,6 +256,16 @@ export const AddMotelOwner = () => {
 
   const handleSubmit = async () => {
     try {
+      const limitRoom = myPackage?.limitRoom ?? 8;
+      const totalRoom = values.totalRoom;
+      if (totalRoom > limitRoom) {
+        Swal.fire({
+          icon: "error",
+          title: "Không thể thêm!",
+          text: `Số lượng phòng vượt quá giới hạn VIP. Giới hạn tối đa là ${limitRoom} phòng.`,
+        });
+        return;
+      }
       setErrors({});
       let hasError = false;
       const addressall: string = `${values.address}, ${selectedWard}, ${selectedDistrict.name}, ${selectedProvince.name}`;
@@ -347,17 +380,23 @@ export const AddMotelOwner = () => {
 
       const response = await AddMotel(submitFormData);
       if (response.code === 200) {
-        const updatedAddLimit = addLimit - 1;
-        localStorage.setItem("addLimit", updatedAddLimit.toString());
-        Swal.fire({
-          icon: "success",
-          title: "Thành công",
-          text: "Thêm dãy trọ thành công",
-        }).then(() => {
-          // Lưu trạng thái thông báo vào localStorage
-          navigate('/admin/indexOwner');
-          localStorage.setItem("showNotification", "true");
-        });
+        const limitRoom = myPackage?.limitRoom ?? 8;
+        if (countRoom1 < limitRoom) {
+          Swal.fire({
+            icon: "success",
+            title: "Thành công",
+            text: "Thêm dãy trọ thành công",
+          }).then(() => {
+            navigate('/admin/indexOwner');
+            localStorage.setItem("showNotification", "true");
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Không thể thêm!",
+            text: "Dãy trọ vượt quá giới hạn VIP, giới hạn của dãy là " + limitRoom + " dãy trọ.",
+          });
+        }
       }
     } catch (error: any) {
       Swal.fire({

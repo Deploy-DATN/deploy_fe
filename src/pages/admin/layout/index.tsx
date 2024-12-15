@@ -131,9 +131,8 @@ export const Layout = () => {
   return (
     // < !--Body Wrapper-- >
     <div
-      className={`page-wrapper ${isMiniSidebar ? "mini-sidebar" : ""} ${
-        isShowSidebar ? "show-sidebar" : ""
-      }`}
+      className={`page-wrapper ${isMiniSidebar ? "mini-sidebar" : ""} ${isShowSidebar ? "show-sidebar" : ""
+        }`}
       id="main-wrapper"
       data-layout="vertical"
       data-navbarbg="skin6"
@@ -233,18 +232,22 @@ export const Layout = () => {
                   selected: isPartialActive("notification"),
                 })}
               >
-                <Link
-                  to="notification"
-                  className={clsx("sidebar-link sidebar-link danger-hover-bg", {
-                    active: isPartialActive("notification"),
-                  })}
-                  aria-expanded="false"
-                >
-                  <span className="aside-icon p-2 bg-light-danger rounded-3">
-                    <i className="ti ti-alert-circle fs-7 text-danger"></i>
-                  </span>
-                  <span className="hide-menu ms-2 ps-1">Thông báo</span>
-                </Link>
+                {user && user.role !== "Owner" ? (
+                  <Link
+                    to="notification"
+                    className={clsx("sidebar-link sidebar-link danger-hover-bg", {
+                      active: isPartialActive("notification"),
+                    })}
+                    aria-expanded="false"
+                  >
+                    <span className="aside-icon p-2 bg-light-danger rounded-3">
+                      <i className="ti ti-alert-circle fs-7 text-danger"></i>
+                    </span>
+                    <span className="hide-menu ms-2 ps-1">Thông báo</span>
+                  </Link>
+                ) : (
+                  ""
+                )}
               </li>
               <li
                 className={clsx("sidebar-item", {
@@ -377,10 +380,10 @@ export const Layout = () => {
                               {notification.type === 1
                                 ? "Thông thường"
                                 : notification.type === 2
-                                ? "Cảnh báo"
-                                : notification.type === 3
-                                ? "Khẩn cấp"
-                                : "Hệ thống"}
+                                  ? "Cảnh báo"
+                                  : notification.type === 3
+                                    ? "Khẩn cấp"
+                                    : "Hệ thống"}
                             </span>
                           </strong>
                         </a>
