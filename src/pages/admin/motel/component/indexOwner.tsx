@@ -9,7 +9,6 @@ import { useSelector } from 'react-redux';
 import { RootState, userAppDispatch } from '@/redux/store';
 import { fetchPackage } from '@/components/header/redux/action';
 import { getCountMotelApi } from "@/services/api/HomeApi";
-
 export const indexOwner = () => {
   const { myPackage } = useSelector((state: RootState) => state.user);
   const dispatch = userAppDispatch();
