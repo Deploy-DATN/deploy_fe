@@ -29,6 +29,7 @@ export interface MotelDTO {
   status: number;
   createDate: string;
   totalRoom: number;
+  totalUser: number;
   owner: OwnerInfo;
 }
 

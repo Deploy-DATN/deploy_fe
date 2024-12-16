@@ -343,7 +343,7 @@ export const Motel: React.FC = () => {
                       <td className="text-overflow-motel">{motel.address}</td>
                       <td>{motel.totalRoom}</td>
                       <td>{motel.rating.toFixed(1)}</td>
-                      <td>{motel.totalRoom}</td>
+                      <td>{motel.totalUser}</td>
                       <td>{formatDate(motel.createDate)}</td>
                       <td
                         className="motel-diachi"
