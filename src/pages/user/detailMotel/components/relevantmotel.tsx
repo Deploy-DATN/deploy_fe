@@ -117,7 +117,7 @@ function RelevantMotel({ address, currentMotelId }: RelevantMotelProps) {
                         <div className="carousel-indicators mb-0">
                           {motel.images &&
                             motel.images.length > 0 &&
-                            motel.images.map((image, imgIndex) => (
+                            motel.images.map((_, imgIndex) => (
                               <button
                                 key={`${imgIndex}`}
                                 type="button"

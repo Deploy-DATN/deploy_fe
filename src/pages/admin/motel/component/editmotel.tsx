@@ -30,16 +30,6 @@ export const EditMotelOwner = () => {
   const [services, setServices] = useState<GetMotelEditDTO_Service[]>([]);
   const [idServicesDelete, setIdServicesDelete] = useState<number[]>([]);
 
-  const addService = () => {
-    const newService = {
-      id: Date.now(), // Sử dụng timestamp làm id tạm thời
-      name: "",
-      price: 1000,
-      description: "",
-      isNew: true, // Đánh dấu service mới
-    };
-    setServices((prev) => [...prev, newService]);
-  };
   //phần địa chỉ
   type LocationOption = {
     name: string;

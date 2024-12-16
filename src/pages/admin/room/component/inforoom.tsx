@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../style/room.scss';
 import Detailroom from './detailroom/detailroom';
 import Historyroom from './detailroom/historyroom';
@@ -8,8 +8,6 @@ import AddUserRoom from './detailroom/addUserRoom';
 import Baotriroom from './detailroom/baotriroom';
 import { useParams } from 'react-router-dom';
 import { CheckIsLockRoomApi, GetRoomByIdApi, OpenRoomApi } from '@/services/api/MotelApi';
-import { RoomDTO } from '@/services/Dto/MotelDto';
-import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 
 const Inforoom = () => {
@@ -31,7 +29,6 @@ const Inforoom = () => {
 	const { id } = useParams();
 	const [isLockRoom, setIsLockRoom] = useState(false);
   const [isOpenRoom, setIsOpenRoom] = useState(false);
-  const [room, setRoom] = useState<RoomDTO | null>(null);
 
 	useEffect(() => {
 		const checkIsLockRoom = async () => {
@@ -124,9 +121,7 @@ const Inforoom = () => {
 				</div>
 				{modalState.editRoom && selectedRoomId && (
 					<Editroom
-						roomId={selectedRoomId}
 						onClose={() => toggleModal('editRoom')}
-						motelId={'1'}
 					/>
 				)}
 				{modalState.addUserRoom && selectedRoomId && (

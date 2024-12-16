@@ -1,5 +1,4 @@
-import { faFileArrowUp } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { useState } from "react";
 import InfoBill from "./component/infoBill";
 

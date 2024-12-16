@@ -1,8 +1,6 @@
 import { GetHistoryByRoomIdApi } from '@/services/api/MotelApi';
-import { GetHistoryByRoomIdDTO, HistoryPaginationResponse } from '@/services/Dto/MotelDto';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
+import { HistoryPaginationResponse } from '@/services/Dto/MotelDto';
+import { useEffect, useState } from 'react';
 import { formatDateTime } from './billroom';
 
 export interface HistoryQueryDto {

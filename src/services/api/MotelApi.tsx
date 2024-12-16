@@ -1,7 +1,7 @@
 // API motel
 import axios from 'axios';
 import axiosInstance, { API_URL } from '../apiConfig';
-import { GetHistoryByRoomIdDTO, BillByIdDTO, GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, SendElicWaterDTO, AddServiceDTO, AddUserRoomDTO, BillDTO, EditMotelDTO, EditServiceDTO, GetMotelEditDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, RoomUserDTO, BillPaginationResponse, HistoryPaginationResponse } from '../Dto/MotelDto';
+import {  BillByIdDTO, GetPriceByRoomTypeDTO, GetRoomTypeByAddElicWaterDTO, SendElicWaterDTO, AddServiceDTO, AddUserRoomDTO, EditMotelDTO, EditServiceDTO, GetMotelEditDTO, GetRoomTypeByEditDTO, GetRoomTypeDTO, MotelPaginationResponse, RoomDTO, RoomUserDTO, BillPaginationResponse, HistoryPaginationResponse } from '../Dto/MotelDto';
 import { ResponseDTO } from './RepositoryDto';
 import { FilterProps } from '@/pages/admin/motel';
 import { getAccountApi } from './authApi';

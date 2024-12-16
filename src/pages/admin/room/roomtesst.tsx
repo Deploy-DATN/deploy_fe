@@ -5,18 +5,13 @@ import AddElicWater from "./component/addElicWater";
 import Addroom from "./component/addroom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { GetRoomTypeDTO, MotelDTO } from "@/services/Dto/MotelDto";
+import { GetRoomTypeDTO } from "@/services/Dto/MotelDto";
 import Roomtype from "./component/roomtype";
 import Addroomintype from "./component/addroomintype";
 import EditRoomType from "./component/editRoomType";
 import {
-  ApproveMotelApi,
   GetRoomTypeByMotelId,
-  LockMotelApi,
-  RejectMotelApi,
-  UnLockMotelApi,
 } from "@/services/api/MotelApi";
-import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 
@@ -33,8 +28,6 @@ export const Roomtesst = () => {
   const { user } = useSelector((state: RootState) => state.user);
 
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
-  const { id } = useParams();
-
   const toggleModal = (
     modalName: keyof typeof modalState,
     param: number | any[] = []
@@ -43,7 +36,6 @@ export const Roomtesst = () => {
 
     if (Array.isArray(param)) {
       // Xử lý khi param là mảng rooms
-      setSelectedRooms(param);
     } else {
       // Xử lý khi param là roomId
       setSelectedRoomId(param);
@@ -52,8 +44,7 @@ export const Roomtesst = () => {
 
   // code logic ở đây nha
   const [roomType, setRoomType] = useState<GetRoomTypeDTO[]>();
-  const [motel, setMotel] = useState<MotelDTO>();
-
+  const motelStatus = 0; // Thay thế state bằng giá trị mặc định
 
   //lấy motelId từ params
   const { motelId } = useParams();
@@ -79,123 +70,8 @@ export const Roomtesst = () => {
       console.log(error);
     }
   };
-  const [selectedRooms, setSelectedRooms] = useState<any[]>([]);
   //thao tác motel (admin)
 
-  const HandleApprove = async (id: number) => {
-    const response = await ApproveMotelApi(id);
-    if (response.code === 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Thành công",
-        text: "Duyệt dãy trọ thành công",
-      });
-      await LoadData();
-    }
-  };
-
-  const HandleReject = async (id: number) => {
-    const response = await RejectMotelApi(id);
-    if (response.code === 200) {
-      Swal.fire({
-        icon: "warning",
-        title: "Từ chối!",
-        text: "Từ chối dãy trọ thành công",
-      });
-      await LoadData();
-    }
-  };
-
-  const HandleLock = async (id: number) => {
-    const response = await LockMotelApi(id);
-    if (response.code === 200) {
-      Swal.fire({
-        icon: "error",
-        title: "Khóa!",
-        text: "Khóa dãy trọ thành công",
-      });
-      await LoadData();
-    }
-  };
-
-  const HandleUnLock = async (id: number) => {
-    const response = await UnLockMotelApi(id);
-    if (response.code === 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Mở khóa!",
-        text: "Mở khóa dãy trọ thành công",
-      });
-      await LoadData();
-    }
-  };
-
-  const CheckStatus_ThaoTac = (status: number, id: number) => {
-    if (status === 1) {
-      return (
-        <>
-          <button
-            className="btn btn-create-notification btn-transform-y2"
-            onClick={() => HandleApprove(id)}
-          >
-            <FontAwesomeIcon
-              icon={faPlus}
-              size="lg"
-              color="#fffffff"
-              className="icon-table-motel me-3"
-            />
-            Duyệt
-          </button>
-          <button
-            className="btn btn-create-notification btn-transform-y2"
-            onClick={() => HandleReject(id)}
-          >
-            <FontAwesomeIcon
-              icon={faPlus}
-              size="lg"
-              color="#fffffff"
-              className="icon-table-motel me-3"
-            />
-            Từ chối
-          </button>
-        </>
-      );
-    } else if (status === 2) {
-      return (
-        <>
-          <button
-            className="btn btn-create-notification btn-transform-y2"
-            onClick={() => HandleLock(id)}
-          >
-            <FontAwesomeIcon
-              icon={faPlus}
-              size="lg"
-              color="#fffffff"
-              className="icon-table-motel me-3"
-            />
-            Khóa
-          </button>
-        </>
-      );
-    } else if (status === 3) {
-      return (
-        <>
-          <button
-            className="btn btn-create-notification btn-transform-y2"
-            onClick={() => HandleUnLock(id)}
-          >
-            <FontAwesomeIcon
-              icon={faPlus}
-              size="lg"
-              color="#fffffff"
-              className="icon-table-motel me-3"
-            />
-            Mở khóa
-          </button>
-        </>
-      );
-    }
-  };
 
   return (
     <>
@@ -263,7 +139,7 @@ export const Roomtesst = () => {
                 roomType.map((roomType) => (
                   <Roomtype
                     roomType={roomType}
-                    motelStatus={motel?.status || 0}
+                    motelStatus={motelStatus}
                     toggleModal={toggleModal}
                   />
                 ))}

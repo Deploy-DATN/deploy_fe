@@ -111,17 +111,7 @@ export const Motel: React.FC = () => {
     }
   };
 
-  const HandleSearch = async (search: string) => {
-    const newQuery = {
-      ...query,
-      search: search,
-    };
-    setQuery(newQuery);
-    //delay 1s
-    setTimeout(async () => {
-      await LoadData(newQuery);
-    }, 1000);
-  };
+  
 
   const HandleApprove = async (id: number) => {
     const response = await ApproveMotelApi(id);

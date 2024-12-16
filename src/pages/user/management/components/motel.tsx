@@ -4,15 +4,13 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Pagination, Navigation } from 'swiper/modules';
 import { useEffect, useState } from "react";
-import { postVnpayApi, VnPay } from "@/services/api/HomeApi";
 import '../styles/motel.scss'
 import { GetRentalRoomDetailAPI } from '@/services/api/HomeApi';
 import Feedback from './feedback';
 import Swal from 'sweetalert2';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 const Motel = () => {
     const location = useLocation(); // Lấy thông tin URL hiện tại
-    const navigate = useNavigate();
     const [rentalDetail, setRentalDetail] = useState<any | null>(null);
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -29,34 +27,6 @@ const Motel = () => {
         fetchRetalRoomDetail();
     }, []);
 
-    const handleVnPayPayment = async (billId: number, amount: number) => {
-        console.log('Inside handleVnPayPayment');
-        try {
-            const vnpayPayload: VnPay = {
-                orderId: billId.toString(),
-                amount,
-                returnUrl: `https://localhost:7299/api/Main/vnpay-return`,
-            };
-            const response = await postVnpayApi(vnpayPayload);
-            if (response.status === 200) {
-                window.location.href = response.data;
-
-            } else {
-                Swal.fire({
-                    title: 'Chưa thanh toán',
-                    text: 'Thanh toán thất bại',
-                    icon: 'error',
-                    timer: 2000,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                });
-                navigate('/user/motel');
-            }
-        } catch (error: any) {
-            console.error('Error creating order:', error.message);
-            alert('An error occurred while creating the order');
-        }
-    };
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);

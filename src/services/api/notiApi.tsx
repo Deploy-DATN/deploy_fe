@@ -1,5 +1,5 @@
 import axios from "axios"
-import { API, API_URL } from '../apiConfig'
+import { API } from '../apiConfig'
 import { ParamsPage } from "../Dto/NotificationDto"
 
 

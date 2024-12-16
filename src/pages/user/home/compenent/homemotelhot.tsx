@@ -7,7 +7,6 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
 function HomeMotelHot() {
   const [motels, setMotels] = useState<RoomType[]>([]);
   const [selectedType, setSelectedType] = useState<'outstanding' | 'new'>('outstanding'); // Trạng thái chọn loại trọ
@@ -40,61 +39,11 @@ function HomeMotelHot() {
     navigate(`/detailmoteluser/${id}`); // Navigate to the motel detail page using its ID
   };
 
-  type LocationOption = {
-    name: string;
-    code: number | null;
-  };
-  const [provinces, setProvinces] = useState<LocationOption[]>([]);
-  const [districts, setDistricts] = useState<LocationOption[]>([]);
-  const [wards, setWards] = useState<LocationOption[]>([]);
+  const selectedProvince = { name: "Tỉnh", code: null };
+  const selectedDistrict = { name: "Thành phố", code: null };
+  const selectedWard = "Phường";
+  const searchQuery = "";
 
-  const [selectedProvince, setSelectedProvince] = useState<LocationOption>({
-    name: "Tỉnh",
-    code: null,
-  });
-  const [selectedDistrict, setSelectedDistrict] = useState<LocationOption>({
-    name: "Thành phố",
-    code: null,
-  });
-  const [selectedWard, setSelectedWard] = useState<string>("Phường");
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  useEffect(() => {
-    // Lấy danh sách tỉnh
-    axios
-      .get("https://provinces.open-api.vn/api/p/")
-      .then((response) => setProvinces(response.data))
-      .catch((error) => console.error("Error fetching provinces:", error));
-  }, []);
-
-  useEffect(() => {
-    if (selectedProvince.code) {
-      // Lấy danh sách quận/huyện khi tỉnh được chọn
-      axios
-        .get(
-          `https://provinces.open-api.vn/api/p/${selectedProvince.code}/?depth=2`
-        )
-        .then((response) => setDistricts(response.data.districts))
-        .catch((error) => console.error("Error fetching districts:", error));
-    }
-    setSelectedDistrict({ name: "Thành phố", code: null });
-    setWards([]);
-    setSelectedWard("Phường");
-  }, [selectedProvince]);
-
-
-
-  useEffect(() => {
-    if (selectedDistrict.code) {
-      // Lấy danh sách phường/xã khi quận/huyện được chọn
-      axios
-        .get(
-          `https://provinces.open-api.vn/api/d/${selectedDistrict.code}/?depth=2`
-        )
-        .then((response) => setWards(response.data.wards))
-        .catch((error) => console.error("Error fetching wards:", error));
-    }
-    setSelectedWard("Phường");
-  }, [selectedDistrict]);
   const handleSearch = () => {
     const searchLink = `/search?Province=${encodeURIComponent(selectedProvince.name)}&District=${encodeURIComponent(selectedDistrict.name)}&Ward=${encodeURIComponent(selectedWard)}&search=${encodeURIComponent(searchQuery)}`;
     navigate(searchLink);
@@ -124,7 +73,7 @@ function HomeMotelHot() {
         </div>
       </div>
       <div className="row">
-        {motels && motels.length > 0 && motels.map((roomtype, index) => (
+        {motels && motels.length > 0 && motels.map((roomtype) => (
           <div key={roomtype.id} className="col-6 col-md-4 col-lg-4 col-xl-3 mt-3 ngontay-hover" onClick={() => handleMotelClick(roomtype.id)}>
             <div className="border-motel-info-home">
               <div className="">

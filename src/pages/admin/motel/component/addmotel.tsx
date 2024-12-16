@@ -2,8 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/stylemotel.scss";
 import { faCamera, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { getAccountApi } from "@/services/api/authApi";
+import { useNavigate } from "react-router-dom";
 import { AddMotel } from "@/services/api/MotelApi";
 import { useUser } from "@/services/api/UserContext";
 import { AddMotelDTO } from "@/services/Dto/MotelDto";
@@ -18,7 +17,6 @@ import { useParams } from "react-router-dom";
 
 export const AddMotelOwner = () => {
   const { user } = useUser();
-  const location = useLocation();
   const { myPackage } = useSelector((state: RootState) => state.user);
   const dispatch = userAppDispatch();
   useEffect(() => {
@@ -26,7 +24,6 @@ export const AddMotelOwner = () => {
   }, [dispatch]);
 
   const [countRoom1, setCountRoom1] = useState<number>(0);
-  const { id } = useParams();
   const { motelId } = useParams();
 
   useEffect(() => {
@@ -38,10 +35,7 @@ export const AddMotelOwner = () => {
     };
     fetchCountRoom();
   }, [motelId]);
-  //rút gọn giao diện
-  const [isMotelInfoVisible, setIsMotelInfoVisible] = useState(true);
-  const showMotelInfo = () => setIsMotelInfoVisible(true);
-  const showPriceInfo = () => setIsMotelInfoVisible(false);
+
   //trở lại trang trước đó
   const navigate = useNavigate();
 
@@ -56,21 +50,13 @@ export const AddMotelOwner = () => {
     userId: user?.id,
   });
 
-  const [formData, setFormData] = useState(new FormData());
+  const formData = new FormData();
   //dịch vụ ở đây nha
   const [services, setServices] = useState([
     { id: 1, name: "Điện", price: "3000", description: "Điện của phòng" },
     { id: 2, name: "Nước", price: "3000", description: "Nước của phòng" },
   ]);
-  const addService = () => {
-    const newService = {
-      id: services.length + 1,
-      name: "",
-      price: "",
-      description: "",
-    };
-    setServices((prev) => [...prev, newService]);
-  };
+  
   const removeService = (id: number) => {
     setServices((prev) => prev.filter((service) => service.id !== id));
   };

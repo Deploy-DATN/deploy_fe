@@ -65,7 +65,7 @@ const MyMotel = () => {
             {myMotel ? (
                 <>
                     <h1 className='mb-5 text-center'>Thông tin đăng ký trọ</h1>
-                    {myMotel.length > 0 && myMotel.map((item, index) => (
+                    {myMotel.length > 0 && myMotel.map((item) => (
                         <Fragment key={item.id}>
                             <div className='row mb-3'>
                                 <div className='col-6'>
@@ -99,13 +99,13 @@ const MyMotel = () => {
                                     </div>
                                     <div className='mb-3'>
                                         <h4>Dịch vụ tiện ích</h4>
-                                        {item.service.length > 0 && item.service.map((item, index) => (
+                                        {item.service.length > 0 && item.service.map((item) => (
                                             <div key={item.id}>{item.name}: {`${item.price} vnd`}</div>
                                         ))}
                                     </div>
                                     <div className='mb-3'>
                                         <h4>Loại phòng</h4>
-                                        {item.roomType.length > 0 && item.roomType.map((item, index) => (
+                                        {item.roomType.length > 0 && item.roomType.map((item) => (
                                             <Fragment key={item.id}>
                                                 <div>Phòng: {item.name}</div>
                                                 <div className='d-flex'>Mô tả: <div className="motel-diachi ps-2" dangerouslySetInnerHTML={{ __html: item?.description || "",}}></div></div>

@@ -2,11 +2,9 @@ import React from 'react'
 
 interface EditRoomProps {
   onClose: () => void;
-  motelId: string | undefined;
-  roomId: number;
 }
 
-const Editroom: React.FC<EditRoomProps> = ({ onClose, motelId, roomId }) => {
+const Editroom: React.FC<EditRoomProps> = ({ onClose }) => {
 
   return (
     <>

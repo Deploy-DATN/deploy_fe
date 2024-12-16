@@ -78,11 +78,6 @@ const NewPW = () => {
     }
   };
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
 
   return (
     <div className="formverifyfw container-fluid">

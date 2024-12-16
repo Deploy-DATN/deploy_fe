@@ -1,5 +1,13 @@
 import { Link } from 'react-router-dom';
 import CardRoom from './CardRoom';
+
+interface Room {
+	id: number;
+	name: string;
+	status?: number;
+	price?: number;
+}
+
 const MotelOwner = (props: { motel: any }) => {
 	return (
 		<>
@@ -31,7 +39,7 @@ const MotelOwner = (props: { motel: any }) => {
 					</div>
 				</div>
 				<div className='phong-table-motel-owner col-7 col-sm-7 col-md-9 col-lg-10 col-xl-10 col-xxl-10 row'>
-					{props.motel.rooms.map((room) => (
+					{props.motel.rooms.map((room: Room) => (
 						<CardRoom room={room} />
 					))}
 					<button type='button' className='btn btn-primary w-10 h-10'>Thêm phòng</button>

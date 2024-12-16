@@ -15,7 +15,7 @@ const Roomtype = (props: {
   motelStatus: number;
   toggleModal: (modalName: string, param: number | any[]) => void;
 }) => {
-  const { roomType, motelStatus, toggleModal } = props;
+  const { roomType, toggleModal } = props;
   const { user } = useSelector((state: RootState) => state.user);
 
   const [isDisabled, setIsDisabled] = useState(false);
@@ -26,7 +26,6 @@ const Roomtype = (props: {
     dispatch(fetchPackage());
   }, [dispatch]);
   const [countRoom, setCountRoom] = useState<number>(0);
-  const { id } = useParams();
   const { motelId } = useParams();
   useEffect(() => {
     const checkStatus = async () => {
@@ -48,40 +47,6 @@ const Roomtype = (props: {
 
   console.log(countRoom, '1')
   console.log(myPackage?.limitRoom, '2')  
-  const CheckStatus = (status: number) => {
-    if (status === 1) {
-      return (
-        <span className="tt-choduyet badge bg-light-warning rounded-pill p-2 fs-2">
-          Chờ duyệt
-        </span>
-      );
-    } else if (status === 2) {
-      return (
-        <span className="tt-dangthue bg-light-success rounded-pill p-2 fs-2">
-          Đang hoạt động
-        </span>
-      );
-    } else if (status === 3) {
-      return (
-        <span className="tt-khoa badge bg-light-danger rounded-pill p-2 fs-2">
-          Ngừng hoạt động
-        </span>
-      );
-    } else if (status === 4) {
-      return (
-        <span className="tt-khoa badge bg-light-danger rounded-pill p-2 fs-2">
-          Từ chối
-        </span>
-      );
-    } else if (status === 5) {
-      return (
-        <span className="tt-khoa badge bg-light-danger rounded-pill p-2 fs-2">
-          Đã xóa
-        </span>
-      );
-    }
-  };
-
   const handleAddRoom = () => {
     const limitRoom = myPackage?.limitRoom ?? 8;
     if (countRoom < limitRoom) {
@@ -96,14 +61,6 @@ const Roomtype = (props: {
   };
 
   console.log(myPackage?.limitRoom, '1')
-
-  const CheckStatusElicWater = async (roomTypeId: number) => {
-    const res = await GetRoomTypeByAddElicWaterApi(roomTypeId);
-    if (res.data.length > 0) {
-      return true;
-    }
-    return false;
-  };
 
   return (
     <>

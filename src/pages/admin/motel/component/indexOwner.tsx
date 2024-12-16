@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MotelDTO } from '@/services/Dto/MotelDto';
-import { DeleteMotel, getMotelByOwnerApi, LockMotelApi, UnLockMotelApi } from '@/services/api/MotelApi';
+import { DeleteMotel, getMotelByOwnerApi  } from '@/services/api/MotelApi';
 import '../styles/stylemotel.scss';
 import { FilterProps, PageDTO } from '..';
 import Swal from 'sweetalert2';
@@ -34,7 +34,6 @@ export const indexOwner = () => {
 
 	// ... existing code ...
 	const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
-	const [searchTerm, setSearchTerm] = useState<string>('');
 	// ... existing code ...
 
 	useEffect(() => {
@@ -108,29 +107,9 @@ export const indexOwner = () => {
 		}
 	};
 
-	const HandleLock = async (id: number) => {
-		const response = await LockMotelApi(id);
-		if (response.code === 200) {
-			Swal.fire({
-				icon: 'warning',
-				title: 'Khóa!',
-				text: 'Khóa dãy trọ thành công',
-			});
-			await LoadData(query);
-		}
-	};
+	
 
-	const HandleUnLock = async (id: number) => {
-		const response = await UnLockMotelApi(id);
-		if (response.code === 200) {
-			Swal.fire({
-				icon: 'info',
-				title: 'Mở khóa!',
-				text: 'Mở khóa dãy trọ thành công',
-			});
-			await LoadData(query);
-		}
-	};
+	
 
 	const IconThaoTac = (status: number, id: number) => {
 		if (status === 1) {
@@ -177,8 +156,6 @@ export const indexOwner = () => {
 	};
 
 	const HandleSearch = async (search: string) => {
-		setSearchTerm(search);
-
 		// Clear timeout cũ nếu có
 		if (timeoutId) clearTimeout(timeoutId);
 

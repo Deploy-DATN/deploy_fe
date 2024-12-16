@@ -1,5 +1,4 @@
 import { MyChart, ChartProps } from "./components/chart";
-import tk from '@/assets/images/backgrounds/img-login.png'
 import { Room, getAvailableRoomApi, Revenue, getRevenueStatisticApi, Percentage, getPercentageApi } from '@/services/api/authApi'
 import { useEffect, useState } from 'react';
 import { getRoleFromToken } from '@/services/apiConfig';
@@ -7,9 +6,8 @@ import { GetRevenueAdmin, RevenueAdmin, CountAccount, GetCountAccount } from '@/
 
 
 export const Dashboard = () => {
-    const [rooms, setRooms] = useState<Room[]>([]);
+
     const [revenueData, setRevenueData] = useState<ChartProps | null>(null);
-    const [percentageData, setPercentageData] = useState<Percentage[]>([]);
     //check role 
     const token = localStorage.getItem('token');
     //get role from token
@@ -21,7 +19,7 @@ export const Dashboard = () => {
             try {
                 const response = await getAvailableRoomApi(data);
                 if (response.status === 200) {
-                    setRooms(response.data.data);
+                    
                 }
             } catch (error) {
                 console.error("Error fetching available rooms:", error);
@@ -116,7 +114,7 @@ export const Dashboard = () => {
             try {
                 const response = await getPercentageApi(data);
                 if (response.data.code === 200) {
-                    setPercentageData(response.data.data)
+                    
                 }
             } catch (error) {
                 console.error("Error fetching percentage:", error);
@@ -181,7 +179,7 @@ export const Dashboard = () => {
                 } catch (error) {
                     console.error("Error fetching account counts:", error);
                 }
-            }; const fetchCustomerAccounts = async (item: CountAccount) => {
+            }; const fetchCustomerAccounts = async () => {
                 try {
                     const response = await GetCountAccount({ token: token || "", role: "CUSTOMER" });
                     if (response.data.code === 200) {
@@ -223,7 +221,7 @@ export const Dashboard = () => {
                     console.error("Error fetching customer account counts:", error);
                 }
             };
-            fetchCustomerAccounts({ token: token || "", role: "CUSTOMER" });
+            fetchCustomerAccounts();
 
 
             fetchAccountCounts({ token: token || "", role: "OWNER" });
@@ -366,49 +364,7 @@ export const Dashboard = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {rooms.map((rooms, index) => (
-                                            <tr key={index}>
-                                                <td>
-                                                    <div className="d-flex align-items-center">
-                                                        <div className="me-4">
-                                                            <img
-                                                                src={tk}
-                                                                width="50"
-                                                                className="rounded-circle"
-                                                                alt=""
-                                                            />
-                                                        </div>
-
-                                                        <div>
-                                                            <h6 className="mb-1 fw-bolder">ID12345</h6>
-                                                            <p className="fs-3 mb-0">{rooms.motelName}</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <p className="fs-3 fw-normal mb-0">{rooms.address}</p>
-                                                </td>
-                                                <td>
-                                                    <p className="fs-3 fw-normal mb-0 text-success">
-                                                        {rooms.emptyRoomsCount}
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    {rooms.status === 1 && (
-                                                        <span className="badge bg-light-success rounded-pill text-success px-3 py-2 fs-3">Hoạt động</span>
-                                                    )}
-                                                    {rooms.status === 2 && (
-                                                        <span className="badge bg-light-primary rounded-pill text-primary px-3 py-2 fs-3">Chưa biết ghi gì</span>
-                                                    )}
-                                                    {rooms.status === 3 && (
-                                                        <span className="badge bg-light-danger rounded-pill text-danger px-3 py-2 fs-3">Khóa</span>
-                                                    )}
-                                                    {rooms.status === 4 && (
-                                                        <span className="badge bg-light-warning rounded-pill text-warning px-3 py-2 fs-3">Đang sửa</span>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        ))}
+                                        
 
                                     </tbody>
                                 </table>
