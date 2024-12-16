@@ -1,4 +1,6 @@
+import { LockRoomApi } from "@/services/api/MotelApi";
 import React from "react";
+import { toast } from "react-toastify";
 
 interface BaotriroomProps {
   onClose: () => void;
@@ -6,6 +8,17 @@ interface BaotriroomProps {
 }
 
 const Baotriroom: React.FC<BaotriroomProps> = ({ onClose, roomId }) => {
+
+  const handleLockRoom = async () => {
+    const response = await LockRoomApi(roomId);
+    if (response.data === true) {
+      toast.success("Bảo trì phòng thành công");
+      onClose();
+      window.location.reload();
+    }
+  };
+
+
   return (
     <>
       <div className="modal-overlay-admin">
@@ -27,6 +40,7 @@ const Baotriroom: React.FC<BaotriroomProps> = ({ onClose, roomId }) => {
                 <button
                   type="button"
                   className="btn-luu-all btn-style btn-transform-y2"
+                  onClick={handleLockRoom}
                 >
                   Bảo trì
                 </button>

@@ -7,7 +7,7 @@ import Editroom from "./detailroom/editroom";
 import AddUserRoom from "./detailroom/addUserRoom";
 import Baotriroom from "./detailroom/baotriroom";
 import { useParams } from "react-router-dom";
-import { GetRoomByIdApi } from "@/services/api/MotelApi";
+import { CheckIsLockRoomApi, GetRoomByIdApi } from "@/services/api/MotelApi";
 import { RoomDTO } from "@/services/Dto/MotelDto";
 
 const Inforoom = () => {
@@ -30,6 +30,17 @@ const Inforoom = () => {
   const [activeTab, setActiveTab] = useState("detail"); // State lưu tab đang được chọn
 
   const { id } = useParams();
+  const [isLockRoom, setIsLockRoom] = useState(false);
+
+  useEffect(() => {
+    const checkIsLockRoom = async () => {
+      const response = await CheckIsLockRoomApi(Number(id));
+      if (response.data == true) {
+        setIsLockRoom(true);
+      }
+    };
+    checkIsLockRoom();
+  }, [id]);
 
   
 
@@ -69,15 +80,16 @@ const Inforoom = () => {
                     </button>
                   </div>
                   <div className="d-flex flex-wrap align-items-center">
-                    <button
+                    {/* <button
                       className={`btn btn-create-notification btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2`}
                       onClick={() => toggleModal('editRoom', 1)}
                     >
                       Sửa phòng
-                    </button>
+                    </button> */}
                     <button
                       className={`btn btn-create-notification btn-sm px-3 py-2 mx-2 mb-3 btn-transform-y2 `}
-                      onClick={() => toggleModal('baotriroom', 1)}
+                      onClick={() => toggleModal('baotriroom', Number(id))}
+                      disabled={!isLockRoom}
                     >
                       Bảo trì
                     </button>
