@@ -267,3 +267,13 @@ export const SentBillToEmail = async (billId: number) => {
 	  });
 	return response.data;
 };
+
+export const CheckIsLockRoomApi = async (id: number) => {
+	const response = await axios.get<ResponseDTO<boolean>>(`${API_URL}/Room/check-is-lock-room/${id}`);
+	return response.data;
+};
+
+export const LockRoomApi = async (id: number) => {
+	const response = await axios.put<ResponseDTO<boolean>>(`${API_URL}/Room/lock-room/${id}`);
+	return response.data;
+};
