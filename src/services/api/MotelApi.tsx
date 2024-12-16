@@ -277,3 +277,8 @@ export const LockRoomApi = async (id: number) => {
 	const response = await axios.put<ResponseDTO<boolean>>(`${API_URL}/Room/lock-room/${id}`);
 	return response.data;
 };
+
+export const OpenRoomApi = async (id: number) => {
+	const response = await axios.put<ResponseDTO<boolean>>(`${API_URL}/Room/unlock-room/${id}`);
+	return response.data;
+};

@@ -27,7 +27,7 @@ const CheckStatus = (status: number) => {
     );
   } else if (status === 3) {
     return (
-      <span className="tt-khoa badge bg-light-danger rounded-pill p-2 fs-2">
+      <span className="span-baotri-room-motel rounded-pill p-2 fs-2">
         Bảo trì
       </span>
     );

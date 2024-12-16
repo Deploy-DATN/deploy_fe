@@ -23,6 +23,7 @@ const Historyroom = ({ roomId }: { roomId: number }) => {
 	useEffect(() => {
 		fetchData(query);
 	}, [query]);
+	console.log(history);
 
 	const fetchData = async (query: HistoryQueryDto) => {
 		const response = await GetHistoryByRoomIdApi(roomId, query);
@@ -127,7 +128,7 @@ const Historyroom = ({ roomId }: { roomId: number }) => {
 							<tr>
 								<td>
 									<img
-										src={item?.user?.avatar ?? ''}
+										src={item?.user?.avatar || 'https://firebasestorage.googleapis.com/v0/b/nha-tro-t7m.appspot.com/o/images%2Fc68b44ba-41f4-4985-a339-f9378b7fec37.png?alt=media'}
 										width='50'
 										height='50'
 										className='rounded-circle'
@@ -137,9 +138,7 @@ const Historyroom = ({ roomId }: { roomId: number }) => {
 								<td>{highlightText(item?.user?.fullName, query.search)}</td>
 								<td>{highlightText(item?.user?.phone, query.search)}</td>
 								<td>{highlightText(item?.user?.email, query.search)}</td>
-								<td>
-									{formatDateTime(item?.createDate)}
-								</td>
+								<td>{formatDateTime(item?.createDate)}</td>
 								<td>{formatDateTime(item?.endDate ?? '')}</td>
 								<td>{CheckStatus(item?.status)}</td>
 							</tr>

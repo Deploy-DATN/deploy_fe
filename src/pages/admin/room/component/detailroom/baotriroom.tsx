@@ -1,6 +1,7 @@
 import { LockRoomApi } from "@/services/api/MotelApi";
 import React from "react";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 interface BaotriroomProps {
   onClose: () => void;
@@ -12,9 +13,14 @@ const Baotriroom: React.FC<BaotriroomProps> = ({ onClose, roomId }) => {
   const handleLockRoom = async () => {
     const response = await LockRoomApi(roomId);
     if (response.data === true) {
-      toast.success("Bảo trì phòng thành công");
-      onClose();
-      window.location.reload();
+      Swal.fire({
+        icon: "success",
+        title: "Thành công",
+        text: "Bảo trì phòng thành công",
+      }).then(() => {
+        onClose();
+        window.location.reload();
+      });
     }
   };
 

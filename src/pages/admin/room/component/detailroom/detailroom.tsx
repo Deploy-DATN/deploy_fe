@@ -14,6 +14,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
   });
   const [selectedRoomId, setSelectedRoomId] = useState<number | null>(null);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
+  const [selectedUserName, setSelectedUserName] = useState<string | null>(null);
 
 
   useEffect(() => {
@@ -30,7 +31,8 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
   const toggleModal = (
     modalName: keyof typeof modalState,
     roomId: number | null = null,
-    userId: number | null = null
+    userId: number | null = null,
+    userName: string | null = null
   ) => {
     setModalState((prevState) => ({
       ...prevState,
@@ -39,6 +41,9 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
     console.log("Room", room);
     setSelectedRoomId(roomId);
     setSelectedUserId(userId);
+    if (userName) {
+      setSelectedUserName(userName);
+    }
   };
 
   const motels =
@@ -70,7 +75,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
     } else if (status === 3) {
       return (
         <span className="span-baotri-room-motel rounded-pill px-3 py-2 fs-3">
-          bảo trì
+          Bảo trì
         </span>
       );
     }
@@ -150,7 +155,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
                 <button
                   className="close-btn-user btn-transform-y2"
                   onClick={() =>
-                    toggleModal("deleteuseroom", room?.id, user.id)
+                    toggleModal("deleteuseroom", room?.id, user.id, user.fullName)
                   }
                 >
                   <i className="fa-regular fa-xmark fa-xl"></i>
@@ -178,6 +183,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
           <button
             className={`btn btn-create-notification btn-sm px-3 py-2 mb-3 btn-transform-y2 mt-3`}
             onClick={() => toggleModal("addUserRoom", room?.id)}
+            disabled={room?.status === 3}
           >
             Thêm người thuê
           </button>
@@ -193,6 +199,7 @@ const Detailroom: React.FC<{ roomId: number | null }> = ({ roomId }) => {
         <Deleteuseroom
           roomId={selectedRoomId}
           userId={selectedUserId}
+          userName={selectedUserName || ''}
           onClose={() => toggleModal("deleteuseroom")}
         />
       )}

@@ -46,7 +46,8 @@ const Roomtype = (props: {
     fetchCountRoom();
   }, [motelId]);
 
-
+  console.log(countRoom, '1')
+  console.log(myPackage?.limitRoom, '2')  
   const CheckStatus = (status: number) => {
     if (status === 1) {
       return (
