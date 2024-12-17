@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-export const API_URL = 'https://nha-tro-tot.runasp.net';
+export const API_URL = 'https://demo2xx.tryasp.net';
 
 export enum API {
     //autherize
